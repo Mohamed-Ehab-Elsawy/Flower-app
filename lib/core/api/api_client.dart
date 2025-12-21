@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:flower_app/core/api/models/requesets/reset_password_request.dart';
-import 'package:flower_app/core/api/models/requesets/send_reset_password_code_request.dart';
-import 'package:flower_app/core/api/models/requesets/verify_reset_code_request.dart';
-import 'package:flower_app/core/api/models/response/reset_password_response.dart';
-import 'package:flower_app/core/api/models/response/send_reset_password_code_response.dart';
-import 'package:flower_app/core/api/models/response/verify_reset_code_response.dart';
+import 'package:flower_app/features/auth/data/models/requesets/reset_password_request.dart';
+import 'package:flower_app/features/auth/data/models/requesets/send_reset_password_code_request.dart';
+import 'package:flower_app/features/auth/data/models/requesets/verify_reset_code_request.dart';
+import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart';
+import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
+import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
 import 'package:retrofit/retrofit.dart';
 part 'api_client.g.dart';
 
@@ -29,7 +29,7 @@ abstract class ApiClient {
 }
 
 class EndPoints {
-  static const String forgetPassword = '/forgotPassword';
-  static const String verifyResetCode = '/verifyResetCode';
-  static const String resetPassword = '/resetPassword';
+  static const String forgetPassword = 'auth/forgotPassword';
+  static const String verifyResetCode = 'auth/verifyResetCode';
+  static const String resetPassword = 'auth/resetPassword';
 }

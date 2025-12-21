@@ -4,9 +4,9 @@ import 'package:flower_app/core/di/di.dart';
 import 'package:flower_app/core/helper/show_toast.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_state.dart';
-import 'package:flower_app/features/auth/presentation/pages/forget_password/widgets/reset_password_page.dart';
-import 'package:flower_app/features/auth/presentation/pages/forget_password/widgets/send_reset_code_page.dart';
-import 'package:flower_app/features/auth/presentation/pages/forget_password/widgets/verify_reset_code_page.dart';
+import 'package:flower_app/features/auth/presentation/pages/widgets/reset_password_page.dart';
+import 'package:flower_app/features/auth/presentation/pages/widgets/send_reset_code_page.dart';
+import 'package:flower_app/features/auth/presentation/pages/widgets/verify_reset_code_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,6 +34,22 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
       switch (event) {
         case ForgetPasswordShowToastEvent():
           Toast.showToast(context, event.message);
+        case NavigateToOTPEvent():
+          _pageController.animateToPage(
+            1,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
+
+        case NavigateToChangePasswordEvent():
+          _pageController.animateToPage(
+            2,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
+
+        case NavigateToLoginEvent():
+          Navigator.pop(context);
       }
     });
   }
@@ -75,7 +91,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
         emailController: _emailController,
         formKey: _emailFormKey,
       ),
-      VerifyResetCodePage(pageController: _pageController),
+      VerifyResetCodePage(),
       ResetPasswordPage(
         onPressed: _resetPassword,
         passwordController: _newPasswordController,
@@ -102,7 +118,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
   }
 
   void _initControllers() {
-    _pageController = PageController();
+    _pageController = PageController(initialPage: 0);
 
     _emailController = TextEditingController();
     _newPasswordConfirmationController = TextEditingController();

@@ -1,13 +1,9 @@
 class ForgetPasswordState {
-  final bool isLoading;
-  final String error;
-  final String message;
+  final bool? isLoading;
+  final String? error;
+  final String? message;
 
-  const ForgetPasswordState({
-    this.isLoading = false,
-    this.error = "",
-    this.message = "",
-  });
+  const ForgetPasswordState({this.isLoading = false, this.error, this.message});
 
   ForgetPasswordState copyWith({
     bool? isLoading,
@@ -15,7 +11,7 @@ class ForgetPasswordState {
     String? message,
   }) {
     return ForgetPasswordState(
-      isLoading: isLoading ?? false,
+      isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
       message: message ?? this.message,
     );
@@ -46,3 +42,9 @@ class ForgetPasswordShowToastEvent extends ForgetPasswordUIEvents {
   final String message;
   ForgetPasswordShowToastEvent(this.message);
 }
+
+class NavigateToOTPEvent extends ForgetPasswordUIEvents {}
+
+class NavigateToChangePasswordEvent extends ForgetPasswordUIEvents {}
+
+class NavigateToLoginEvent extends ForgetPasswordUIEvents {}

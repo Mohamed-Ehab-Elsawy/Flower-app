@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class VerifyResetCodePage extends StatelessWidget {
-  final PageController pageController;
-  const VerifyResetCodePage({super.key, required this.pageController});
+  const VerifyResetCodePage({super.key});
 
   @override
   Widget build(BuildContext context) {
