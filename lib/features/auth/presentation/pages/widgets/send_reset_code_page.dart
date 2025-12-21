@@ -1,4 +1,3 @@
-import 'package:flower_app/core/constants/text_strings.dart';
 import 'package:flower_app/core/helper/app_validator.dart';
 import 'package:flower_app/core/widgets/custom_elevated_button.dart';
 import 'package:flower_app/core/widgets/custom_text_form_field.dart';
@@ -6,6 +5,7 @@ import 'package:flower_app/features/auth/presentation/cubit/forget_password/forg
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SendResetCodePage extends StatefulWidget {
   final void Function()? onPressed;
@@ -28,6 +28,7 @@ class _SendResetCodePageState extends State<SendResetCodePage> {
   @override
   void initState() {
     cubit = context.read<ForgetPasswordCubit>();
+    super.initState();
   }
 
   @override
@@ -36,17 +37,16 @@ class _SendResetCodePageState extends State<SendResetCodePage> {
       key: widget.formKey,
       child: BlocBuilder<ForgetPasswordCubit, ForgetPasswordState>(
         builder: (context, state) {
-          switch (state) {}
           return Column(
             children: [
               SizedBox(height: 40),
               Text(
-                IAppText.forgetPassword,
+                "enterEmail".tr(),
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               SizedBox(height: 16),
               Text(
-                IAppText.enterEmailDescription,
+                'enterEmailDescription'.tr(),
                 textAlign: TextAlign.center,
                 style: Theme.of(
                   context,
@@ -54,8 +54,8 @@ class _SendResetCodePageState extends State<SendResetCodePage> {
               ),
               SizedBox(height: 32),
               CustomTextFormField(
-                labelText: IAppText.enterEmail,
-                hintText: IAppText.email,
+                labelText: "enterEmail".tr(),
+                hintText: 'email'.tr(),
                 controller: widget.emailController,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) => AppValidator.validateEmail(value),
@@ -64,7 +64,7 @@ class _SendResetCodePageState extends State<SendResetCodePage> {
               state.isLoading == true
                   ? const CircularProgressIndicator()
                   : CustomElevatedButton(
-                      textOnButton: IAppText.continueText,
+                      textOnButton: 'continueText'.tr(),
                       onPressed: widget.onPressed,
                     ),
             ],

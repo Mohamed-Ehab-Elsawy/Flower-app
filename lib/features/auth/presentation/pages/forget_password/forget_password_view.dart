@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/constants/app_dimanens.dart';
 import 'package:flower_app/core/constants/text_strings.dart';
-import 'package:flower_app/core/di/di.dart';
 import 'package:flower_app/core/helper/show_toast.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_state.dart';
@@ -69,7 +69,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: Text(
-        IAppText.password,
+        'password'.tr(),
         style: Theme.of(context).textTheme.titleLarge,
       ),
     ),
