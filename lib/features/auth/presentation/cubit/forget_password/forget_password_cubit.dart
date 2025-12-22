@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flower_app/features/auth/data/models/requesets/reset_password_request.dart';
 import 'package:flower_app/features/auth/data/models/requesets/send_reset_password_code_request.dart';
 import 'package:flower_app/features/auth/data/models/requesets/verify_reset_code_request.dart';
@@ -18,12 +19,15 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   final SendResetPasswordCodeUseCase _sendResetPasswordCodeUseCase;
   final VerifyResetPasswordCodeUseCase _verifyResetPasswordCodeUseCase;
   final ResetPasswordUseCase _resetPasswordUseCase;
+  Timer? _timer;
 
   final _uiEventsController =
       StreamController<ForgetPasswordUIEvents>.broadcast();
   Stream<ForgetPasswordUIEvents> get uiEventsStream =>
       _uiEventsController.stream;
-
+  String? _savedEmail;
+  late int _remainingSeconds;
+  String? get savedEmail => _savedEmail;
   ForgetPasswordCubit(
     this._sendResetPasswordCodeUseCase,
     this._verifyResetPasswordCodeUseCase,
@@ -52,7 +56,15 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
 
     switch (result) {
       case Success<SendResetPasswordCodeResponse>():
-        emit(state.copyWith(isLoading: false, message: result.data.message));
+        _savedEmail = email;
+        _resentOtpTimer();
+        emit(
+          state.copyWith(
+            isLoading: false,
+            message: result.data.message,
+            error: '',
+          ),
+        );
         _uiEventsController.add(ForgetPasswordShowToastEvent(result.data.info));
         _uiEventsController.add(NavigateToOTPEvent());
 
@@ -73,10 +85,23 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
 
     switch (result) {
       case Success<VerifyResetCodeResponse>():
-        emit(state.copyWith(isLoading: false, message: result.data.message));
+        emit(
+          state.copyWith(
+            isLoading: false,
+            message: result.data.message,
+            error: '',
+          ),
+        );
+        _uiEventsController.add(NavigateToChangePasswordEvent());
+        _uiEventsController.add(
+          ForgetPasswordShowToastEvent(result.data.message),
+        );
 
       case Failure<VerifyResetCodeResponse>():
-        state.copyWith(isLoading: false, error: result.errorMessage);
+        emit(state.copyWith(isLoading: false, error: result.errorMessage));
+        _uiEventsController.add(
+          ForgetPasswordShowToastEvent(result.errorMessage),
+        );
     }
   }
 
@@ -96,5 +121,20 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
       case Failure<ResetPasswordResponse>():
         emit(state.copyWith(isLoading: false, error: result.errorMessage));
     }
+  }
+
+  void _resentOtpTimer() {
+    _timer?.cancel();
+    _remainingSeconds = 30;
+    emit(state.copyWith(resendRemainingSeconds: _remainingSeconds));
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      _remainingSeconds--;
+      if (_remainingSeconds > 0) {
+        emit(state.copyWith(resendRemainingSeconds: _remainingSeconds));
+      } else {
+        timer.cancel();
+        emit(state.copyWith(resendRemainingSeconds: 0));
+      }
+    });
   }
 }
