@@ -25,10 +25,7 @@ class Login extends StatelessWidget {
               label: const Text('Explore'),
               icon: const Icon(Icons.explore),
             ),
-            ElevatedButton(
-              onPressed: null,
-              child: const Text('Disabled Button'),
-            ),
+
             TextFormField(
               decoration: const InputDecoration(
                 labelText: 'Enter your name',

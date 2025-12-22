@@ -14,6 +14,12 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:talker_dio_logger/talker_dio_logger.dart' as _i52;
 
+import '../../features/auth/data/datasources/auth_ds.dart' as _i586;
+import '../../features/auth/data/datasources/auth_ds_impl.dart' as _i775;
+import '../../features/auth/data/repositories/auth_repo_impl.dart' as _i662;
+import '../../features/auth/domain/repositories/auth_repo.dart' as _i723;
+import '../../features/auth/domain/use_cases/signup_use_case.dart' as _i571;
+import '../../features/auth/presentation/cubit/signup_viewmodel.dart' as _i68;
 import '../api/api_client.dart' as _i277;
 import '../api/api_module.dart' as _i0;
 
@@ -35,6 +41,18 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i277.ApiClient>(
       () => apiModule.provideApiClient(gh<_i361.Dio>()),
+    );
+    gh.factory<_i586.AuthDataSource>(
+      () => _i775.AuthDataSourceImpl(gh<_i277.ApiClient>()),
+    );
+    gh.factory<_i723.AuthRepo>(
+      () => _i662.AuthRepoImpl(gh<_i586.AuthDataSource>()),
+    );
+    gh.factory<_i571.SignUpUseCase>(
+      () => _i571.SignUpUseCase(gh<_i723.AuthRepo>()),
+    );
+    gh.factory<_i68.SignUpViewModel>(
+      () => _i68.SignUpViewModel(gh<_i571.SignUpUseCase>()),
     );
     return this;
   }

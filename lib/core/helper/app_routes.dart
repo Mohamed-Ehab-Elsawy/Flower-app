@@ -1,14 +1,17 @@
-import 'package:flower_app/features/auth/presentation/pages/login.dart';
 import 'package:flutter/material.dart';
+import '../../features/auth/presentation/pages/signup_screen.dart';
 
 class AppRoutes {
+  static const String signup = '/signup';
   static const String login = '/login';
+
 }
 
 Route? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
-    case AppRoutes.login:
-      return MaterialPageRoute(builder: (_) => const Login());
+    case '/':
+    case AppRoutes.signup:
+      return MaterialPageRoute(builder: (_) => SignUpScreen());
     default:
       return _undefinedRoute();
   }
