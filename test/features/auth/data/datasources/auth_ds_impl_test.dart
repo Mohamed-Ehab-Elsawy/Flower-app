@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flower_app/core/api/api_client.dart';
 import 'package:flower_app/core/api/models/requests/reset_password_request.dart';
 import 'package:flower_app/core/api/models/requests/send_reset_password_code_request.dart';
@@ -5,6 +6,8 @@ import 'package:flower_app/core/api/models/requests/verify_reset_code_request.da
 import 'package:flower_app/core/api/models/response/reset_password_response.dart';
 import 'package:flower_app/core/api/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/core/api/models/response/verify_reset_code_response.dart';
+import 'package:flower_app/core/constants/text_strings.dart';
+import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -31,6 +34,7 @@ void main() {
   late SendResetPasswordCodeResponse sendResetPasswordCodeResponse;
   late VerifyResetCodeResponse verifyResetCodeResponse;
   late ResetPasswordResponse resetPasswordResponse;
+  late DioException dioException;
 
   setUpAll(() {
     apiClient = MockApiClient();
@@ -39,6 +43,10 @@ void main() {
     password = "Joe!@12345678";
     responseMessage = "message";
     token = "token";
+    dioException = DioException(
+      requestOptions: RequestOptions(),
+      type: DioExceptionType.connectionError,
+    );
   });
 
   setUp(() {
@@ -65,9 +73,9 @@ void main() {
   group("Testing sendResetPasswordCode cases", () {
     test(
       "When i call sendResetPasswordCode it calls sendResetPasswordCode from "
-      "api client and return result from api client "
+      "api client and return Success result from api client "
       "and didn't call any other functions",
-      () {
+      () async {
         // arrange
         when(
           apiClient.sendResetPasswordCode(
@@ -75,7 +83,36 @@ void main() {
           ),
         ).thenAnswer((_) async => sendResetPasswordCodeResponse);
         // act
-        authDataSource.sendResetPasswordCode(
+        var result =
+            await authDataSource.sendResetPasswordCode(
+                  sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
+                )
+                as Success<String>;
+        // assert
+        verify(
+          apiClient.sendResetPasswordCode(
+            sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
+          ),
+        ).called(1);
+        verifyNoMoreInteractions(apiClient);
+
+        expect(result.data, sendResetPasswordCodeResponse.message);
+      },
+    );
+
+    test(
+      "When i call sendResetPasswordCode it calls sendResetPasswordCode from "
+      "api client and return failure result if there is an dio exception"
+      "and didn't call any other functions",
+      () async {
+        // arrange
+        when(
+          apiClient.sendResetPasswordCode(
+            sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
+          ),
+        ).thenThrow(dioException);
+        // act
+        var result = await authDataSource.sendResetPasswordCode(
           sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
         );
         // assert
@@ -85,6 +122,11 @@ void main() {
           ),
         ).called(1);
         verifyNoMoreInteractions(apiClient);
+
+        expect(
+          (result as Failure<String>).errorMessage,
+          IAppText.connectionError,
+        );
       },
     );
   });
@@ -92,7 +134,7 @@ void main() {
   group("Testing verifyResetPasswordCode cases", () {
     test(
       "When i call verifyResetPasswordCode it calls verifyResetPasswordCode from "
-      "api client and return result from api client "
+      "api client and return Success result from api client "
       "and didn't call any other functions",
       () {
         // arrange
@@ -114,11 +156,40 @@ void main() {
         verifyNoMoreInteractions(apiClient);
       },
     );
+    test(
+      "When i call sendResetPasswordCode it calls sendResetPasswordCode from "
+      "api client and return failure result if there is an dio exception"
+      "and didn't call any other functions",
+      () async {
+        // arrange
+        when(
+          apiClient.verifyResetPasswordCode(
+            verifyResetCodeRequest: verifyResetCodeRequest,
+          ),
+        ).thenThrow(dioException);
+        // act
+        var result = await authDataSource.verifyResetPasswordCode(
+          verifyResetCodeRequest: verifyResetCodeRequest,
+        );
+        // assert
+        verify(
+          apiClient.verifyResetPasswordCode(
+            verifyResetCodeRequest: verifyResetCodeRequest,
+          ),
+        ).called(1);
+        verifyNoMoreInteractions(apiClient);
+
+        expect(
+          (result as Failure<String>).errorMessage,
+          IAppText.connectionError,
+        );
+      },
+    );
   });
 
   group("Testing resetPassword cases", () {
     test("When i call resetPassword it calls resetPassword from "
-        "api client and return result from api client "
+        "api client and return Success result from api client "
         "and didn't call any other functions", () {
       // arrange
       when(
@@ -132,5 +203,30 @@ void main() {
       ).called(1);
       verifyNoMoreInteractions(apiClient);
     });
+    test(
+      "When i call sendResetPasswordCode it calls sendResetPasswordCode from "
+      "api client and return failure result if there is an dio exception"
+      "and didn't call any other functions",
+      () async {
+        // arrange
+        when(
+          apiClient.resetPassword(resetPasswordRequest: resetPasswordRequest),
+        ).thenThrow(dioException);
+        // act
+        var result = await authDataSource.resetPassword(
+          resetPasswordRequest: resetPasswordRequest,
+        );
+        // assert
+        verify(
+          apiClient.resetPassword(resetPasswordRequest: resetPasswordRequest),
+        ).called(1);
+        verifyNoMoreInteractions(apiClient);
+
+        expect(
+          (result as Failure<String>).errorMessage,
+          IAppText.connectionError,
+        );
+      },
+    );
   });
 }
