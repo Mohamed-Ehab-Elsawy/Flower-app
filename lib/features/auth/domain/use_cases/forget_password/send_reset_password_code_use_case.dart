@@ -1,4 +1,4 @@
-import 'package:flower_app/core/api/models/requesets/send_reset_password_code_request.dart';
+import 'package:flower_app/core/api/models/requests/send_reset_password_code_request.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:injectable/injectable.dart';

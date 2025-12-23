@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:flower_app/core/api/models/requesets/reset_password_request.dart';
-import 'package:flower_app/core/api/models/requesets/send_reset_password_code_request.dart';
-import 'package:flower_app/core/api/models/requesets/verify_reset_code_request.dart';
+import 'package:flower_app/core/api/models/requests/reset_password_request.dart';
+import 'package:flower_app/core/api/models/requests/send_reset_password_code_request.dart';
+import 'package:flower_app/core/api/models/requests/verify_reset_code_request.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/domain/use_cases/forget_password/reset_password_use_case.dart';
 import 'package:flower_app/features/auth/domain/use_cases/forget_password/send_reset_password_code_use_case.dart';
