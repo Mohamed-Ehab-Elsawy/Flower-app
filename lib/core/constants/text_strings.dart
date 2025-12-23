@@ -25,7 +25,6 @@ class IAppText {
   static const String error504 = 'Gateway timeout. Please try again.';
   static const String defaultError = 'Server error. Please try again.';
 
-
   //==============>Validation Strings<==============
   static const String enterUsername = "Please enter a username";
   static const String least3CharUsername =
@@ -60,6 +59,9 @@ class IAppText {
   static const String validPhoneNumber =
       "Please enter a valid phone number (10-15 digits)";
 
-
-
+  //==============>BottomNavBar Strings<==============
+  static const String home = "Home";
+  static const String categories = "Categories";
+  static const String cart = "Cart";
+  static const String profile = "Profile";
 }

@@ -12,6 +12,12 @@
 .swiftpm/
 migrate_working_dir/
 
+#files don't upload 
+.env
+.env.*
+*.g.dart
+*.config.dart
+pubspec.lock
 # IntelliJ related
 *.iml
 *.ipr
