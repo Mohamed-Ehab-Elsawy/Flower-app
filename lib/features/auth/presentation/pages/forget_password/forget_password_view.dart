@@ -94,7 +94,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
       ResetPasswordPage(
         onPressed: _resetPassword,
         passwordController: _newPasswordController,
-        passwordConfirmationController: _newPasswordConfirmationController,
+        confirmPasswordController: _newPasswordConfirmationController,
         formKey: _resetPasswordFormKey,
       ),
     ];

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
+import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_state.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class ResentEmail extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("didn'tReceiveCode".tr()),
-            const SizedBox(width: 8),
+            context.w(8),
             remaining > 0
                 ? Row(
                     children: [

@@ -43,7 +43,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
         _verifyResetPasswordCode(intent.resetCode);
 
       case ResetPasswordIntent():
-        _resetPassword(intent.email, intent.password);
+        _resetPassword(_savedEmail!, intent.password);
     }
   }
 
@@ -117,9 +117,17 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
 
     switch (result) {
       case Success<ResetPasswordResponse>():
+        _savedEmail = email;
         emit(state.copyWith(isLoading: false, message: result.data.message));
+        _uiEventsController.add(
+          ForgetPasswordShowToastEvent(result.data.message),
+        );
+        _uiEventsController.add(NavigateToLoginEvent());
       case Failure<ResetPasswordResponse>():
         emit(state.copyWith(isLoading: false, error: result.errorMessage));
+        _uiEventsController.add(
+          ForgetPasswordShowToastEvent(result.errorMessage),
+        );
     }
   }
 

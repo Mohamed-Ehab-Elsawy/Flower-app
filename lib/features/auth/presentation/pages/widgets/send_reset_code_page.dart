@@ -1,3 +1,4 @@
+import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
 import 'package:flower_app/core/helper/app_validator.dart';
 import 'package:flower_app/core/widgets/custom_elevated_button.dart';
 import 'package:flower_app/core/widgets/custom_text_form_field.dart';
@@ -39,12 +40,12 @@ class _SendResetCodePageState extends State<SendResetCodePage> {
         builder: (context, state) {
           return Column(
             children: [
-              SizedBox(height: 40),
+              context.h(40),
               Text(
                 "enterEmail".tr(),
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              SizedBox(height: 16),
+              context.h(16),
               Text(
                 'enterEmailDescription'.tr(),
                 textAlign: TextAlign.center,
@@ -52,7 +53,7 @@ class _SendResetCodePageState extends State<SendResetCodePage> {
                   context,
                 ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
               ),
-              SizedBox(height: 32),
+              context.h(32),
               CustomTextFormField(
                 labelText: "enterEmail".tr(),
                 hintText: 'email'.tr(),
@@ -60,7 +61,7 @@ class _SendResetCodePageState extends State<SendResetCodePage> {
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) => AppValidator.validateEmail(value),
               ),
-              SizedBox(height: 48),
+              context.h(48),
               state.isLoading == true
                   ? const CircularProgressIndicator()
                   : CustomElevatedButton(

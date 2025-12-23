@@ -1,14 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
-import 'package:flower_app/core/theme/app_theme.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_state.dart';
 import 'package:flower_app/features/auth/presentation/pages/widgets/pinput_widget.dart';
 import 'package:flower_app/features/auth/presentation/pages/widgets/resent_email.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinput/pinput.dart';
 
 class VerifyResetCodePage extends StatelessWidget {
   const VerifyResetCodePage({super.key});
