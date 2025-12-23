@@ -1,6 +1,5 @@
 import 'package:flower_app/core/constants/text_strings.dart';
 import 'package:flower_app/core/helper/app_validator.dart';
-import 'package:flower_app/core/widgets/custom_elevated_button.dart';
 import 'package:flower_app/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
@@ -44,9 +43,9 @@ class SendResetCodePage extends StatelessWidget {
             validator: (value) => AppValidator.validateEmail(value),
           ),
           SizedBox(height: 48),
-          CustomElevatedButton(
-            textOnButton: IAppText.continueText,
+          ElevatedButton(
             onPressed: onPressed,
+            child: Text(IAppText.continueText),
           ),
         ],
       ),
