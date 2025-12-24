@@ -1,12 +1,15 @@
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart';
+import 'package:flower_app/features/auth/data/models/requesets/reset_password_request.dart';
+import 'package:flower_app/features/auth/data/models/requesets/send_reset_password_code_request.dart';
+import 'package:flower_app/features/auth/data/models/requesets/verify_reset_code_request.dart';
+import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart';
+import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
+import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
 import 'package:flower_app/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flower_app/core/api/models/requests/reset_password_request.dart';
-import 'package:flower_app/core/api/models/requests/send_reset_password_code_request.dart';
-import 'package:flower_app/core/api/models/requests/verify_reset_code_request.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -27,9 +30,9 @@ void main() {
   late VerifyResetCodeRequest verifyResetCodeRequest;
   late ResetPasswordRequest resetPasswordRequest;
   // responses
-  late Result<String> sendResetPasswordCodeResponse;
-  late Result<String> verifyResetCodeResponse;
-  late Result<String> resetPasswordResponse;
+  late Result<SendResetPasswordCodeResponse> sendResetPasswordCodeResponse;
+  late Result<VerifyResetCodeResponse> verifyResetCodeResponse;
+  late Result<ResetPasswordResponse> resetPasswordResponse;
 
   setUpAll(() {
     authDataSource = MockAuthDataSourceImpl();
@@ -57,8 +60,15 @@ void main() {
         "data source and return Success result from data source "
         "and didn't call any other functions", () async {
       // arrange
-      sendResetPasswordCodeResponse = Success<String>(responseMessage);
-      provideDummy<Result<String>>(sendResetPasswordCodeResponse);
+      final successResponse = Success<SendResetPasswordCodeResponse>(
+        SendResetPasswordCodeResponse(message: responseMessage, info: 'info'),
+      );
+      sendResetPasswordCodeResponse = Success<SendResetPasswordCodeResponse>(
+        successResponse.data,
+      );
+      provideDummy<Result<SendResetPasswordCodeResponse>>(
+        sendResetPasswordCodeResponse,
+      );
       when(
         authDataSource.sendResetPasswordCode(
           sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
@@ -75,7 +85,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authDataSource);
-      expect((result as Success<String>).data, responseMessage);
+      expect(
+        (result as Success<SendResetPasswordCodeResponse>).data.message,
+        responseMessage,
+      );
     });
 
     test("When i call sendResetPasswordCode it calls "
@@ -83,8 +96,12 @@ void main() {
         "data source and return Failure result from data source "
         "and didn't call any other functions", () async {
       // arrange
-      sendResetPasswordCodeResponse = Failure<String>(errorMessageResponse);
-      provideDummy<Result<String>>(sendResetPasswordCodeResponse);
+      sendResetPasswordCodeResponse = Failure<SendResetPasswordCodeResponse>(
+        errorMessageResponse,
+      );
+      provideDummy<Result<SendResetPasswordCodeResponse>>(
+        sendResetPasswordCodeResponse,
+      );
       when(
         authDataSource.sendResetPasswordCode(
           sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
@@ -101,7 +118,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authDataSource);
-      expect((result as Failure<String>).errorMessage, errorMessageResponse);
+      expect(
+        (result as Failure<SendResetPasswordCodeResponse>).errorMessage,
+        errorMessageResponse,
+      );
     });
   });
 
@@ -111,8 +131,13 @@ void main() {
         "data source and return Success result from data source "
         "and didn't call any other functions", () async {
       // arrange
-      verifyResetCodeResponse = Success<String>(responseMessage);
-      provideDummy<Result<String>>(verifyResetCodeResponse);
+      final verifyResponseModel = VerifyResetCodeResponse(
+        message: responseMessage,
+      );
+      verifyResetCodeResponse = Success<VerifyResetCodeResponse>(
+        verifyResponseModel,
+      );
+      provideDummy<Result<VerifyResetCodeResponse>>(verifyResetCodeResponse);
       when(
         authDataSource.verifyResetPasswordCode(
           verifyResetCodeRequest: verifyResetCodeRequest,
@@ -129,7 +154,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authDataSource);
-      expect((result as Success<String>).data, responseMessage);
+      expect(
+        (result as Success<VerifyResetCodeResponse>).data.message,
+        responseMessage,
+      );
     });
 
     test("When i call verifyResetPasswordCode it calls "
@@ -137,8 +165,10 @@ void main() {
         "data source and return Failure result from data source "
         "and didn't call any other functions", () async {
       // arrange
-      verifyResetCodeResponse = Failure<String>(errorMessageResponse);
-      provideDummy<Result<String>>(verifyResetCodeResponse);
+      verifyResetCodeResponse = Failure<VerifyResetCodeResponse>(
+        errorMessageResponse,
+      );
+      provideDummy<Result<VerifyResetCodeResponse>>(verifyResetCodeResponse);
       when(
         authDataSource.verifyResetPasswordCode(
           verifyResetCodeRequest: verifyResetCodeRequest,
@@ -155,7 +185,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authDataSource);
-      expect((result as Failure<String>).errorMessage, errorMessageResponse);
+      expect(
+        (result as Failure<VerifyResetCodeResponse>).errorMessage,
+        errorMessageResponse,
+      );
     });
   });
 
@@ -165,8 +198,14 @@ void main() {
         "data source and return Success result from data source "
         "and didn't call any other functions", () async {
       // arrange
-      resetPasswordResponse = Success<String>(responseMessage);
-      provideDummy<Result<String>>(resetPasswordResponse);
+      final resetPasswordModel = ResetPasswordResponse(
+        message: responseMessage,
+        token: '454fd45',
+      );
+      resetPasswordResponse = Success<ResetPasswordResponse>(
+        resetPasswordModel,
+      );
+      provideDummy<Result<ResetPasswordResponse>>(resetPasswordResponse);
       when(
         authDataSource.resetPassword(
           resetPasswordRequest: resetPasswordRequest,
@@ -183,7 +222,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authDataSource);
-      expect((result as Success<String>).data, responseMessage);
+      expect(
+        (result as Success<ResetPasswordResponse>).data.message,
+        responseMessage,
+      );
     });
 
     test("When i call resetPassword it calls "
@@ -191,13 +233,15 @@ void main() {
         "data source and return Failure result from data source "
         "and didn't call any other functions", () async {
       // arrange
-      resetPasswordResponse = Failure<String>(errorMessageResponse);
-      provideDummy<Result<String>>(resetPasswordResponse);
+      resetPasswordResponse = Failure<ResetPasswordResponse>(
+        errorMessageResponse,
+      );
+      provideDummy<Result<ResetPasswordResponse>>(resetPasswordResponse);
       when(
         authDataSource.resetPassword(
           resetPasswordRequest: resetPasswordRequest,
         ),
-      ).thenAnswer((_) async => sendResetPasswordCodeResponse);
+      ).thenAnswer((_) async => resetPasswordResponse);
       // act
       var result = await authRepo.resetPassword(
         resetPasswordRequest: resetPasswordRequest,
@@ -209,7 +253,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authDataSource);
-      expect((result as Failure<String>).errorMessage, errorMessageResponse);
+      expect(
+        (result as Failure<ResetPasswordResponse>).errorMessage,
+        errorMessageResponse,
+      );
     });
   });
 }

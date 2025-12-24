@@ -1,5 +1,6 @@
-import 'package:flower_app/core/api/models/requests/send_reset_password_code_request.dart';
 import 'package:flower_app/core/error_handling/result.dart';
+import 'package:flower_app/features/auth/data/models/requesets/send_reset_password_code_request.dart';
+import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:flower_app/features/auth/domain/use_cases/forget_password/send_reset_password_code_use_case.dart';
@@ -17,7 +18,7 @@ void main() {
   late String responseMessage;
   late String errorMessageResponse;
   late SendResetPasswordCodeRequest sendResetPasswordCodeRequest;
-  late Result<String> sendResetPasswordCodeResponse;
+  late Result<SendResetPasswordCodeResponse> sendResetPasswordCodeResponse;
 
   setUp(() {
     authRepo = MockAuthRepoImpl();
@@ -34,8 +35,13 @@ void main() {
     "and return success message",
     () async {
       // arrange
-      sendResetPasswordCodeResponse = Success<String>(responseMessage);
-      provideDummy<Result<String>>(sendResetPasswordCodeResponse);
+      final successResponse = Success<SendResetPasswordCodeResponse>(
+        SendResetPasswordCodeResponse(message: responseMessage, info: 'info'),
+      );
+      sendResetPasswordCodeResponse = successResponse;
+      provideDummy<Result<SendResetPasswordCodeResponse>>(
+        sendResetPasswordCodeResponse,
+      );
       when(
         authRepo.sendResetPasswordCode(
           sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
@@ -54,7 +60,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authRepo);
-      expect((result as Success<String>).data, responseMessage);
+      expect(
+        (result as Success<SendResetPasswordCodeResponse>).data.message,
+        responseMessage,
+      );
     },
   );
 
@@ -64,8 +73,12 @@ void main() {
     "and return error message",
     () async {
       // arrange
-      sendResetPasswordCodeResponse = Failure<String>(errorMessageResponse);
-      provideDummy<Result<String>>(sendResetPasswordCodeResponse);
+      sendResetPasswordCodeResponse = Failure<SendResetPasswordCodeResponse>(
+        errorMessageResponse,
+      );
+      provideDummy<Result<SendResetPasswordCodeResponse>>(
+        sendResetPasswordCodeResponse,
+      );
       when(
         authRepo.sendResetPasswordCode(
           sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
@@ -84,7 +97,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authRepo);
-      expect((result as Failure<String>).errorMessage, errorMessageResponse);
+      expect(
+        (result as Failure<SendResetPasswordCodeResponse>).errorMessage,
+        errorMessageResponse,
+      );
     },
   );
 }

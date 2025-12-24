@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flower_app/core/api/api_client.dart';
-import 'package:flower_app/core/api/models/requests/reset_password_request.dart';
-import 'package:flower_app/core/api/models/requests/send_reset_password_code_request.dart';
-import 'package:flower_app/core/api/models/requests/verify_reset_code_request.dart';
-import 'package:flower_app/core/api/models/response/reset_password_response.dart';
-import 'package:flower_app/core/api/models/response/send_reset_password_code_response.dart';
-import 'package:flower_app/core/api/models/response/verify_reset_code_response.dart';
 import 'package:flower_app/core/constants/text_strings.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart';
+import 'package:flower_app/features/auth/data/models/requesets/reset_password_request.dart';
+import 'package:flower_app/features/auth/data/models/requesets/send_reset_password_code_request.dart';
+import 'package:flower_app/features/auth/data/models/requesets/verify_reset_code_request.dart';
+import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart';
+import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
+import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -87,7 +87,7 @@ void main() {
             await authDataSource.sendResetPasswordCode(
                   sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
                 )
-                as Success<String>;
+                as Success<SendResetPasswordCodeResponse>;
         // assert
         verify(
           apiClient.sendResetPasswordCode(
@@ -96,7 +96,7 @@ void main() {
         ).called(1);
         verifyNoMoreInteractions(apiClient);
 
-        expect(result.data, sendResetPasswordCodeResponse.message);
+        expect(result.data.message, sendResetPasswordCodeResponse.message);
       },
     );
 
@@ -124,7 +124,7 @@ void main() {
         verifyNoMoreInteractions(apiClient);
 
         expect(
-          (result as Failure<String>).errorMessage,
+          (result as Failure<SendResetPasswordCodeResponse>).errorMessage,
           IAppText.connectionError,
         );
       },
@@ -180,7 +180,7 @@ void main() {
         verifyNoMoreInteractions(apiClient);
 
         expect(
-          (result as Failure<String>).errorMessage,
+          (result as Failure<VerifyResetCodeResponse>).errorMessage,
           IAppText.connectionError,
         );
       },
@@ -223,7 +223,7 @@ void main() {
         verifyNoMoreInteractions(apiClient);
 
         expect(
-          (result as Failure<String>).errorMessage,
+          (result as Failure<ResetPasswordResponse>).errorMessage,
           IAppText.connectionError,
         );
       },
