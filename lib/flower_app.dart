@@ -18,6 +18,7 @@ class FlowerApp extends StatelessWidget {
       locale: context.locale,
       initialRoute: AppRoutes.login,
       onGenerateRoute: onGenerateRoute,
+      
     );
   }
 }

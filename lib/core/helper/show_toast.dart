@@ -5,7 +5,7 @@ class Toast {
   static showToast(BuildContext context, String message) {
     final snackBar = SnackBar(
       behavior: SnackBarBehavior.floating,
-      backgroundColor: context.colors.primary,
+      backgroundColor: context.appTheme.primary,
       content: Center(child: Text(message)),
       duration: Duration(seconds: 2),
     );

@@ -4,45 +4,45 @@ class AppTextStyles {
   AppTextStyles._();
 
   // Headlines
-  static const TextStyle headlineLarge = TextStyle(
+  static const TextStyle semiBold24 = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle headlineMedium = TextStyle(
+  static const TextStyle medium20 = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
   );
 
   // Titles
-  static const TextStyle titleLarge = TextStyle(
+  static const TextStyle semiBold18 = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle titleMedium = TextStyle(
+  static const TextStyle medium16 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w500,
   );
 
   // Body
-  static const TextStyle bodyLarge = TextStyle(
+  static const TextStyle regular16 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w400,
   );
 
-  static  TextStyle bodyMedium = TextStyle(
+  static const TextStyle regular14 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
   );
 
-  static const TextStyle bodySmall = TextStyle(
+  static const TextStyle regular12 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w400,
   );
 
   // Labels
-  static const TextStyle labelMedium = TextStyle(
+  static const TextStyle semiBold12 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w600,
   );
