@@ -4,9 +4,9 @@ import 'package:flower_app/core/api/models/response/signup_response.dart';
 import 'package:flower_app/core/api/models/response/user_dto.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
-import 'package:injectable/injectable.dart' show Injectable;
+import 'package:injectable/injectable.dart';
 
-@Injectable(as:AuthDataSource )
+@Injectable(as: AuthDataSource)
 class AuthDataSourceImpl extends AuthDataSource {
   ApiClient api;
   AuthDataSourceImpl(this.api);
@@ -16,9 +16,9 @@ class AuthDataSourceImpl extends AuthDataSource {
     try {
       SignupResponse signupResponse = await api.signUp(request);
       UserDto user = signupResponse.userDto ?? UserDto();
-      return Success<UserDto>( user);
+      return Success<UserDto>(user);
     } catch (e) {
-      return Failure<UserDto>( e.toString());
+      return Failure<UserDto>(e.toString());
     }
-
-}}
+  }
+}

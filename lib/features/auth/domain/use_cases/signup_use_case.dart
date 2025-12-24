@@ -8,7 +8,5 @@ import 'package:injectable/injectable.dart';
 class SignUpUseCase {
   final AuthRepo repo;
   SignUpUseCase(this.repo);
-  Future<Result<UserEntity>>
-  call(UserRequest request) =>
-      repo.signUp(request);
+  Future<Result<UserEntity>> call(UserRequest request) => repo.signUp(request);
 }

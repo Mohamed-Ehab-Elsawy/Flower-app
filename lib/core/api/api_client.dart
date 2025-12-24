@@ -8,8 +8,6 @@ part 'api_client.g.dart';
 @RestApi(baseUrl: '')
 abstract class ApiClient {
   factory ApiClient(Dio dio, {String? baseUrl}) = _ApiClient;
-
   @POST(EndPoints.signUpEndpoint)
   Future<SignupResponse> signUp(@Body() UserRequest userRequest);
-
 }

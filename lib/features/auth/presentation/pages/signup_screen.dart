@@ -1,18 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/api/models/requests/user_request.dart';
+import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/di/di.dart';
 import 'package:flower_app/core/helper/app_routes.dart';
 import 'package:flower_app/core/helper/app_validator.dart';
+import 'package:flower_app/core/helper/show_toast.dart';
 import 'package:flower_app/features/auth/presentation/cubit/signup_event.dart';
 import 'package:flower_app/features/auth/presentation/cubit/signup_states.dart';
 import 'package:flower_app/features/auth/presentation/cubit/signup_viewmodel.dart';
-import 'package:flower_app/features/auth/presentation/pages/custom_button.dart';
-import 'package:flower_app/features/auth/presentation/pages/custom_text_from_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpScreen extends StatefulWidget {
-  SignUpScreen({super.key});
+  const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -22,14 +22,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
   SignUpViewModel signUpViewModel = getIt<SignUpViewModel>();
 
   final _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+    signUpViewModel.signupUiEvent.listen((event) {
+      switch (event) {
+        case ShowToast():
+          {
+            Toast.showToast(context, event.message);
+          }
+
+        case NavigateToLogin():
+          {
+            Navigator.pushNamed(context, AppRoutes.login);
+          }
+
+        case NavigateToLoginAfterSignup():
+          {
+            Navigator.pushReplacementNamed(context, AppRoutes.login);
+          }
+        case NavigateToTermsConditions():
+          {
+            Navigator.pushNamed(context, AppRoutes.terms);
+          }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SignUpViewModel>(
       create: (context) => signUpViewModel,
-
       child: Scaffold(
-        appBar: AppBar(title: Text("signup").tr()),
+        appBar: AppBar(
+          title: Text("signup", style: context.theme.headlineMedium).tr(),
+        ),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -44,18 +71,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: CustomTextFromField(
-                            label: "First name".tr(),
-                            hintText: "Enter First name".tr(),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              labelText: "First name".tr(),
+                              hintText: "Enter First name".tr(),
+                            ),
+
                             controller: signUpViewModel.firstNameController,
                             validator: AppValidator.validateFirstName,
                           ),
                         ),
                         const SizedBox(width: 18),
                         Expanded(
-                          child: CustomTextFromField(
-                            label: "Last name".tr(),
-                            hintText: "Enter last name".tr(),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              labelText: "Last name".tr(),
+                              hintText: "Enter last name".tr(),
+                            ),
                             controller: signUpViewModel.lastNameController,
                             validator: AppValidator.validateLastName,
                           ),
@@ -63,9 +95,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ],
                     ),
                     const SizedBox(height: 18),
-                    CustomTextFromField(
-                      label: "Email".tr(),
-                      hintText: "Enter your email".tr(),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Email".tr(),
+                        hintText: "Enter your email".tr(),
+                      ),
+
                       controller: signUpViewModel.emailController,
                       validator: AppValidator.validateEmail,
                     ),
@@ -73,97 +108,181 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: CustomTextFromField(
-                            label: "Password".tr(),
-                            hintText: "Enter Password".tr(),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              labelText: "Password".tr(),
+                              hintText: "Enter Password".tr(),
+                            ),
+
                             controller: signUpViewModel.passwordController,
                             validator: AppValidator.validatePassword,
                           ),
                         ),
                         const SizedBox(width: 18),
                         Expanded(
-                          child: CustomTextFromField(
-                            label: "Confirm password".tr(),
-                            hintText: "Confirm password".tr(),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              labelText: "Confirm password".tr(),
+                              hintText: "Confirm password".tr(),
+                            ),
+
+                            validator: (value) =>
+                                AppValidator.validateConfirmPassword(
+                                  signUpViewModel.passwordController.text,
+                                  value!,
+                                ),
                             controller:
                                 signUpViewModel.confirmPasswordController,
-                            //validator: ValidatorsUtils.validateConfirmPassword(confirmPasswordController.text, password: passwordController.text),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 18),
-                    CustomTextFromField(
-                      label: "Phone number".tr(),
-                      hintText: "Enter Phone number".tr(),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Phone number".tr(),
+                        hintText: "Enter Phone number".tr(),
+                      ),
+
                       controller: signUpViewModel.phoneController,
                       validator: AppValidator.validatePhone,
                     ),
                     const SizedBox(height: 18),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Gender").tr(),
                         Expanded(
-                          child: RadioListTile<String>(
-                            title: const Text("male"),
-                            value: "male",
-                            groupValue: signUpViewModel.selectedGender,
-                            onChanged: (value) {
-                              setState(() {
-                                signUpViewModel.selectedGender = value!;
-                              });
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          child: RadioListTile<String>(
-                            title: const Text("female"),
-                            value: "female",
-                            groupValue: signUpViewModel.selectedGender,
-                            onChanged: (value) {
-                              setState(() {
-                                signUpViewModel.selectedGender = value!;
-                              });
+                          child: BlocBuilder<SignUpViewModel, SignupStates>(
+                            builder: (context, state) {
+                              return Row(
+                                children: [
+                                  Text(
+                                    "Gender".tr(),
+                                    style: context.theme.titleMedium,
+                                  ),
+                                  Expanded(
+                                    child: RadioListTile<String>(
+                                      title: Text(
+                                        "male".tr(),
+                                        style: context.theme.bodyMedium,
+                                      ).tr(),
+                                      value: "male",
+                                      groupValue: state.selectedGender ?? '',
+                                      onChanged: (value) {
+                                        if (value != null) {
+                                          context
+                                              .read<SignUpViewModel>()
+                                              .doIntent(
+                                                SelectGender(
+                                                  selectGender: value,
+                                                ),
+                                              );
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: RadioListTile<String>(
+                                      title: Text(
+                                        "female".tr(),
+                                        style: context.theme.bodyMedium,
+                                      ).tr(),
+                                      value: "female",
+                                      groupValue: state.selectedGender ?? '',
+                                      onChanged: (value) {
+                                        if (value != null) {
+                                          context
+                                              .read<SignUpViewModel>()
+                                              .doIntent(
+                                                SelectGender(
+                                                  selectGender: value,
+                                                ),
+                                              );
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              );
                             },
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Text(
+                          "Creating an account, you agree to our ".tr(),
+                          style: context.theme.bodySmall,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            signUpViewModel.doEvent(
+                              NavigateToTermsConditions(),
+                            );
+                          },
+                          child: Text(
+                            "Terms&Conditions".tr(),
+
+                            style: context.theme.labelMedium?.copyWith(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
                     BlocListener<SignUpViewModel, SignupStates>(
-                      bloc: signUpViewModel,
+                      listenWhen: (previous, current) {
+                        return previous.signUpState != current.signUpState;
+                      },
                       listener: (context, state) {
-                        final signUpState = state.signUpStates;
+                        final signUpState = state.signUpState;
                         if (signUpState == null) {
                           return;
                         } else if (signUpState.errorMessage != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(signUpState.errorMessage!)),
+                          signUpViewModel.doEvent(
+                            ShowToast(message: signUpState.errorMessage!),
                           );
                         } else if (signUpState.data != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("account Created Successfully"),
-                            ),
+                          signUpViewModel.doEvent(
+                            ShowToast(message: "account_created_success".tr()),
                           );
-                          Navigator.pushReplacementNamed(
-                            context,
-                            AppRoutes.signup,
-                          );
+
+                          signUpViewModel.doEvent(NavigateToLoginAfterSignup());
                         }
                       },
-                      child: CustomButton(
-                        text: 'signup'.tr(),
+                      child: ElevatedButton(
                         onPressed: validateSignUP,
+                        child: Text('signup'.tr()),
                       ),
                     ),
 
                     const SizedBox(height: 20),
                     Center(
-                      child: Text(
-                        "don't Have Acc",
-                        // style: AppStyles.font16BlackW400()
-                      ).tr(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+
+                        children: [
+                          Text(
+                            "Already have an account? ".tr(),
+                            style: context.theme.bodyLarge,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              signUpViewModel.doEvent(NavigateToLogin());
+                            },
+                            child: Text(
+                              "Login".tr(),
+                              style: context.theme.titleMedium?.copyWith(
+                                decoration: TextDecoration.underline,
+                                color: context.colors.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -178,6 +297,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void validateSignUP() {
     FocusScope.of(context).unfocus();
     if (_formKey.currentState!.validate()) {
+      final currentState = signUpViewModel.state;
       UserRequest userRequest = UserRequest(
         firstName: signUpViewModel.firstNameController.text,
         lastName: signUpViewModel.lastNameController.text,
@@ -185,10 +305,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         password: signUpViewModel.passwordController.text,
         rePassword: signUpViewModel.confirmPasswordController.text,
         phone: signUpViewModel.phoneController.text,
-        gender: signUpViewModel.genderController.text,
+        gender: currentState.selectedGender ?? '',
       );
       signUpViewModel.doIntent(SignUpEvent(userRequest: userRequest));
-      // Navigator.pop(context).
     }
   }
 }

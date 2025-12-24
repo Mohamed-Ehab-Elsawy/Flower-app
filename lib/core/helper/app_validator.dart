@@ -1,5 +1,3 @@
-
-
 import 'package:flower_app/core/constants/text_strings.dart';
 
 class AppValidator {
@@ -7,9 +5,8 @@ class AppValidator {
   static const _namePattern = r'^[\p{L}\s]+$';
   static const _emailPattern =
       r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
-  static const _phonePattern = r'^\+?\d{10,15}$';
+  static const _phonePattern = r'^\+[1-9]\d{7,14}$';
 
-  
   static String? validateUsername(String? value) {
     if (value == null || value.trim().isEmpty) {
       return IAppText.enterUsername;
@@ -90,13 +87,16 @@ class AppValidator {
   }
 
   static String? validatePhone(String? value) {
-    if (value == null || value.isEmpty) {
+    if (value == null || value.trim().isEmpty) {
       return IAppText.enterPhoneNumber;
     }
+
     final cleaned = value.replaceAll(RegExp(r'\s+'), '');
-    if (!RegExp(_phonePattern).hasMatch(cleaned)) {
+
+    if (!RegExp(r'^\+[1-9]\d{7,14}$').hasMatch(cleaned)) {
       return IAppText.validPhoneNumber;
     }
+
     return null;
   }
 }

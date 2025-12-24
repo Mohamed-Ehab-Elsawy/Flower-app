@@ -102,6 +102,7 @@ class LightTheme extends AppTheme {
 
   @override
   ColorScheme get colorScheme => ColorScheme.fromSeed(
+    primary: color.primary,
     seedColor: color.primary,
     onPrimaryContainer: color.lightPink,
     error: color.error,
@@ -125,7 +126,10 @@ class LightTheme extends AppTheme {
   );
   @override
   TextFormField get textFormField => TextFormField(
+    style: textTheme.bodyMedium,
+    cursorColor: Color(0xFF535353),
     decoration: InputDecoration(
+      isDense: true,
       contentPadding: const EdgeInsets.all(16),
       hintStyle: textTheme.bodyMedium?.copyWith(color: Color(0xFF535353)),
       labelStyle: textTheme.bodyMedium?.copyWith(color: Color(0xFF535353)),
@@ -153,15 +157,12 @@ class LightTheme extends AppTheme {
   );
   @override
   AppBarTheme get appBarTheme => AppBarTheme(
+    centerTitle: false,
     backgroundColor: Colors.transparent,
     elevation: 0,
-    titleTextStyle:textTheme.headlineMedium ,
-    actionsIconTheme: IconThemeData(
-      size: 20,
-      color: Colors.black
-    ),
+    titleTextStyle: textTheme.headlineMedium,
+    actionsIconTheme: IconThemeData(size: 20, color: Colors.black),
   );
-
 }
 
 class LightColors extends AppColors {

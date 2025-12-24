@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flower_app/core/api/models/requests/user_request.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
@@ -19,20 +21,36 @@ class SignUpViewModel extends Cubit<SignupStates> with EquatableMixin {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
-   String selectedGender='female';
   final SignUpUseCase _signUpUseCase;
-
   SignUpViewModel(this._signUpUseCase) : super(SignupStates());
+
+  final StreamController<SignupUiEvent> _signupUiEvent =
+      StreamController.broadcast();
+  Stream<SignupUiEvent> get signupUiEvent => _signupUiEvent.stream;
   @override
   List<Object> get props {
     return [state];
   }
 
-  void doIntent(SignupEvent event) {
+  void doIntent(SignupEvents event) {
     switch (event) {
       case SignUpEvent():
         _signUp(event.userRequest);
+      case SelectGender():
+        _selectedGender(event.selectGender);
+    }
+  }
+
+  void doEvent(SignupUiEvent event) {
+    switch (event) {
+      case ShowToast():
+        _signupUiEvent.add(ShowToast(message: event.message));
+      case NavigateToLogin():
+        _signupUiEvent.add(NavigateToLogin());
+      case NavigateToLoginAfterSignup():
+        _signupUiEvent.add(NavigateToLoginAfterSignup());
+      case NavigateToTermsConditions():
+        _signupUiEvent.add(NavigateToTermsConditions());
     }
   }
 
@@ -59,5 +77,9 @@ class SignUpViewModel extends Cubit<SignupStates> with EquatableMixin {
           ),
         );
     }
+  }
+
+  void _selectedGender(String selectGender) {
+    emit(state.copyWith(selectedGender: selectGender));
   }
 }

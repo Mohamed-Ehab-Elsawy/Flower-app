@@ -6,8 +6,7 @@ import 'package:flower_app/features/auth/domain/models/user_entity.dart';
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:injectable/injectable.dart';
 
-@Injectable(as:AuthRepo )
-
+@Injectable(as: AuthRepo)
 class AuthRepoImpl extends AuthRepo {
   AuthDataSource authDataSource;
   AuthRepoImpl(this.authDataSource);
@@ -19,7 +18,7 @@ class AuthRepoImpl extends AuthRepo {
         {
           UserDto userDto = userDtoResponse.data;
           UserEntity users = userDto.toEntity();
-          return Success<UserEntity>( users);
+          return Success<UserEntity>(users);
         }
 
       case Failure<UserDto>():

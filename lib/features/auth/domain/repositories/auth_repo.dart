@@ -4,5 +4,4 @@ import 'package:flower_app/features/auth/domain/models/user_entity.dart';
 
 abstract class AuthRepo {
   Future<Result<UserEntity>> signUp(UserRequest request);
-
 }

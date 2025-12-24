@@ -12,13 +12,13 @@
   "Phone number": "Phone number",
   "Enter Phone number": "Enter Phone number",
   "Gender": "Gender",
-"male": "male",
+  "male": "male",
   "female": "female",
   "account Created Successfully": "account Created Successfully",
-  "don't Have Acc":   "don't Have Acc"
-
-
-
-
-
+  "don't Have Acc":   "don't Have Acc",
+  "Creating an account, you agree to our ": "Creating an account, you agree to our ",
+  "Terms&Conditions": "Terms&Conditions",
+  "Already have an account? ": "Already have an account? ",
+  "Login":  "Login",
+  "account_created_success": "account_created_success"
 }

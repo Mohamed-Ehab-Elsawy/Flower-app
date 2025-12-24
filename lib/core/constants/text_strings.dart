@@ -58,7 +58,7 @@ class IAppText {
 
   static const String enterPhoneNumber = "Please enter your phone number";
   static const String validPhoneNumber =
-      "Please enter a valid phone number (10-15 digits)";
+      "Please enter a valid phone number with country code (e.g. +201012345678)";
 
 
 
