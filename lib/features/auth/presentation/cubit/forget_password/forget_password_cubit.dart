@@ -47,7 +47,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
         _verifyResetPasswordCode(intent.resetCode);
 
       case ResetPasswordIntent():
-        _resetPassword(_savedEmail!, intent.password);
+        _resetPassword(intent.email, intent.password);
     }
   }
 
@@ -148,5 +148,12 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
         emit(state.copyWith(resendRemainingSeconds: 0));
       }
     });
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    _uiEventsController.close();
+    return super.close();
   }
 }
