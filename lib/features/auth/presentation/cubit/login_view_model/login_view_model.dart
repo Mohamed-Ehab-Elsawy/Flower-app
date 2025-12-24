@@ -1,4 +1,6 @@
-import 'package:flower_app/core/bloc_box/base_state.dart';
+import 'dart:async';
+
+import 'package:equatable/equatable.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_response.dart';
@@ -7,29 +9,51 @@ import 'package:flower_app/features/auth/presentation/cubit/login_view_model/log
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-part 'login_states.dart';
+part 'login_state.dart';
 
 @injectable
-class LoginViewModel extends Cubit<LoginStates> {
+class LoginViewModel extends Cubit<LoginState> {
   final LoginUseCase _loginUseCase;
-  LoginViewModel(this._loginUseCase) : super(LoginStates.initial());
 
-  void doIntent(LoginEvents event) {
-    switch (event) {
-      case Login():
-        _login(email: event.email, password: event.password);
+  final _uiEventsController = StreamController<LoginUIEvents>.broadcast();
+
+  Stream<LoginUIEvents> get uiEventsStream => _uiEventsController.stream;
+
+  LoginViewModel(this._loginUseCase) : super(LoginState.initial());
+
+  void doIntent(LoginViewIntent intent) {
+    switch (intent) {
+      case UserLoginIntent():
+        _login(email: intent.email, password: intent.password);
+      case GuestLoginIntent():
+        _guestLogin();
+      case SignupIntent():
+        _navigateToSignup();
+      case ForgetPasswordIntent():
+        _navigateToForgetPassword();
     }
   }
 
-  Future<void> _login({required String email, required String password}) async {
-    emit(state.copyWith(login: state.login.loading));
-    final LoginRequest request = LoginRequest(email: email, password: password);
+  _login({required String email, required String password}) async {
+    emit(state.copyWith(isLoading: true));
+    final request = LoginRequest(email: email, password: password);
     var response = await _loginUseCase.login(loginRequest: request);
     switch (response) {
       case Success<LoginResponse>():
-        emit(state.copyWith(login: state.login.loaded(response.data)));
+        emit(state.copyWith(successMessage: response.data.message));
+        _uiEventsController.add(NavigateToHome());
+
       case Failure<LoginResponse>():
-        emit(state.copyWith(login: state.login.error(response.errorMessage)));
+        emit(state.copyWith());
+        _uiEventsController.add(
+          LoginViewShowToast(message: response.errorMessage, isError: true),
+        );
     }
   }
+
+  _guestLogin() => _uiEventsController.add(NavigateToHome());
+
+  _navigateToSignup() => _uiEventsController.add(NavigateToSignup());
+
+  _navigateToForgetPassword() => _uiEventsController.add(NavigateToForgetPassword());
 }
