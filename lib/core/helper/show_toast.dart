@@ -2,10 +2,10 @@ import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flutter/material.dart';
 
 class Toast {
-  static showToast(BuildContext context, String message) {
+  static showToast(BuildContext context, String message,{bool isError = false}) {
     final snackBar = SnackBar(
       behavior: SnackBarBehavior.floating,
-      backgroundColor: context.colors.primary,
+      backgroundColor: isError ?context.colors.error : context.colors.tertiary,
       content: Center(child: Text(message)),
       duration: Duration(seconds: 2),
     );

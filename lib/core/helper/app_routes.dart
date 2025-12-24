@@ -1,4 +1,4 @@
-import 'package:flower_app/features/auth/presentation/pages/login.dart';
+import 'package:flower_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
@@ -8,16 +8,8 @@ class AppRoutes {
 Route? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
     case AppRoutes.login:
-      return MaterialPageRoute(builder: (_) => const Login());
+      return MaterialPageRoute(builder: (_) => const LoginScreen());
     default:
-      return _undefinedRoute();
+      return null;
   }
-}
-
-Route<dynamic> _undefinedRoute() {
-  return MaterialPageRoute(
-    builder: (_) => Scaffold(
-      body: const Center(child: Text('No route defined for this path')),
-    ),
-  );
 }
