@@ -6,6 +6,8 @@ import 'package:flower_app/core/api/models/response/reset_password_response.dart
 import 'package:flower_app/core/api/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/core/api/models/response/verify_reset_code_response.dart';
 import 'package:retrofit/retrofit.dart';
+
+import 'end_points.dart';
 part 'api_client.g.dart';
 
 @RestApi(baseUrl: '')
@@ -26,10 +28,4 @@ abstract class ApiClient {
   Future<ResetPasswordResponse> resetPassword({
     @Body() required ResetPasswordRequest resetPasswordRequest,
   });
-}
-
-class EndPoints {
-  static const String forgetPassword = '/forgotPassword';
-  static const String verifyResetCode = '/verifyResetCode';
-  static const String resetPassword = '/resetPassword';
 }

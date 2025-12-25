@@ -1,4 +1,4 @@
-import 'package:flower_app/core/api/models/requests/reset_password_request.dart';
+import 'package:flower_app/core/api/models/response/reset_password_response.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:injectable/injectable.dart';
@@ -7,9 +7,10 @@ import 'package:injectable/injectable.dart';
 class ResetPasswordUseCase {
   final AuthRepo _authRepo;
 
-  ResetPasswordUseCase(this._authRepo);
+  const ResetPasswordUseCase(this._authRepo);
 
-  Future<Result<String>> call({
-    required ResetPasswordRequest resetPasswordRequest,
-  }) => _authRepo.resetPassword(resetPasswordRequest: resetPasswordRequest);
+  Future<Result<ResetPasswordResponse>> call({
+    required String email,
+    password,
+  }) => _authRepo.resetPassword(email: email, password: password);
 }

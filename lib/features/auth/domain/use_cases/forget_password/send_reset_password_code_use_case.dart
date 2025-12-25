@@ -1,4 +1,4 @@
-import 'package:flower_app/core/api/models/requests/send_reset_password_code_request.dart';
+import 'package:flower_app/core/api/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:injectable/injectable.dart';
@@ -7,11 +7,8 @@ import 'package:injectable/injectable.dart';
 class SendResetPasswordCodeUseCase {
   final AuthRepo _authRepo;
 
-  SendResetPasswordCodeUseCase(this._authRepo);
+  const SendResetPasswordCodeUseCase(this._authRepo);
 
-  Future<Result<String>> call({
-    required SendResetPasswordCodeRequest sendResetPasswordCodeRequest,
-  }) => _authRepo.sendResetPasswordCode(
-    sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
-  );
+  Future<Result<SendResetPasswordCodeResponse>> call({required String email}) =>
+      _authRepo.sendResetPasswordCode(email: email);
 }

@@ -1,4 +1,4 @@
-import 'package:flower_app/core/api/models/requests/verify_reset_code_request.dart';
+import 'package:flower_app/core/api/models/response/verify_reset_code_response.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
@@ -12,20 +12,18 @@ import 'verify_reset_password_code_use_case_test.mocks.dart';
 @GenerateMocks([AuthRepoImpl])
 void main() {
   late AuthRepo authRepo;
-  late VerifyResetPasswordCodeUseCase useCae;
+  late VerifyResetPasswordCodeUseCase verifyResetPasswordCodeUseCase;
   late String resetCode;
   late String responseMessage;
   late String errorMessageResponse;
-  late VerifyResetCodeRequest verifyResetCodeRequest;
-  late Result<String> verifyResetPasswordCodeResponse;
+  late Result<VerifyResetCodeResponse> verifyResetPasswordCodeResponse;
 
   setUp(() {
     authRepo = MockAuthRepoImpl();
-    useCae = VerifyResetPasswordCodeUseCase(authRepo);
+    verifyResetPasswordCodeUseCase = VerifyResetPasswordCodeUseCase(authRepo);
     resetCode = "112233";
     responseMessage = "success";
     errorMessageResponse = "error";
-    verifyResetCodeRequest = VerifyResetCodeRequest(resetCode: resetCode);
   });
 
   test(
@@ -34,27 +32,23 @@ void main() {
     "and return success message",
     () async {
       // arrange
-      verifyResetPasswordCodeResponse = Success<String>(responseMessage);
-      provideDummy<Result<String>>(verifyResetPasswordCodeResponse);
+      verifyResetPasswordCodeResponse = Success<VerifyResetCodeResponse>(
+        VerifyResetCodeResponse(message: responseMessage),
+      );
+      provideDummy<Result<VerifyResetCodeResponse>>(verifyResetPasswordCodeResponse);
       when(
-        authRepo.verifyResetPasswordCode(
-          verifyResetCodeRequest: verifyResetCodeRequest,
-        ),
+        authRepo.verifyResetPasswordCode(resetCode: resetCode),
       ).thenAnswer((_) async => verifyResetPasswordCodeResponse);
 
       // act
-      var result = await useCae.call(
-        verifyResetCodeRequest: verifyResetCodeRequest,
+      var result = await verifyResetPasswordCodeUseCase.call(
+        resetCode: resetCode,
       );
 
       // assert
-      verify(
-        authRepo.verifyResetPasswordCode(
-          verifyResetCodeRequest: verifyResetCodeRequest,
-        ),
-      ).called(1);
+      verify(authRepo.verifyResetPasswordCode(resetCode: resetCode)).called(1);
       verifyNoMoreInteractions(authRepo);
-      expect((result as Success<String>).data, responseMessage);
+      expect((result as Success<VerifyResetCodeResponse>).data.message, responseMessage);
     },
   );
 
@@ -64,27 +58,21 @@ void main() {
     "and return error message",
     () async {
       // arrange
-      verifyResetPasswordCodeResponse = Failure<String>(errorMessageResponse);
-      provideDummy<Result<String>>(verifyResetPasswordCodeResponse);
+      verifyResetPasswordCodeResponse = Failure<VerifyResetCodeResponse>(errorMessageResponse);
+      provideDummy<Result<VerifyResetCodeResponse>>(verifyResetPasswordCodeResponse);
       when(
-        authRepo.verifyResetPasswordCode(
-          verifyResetCodeRequest: verifyResetCodeRequest,
-        ),
+        authRepo.verifyResetPasswordCode(resetCode: resetCode),
       ).thenAnswer((_) async => verifyResetPasswordCodeResponse);
 
       // act
-      var result = await useCae.call(
-        verifyResetCodeRequest: verifyResetCodeRequest,
+      var result = await verifyResetPasswordCodeUseCase.call(
+        resetCode: resetCode,
       );
 
       // assert
-      verify(
-        authRepo.verifyResetPasswordCode(
-          verifyResetCodeRequest: verifyResetCodeRequest,
-        ),
-      ).called(1);
+      verify(authRepo.verifyResetPasswordCode(resetCode: resetCode)).called(1);
       verifyNoMoreInteractions(authRepo);
-      expect((result as Failure<String>).errorMessage, errorMessageResponse);
+      expect((result as Failure<VerifyResetCodeResponse>).errorMessage, errorMessageResponse);
     },
   );
 }

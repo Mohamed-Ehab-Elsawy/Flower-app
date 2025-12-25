@@ -1,7 +1,5 @@
-import 'package:flower_app/core/constants/app_dimanens.dart';
+import 'package:flower_app/core/constants/app_dimensions.dart';
 import 'package:flower_app/core/constants/text_strings.dart';
-import 'package:flower_app/core/di/di.dart';
-import 'package:flower_app/core/helper/show_toast.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_state.dart';
 import 'package:flower_app/features/auth/presentation/pages/forget_password/widgets/reset_password_page.dart';
@@ -29,13 +27,6 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
   void initState() {
     super.initState();
     _initControllers();
-
-    context.read<ForgetPasswordCubit>().uiEventsStream.listen((event) {
-      switch (event) {
-        case ForgetPasswordShowToastEvent():
-          Toast.showToast(context, event.message);
-      }
-    });
   }
 
   @override

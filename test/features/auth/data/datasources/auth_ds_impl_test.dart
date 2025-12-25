@@ -87,7 +87,7 @@ void main() {
             await authDataSource.sendResetPasswordCode(
                   sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
                 )
-                as Success<String>;
+                as Success<SendResetPasswordCodeResponse>;
         // assert
         verify(
           apiClient.sendResetPasswordCode(
@@ -96,7 +96,7 @@ void main() {
         ).called(1);
         verifyNoMoreInteractions(apiClient);
 
-        expect(result.data, sendResetPasswordCodeResponse.message);
+        expect(result.data.message, sendResetPasswordCodeResponse.message);
       },
     );
 
@@ -124,7 +124,7 @@ void main() {
         verifyNoMoreInteractions(apiClient);
 
         expect(
-          (result as Failure<String>).errorMessage,
+          (result as Failure<SendResetPasswordCodeResponse>).errorMessage,
           IAppText.connectionError,
         );
       },
@@ -136,7 +136,7 @@ void main() {
       "When i call verifyResetPasswordCode it calls verifyResetPasswordCode from "
       "api client and return Success result from api client "
       "and didn't call any other functions",
-      () {
+      () async {
         // arrange
         when(
           apiClient.verifyResetPasswordCode(
@@ -144,7 +144,7 @@ void main() {
           ),
         ).thenAnswer((_) async => verifyResetCodeResponse);
         // act
-        authDataSource.verifyResetPasswordCode(
+        var result = await authDataSource.verifyResetPasswordCode(
           verifyResetCodeRequest: verifyResetCodeRequest,
         );
         // assert
@@ -154,10 +154,14 @@ void main() {
           ),
         ).called(1);
         verifyNoMoreInteractions(apiClient);
+        expect(
+          (result as Success<VerifyResetCodeResponse>).data.message,
+          verifyResetCodeResponse.message,
+        );
       },
     );
     test(
-      "When i call sendResetPasswordCode it calls sendResetPasswordCode from "
+      "When i call verifyResetPasswordCode it calls verifyResetPasswordCode from "
       "api client and return failure result if there is an dio exception"
       "and didn't call any other functions",
       () async {
@@ -180,7 +184,7 @@ void main() {
         verifyNoMoreInteractions(apiClient);
 
         expect(
-          (result as Failure<String>).errorMessage,
+          (result as Failure<VerifyResetCodeResponse>).errorMessage,
           IAppText.connectionError,
         );
       },
@@ -190,43 +194,47 @@ void main() {
   group("Testing resetPassword cases", () {
     test("When i call resetPassword it calls resetPassword from "
         "api client and return Success result from api client "
-        "and didn't call any other functions", () {
+        "and didn't call any other functions", () async {
       // arrange
       when(
         apiClient.resetPassword(resetPasswordRequest: resetPasswordRequest),
       ).thenAnswer((_) async => resetPasswordResponse);
       // act
-      authDataSource.resetPassword(resetPasswordRequest: resetPasswordRequest);
+      var result = await authDataSource.resetPassword(
+        resetPasswordRequest: resetPasswordRequest,
+      );
       // assert
       verify(
         apiClient.resetPassword(resetPasswordRequest: resetPasswordRequest),
       ).called(1);
       verifyNoMoreInteractions(apiClient);
-    });
-    test(
-      "When i call sendResetPasswordCode it calls sendResetPasswordCode from "
-      "api client and return failure result if there is an dio exception"
-      "and didn't call any other functions",
-      () async {
-        // arrange
-        when(
-          apiClient.resetPassword(resetPasswordRequest: resetPasswordRequest),
-        ).thenThrow(dioException);
-        // act
-        var result = await authDataSource.resetPassword(
-          resetPasswordRequest: resetPasswordRequest,
-        );
-        // assert
-        verify(
-          apiClient.resetPassword(resetPasswordRequest: resetPasswordRequest),
-        ).called(1);
-        verifyNoMoreInteractions(apiClient);
 
-        expect(
-          (result as Failure<String>).errorMessage,
-          IAppText.connectionError,
-        );
-      },
-    );
+      expect(
+        (result as Success<ResetPasswordResponse>).data.message,
+        resetPasswordResponse.message,
+      );
+    });
+    test("When i call resetPassword it calls resetPassword from "
+        "api client and return failure result if there is an dio exception"
+        "and didn't call any other functions", () async {
+      // arrange
+      when(
+        apiClient.resetPassword(resetPasswordRequest: resetPasswordRequest),
+      ).thenThrow(dioException);
+      // act
+      var result = await authDataSource.resetPassword(
+        resetPasswordRequest: resetPasswordRequest,
+      );
+      // assert
+      verify(
+        apiClient.resetPassword(resetPasswordRequest: resetPasswordRequest),
+      ).called(1);
+      verifyNoMoreInteractions(apiClient);
+
+      expect(
+        (result as Failure<ResetPasswordResponse>).errorMessage,
+        IAppText.connectionError,
+      );
+    });
   });
 }

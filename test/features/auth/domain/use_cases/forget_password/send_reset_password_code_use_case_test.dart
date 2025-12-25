@@ -1,4 +1,4 @@
-import 'package:flower_app/core/api/models/requests/send_reset_password_code_request.dart';
+import 'package:flower_app/core/api/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
@@ -12,20 +12,18 @@ import 'reset_password_use_case_test.mocks.dart';
 @GenerateMocks([AuthRepoImpl])
 void main() {
   late AuthRepo authRepo;
-  late SendResetPasswordCodeUseCase useCae;
+  late SendResetPasswordCodeUseCase sendResetPasswordUseCae;
   late String email;
   late String responseMessage;
   late String errorMessageResponse;
-  late SendResetPasswordCodeRequest sendResetPasswordCodeRequest;
-  late Result<String> sendResetPasswordCodeResponse;
+  late Result<SendResetPasswordCodeResponse> sendResetPasswordCodeResponse;
 
   setUp(() {
     authRepo = MockAuthRepoImpl();
-    useCae = SendResetPasswordCodeUseCase(authRepo);
+    sendResetPasswordUseCae = SendResetPasswordCodeUseCase(authRepo);
     email = "joe@example.com";
     responseMessage = "success";
     errorMessageResponse = "error";
-    sendResetPasswordCodeRequest = SendResetPasswordCodeRequest(email: email);
   });
 
   test(
@@ -34,27 +32,26 @@ void main() {
     "and return success message",
     () async {
       // arrange
-      sendResetPasswordCodeResponse = Success<String>(responseMessage);
-      provideDummy<Result<String>>(sendResetPasswordCodeResponse);
+      sendResetPasswordCodeResponse = Success<SendResetPasswordCodeResponse>(
+        SendResetPasswordCodeResponse(message: responseMessage, info: "info"),
+      );
+      provideDummy<Result<SendResetPasswordCodeResponse>>(
+        sendResetPasswordCodeResponse,
+      );
       when(
-        authRepo.sendResetPasswordCode(
-          sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
-        ),
+        authRepo.sendResetPasswordCode(email: email),
       ).thenAnswer((_) async => sendResetPasswordCodeResponse);
 
       // act
-      var result = await useCae.call(
-        sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
-      );
+      var result = await sendResetPasswordUseCae.call(email: email);
 
       // assert
-      verify(
-        authRepo.sendResetPasswordCode(
-          sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
-        ),
-      ).called(1);
+      verify(authRepo.sendResetPasswordCode(email: email)).called(1);
       verifyNoMoreInteractions(authRepo);
-      expect((result as Success<String>).data, responseMessage);
+      expect(
+        (result as Success<SendResetPasswordCodeResponse>).data.message,
+        responseMessage,
+      );
     },
   );
 
@@ -64,27 +61,26 @@ void main() {
     "and return error message",
     () async {
       // arrange
-      sendResetPasswordCodeResponse = Failure<String>(errorMessageResponse);
-      provideDummy<Result<String>>(sendResetPasswordCodeResponse);
+      sendResetPasswordCodeResponse = Failure<SendResetPasswordCodeResponse>(
+        errorMessageResponse,
+      );
+      provideDummy<Result<SendResetPasswordCodeResponse>>(
+        sendResetPasswordCodeResponse,
+      );
       when(
-        authRepo.sendResetPasswordCode(
-          sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
-        ),
+        authRepo.sendResetPasswordCode(email: email),
       ).thenAnswer((_) async => sendResetPasswordCodeResponse);
 
       // act
-      var result = await useCae.call(
-        sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
-      );
+      var result = await sendResetPasswordUseCae.call(email: email);
 
       // assert
-      verify(
-        authRepo.sendResetPasswordCode(
-          sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
-        ),
-      ).called(1);
+      verify(authRepo.sendResetPasswordCode(email: email)).called(1);
       verifyNoMoreInteractions(authRepo);
-      expect((result as Failure<String>).errorMessage, errorMessageResponse);
+      expect(
+        (result as Failure<SendResetPasswordCodeResponse>).errorMessage,
+        errorMessageResponse,
+      );
     },
   );
 }

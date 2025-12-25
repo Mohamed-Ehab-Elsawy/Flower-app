@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'reset_password_request.g.dart';
 
 @JsonSerializable()
-class ResetPasswordRequest {
+class ResetPasswordRequest with EquatableMixin {
   @JsonKey(name: 'email')
   final String email;
 
@@ -16,4 +17,7 @@ class ResetPasswordRequest {
       _$ResetPasswordRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$ResetPasswordRequestToJson(this);
+
+  @override
+  List<Object?> get props => [email, password];
 }

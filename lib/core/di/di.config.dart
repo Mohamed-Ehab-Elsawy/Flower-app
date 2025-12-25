@@ -14,6 +14,18 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:talker_dio_logger/talker_dio_logger.dart' as _i52;
 
+import '../../features/auth/data/datasources/auth_ds.dart' as _i586;
+import '../../features/auth/data/datasources/auth_ds_impl.dart' as _i775;
+import '../../features/auth/data/repositories/auth_repo_impl.dart' as _i662;
+import '../../features/auth/domain/repositories/auth_repo.dart' as _i723;
+import '../../features/auth/domain/use_cases/forget_password/reset_password_use_case.dart'
+    as _i437;
+import '../../features/auth/domain/use_cases/forget_password/send_reset_password_code_use_case.dart'
+    as _i876;
+import '../../features/auth/domain/use_cases/forget_password/verify_reset_password_code_use_case.dart'
+    as _i1073;
+import '../../features/auth/presentation/cubit/forget_password/forget_password_cubit.dart'
+    as _i817;
 import '../api/api_client.dart' as _i277;
 import '../api/api_module.dart' as _i0;
 
@@ -35,6 +47,28 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i277.ApiClient>(
       () => apiModule.provideApiClient(gh<_i361.Dio>()),
+    );
+    gh.factory<_i586.AuthDataSource>(
+      () => _i775.AuthDataSourceImpl(gh<_i277.ApiClient>()),
+    );
+    gh.factory<_i723.AuthRepo>(
+      () => _i662.AuthRepoImpl(gh<_i586.AuthDataSource>()),
+    );
+    gh.factory<_i1073.VerifyResetPasswordCodeUseCase>(
+      () => _i1073.VerifyResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
+    );
+    gh.factory<_i876.SendResetPasswordCodeUseCase>(
+      () => _i876.SendResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
+    );
+    gh.factory<_i437.ResetPasswordUseCase>(
+      () => _i437.ResetPasswordUseCase(gh<_i723.AuthRepo>()),
+    );
+    gh.factory<_i817.ForgetPasswordCubit>(
+      () => _i817.ForgetPasswordCubit(
+        gh<_i876.SendResetPasswordCodeUseCase>(),
+        gh<_i1073.VerifyResetPasswordCodeUseCase>(),
+        gh<_i437.ResetPasswordUseCase>(),
+      ),
     );
     return this;
   }
