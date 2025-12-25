@@ -43,13 +43,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i277.ApiClient>(
       () => apiModule.provideApiClient(gh<_i361.Dio>()),
     );
-    gh.factory<_i586.AuthDataSource>(
+    gh.lazySingleton<_i586.AuthDataSource>(
       () => _i775.AuthDataSourceImpl(gh<_i277.ApiClient>()),
     );
-    gh.factory<_i723.AuthRepo>(
+    gh.lazySingleton<_i723.AuthRepo>(
       () => _i662.AuthRepoImpl(gh<_i586.AuthDataSource>()),
     );
-    gh.factory<_i1038.LoginUseCase>(
+    gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i723.AuthRepo>()),
     );
     gh.factory<_i869.LoginViewModel>(

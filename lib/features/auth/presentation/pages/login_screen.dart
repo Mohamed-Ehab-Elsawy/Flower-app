@@ -90,7 +90,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 48),
               BlocBuilder<LoginViewModel, LoginState>(
-                bloc: context.read<LoginViewModel>(),
                 builder: (context, state) => ElevatedButton(
                   onPressed: isButtonEnabled
                       ? () => _formKey.currentState!.validate()

@@ -5,7 +5,7 @@ import 'package:flower_app/features/auth/data/models_dto/login/login_response.da
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:injectable/injectable.dart';
 
-@Injectable(as: AuthRepo)
+@LazySingleton(as: AuthRepo)
 class AuthRepoImpl extends AuthRepo {
   final AuthDataSource _authDataSource;
   AuthRepoImpl(this._authDataSource);

@@ -6,7 +6,7 @@ import 'package:flower_app/features/auth/data/models_dto/login/login_request.dar
 import 'package:flower_app/features/auth/data/models_dto/login/login_response.dart';
 import 'package:injectable/injectable.dart';
 
-@Injectable(as: AuthDataSource)
+@LazySingleton(as: AuthDataSource)
 class AuthDataSourceImpl extends AuthDataSource {
   final ApiClient _apiClient;
   AuthDataSourceImpl(this._apiClient);
