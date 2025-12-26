@@ -5,6 +5,8 @@ import 'package:flower_app/features/auth/domain/use_cases/login_use_case.dart';
 import 'package:flower_app/features/auth/presentation/cubit/login_view_model/login_events.dart';
 import 'package:flower_app/features/auth/presentation/cubit/login_view_model/login_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -12,6 +14,15 @@ import 'login_view_model_test.mocks.dart';
 
 @GenerateMocks([LoginUseCase])
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  // Provide mock implementations for platform plugins used in production
+  SharedPreferences.setMockInitialValues({});
+  const MethodChannel('plugins.it_nomads.com/flutter_secure_storage')
+      .setMockMethodCallHandler((call) async {
+    // Handle write/read/delete calls trivially in tests
+    return null;
+  });
+
   late MockLoginUseCase mockLoginUseCase;
   late LoginViewModel viewModel;
 

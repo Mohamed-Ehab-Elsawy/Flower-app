@@ -60,6 +60,8 @@ void main() {
   setUp(() {
     mockAuthDataSource = MockAuthDataSourceImpl();
     authRepo = AuthRepoImpl(mockAuthDataSource);
+    // Ensure tests stub/verify the same mock instance
+    authDataSource = mockAuthDataSource;
 
     loginRequest =  const LoginRequest(email: "test@test.com", password: "123456");
     loginResponse = LoginResponseDto(

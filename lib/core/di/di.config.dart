@@ -59,14 +59,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i723.AuthRepo>(
       () => _i662.AuthRepoImpl(gh<_i586.AuthDataSource>()),
     );
-    gh.factory<_i1073.VerifyResetPasswordCodeUseCase>(
-      () => _i1073.VerifyResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
+    gh.factory<_i437.ResetPasswordUseCase>(
+      () => _i437.ResetPasswordUseCase(gh<_i723.AuthRepo>()),
     );
     gh.factory<_i876.SendResetPasswordCodeUseCase>(
       () => _i876.SendResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
     );
-    gh.factory<_i437.ResetPasswordUseCase>(
-      () => _i437.ResetPasswordUseCase(gh<_i723.AuthRepo>()),
+    gh.factory<_i1073.VerifyResetPasswordCodeUseCase>(
+      () => _i1073.VerifyResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
     );
     gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i723.AuthRepo>()),
