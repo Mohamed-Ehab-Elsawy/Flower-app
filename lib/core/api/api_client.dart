@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flower_app/core/api/end_points.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
 import 'package:injectable/injectable.dart';

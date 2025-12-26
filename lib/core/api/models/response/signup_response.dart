@@ -18,13 +18,10 @@ class SignupResponse {
     this.token,
   });
 
-  factory SignupResponse.fromJson(Map<String, dynamic> json) {
-    return _$SignupResponseFromJson(json);
-  }
+  factory SignupResponse.fromJson(Map<String, dynamic> json) => _$SignupResponseFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return _$SignupResponseToJson(this);
-  }
+
+  Map<String, dynamic> toJson() => _$SignupResponseToJson(this);
 }
 
 

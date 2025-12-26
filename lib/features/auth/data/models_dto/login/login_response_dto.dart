@@ -1,4 +1,4 @@
-import 'package:flower_app/features/auth/data/models_dto/login/user_dto.dart';
+import 'package:flower_app/core/api/models/response/user_dto.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'login_response_dto.g.dart';

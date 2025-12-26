@@ -1,7 +1,7 @@
+import 'package:flower_app/core/api/models/response/user_dto.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/user_dto.dart';
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:flower_app/features/auth/domain/use_cases/login_use_case.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,7 +22,7 @@ void main() {
     );
     var response = Success(loginResponse);
     provideDummy<Result<LoginResponseDto>>(response);
-    final LoginRequest loginRequest = LoginRequest(email: "test@test.com", password: "123456");
+    const LoginRequest loginRequest = LoginRequest(email: "test@test.com", password: "123456");
     var authRepo = MockAuthRepo();
     when(authRepo.login(loginRequest: loginRequest)).thenAnswer(
           (realInvocation) => Future.value(response));

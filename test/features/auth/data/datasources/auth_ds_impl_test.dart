@@ -1,3 +1,4 @@
+
 import 'package:dio/dio.dart';
 import 'package:flower_app/core/api/api_client.dart';
 import 'package:flower_app/core/api/models/requests/user_request.dart';
@@ -5,28 +6,21 @@ import 'package:flower_app/core/api/models/response/signup_response.dart';
 import 'package:flower_app/core/api/models/response/user_dto.dart';
 import 'package:flower_app/core/error_handling/handle_exception%20.dart';
 import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart'
-    show AuthDataSourceImpl;
 import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/user_dto.dart' hide UserDto;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:mockito/annotations.dart';
 
 import 'auth_ds_impl_test.mocks.dart';
 
 @GenerateMocks([ApiClient])
 void main() {
-  late MockApiClient apiClient;
   late AuthDataSourceImpl dataSource;
   late LoginRequest loginRequest;
   late LoginResponseDto loginResponse;
   late DioException dioException;
-  late AuthDataSourceImpl datasource;
   late MockApiClient mockApiClient;
   late UserSignupRequest userRequest;
   late UserDto user;
@@ -36,11 +30,11 @@ void main() {
   setUp(() {
     // Arrange
     mockApiClient = MockApiClient();
-    datasource = AuthDataSourceImpl(mockApiClient);
+    dataSource = AuthDataSourceImpl(mockApiClient);
 
-    apiClient = MockApiClient();
-    dataSource = AuthDataSourceImpl(apiClient);
-    loginRequest = LoginRequest(email: "test@test.com", password: "123456");
+    mockApiClient = MockApiClient();
+    dataSource = AuthDataSourceImpl(mockApiClient);
+    loginRequest = const LoginRequest(email: "test@test.com", password: "123456");
 
     loginResponse = LoginResponseDto(
       message: "success",
@@ -86,7 +80,7 @@ void main() {
         () async {
       // Arrange
       when(
-        apiClient.login(loginRequest: loginRequest),
+        mockApiClient.login(loginRequest: loginRequest),
       ).thenAnswer((_) async => loginResponse);
 
       // Act
@@ -96,21 +90,21 @@ void main() {
       expect(result, isA<Success<LoginResponseDto>>());
       final success = result as Success<LoginResponseDto>;
       expect(success.data.token, equals(loginResponse.token));
-      verify(apiClient.login(loginRequest: loginRequest)).called(1);
-      verifyNoMoreInteractions(apiClient);
+      verify(mockApiClient.login(loginRequest: loginRequest)).called(1);
+      verifyNoMoreInteractions(mockApiClient);
     },
   );
 
   test("should return Failure when API throws DioException", () async {
     // Arrange
-    when(apiClient.login(loginRequest: loginRequest)).thenThrow(dioException);
+    when(mockApiClient.login(loginRequest: loginRequest)).thenThrow(dioException);
 
     // Act
     final result = await dataSource.login(loginRequest: loginRequest);
 
     // Assert
-    verify(apiClient.login(loginRequest: loginRequest)).called(1);
-    verifyNoMoreInteractions(apiClient);
+    verify(mockApiClient.login(loginRequest: loginRequest)).called(1);
+    verifyNoMoreInteractions(mockApiClient);
     expect(
       (result as Failure).errorMessage,
       equals(NetworkException.getMessageError(dioException)),
@@ -123,7 +117,7 @@ void main() {
     when(
       mockApiClient.signUp(userRequest),
     ).thenAnswer((_) async => dummySignupResponse);
-    final result = await datasource.signUp(userRequest);
+    final result = await dataSource.signUp(userRequest);
     expect(result, isA<Success<UserDto>>());
     expect(result as Success<UserDto>, isNotNull);
     expect(result.data.id, equals(user.id));
@@ -142,7 +136,7 @@ void main() {
   test('when call signUp it should return Failure', () async {
     provideDummy<Result<UserDto>>(Failure<UserDto>(e.toString()));
     when(mockApiClient.signUp(userRequest)).thenThrow(e);
-    final result = await datasource.signUp(userRequest);
+    final result = await dataSource.signUp(userRequest);
     expect(result, isA<Failure<UserDto>>());
     expect(result as Failure<UserDto>, isNotNull);
     expect(result.errorMessage, equals(e.toString()));

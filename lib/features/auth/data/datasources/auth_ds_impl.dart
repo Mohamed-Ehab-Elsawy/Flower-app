@@ -11,7 +11,7 @@ import 'package:injectable/injectable.dart';
 
 
 @Injectable(as: AuthDataSource)
-class AuthDataSourceImpl extends AuthDataSource {
+class AuthDataSourceImpl implements AuthDataSource {
   final ApiClient _apiClient;
   AuthDataSourceImpl(this._apiClient);
 

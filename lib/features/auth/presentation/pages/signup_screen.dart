@@ -40,12 +40,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
         case NavigateToLogin():
           {
-            Navigator.pushNamed(context, AppRoutes.login);
+            Navigator.pop(context);
           }
 
         case NavigateToLoginAfterSignup():
           {
-            Navigator.pushReplacementNamed(context, AppRoutes.login);
+            Navigator.pop(context);
           }
         case NavigateToTermsConditions():
           {
@@ -61,7 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       create: (context) => signUpViewModel,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("signup", style: context.theme.headlineMedium).tr(),
+          title: Text("Sign Up", style: context.theme.headlineMedium).tr(),
         ),
         body: SafeArea(
           child: Padding(

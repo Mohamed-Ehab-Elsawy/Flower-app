@@ -4,7 +4,6 @@ import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/user_dto.dart' hide UserDto;
 import 'package:flower_app/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flower_app/features/auth/domain/models/user_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -30,7 +29,7 @@ void main() {
     mockAuthDataSource = MockAuthDataSource();
     authRepo = AuthRepoImpl(mockAuthDataSource);
 
-    loginRequest =  LoginRequest(email: "test@test.com", password: "123456");
+    loginRequest =  const LoginRequest(email: "test@test.com", password: "123456");
     loginResponse = LoginResponseDto(
       userDto: UserDto(id: "1"),
       token: "abc123",

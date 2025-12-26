@@ -22,7 +22,9 @@ Route? onGenerateRoute(RouteSettings settings) {
     case AppRoutes.login:
       var cubit = getIt.get<LoginViewModel>();
       return MaterialPageRoute(
-        builder: (_) => BlocProvider(create: (context) => cubit, child: const LoginScreen()),
+        builder: (_) =>
+            BlocProvider(
+                create: (context) => cubit, child: const LoginScreen()),
       );
     case AppRoutes.home:
       return MaterialPageRoute(builder: (_) => const Scaffold());
