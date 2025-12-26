@@ -1,6 +1,4 @@
 import 'package:flower_app/core/constants/text_strings.dart';
-import 'package:flower_app/core/helper/app_validator.dart';
-import 'package:flower_app/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
 class SendResetCodePage extends StatelessWidget {
@@ -35,13 +33,7 @@ class SendResetCodePage extends StatelessWidget {
             ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
           ),
           SizedBox(height: 32),
-          CustomTextFormField(
-            labelText: IAppText.enterEmail,
-            hintText: IAppText.email,
-            controller: emailController,
-            keyboardType: TextInputType.emailAddress,
-            validator: (value) => AppValidator.validateEmail(value),
-          ),
+          // Email
           SizedBox(height: 48),
           ElevatedButton(
             onPressed: onPressed,

@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
-import 'package:flower_app/features/auth/data/models/requesets/reset_password_request.dart';
-import 'package:flower_app/features/auth/data/models/requesets/send_reset_password_code_request.dart';
-import 'package:flower_app/features/auth/data/models/requesets/verify_reset_code_request.dart';
+import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart';
+import 'package:flower_app/features/auth/data/models/requests/send_reset_password_code_request.dart';
+import 'package:flower_app/features/auth/data/models/requests/verify_reset_code_request.dart';
 import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart';
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
 import 'package:retrofit/retrofit.dart';
+
+import 'end_points.dart';
+
 part 'api_client.g.dart';
 
 @RestApi(baseUrl: '')
@@ -26,10 +29,4 @@ abstract class ApiClient {
   Future<ResetPasswordResponse> resetPassword({
     @Body() required ResetPasswordRequest resetPasswordRequest,
   });
-}
-
-class EndPoints {
-  static const String forgetPassword = 'auth/forgotPassword';
-  static const String verifyResetCode = 'auth/verifyResetCode';
-  static const String resetPassword = 'auth/resetPassword';
 }

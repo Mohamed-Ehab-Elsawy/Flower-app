@@ -1,9 +1,6 @@
 import 'dart:async';
 
 import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/auth/data/models/requesets/reset_password_request.dart';
-import 'package:flower_app/features/auth/data/models/requesets/send_reset_password_code_request.dart';
-import 'package:flower_app/features/auth/data/models/requesets/verify_reset_code_request.dart';
 import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart';
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
@@ -23,6 +20,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
 
   final _uiEventsController =
       StreamController<ForgetPasswordUIEvents>.broadcast();
+
   Stream<ForgetPasswordUIEvents> get uiEventsStream =>
       _uiEventsController.stream;
 
@@ -54,9 +52,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   Future<void> _sendResetPasswordCode(String email) async {
     emit(state.copyWith(isLoading: true));
 
-    final result = await _sendResetPasswordCodeUseCase(
-      sendResetPasswordCodeRequest: SendResetPasswordCodeRequest(email: email),
-    );
+    final result = await _sendResetPasswordCodeUseCase(email: email);
 
     switch (result) {
       case Success<SendResetPasswordCodeResponse>():
@@ -83,9 +79,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   Future<void> _verifyResetPasswordCode(String code) async {
     emit(state.copyWith(isLoading: true));
 
-    final result = await _verifyResetPasswordCodeUseCase(
-      verifyResetCodeRequest: VerifyResetCodeRequest(resetCode: code),
-    );
+    final result = await _verifyResetPasswordCodeUseCase(resetCode: code);
 
     switch (result) {
       case Success<VerifyResetCodeResponse>():
@@ -113,10 +107,8 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
     emit(state.copyWith(isLoading: true));
 
     final result = await _resetPasswordUseCase(
-      resetPasswordRequest: ResetPasswordRequest(
-        email: email,
-        password: password,
-      ),
+      email: email,
+      password: password,
     );
 
     switch (result) {

@@ -13,6 +13,7 @@ class CustomTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.enabled,
   });
+
   final String hintText;
   final String labelText;
   final TextInputType? keyboardType;
@@ -22,6 +23,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool? enabled;
   final TextEditingController? controller;
   final Widget? suffixIcon;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -40,41 +42,17 @@ class CustomTextFormField extends StatelessWidget {
         floatingLabelAlignment: FloatingLabelAlignment.start,
         floatingLabelBehavior: FloatingLabelBehavior.always,
 
-        labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
-        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
-        errorStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: Theme.of(context).colorScheme.error,
-        ),
-
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(4.0)),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
 
-          borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.error,
-            style: BorderStyle.solid,
-          ),
+          borderSide: BorderSide(style: BorderStyle.solid),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
         ),
       ),
     );

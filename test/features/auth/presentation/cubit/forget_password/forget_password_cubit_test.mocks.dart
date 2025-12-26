@@ -6,26 +6,20 @@
 import 'dart:async' as _i3;
 
 import 'package:flower_app/core/error_handling/result.dart' as _i4;
-import 'package:flower_app/features/auth/data/models/requesets/reset_password_request.dart'
-    as _i6;
-import 'package:flower_app/features/auth/data/models/requesets/send_reset_password_code_request.dart'
-    as _i10;
-import 'package:flower_app/features/auth/data/models/requesets/verify_reset_code_request.dart'
-    as _i13;
 import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart'
     as _i5;
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart'
-    as _i9;
+    as _i8;
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart'
-    as _i12;
+    as _i10;
 import 'package:flower_app/features/auth/domain/use_cases/forget_password/reset_password_use_case.dart'
     as _i2;
 import 'package:flower_app/features/auth/domain/use_cases/forget_password/send_reset_password_code_use_case.dart'
-    as _i8;
+    as _i7;
 import 'package:flower_app/features/auth/domain/use_cases/forget_password/verify_reset_password_code_use_case.dart'
-    as _i11;
+    as _i9;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i7;
+import 'package:mockito/src/dummies.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -52,18 +46,18 @@ class MockResetPasswordUseCase extends _i1.Mock
 
   @override
   _i3.Future<_i4.Result<_i5.ResetPasswordResponse>> call({
-    required _i6.ResetPasswordRequest? resetPasswordRequest,
+    required String? email,
+    dynamic password,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#call, [], {
-              #resetPasswordRequest: resetPasswordRequest,
-            }),
+            Invocation.method(#call, [], {#email: email, #password: password}),
             returnValue:
                 _i3.Future<_i4.Result<_i5.ResetPasswordResponse>>.value(
-                  _i7.dummyValue<_i4.Result<_i5.ResetPasswordResponse>>(
+                  _i6.dummyValue<_i4.Result<_i5.ResetPasswordResponse>>(
                     this,
                     Invocation.method(#call, [], {
-                      #resetPasswordRequest: resetPasswordRequest,
+                      #email: email,
+                      #password: password,
                     }),
                   ),
                 ),
@@ -75,59 +69,50 @@ class MockResetPasswordUseCase extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSendResetPasswordCodeUseCase extends _i1.Mock
-    implements _i8.SendResetPasswordCodeUseCase {
+    implements _i7.SendResetPasswordCodeUseCase {
   MockSendResetPasswordCodeUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<_i4.Result<_i9.SendResetPasswordCodeResponse>> call({
-    required _i10.SendResetPasswordCodeRequest? sendResetPasswordCodeRequest,
+  _i3.Future<_i4.Result<_i8.SendResetPasswordCodeResponse>> call({
+    required String? email,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#call, [], {
-              #sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
-            }),
+            Invocation.method(#call, [], {#email: email}),
             returnValue:
-                _i3.Future<_i4.Result<_i9.SendResetPasswordCodeResponse>>.value(
-                  _i7.dummyValue<_i4.Result<_i9.SendResetPasswordCodeResponse>>(
+                _i3.Future<_i4.Result<_i8.SendResetPasswordCodeResponse>>.value(
+                  _i6.dummyValue<_i4.Result<_i8.SendResetPasswordCodeResponse>>(
                     this,
-                    Invocation.method(#call, [], {
-                      #sendResetPasswordCodeRequest:
-                          sendResetPasswordCodeRequest,
-                    }),
+                    Invocation.method(#call, [], {#email: email}),
                   ),
                 ),
           )
-          as _i3.Future<_i4.Result<_i9.SendResetPasswordCodeResponse>>);
+          as _i3.Future<_i4.Result<_i8.SendResetPasswordCodeResponse>>);
 }
 
 /// A class which mocks [VerifyResetPasswordCodeUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockVerifyResetPasswordCodeUseCase extends _i1.Mock
-    implements _i11.VerifyResetPasswordCodeUseCase {
+    implements _i9.VerifyResetPasswordCodeUseCase {
   MockVerifyResetPasswordCodeUseCase() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<_i4.Result<_i12.VerifyResetCodeResponse>> call({
-    required _i13.VerifyResetCodeRequest? verifyResetCodeRequest,
+  _i3.Future<_i4.Result<_i10.VerifyResetCodeResponse>> call({
+    required String? resetCode,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#call, [], {
-              #verifyResetCodeRequest: verifyResetCodeRequest,
-            }),
+            Invocation.method(#call, [], {#resetCode: resetCode}),
             returnValue:
-                _i3.Future<_i4.Result<_i12.VerifyResetCodeResponse>>.value(
-                  _i7.dummyValue<_i4.Result<_i12.VerifyResetCodeResponse>>(
+                _i3.Future<_i4.Result<_i10.VerifyResetCodeResponse>>.value(
+                  _i6.dummyValue<_i4.Result<_i10.VerifyResetCodeResponse>>(
                     this,
-                    Invocation.method(#call, [], {
-                      #verifyResetCodeRequest: verifyResetCodeRequest,
-                    }),
+                    Invocation.method(#call, [], {#resetCode: resetCode}),
                   ),
                 ),
           )
-          as _i3.Future<_i4.Result<_i12.VerifyResetCodeResponse>>);
+          as _i3.Future<_i4.Result<_i10.VerifyResetCodeResponse>>);
 }

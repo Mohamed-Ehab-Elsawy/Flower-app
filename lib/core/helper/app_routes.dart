@@ -22,7 +22,7 @@ Route? onGenerateRoute(RouteSettings settings) {
         ),
       );
     default:
-      return _undefinedRoute();
+      return null;
   }
 }
 

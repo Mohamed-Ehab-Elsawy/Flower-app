@@ -28,6 +28,7 @@ class ResetPasswordPage extends StatefulWidget {
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
   late Cubit<ForgetPasswordState> cubit;
+
   @override
   void initState() {
     cubit = context.read<ForgetPasswordCubit>();
