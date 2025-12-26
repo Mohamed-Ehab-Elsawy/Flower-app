@@ -22,4 +22,6 @@ abstract class AppTheme {
   InputDecorationTheme get inputDecorationTheme;
   CheckboxThemeData get checkboxThemeData;
   ColorScheme get colorScheme;
+  AppBarTheme get appBarTheme;
+  TextFormField get textFormField;
 }
