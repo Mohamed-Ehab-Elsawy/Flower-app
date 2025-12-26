@@ -3,6 +3,8 @@ import 'package:flower_app/core/constants/text_strings.dart';
 import 'package:flower_app/core/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 
+import 'core/helper/app_routes.dart';
+
 class FlowerApp extends StatelessWidget {
   const FlowerApp({super.key});
 
@@ -15,7 +17,8 @@ class FlowerApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: const MyHomePage(),
+      initialRoute: AppRoutes.forgetPassword,
+      onGenerateRoute: onGenerateRoute,
     );
   }
 }

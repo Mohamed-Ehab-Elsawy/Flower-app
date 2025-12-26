@@ -57,7 +57,7 @@ void main() {
 
         when(
           mockSendResetPasswordCodeUseCase(
-            sendResetPasswordCodeRequest: anyNamed(
+            email: anyNamed(
               'sendResetPasswordCodeRequest',
             ),
           ),
@@ -105,7 +105,7 @@ void main() {
 
         when(
           mockVerifyResetPasswordCodeUseCase(
-            verifyResetCodeRequest: anyNamed('verifyResetCodeRequest'),
+            resetCode: anyNamed('verifyResetCodeRequest'),
           ),
         ).thenAnswer(
           (_) async => Success(VerifyResetCodeResponse(message: 'success')),
@@ -138,7 +138,7 @@ void main() {
 
         when(
           mockResetPasswordUseCase(
-            resetPasswordRequest: anyNamed('resetPasswordRequest'),
+            email: anyNamed('resetPasswordRequest'),
           ),
         ).thenAnswer(
           (_) async => Success(
@@ -171,7 +171,7 @@ void main() {
         );
         when(
           mockSendResetPasswordCodeUseCase(
-            sendResetPasswordCodeRequest: anyNamed(
+            email: anyNamed(
               'sendResetPasswordCodeRequest',
             ),
           ),
@@ -194,7 +194,7 @@ void main() {
         provideDummy<Result<VerifyResetCodeResponse>>(Failure('Invalid Code'));
         when(
           mockVerifyResetPasswordCodeUseCase(
-            verifyResetCodeRequest: anyNamed('verifyResetCodeRequest'),
+            resetCode: anyNamed('verifyResetCodeRequest'),
           ),
         ).thenAnswer((_) async => Failure('Invalid Code'));
       },
@@ -215,7 +215,8 @@ void main() {
         provideDummy<Result<ResetPasswordResponse>>(Failure('Invalid Data'));
         when(
           mockResetPasswordUseCase(
-            resetPasswordRequest: anyNamed('resetPasswordRequest'),
+            email: anyNamed('resetPasswordRequest'),
+            password: anyNamed('resetPasswordRequest'),
           ),
         ).thenAnswer((_) async => Failure('Invalid Data'));
       },
@@ -241,7 +242,7 @@ void main() {
           );
           when(
             mockSendResetPasswordCodeUseCase(
-              sendResetPasswordCodeRequest: anyNamed(
+              email: anyNamed(
                 'sendResetPasswordCodeRequest',
               ),
             ),
@@ -279,7 +280,8 @@ void main() {
           );
           when(
             mockResetPasswordUseCase(
-              resetPasswordRequest: anyNamed('resetPasswordRequest'),
+              email: anyNamed('resetPasswordRequest'),
+              password: anyNamed('resetPasswordRequest'),
             ),
           ).thenAnswer(
             (_) async => Success(
@@ -305,7 +307,7 @@ void main() {
 
         when(
           mockSendResetPasswordCodeUseCase(
-            sendResetPasswordCodeRequest: anyNamed(
+            email: anyNamed(
               'sendResetPasswordCodeRequest',
             ),
           ),
@@ -334,7 +336,7 @@ void main() {
         );
         when(
           mockSendResetPasswordCodeUseCase(
-            sendResetPasswordCodeRequest: anyNamed(
+            email: anyNamed(
               'sendResetPasswordCodeRequest',
             ),
           ),
