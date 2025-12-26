@@ -14,13 +14,6 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class SignUpViewModel extends Cubit<SignupStates> with EquatableMixin {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
   final SignUpUseCase _signUpUseCase;
   SignUpViewModel(this._signUpUseCase) : super(SignupStates());
 
@@ -54,7 +47,7 @@ class SignUpViewModel extends Cubit<SignupStates> with EquatableMixin {
     }
   }
 
-  void _signUp(UserRequest userRequest) async {
+  void _signUp(UserSignupRequest userRequest) async {
     emit(
       state.copyWith(
         signUpState: BaseState<UserEntity>(requestState: RequestState.loading),

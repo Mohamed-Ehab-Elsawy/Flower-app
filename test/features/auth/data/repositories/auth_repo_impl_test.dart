@@ -13,14 +13,14 @@ import 'auth_repo_impl_test.mocks.dart';
 @GenerateMocks([AuthDataSource])
 void main() {
   late AuthRepoImpl mockRepo;
-  late UserRequest userRequest;
+  late UserSignupRequest userRequest;
   late UserDto userDto;
   late UserEntity userEntity;
   late MockAuthDataSource mockAuthDataSource;
   late String message;
   setUpAll(() {
     message = "error message";
-    userRequest = UserRequest(
+    userRequest = UserSignupRequest(
       gender: "male",
       firstName: "abdo",
       lastName: "abdoa",

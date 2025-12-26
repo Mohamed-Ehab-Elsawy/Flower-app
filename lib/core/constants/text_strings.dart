@@ -10,7 +10,7 @@ class IAppText {
   static const String connectionError = "Connection Error";
   static const String unknown = "Unknown Error";
   static const String error400 = 'Bad request. Please check your input.';
-  static const String error401 = 'Unauthorized. Please login again.';
+  static const String error401 = 'Unauthorized. Please try again.';
   static const String error403 =
       'Access forbidden. You don\'t have permission.';
   static const String error404 = 'Resource not found.';

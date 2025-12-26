@@ -22,6 +22,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   SignUpViewModel signUpViewModel = getIt<SignUpViewModel>();
 
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -77,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               hintText: "Enter First name".tr(),
                             ),
 
-                            controller: signUpViewModel.firstNameController,
+                            controller: firstNameController,
                             validator: AppValidator.validateFirstName,
                           ),
                         ),
@@ -88,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               labelText: "Last name".tr(),
                               hintText: "Enter last name".tr(),
                             ),
-                            controller: signUpViewModel.lastNameController,
+                            controller: lastNameController,
                             validator: AppValidator.validateLastName,
                           ),
                         ),
@@ -101,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hintText: "Enter your email".tr(),
                       ),
 
-                      controller: signUpViewModel.emailController,
+                      controller: emailController,
                       validator: AppValidator.validateEmail,
                     ),
                     const SizedBox(height: 18),
@@ -114,7 +120,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               hintText: "Enter Password".tr(),
                             ),
 
-                            controller: signUpViewModel.passwordController,
+                            controller: passwordController,
                             validator: AppValidator.validatePassword,
                           ),
                         ),
@@ -128,11 +134,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                             validator: (value) =>
                                 AppValidator.validateConfirmPassword(
-                                  signUpViewModel.passwordController.text,
+                                  passwordController.text,
                                   value!,
                                 ),
-                            controller:
-                                signUpViewModel.confirmPasswordController,
+                            controller: confirmPasswordController,
                           ),
                         ),
                       ],
@@ -144,7 +149,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hintText: "Enter Phone number".tr(),
                       ),
 
-                      controller: signUpViewModel.phoneController,
+                      controller: phoneController,
                       validator: AppValidator.validatePhone,
                     ),
                     const SizedBox(height: 18),
@@ -298,13 +303,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     FocusScope.of(context).unfocus();
     if (_formKey.currentState!.validate()) {
       final currentState = signUpViewModel.state;
-      UserRequest userRequest = UserRequest(
-        firstName: signUpViewModel.firstNameController.text,
-        lastName: signUpViewModel.lastNameController.text,
-        email: signUpViewModel.emailController.text,
-        password: signUpViewModel.passwordController.text,
-        rePassword: signUpViewModel.confirmPasswordController.text,
-        phone: signUpViewModel.phoneController.text,
+      UserSignupRequest userRequest = UserSignupRequest(
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+        rePassword: confirmPasswordController.text,
+        phone: phoneController.text,
         gender: currentState.selectedGender ?? '',
       );
       signUpViewModel.doIntent(SignUpEvent(userRequest: userRequest));

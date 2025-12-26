@@ -37,7 +37,7 @@ class NetworkException {
         case 400:
           return IAppText.error400;
         case 401:
-          return IAppText.error401;
+          return "${IAppText.error401 + data['error'].toString()} ";
         case 403:
           return IAppText.error403;
         case 404:
@@ -55,8 +55,8 @@ class NetworkException {
         case 504:
           return IAppText.error504;
         default:
-          if (data is Map && data['message'] != null) {
-            return data['message'].toString();
+          if (data is Map && data['error'] != null) {
+            return data['error'].toString();
           }
           return 'Server error (${statusCode ?? 'unknown'}). Please try again.';
       }

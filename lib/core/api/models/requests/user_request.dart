@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'user_request.g.dart';
 
 @JsonSerializable()
-class UserRequest {
+class UserSignupRequest {
   @JsonKey(name: "firstName")
   final String? firstName;
   @JsonKey(name: "lastName")
@@ -19,7 +19,7 @@ class UserRequest {
   @JsonKey(name: "gender")
   final String? gender;
 
-  UserRequest ({
+  UserSignupRequest ({
     this.firstName,
     this.lastName,
     this.email,
@@ -29,12 +29,12 @@ class UserRequest {
     this.gender,
   });
 
-  factory UserRequest.fromJson(Map<String, dynamic> json) {
-    return _$UserRequestFromJson(json);
+  factory UserSignupRequest.fromJson(Map<String, dynamic> json) {
+    return _$UserSignupRequestFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return _$UserRequestToJson(this);
+    return _$UserSignupRequestToJson(this);
   }
 }
 

@@ -15,13 +15,14 @@ import 'auth_ds_impl_test.mocks.dart';
 void main() {
   late AuthDataSourceImpl datasource;
   late MockApiClient mockApiClient;
-  late UserRequest userRequest;
+  late UserSignupRequest userRequest;
   late UserDto user;
   late SignupResponse dummySignupResponse;
+  Exception e = Exception('Exception');
   setUpAll(() {
     mockApiClient = MockApiClient();
     datasource = AuthDataSourceImpl(mockApiClient);
-    userRequest = UserRequest(
+    userRequest = UserSignupRequest(
       gender: "male",
       firstName: "abdo",
       lastName: "abdoa",
@@ -73,14 +74,13 @@ void main() {
     verify(mockApiClient.signUp(userRequest)).called(1);
   });
   test('when call signUp it should return Failure', () async {
-    String e = 'Exception';
     provideDummy<Result<UserDto>>(Failure<UserDto>(e.toString()));
 
     when(mockApiClient.signUp(userRequest)).thenThrow(e);
     final result = await datasource.signUp(userRequest);
     expect(result, isA<Failure<UserDto>>());
     expect(result as Failure<UserDto>, isNotNull);
-    expect(result.errorMessage, equals(e));
+    expect(result.errorMessage, equals(e.toString()));
     verify(mockApiClient.signUp(userRequest)).called(1);
   });
 }

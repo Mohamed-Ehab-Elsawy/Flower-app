@@ -17,13 +17,13 @@ import 'signup_viewmodel_test.mocks.dart';
 void main() {
   late MockSignUpUseCase mockSignUpUseCase;
   late SignUpViewModel viewModel;
-  late UserRequest dummyRequest;
+  late UserSignupRequest dummyRequest;
   late UserEntity dummyUser;
 
   setUp(() {
     mockSignUpUseCase = MockSignUpUseCase();
     viewModel = SignUpViewModel(mockSignUpUseCase);
-    dummyRequest = UserRequest(
+    dummyRequest = UserSignupRequest(
       gender: "male",
       firstName: "abdo",
       lastName: "abdoa",

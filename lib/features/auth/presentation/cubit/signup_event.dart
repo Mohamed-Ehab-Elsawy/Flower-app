@@ -5,7 +5,7 @@ sealed class SignupEvents {}
 sealed class SignupUiEvent {}
 
 class SignUpEvent extends SignupEvents {
-  UserRequest userRequest;
+  UserSignupRequest userRequest;
   SignUpEvent({required this.userRequest});
 }
 

@@ -25,7 +25,7 @@ void main() {
       id: "Id",
       photo: "2024-01-01T00:00:00Z",
     );
-    UserRequest userRequest = UserRequest(
+    UserSignupRequest userRequest = UserSignupRequest(
       firstName: "abdo",
       lastName: "abdoa",
       email: "abdo@d.com",
@@ -43,6 +43,6 @@ void main() {
       mockRepo.signUp(userRequest),
     ).thenAnswer((_) async => Success<UserEntity>(userEntity));
     await useCase.call(userRequest);
-    verify(mockRepo.signUp(userRequest));
+    verify(mockRepo.signUp(userRequest)).called(1);
   });
 }

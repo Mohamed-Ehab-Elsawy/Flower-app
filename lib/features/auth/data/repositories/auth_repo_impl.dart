@@ -11,7 +11,7 @@ class AuthRepoImpl extends AuthRepo {
   AuthDataSource authDataSource;
   AuthRepoImpl(this.authDataSource);
   @override
-  Future<Result<UserEntity>> signUp(UserRequest request) async {
+  Future<Result<UserEntity>> signUp(UserSignupRequest request) async {
     Result<UserDto> userDtoResponse = await authDataSource.signUp(request);
     switch (userDtoResponse) {
       case Success<UserDto>():
