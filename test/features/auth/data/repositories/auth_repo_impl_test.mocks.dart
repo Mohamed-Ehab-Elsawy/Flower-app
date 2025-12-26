@@ -9,7 +9,7 @@ import 'package:flower_app/core/error_handling/result.dart' as _i4;
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart' as _i2;
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart'
     as _i6;
-import 'package:flower_app/features/auth/data/models_dto/login/login_response.dart'
+import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart'
     as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i7;
@@ -37,17 +37,17 @@ class MockAuthDataSource extends _i1.Mock implements _i2.AuthDataSource {
   }
 
   @override
-  _i3.Future<_i4.Result<_i5.LoginResponse>> login({
+  _i3.Future<_i4.Result<_i5.LoginResponseDto>> login({
     required _i6.LoginRequest? loginRequest,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#login, [], {#loginRequest: loginRequest}),
-            returnValue: _i3.Future<_i4.Result<_i5.LoginResponse>>.value(
-              _i7.dummyValue<_i4.Result<_i5.LoginResponse>>(
+            returnValue: _i3.Future<_i4.Result<_i5.LoginResponseDto>>.value(
+              _i7.dummyValue<_i4.Result<_i5.LoginResponseDto>>(
                 this,
                 Invocation.method(#login, [], {#loginRequest: loginRequest}),
               ),
             ),
           )
-          as _i3.Future<_i4.Result<_i5.LoginResponse>>);
+          as _i3.Future<_i4.Result<_i5.LoginResponseDto>>);
 }

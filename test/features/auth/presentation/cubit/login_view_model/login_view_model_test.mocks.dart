@@ -8,7 +8,7 @@ import 'dart:async' as _i3;
 import 'package:flower_app/core/error_handling/result.dart' as _i4;
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart'
     as _i6;
-import 'package:flower_app/features/auth/data/models_dto/login/login_response.dart'
+import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart'
     as _i5;
 import 'package:flower_app/features/auth/domain/use_cases/login_use_case.dart'
     as _i2;
@@ -38,17 +38,17 @@ class MockLoginUseCase extends _i1.Mock implements _i2.LoginUseCase {
   }
 
   @override
-  _i3.Future<_i4.Result<_i5.LoginResponse>> login({
+  _i3.Future<_i4.Result<_i5.LoginResponseDto>> login({
     required _i6.LoginRequest? loginRequest,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#login, [], {#loginRequest: loginRequest}),
-            returnValue: _i3.Future<_i4.Result<_i5.LoginResponse>>.value(
-              _i7.dummyValue<_i4.Result<_i5.LoginResponse>>(
+            returnValue: _i3.Future<_i4.Result<_i5.LoginResponseDto>>.value(
+              _i7.dummyValue<_i4.Result<_i5.LoginResponseDto>>(
                 this,
                 Invocation.method(#login, [], {#loginRequest: loginRequest}),
               ),
             ),
           )
-          as _i3.Future<_i4.Result<_i5.LoginResponse>>);
+          as _i3.Future<_i4.Result<_i5.LoginResponseDto>>);
 }

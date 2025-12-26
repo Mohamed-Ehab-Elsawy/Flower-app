@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:flower_app/core/error_handling/result.dart';
+import 'package:flower_app/core/helper/app_local_storage.dart';
+import 'package:flower_app/core/helper/local_keys.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/login_response.dart';
+import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
 import 'package:flower_app/features/auth/domain/use_cases/login_use_case.dart';
 import 'package:flower_app/features/auth/presentation/cubit/login_view_model/login_events.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,11 +42,23 @@ class LoginViewModel extends Cubit<LoginState> {
     final request = LoginRequest(email: email, password: password);
     var response = await _loginUseCase.login(loginRequest: request);
     switch (response) {
-      case Success<LoginResponse>():
+      case Success<LoginResponseDto>():
+        await AppLocalStorage.setSecuredString(
+          key: LocalKeys.authToken,
+          value: response.data.token ?? '',
+        );
+        final user = response.data.userDto;
+        if (user != null) {
+          await AppLocalStorage.setData(
+            LocalKeys.user,
+            jsonEncode(user.toJson()),
+          );
+        }
+
         emit(state.copyWith(successMessage: response.data.message));
         _uiEventsController.add(NavigateToHome());
 
-      case Failure<LoginResponse>():
+      case Failure<LoginResponseDto>():
         emit(state.copyWith());
         _uiEventsController.add(
           LoginViewShowToast(message: response.errorMessage, isError: true),

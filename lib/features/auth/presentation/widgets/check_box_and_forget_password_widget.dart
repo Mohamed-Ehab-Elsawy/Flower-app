@@ -1,6 +1,9 @@
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/constants/text_strings.dart';
+import 'package:flower_app/core/helper/local_keys.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/helper/app_local_storage.dart';
 
 class CheckBoxAndForgetPasswordWidget extends StatefulWidget {
   final void Function()? onTapForgetPassword;
@@ -24,10 +27,11 @@ class _CheckBoxAndForgetPasswordWidgetState
           children: [
             Checkbox(
               value: isCheck,
-              onChanged: (value) {
+              onChanged: (value) async {
                 setState(() {
                   isCheck = value!;
                 });
+                await AppLocalStorage.setData(LocalKeys.rememberMe, isCheck);
               },
             ),
             Text(IAppText.rememberMe, style: context.theme.bodyMedium),

@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/login_response.dart';
+import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
 import 'package:flower_app/features/auth/domain/use_cases/login_use_case.dart';
 import 'package:flower_app/features/auth/presentation/cubit/login_view_model/login_events.dart';
 import 'package:flower_app/features/auth/presentation/cubit/login_view_model/login_view_model.dart';
@@ -41,10 +41,10 @@ void main() {
     blocTest<LoginViewModel, LoginState>(
       'emits loading state then success state on successful login',
       build: () {
-        final mockLoginResponse = Success<LoginResponse>(
-          LoginResponse(message: successMessage, token: 'mock_token'),
+        final mockLoginResponse = Success<LoginResponseDto>(
+          LoginResponseDto(message: successMessage, token: 'mock_token'),
         );
-        provideDummy<Result<LoginResponse>>(mockLoginResponse);
+        provideDummy<Result<LoginResponseDto>>(mockLoginResponse);
         when(
           mockLoginUseCase.login(loginRequest: anyNamed('loginRequest')),
         ).thenAnswer((_) async => mockLoginResponse);
@@ -66,11 +66,11 @@ void main() {
     test(
       'verifies NavigateToHome event is emitted on successful login',
       () async {
-        final mockLoginResponse = Success<LoginResponse>(
-          LoginResponse(message: successMessage, token: 'mock_token'),
+        final mockLoginResponse = Success<LoginResponseDto>(
+          LoginResponseDto(message: successMessage, token: 'mock_token'),
         );
         final localMockLoginUseCase = MockLoginUseCase();
-        provideDummy<Result<LoginResponse>>(mockLoginResponse);
+        provideDummy<Result<LoginResponseDto>>(mockLoginResponse);
         when(
           localMockLoginUseCase.login(loginRequest: anyNamed('loginRequest')),
         ).thenAnswer((_) async => mockLoginResponse);
@@ -96,8 +96,8 @@ void main() {
       'emits loading state then resets state on failed login',
       build: () {
         const errorMessage = 'Invalid credentials';
-        final mockErrorResponse = Failure<LoginResponse>(errorMessage);
-        provideDummy<Result<LoginResponse>>(mockErrorResponse);
+        final mockErrorResponse = Failure<LoginResponseDto>(errorMessage);
+        provideDummy<Result<LoginResponseDto>>(mockErrorResponse);
         when(
           mockLoginUseCase.login(loginRequest: anyNamed('loginRequest')),
         ).thenAnswer((_) async => mockErrorResponse);
@@ -115,9 +115,9 @@ void main() {
 
     test('verifies error toast event is emitted on failed login', () async {
       const errorMessage = 'Invalid credentials';
-      final mockErrorResponse = Failure<LoginResponse>(errorMessage);
+      final mockErrorResponse = Failure<LoginResponseDto>(errorMessage);
       final localMockLoginUseCase = MockLoginUseCase();
-      provideDummy<Result<LoginResponse>>(mockErrorResponse);
+      provideDummy<Result<LoginResponseDto>>(mockErrorResponse);
       when(
         localMockLoginUseCase.login(loginRequest: anyNamed('loginRequest')),
       ).thenAnswer((_) async => mockErrorResponse);
@@ -144,10 +144,10 @@ void main() {
     blocTest<LoginViewModel, LoginState>(
       'handles multiple login attempts correctly',
       build: () {
-        final mockLoginResponse = Success<LoginResponse>(
-          LoginResponse(message: successMessage, token: 'mock_token'),
+        final mockLoginResponse = Success<LoginResponseDto>(
+          LoginResponseDto(message: successMessage, token: 'mock_token'),
         );
-        provideDummy<Result<LoginResponse>>(mockLoginResponse);
+        provideDummy<Result<LoginResponseDto>>(mockLoginResponse);
         when(
           mockLoginUseCase.login(loginRequest: anyNamed('loginRequest')),
         ).thenAnswer((_) async => mockLoginResponse);

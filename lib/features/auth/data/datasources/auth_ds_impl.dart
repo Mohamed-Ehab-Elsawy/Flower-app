@@ -3,7 +3,7 @@ import 'package:flower_app/core/error_handling/execute_api.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/login_response.dart';
+import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: AuthDataSource)
@@ -12,7 +12,7 @@ class AuthDataSourceImpl extends AuthDataSource {
   AuthDataSourceImpl(this._apiClient);
 
   @override
-  Future<Result<LoginResponse>> login({required LoginRequest loginRequest}) async {
+  Future<Result<LoginResponseDto>> login({required LoginRequest loginRequest}) async {
     return executeApi(() async {
       return await _apiClient.login(loginRequest: loginRequest);
     });
