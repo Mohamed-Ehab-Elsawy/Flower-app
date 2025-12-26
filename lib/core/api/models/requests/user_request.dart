@@ -29,13 +29,9 @@ class UserSignupRequest {
     this.gender,
   });
 
-  factory UserSignupRequest.fromJson(Map<String, dynamic> json) {
-    return _$UserSignupRequestFromJson(json);
-  }
+  factory UserSignupRequest.fromJson(Map<String, dynamic> json) =>_$UserSignupRequestFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return _$UserSignupRequestToJson(this);
-  }
+  Map<String, dynamic> toJson() => _$UserSignupRequestToJson(this);
 }
 
 

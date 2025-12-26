@@ -9,6 +9,10 @@ import 'package:flower_app/features/auth/data/models/response/send_reset_passwor
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
 
 abstract interface class AuthDataSource {
+import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
+import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
+abstract class AuthDataSource {
+  Future<Result<LoginResponseDto>> login({required LoginRequest loginRequest});
   Future<Result<UserDto>> signUp(UserSignupRequest request);
 
   Future<Result<SendResetPasswordCodeResponse>> sendResetPasswordCode({
@@ -23,3 +27,5 @@ abstract interface class AuthDataSource {
     required ResetPasswordRequest resetPasswordRequest,
   });
 }
+
+
