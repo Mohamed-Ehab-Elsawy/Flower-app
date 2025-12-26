@@ -15,7 +15,7 @@ class BaseState<T>with EquatableMixin {
   // Factory constructors – one line each
   // ════════════════════════════════════════════
   factory BaseState.init()     => const BaseState(requestState: RequestState.init);     // Initial state (nothing happened yet)
-  factory BaseState.loading()  =>  BaseState(requestState: RequestState.loading);  // Operation in progress
+  factory BaseState.loading()  =>  const BaseState(requestState: RequestState.loading);  // Operation in progress
   factory BaseState.loaded(T data) => BaseState(requestState: RequestState.loaded, data: data); // Success + data
   factory BaseState.error(String message) => BaseState(requestState: RequestState.error, errorMessage: message); // Failed
 

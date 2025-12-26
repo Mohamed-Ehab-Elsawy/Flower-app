@@ -43,3 +43,26 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# -------- Opinionated: Ignore generated code & env files (DO NOT COMMIT) --------
+# Reason: Generated files are build artifacts and env files may contain secrets or
+# local configuration. Keeping them out of VCS keeps the repo clean and secure.
+
+# Generated Dart/Flutter outputs (e.g. build_runner, json_serializable, freezed)
+**/*.g.dart
+**/*.pb.dart
+**/*.pb.*
+**/generated/
+generated_plugin_registrant.dart
+
+# Environment files (local secrets / configs)
+.env
+.env.*
+env/
+
+# Local build outputs (redundant with /build/, kept for clarity)
+**/build/
+
+# Note: Keep the app's lockfile (pubspec.lock) committed for apps to ensure
+# reproducible builds; don't ignore it unless this is a package.
+# --------------------------------------------------------------------------------
