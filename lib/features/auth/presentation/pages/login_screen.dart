@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
     context.read<LoginViewModel>().uiEventsStream.listen((event) {
       switch (event) {
         case NavigateToHome():
-          context.pushReplacement((AppRoutes.home));
+          context.pushReplacement((AppRoutes.appSection));
         case NavigateToSignup():
           context.pushName(AppRoutes.signup);
         case NavigateToForgetPassword():
@@ -111,7 +111,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     context.read<LoginViewModel>().doIntent(GuestLoginIntent()),
               ),
               const SizedBox(height: 16),
-              DoNotHaveAnAccountAndSignUpWidget(onTapSignUp: () => context.read<LoginViewModel>().doIntent(SignupIntent())
+              DoNotHaveAnAccountAndSignUpWidget(
+                onTapSignUp: () =>
+                    context.read<LoginViewModel>().doIntent(SignupIntent()),
               ),
             ],
           ),

@@ -1,3 +1,4 @@
+
 import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -20,7 +21,7 @@ class FlowerApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      initialRoute: isLoggedInUser ? AppRoutes.home : AppRoutes.login,
+      initialRoute: isLoggedInUser ? AppRoutes.appSection : AppRoutes.login,
       onGenerateRoute: onGenerateRoute,
     );
   }
