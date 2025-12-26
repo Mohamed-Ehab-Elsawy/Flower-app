@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flower_app/core/api/api_client.dart';
-import 'package:flower_app/core/constants/text_strings.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart';
@@ -125,7 +124,7 @@ void main() {
 
         expect(
           (result as Failure<SendResetPasswordCodeResponse>).errorMessage,
-          IAppText.connectionError,
+            "errors.connectionError"
         );
       },
     );
@@ -185,7 +184,7 @@ void main() {
 
         expect(
           (result as Failure<VerifyResetCodeResponse>).errorMessage,
-          IAppText.connectionError,
+            "errors.connectionError"
         );
       },
     );
@@ -233,7 +232,7 @@ void main() {
 
       expect(
         (result as Failure<ResetPasswordResponse>).errorMessage,
-        IAppText.connectionError,
+        "errors.connectionError"
       );
     });
   });
