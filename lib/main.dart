@@ -15,10 +15,10 @@ void main() async {
 
   runApp(
     EasyLocalization(
-      supportedLocales: [Locale('en'),],
+      supportedLocales: const [Locale('en'),],
       path:'assets/translations', // <-- change the path of the translation files
-      fallbackLocale: Locale('en'),
-      child: FlowerApp(),
+      fallbackLocale: const Locale('en'),
+      child:const FlowerApp(),
     ),
   );
 }

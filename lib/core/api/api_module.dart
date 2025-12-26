@@ -24,8 +24,8 @@ abstract class ApiModule {
   BaseOptions providerOption() {
     return BaseOptions(
       baseUrl: Env.baseUrl,
-      sendTimeout: Duration(seconds: 60),
-      receiveTimeout: Duration(seconds: 60),
+      sendTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
     );
   }
 

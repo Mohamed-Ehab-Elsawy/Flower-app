@@ -7,7 +7,7 @@ class Toast {
       behavior: SnackBarBehavior.floating,
       backgroundColor: isError ?context.colors.error : context.colors.tertiary,
       content: Center(child: Text(message)),
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
