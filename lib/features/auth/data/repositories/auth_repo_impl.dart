@@ -8,8 +8,6 @@ import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/core/api/models/requests/user_request.dart';
 import 'package:flower_app/core/api/models/response/user_dto.dart';
-import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/features/auth/domain/models/user_entity.dart';
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:injectable/injectable.dart';
@@ -33,7 +31,6 @@ class AuthRepoImpl implements AuthRepo {
       resetPasswordRequest: resetPasswordRequest,
     );
   }
-import 'package:injectable/injectable.dart';
 
   @override
   Future<Result<SendResetPasswordCodeResponse>> sendResetPasswordCode({
@@ -56,14 +53,10 @@ import 'package:injectable/injectable.dart';
       verifyResetCodeRequest: verifyResetCodeRequest,
     );
   }
-}
-@Injectable(as: AuthRepo)
-class AuthRepoImpl extends AuthRepo {
-  AuthDataSource authDataSource;
-  AuthRepoImpl(this.authDataSource);
+
   @override
   Future<Result<UserEntity>> signUp(UserSignupRequest request) async {
-    Result<UserDto> userDtoResponse = await authDataSource.signUp(request);
+    Result<UserDto> userDtoResponse = await _authDataSource.signUp(request);
     switch (userDtoResponse) {
       case Success<UserDto>():
         {

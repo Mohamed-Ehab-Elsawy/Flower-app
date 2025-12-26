@@ -7,6 +7,12 @@ import 'dart:async' as _i3;
 
 import 'package:flower_app/core/api/models/requests/user_request.dart' as _i6;
 import 'package:flower_app/core/error_handling/result.dart' as _i4;
+import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart'
+    as _i10;
+import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart'
+    as _i8;
+import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart'
+    as _i9;
 import 'package:flower_app/features/auth/domain/models/user_entity.dart' as _i5;
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart'
     as _i2;
@@ -49,4 +55,64 @@ class MockAuthRepo extends _i1.Mock implements _i2.AuthRepo {
             ),
           )
           as _i3.Future<_i4.Result<_i5.UserEntity>>);
+
+  @override
+  _i3.Future<_i4.Result<_i8.SendResetPasswordCodeResponse>>
+  sendResetPasswordCode({required String? email}) =>
+      (super.noSuchMethod(
+            Invocation.method(#sendResetPasswordCode, [], {#email: email}),
+            returnValue:
+                _i3.Future<_i4.Result<_i8.SendResetPasswordCodeResponse>>.value(
+                  _i7.dummyValue<_i4.Result<_i8.SendResetPasswordCodeResponse>>(
+                    this,
+                    Invocation.method(#sendResetPasswordCode, [], {
+                      #email: email,
+                    }),
+                  ),
+                ),
+          )
+          as _i3.Future<_i4.Result<_i8.SendResetPasswordCodeResponse>>);
+
+  @override
+  _i3.Future<_i4.Result<_i9.VerifyResetCodeResponse>> verifyResetPasswordCode({
+    required String? resetCode,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#verifyResetPasswordCode, [], {
+              #resetCode: resetCode,
+            }),
+            returnValue:
+                _i3.Future<_i4.Result<_i9.VerifyResetCodeResponse>>.value(
+                  _i7.dummyValue<_i4.Result<_i9.VerifyResetCodeResponse>>(
+                    this,
+                    Invocation.method(#verifyResetPasswordCode, [], {
+                      #resetCode: resetCode,
+                    }),
+                  ),
+                ),
+          )
+          as _i3.Future<_i4.Result<_i9.VerifyResetCodeResponse>>);
+
+  @override
+  _i3.Future<_i4.Result<_i10.ResetPasswordResponse>> resetPassword({
+    required String? email,
+    dynamic password,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#resetPassword, [], {
+              #email: email,
+              #password: password,
+            }),
+            returnValue:
+                _i3.Future<_i4.Result<_i10.ResetPasswordResponse>>.value(
+                  _i7.dummyValue<_i4.Result<_i10.ResetPasswordResponse>>(
+                    this,
+                    Invocation.method(#resetPassword, [], {
+                      #email: email,
+                      #password: password,
+                    }),
+                  ),
+                ),
+          )
+          as _i3.Future<_i4.Result<_i10.ResetPasswordResponse>>);
 }

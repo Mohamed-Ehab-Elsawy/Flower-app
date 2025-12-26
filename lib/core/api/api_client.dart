@@ -6,7 +6,6 @@ import 'package:flower_app/features/auth/data/models/response/reset_password_res
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
 import 'package:retrofit/retrofit.dart';
-import 'constants/end_points.dart';
 import 'models/requests/user_request.dart';
 import 'models/response/signup_response.dart';
 
