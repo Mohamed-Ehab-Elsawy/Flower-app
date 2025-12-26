@@ -6,9 +6,12 @@ class LightTheme extends AppTheme {
   @override
   BottomNavigationBarThemeData get bottomAppBarThemeData =>
       BottomNavigationBarThemeData(
+        type: BottomNavigationBarType.fixed,
+        unselectedLabelStyle: textTheme.bodySmall,
+        selectedLabelStyle: textTheme.bodySmall,
         selectedItemColor: color.primary,
         unselectedItemColor: color.secondary[80],
-        backgroundColor: color.secondary[60],
+        backgroundColor: color.secondary,
       );
 
   @override
@@ -17,6 +20,7 @@ class LightTheme extends AppTheme {
   @override
   ThemeData get themeData => ThemeData(
     brightness: Brightness.light,
+   
     switchTheme: SwitchThemeData(
       thumbColor: WidgetStateProperty.all(color.secondary),
       trackColor: WidgetStateProperty.all(color.primary),
@@ -104,6 +108,7 @@ class LightTheme extends AppTheme {
   ColorScheme get colorScheme => ColorScheme.fromSeed(
     primary: color.primary,
     seedColor: color.primary,
+    primary: color.primary,
     onPrimaryContainer: color.lightPink,
     error: color.error,
     surface: color.backgroundColor,
@@ -111,6 +116,7 @@ class LightTheme extends AppTheme {
     onSurface: color.surface,
     onTertiary: color.grey,
     tertiary: color.success,
+    
   );
 
   @override

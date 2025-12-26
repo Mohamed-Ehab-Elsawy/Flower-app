@@ -45,6 +45,8 @@ dependencies:
   talker_dio_logger: ^5.1.9
   dio: ^5.9.0
   flutter_native_splash: ^2.4.7
+  bloc_test: ^10.0.0
+  
   pinput: ^6.0.1
 dev_dependencies:
   flutter_test:
@@ -53,7 +55,7 @@ dev_dependencies:
   injectable_generator:
   build_runner: ^2.7.1
   json_serializable: ^6.10.0
-  bloc_test: ^10.0.0
+  
   mockito: ^5.5.0
  
   

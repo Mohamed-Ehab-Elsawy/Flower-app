@@ -12,6 +12,7 @@ import '../di/di.dart';
 class AppRoutes {
   static const String signup = '/signup';
   static const String login = '/login';
+  static const String appSection = "APP-SECTION";
   static const String home = '/home';
   static const String forgetPassword = "/forgetPassword";
   static const String terms = '/terms';
@@ -22,6 +23,12 @@ Route? onGenerateRoute(RouteSettings settings) {
     case AppRoutes.signup:
       return MaterialPageRoute(builder: (_) => const SignUpScreen());
     case AppRoutes.login:
+      return MaterialPageRoute(builder: (_) => const Login());
+    case AppRoutes.appSection:
+      return MaterialPageRoute(
+        builder: (_) => BlocProvider<AppSectionViewModel>(
+          create: (context) => AppSectionViewModel(),
+          child: const AppSection(),
       var cubit = getIt.get<LoginViewModel>();
       return MaterialPageRoute(
         builder: (_) => BlocProvider(

@@ -42,6 +42,13 @@
     "defaultError": "Server error. Please try again."
   },
 
+  "navigation": {
+    "home": "Home",
+    "categories": "Categories",
+    "cart": "Cart",
+    "profile": "Profile"
+  },
+
   "validation": {
     "enterUsername": "Please enter a username",
     "least3CharUsername": "Username must be at least 3 characters",
@@ -67,4 +74,6 @@
     "enterPhoneNumber": "Please enter your phone number",
     "validPhoneNumber": "Please enter a valid phone number (10-15 digits)"
   }
+
+
 }
