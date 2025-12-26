@@ -4,4 +4,6 @@ import 'package:flower_app/features/auth/data/models_dto/login/login_response_dt
 
 abstract class AuthRepo {
   Future<Result<LoginResponseDto>> login({required LoginRequest loginRequest});
+  Future<Result<UserEntity>> signUp(UserSignupRequest request);
+
 }
