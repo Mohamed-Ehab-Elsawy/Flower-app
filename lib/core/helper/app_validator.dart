@@ -1,5 +1,4 @@
-import 'package:flower_app/core/constants/text_strings.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class AppValidator {
   static const _userNamePattern = r'^[\p{L}\p{N}_]+$';
   static const _namePattern = r'^[\p{L}\s]+$';
@@ -9,45 +8,45 @@ class AppValidator {
 
   static String? validateUsername(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return IAppText.enterUsername;
+      return 'validation.enterUsername'.tr();
     } else if (value.trim().length < 3) {
-      return IAppText.least3CharUsername;
+      return 'validation.least3CharUsername'.tr();
     } else if (!RegExp(
       _userNamePattern,
       unicode: true,
     ).hasMatch(value.trim())) {
-      return IAppText.usernamePattern;
+      return 'validation.usernamePattern'.tr();
     }
     return null;
   }
 
   static String? validateFirstName(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return IAppText.enterFirstName;
+      return 'validation.enterFirstName'.tr();
     } else if (value.trim().length < 2) {
-      return IAppText.least2CharFirstName;
+      return 'validation.least2CharFirstName'.tr();
     } else if (!RegExp(_namePattern, unicode: true).hasMatch(value.trim())) {
-      return IAppText.firstNamePattern;
+      return 'validation.firstNamePattern'.tr();
     }
     return null;
   }
 
   static String? validateLastName(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return IAppText.enterLastName;
+      return 'validation.enterLastName'.tr();
     } else if (value.trim().length < 2) {
-      return IAppText.least2CharLastName;
+      return 'validation.least2CharLastName'.tr();
     } else if (!RegExp(_namePattern, unicode: true).hasMatch(value.trim())) {
-      return IAppText.lastNamePattern;
+      return 'validation.lastNamePattern'.tr();
     }
     return null;
   }
 
   static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return IAppText.enterEmail;
+      return 'validation.enterEmail'.tr();
     } else if (!RegExp(_emailPattern).hasMatch(value)) {
-      return IAppText.validEmail;
+      return 'validation.validEmail'.tr();
     }
     return null;
   }
@@ -56,11 +55,11 @@ class AppValidator {
     final trimmed = value?.trim();
 
     if (trimmed == null || trimmed.isEmpty) {
-      return IAppText.enterPassword;
+      return 'validation.enterPassword'.tr();
     }
 
     if (trimmed.length < 8) {
-      return IAppText.passwordCriteria;
+      return 'validation.passwordCriteria'.tr();
     }
 
     final hasUppercase = RegExp(r'[A-Z]').hasMatch(trimmed);
@@ -71,7 +70,7 @@ class AppValidator {
       return null;
     }
 
-    return IAppText.passwordValidation;
+    return 'validation.passwordValidation'.tr();
   }
 
   static String? validateConfirmPassword(
@@ -79,22 +78,22 @@ class AppValidator {
     String originalPassword,
   ) {
     if (value == null || value.isEmpty) {
-      return IAppText.enterConfirmPassword;
+      return 'validation.enterConfirmPassword'.tr();
     } else if (value != originalPassword) {
-      return IAppText.confirmPasswordNotMatch;
+      return 'validation.confirmPasswordNotMatch'.tr();
     }
     return null;
   }
 
   static String? validatePhone(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return IAppText.enterPhoneNumber;
+      return 'validation.enterPhoneNumber'.tr();
     }
 
     final cleaned = value.replaceAll(RegExp(r'\s+'), '');
 
     if (!RegExp(r'^\+[1-9]\d{7,14}$').hasMatch(cleaned)) {
-      return IAppText.validPhoneNumber;
+      return 'validation.validPhoneNumber'.tr();
     }
 
     return null;

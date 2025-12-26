@@ -5,7 +5,7 @@ import 'models/requests/user_request.dart';
 import 'models/response/signup_response.dart';
 part 'api_client.g.dart';
 
-@RestApi(baseUrl: '')
+@RestApi()
 abstract class ApiClient {
   factory ApiClient(Dio dio, {String? baseUrl}) = _ApiClient;
   @POST(EndPoints.signUpEndpoint)

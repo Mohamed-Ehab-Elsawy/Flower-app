@@ -170,10 +170,10 @@ class LightColors extends AppColors {
   Color get backgroundColor => Colors.white;
 
   @override
-  Color get error => Color(0xFFCC1010);
+  Color get error => const Color(0xFFCC1010);
 
   @override
-  MaterialColor get primary => MaterialColor(0xFFD21E6A, <int, Color>{
+  MaterialColor get primary => const MaterialColor(0xFFD21E6A, <int, Color>{
     10: Color(0xFFf6d2e1),
     20: Color(0xFFf0b4cd),
     30: Color(0xFFe98fb5),
@@ -187,7 +187,7 @@ class LightColors extends AppColors {
   });
 
   @override
-  MaterialColor get secondary => MaterialColor(0xFFf9f9f9, <int, Color>{
+  MaterialColor get secondary => const MaterialColor(0xFFf9f9f9, <int, Color>{
     10: Color(0xFFfefefe),
     20: Color(0xFFfdfdfd),
     30: Color(0xFFfcfcfc),
@@ -201,10 +201,10 @@ class LightColors extends AppColors {
   });
 
   @override
-  Color get success => Color(0xFF0CB359);
+  Color get success => const Color(0xFF0CB359);
 
   @override
-  MaterialColor get surface => MaterialColor(0xFF0c1015, <int, Color>{
+  MaterialColor get surface => const MaterialColor(0xFF0c1015, <int, Color>{
     10: Color(0xFFcecfd0),
     20: Color(0xFFaeafb1),
     30: Color(0xFF86888a),
@@ -218,8 +218,8 @@ class LightColors extends AppColors {
   });
 
   @override
-  Color get grey => Color(0xFF535353);
+  Color get grey => const Color(0xFF535353);
 
   @override
-  Color get lightPink => Color(0xFFF9ECF0);
+  Color get lightPink => const Color(0xFFF9ECF0);
 }

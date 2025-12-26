@@ -1,27 +1,26 @@
 import 'package:dio/dio.dart';
-import 'package:flower_app/core/constants/text_strings.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 
 class NetworkException {
   static String getMessageError(Exception exception) {
     if (exception is DioException) {
       switch (exception.type) {
         case DioExceptionType.connectionTimeout:
-          return IAppText.connectionTimeout;
+          return 'errors.connectionTimeout'.tr();
         case DioExceptionType.sendTimeout:
-          return IAppText.sendTimeout;
+          return 'errors.sendTimeout'.tr();
         case DioExceptionType.receiveTimeout:
-          return IAppText.receiveTimeout;
+          return 'errors.receiveTimeout'.tr();
         case DioExceptionType.badCertificate:
-          return IAppText.badCertificate;
+          return 'errors.badCertificate'.tr();
         case DioExceptionType.badResponse:
           return _handleMessageResponse(exception);
         case DioExceptionType.cancel:
-          return IAppText.cancel;
+          return 'errors.cancel'.tr();
         case DioExceptionType.connectionError:
-          return IAppText.connectionError;
+          return 'errors.connectionError'.tr();
         case DioExceptionType.unknown:
-          return IAppText.unknown;
+          return 'errors.unknown'.tr();
       }
     } else {
       return exception.toString();
@@ -35,25 +34,25 @@ class NetworkException {
 
       switch (e.response!.statusCode) {
         case 400:
-          return IAppText.error400;
+          return 'errors.error400'.tr();
         case 401:
-          return "${IAppText.error401 + data['error'].toString()} ";
+          return 'errors.error401return'.tr() + data['error'].toString();
         case 403:
-          return IAppText.error403;
+          return 'errors.error403'.tr();
         case 404:
-          return IAppText.error404;
+          return 'errors.error404'.tr();
         case 408:
-          return IAppText.error408;
+          return 'errors.error408'.tr();
         case 429:
-          return IAppText.error429;
+          return 'errors.error429'.tr();
         case 500:
-          return IAppText.error500;
+          return 'errors.error500'.tr();
         case 502:
-          return IAppText.error502;
+          return 'errors.error502'.tr();
         case 503:
-          return IAppText.error503;
+          return 'errors.error503'.tr();
         case 504:
-          return IAppText.error504;
+          return 'errors.error504'.tr();
         default:
           if (data is Map && data['error'] != null) {
             return data['error'].toString();
@@ -61,8 +60,6 @@ class NetworkException {
           return 'Server error (${statusCode ?? 'unknown'}). Please try again.';
       }
     }
-    return IAppText.defaultError;
+    return 'errors.defaultError'.tr();
   }
 }
-
-
