@@ -51,7 +51,7 @@ class MockSignUpUseCase extends _i1.Mock implements _i3.SignUpUseCase {
           as _i2.AuthRepo);
 
   @override
-  _i4.Future<_i5.Result<_i6.UserEntity>> call(_i7.UserRequest? request) =>
+  _i4.Future<_i5.Result<_i6.UserEntity>> call(_i7.UserSignupRequest? request) =>
       (super.noSuchMethod(
             Invocation.method(#call, [request]),
             returnValue: _i4.Future<_i5.Result<_i6.UserEntity>>.value(
