@@ -28,8 +28,8 @@ Route? onGenerateRoute(RouteSettings settings) {
 
 Route<dynamic> _undefinedRoute() {
   return MaterialPageRoute(
-    builder: (_) => Scaffold(
-      body: const Center(child: Text('No route defined for this path')),
+    builder: (_) => const Scaffold(
+      body: Center(child: Text('No route defined for this path')),
     ),
   );
 }
