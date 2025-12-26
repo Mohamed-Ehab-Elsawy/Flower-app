@@ -1,8 +1,7 @@
-
 import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
-import 'package:flower_app/core/constants/text_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({super.key, required this.currentIndex});
@@ -14,23 +13,22 @@ class BottomNavBar extends StatelessWidget {
       currentIndex: currentIndex,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          label: IAppText.home,
+          icon: const Icon(Icons.home_outlined),
+          label: 'navigation.home'.tr(),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.category_outlined),
-          label: IAppText.categories,
+          icon: const Icon(Icons.category_outlined),
+          label: 'navigation.categories'.tr(),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart_outlined),
-          label: IAppText.cart,
+          icon: const Icon(Icons.shopping_cart_outlined),
+          label: 'navigation.cart'.tr(),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
-          label: IAppText.profile,
+          icon: const Icon(Icons.person_outline),
+          label: 'navigation.profile'.tr(),
         ),
       ],
     );
   }
 }
-
