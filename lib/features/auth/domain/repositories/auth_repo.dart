@@ -17,3 +17,7 @@ abstract interface class AuthRepo {
     password,
   });
 }
+
+abstract class AuthRepo {
+
+}

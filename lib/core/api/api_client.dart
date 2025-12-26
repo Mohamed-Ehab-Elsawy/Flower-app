@@ -6,6 +6,9 @@ import 'package:flower_app/features/auth/data/models/response/reset_password_res
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
 import 'package:retrofit/retrofit.dart';
+import 'constants/end_points.dart';
+import 'models/requests/user_request.dart';
+import 'models/response/signup_response.dart';
 
 import 'end_points.dart';
 
@@ -14,6 +17,8 @@ part 'api_client.g.dart';
 @RestApi()
 abstract class ApiClient {
   factory ApiClient(Dio dio, {String? baseUrl}) = _ApiClient;
+  @POST(EndPoints.signUpEndpoint)
+  Future<SignupResponse> signUp(@Body() UserSignupRequest userRequest);
 
   @POST(EndPoints.forgetPassword)
   Future<SendResetPasswordCodeResponse> sendResetPasswordCode({

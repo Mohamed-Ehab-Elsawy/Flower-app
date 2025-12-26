@@ -19,4 +19,6 @@ abstract interface class AuthDataSource {
   Future<Result<ResetPasswordResponse>> resetPassword({
     required ResetPasswordRequest resetPasswordRequest,
   });
+
+  Future<Result<UserDto>> signUp(UserSignupRequest request);
 }

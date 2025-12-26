@@ -1,7 +1,10 @@
+import 'package:flower_app/core/api/models/requests/user_request.dart';
+import 'package:flower_app/core/api/models/response/user_dto.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart';
 import 'package:flower_app/features/auth/data/repositories/auth_repo_impl.dart';
+import 'package:flower_app/features/auth/domain/models/user_entity.dart';
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart';
@@ -34,6 +37,12 @@ void main() {
   late Result<VerifyResetCodeResponse> verifyResetCodeResponse;
   late Result<ResetPasswordResponse> resetPasswordResponse;
 
+  late AuthRepoImpl mockRepo;
+  late UserSignupRequest userRequest;
+  late UserDto userDto;
+  late UserEntity userEntity;
+  late MockAuthDataSource mockAuthDataSource;
+  late String message;
   setUpAll(() {
     authDataSource = MockAuthDataSourceImpl();
     email = "joe@example.com";
@@ -106,6 +115,42 @@ void main() {
       expect((result as Failure<SendResetPasswordCodeResponse>).errorMessage, errorMessageResponse);
     });
   });
+    message = "error message";
+    userRequest = UserSignupRequest(
+      gender: "male",
+      firstName: "abdo",
+      lastName: "abdoa",
+      email: "abdo@d.com",
+      password: "dd",
+      rePassword: "dd",
+      phone: "12345",
+    );
+    userDto = UserDto(
+      id: "d",
+      firstName: "abdo",
+      lastName: "abdoa",
+      email: "",
+      phone: "12345",
+      role: "role",
+      addresses: [12, 45],
+      gender: "male",
+      createdAt: "2024-01-01T00:00:00Z",
+      photo: "ddd",
+      wishlist: [12, 45],
+    );
+    userEntity = UserEntity(
+      id: "d",
+      firstName: "abdo",
+      lastName: "abdoa",
+      email: "",
+      phone: "12345",
+      role: "role",
+      addresses: [12, 45],
+      gender: "male",
+      photo: "ddd",
+    );
+    mockAuthDataSource = MockAuthDataSource();
+    mockRepo = AuthRepoImpl(mockAuthDataSource);
 
   group("Testing verifyResetPasswordCode cases", () {
     test("When i call verifyResetPasswordCode it calls "
@@ -162,6 +207,14 @@ void main() {
       expect((result as Failure<VerifyResetCodeResponse>).errorMessage, errorMessageResponse);
     });
   });
+    provideDummy<Result<UserDto>>(Success<UserDto>(userDto));
+    provideDummy<Result<UserEntity>>(Success<UserEntity>(userEntity));
+  });
+  test("when signUp with Success it should return UserEntity", () async {
+    when(
+      mockAuthDataSource.signUp(userRequest),
+    ).thenAnswer((_) async => Success<UserDto>(userDto));
+    final result = await mockRepo.signUp(userRequest);
 
   group("Testing resetPassword cases", () {
     test("When i call resetPassword it calls "
@@ -196,6 +249,26 @@ void main() {
       verifyNoMoreInteractions(authDataSource);
       expect((result as Success<ResetPasswordResponse>).data.message, responseMessage);
     });
+    expect(result, isA<Success<UserEntity>>());
+    expect(
+      (result as Success<UserEntity>).data.firstName,
+      equals(userEntity.firstName),
+    );
+    expect(result.data.lastName, equals(userEntity.lastName));
+    expect(result.data.email, equals(userEntity.email));
+    expect(result.data.photo, equals(userEntity.photo));
+    expect(result.data.phone, equals(userEntity.phone));
+    expect(result.data.addresses?.length, equals(userEntity.addresses?.length));
+    expect(result.data.id, equals(userEntity.id));
+    expect(result.data.gender, equals(userEntity.gender));
+    expect(result.data.role, equals(userEntity.role));
+    verify(mockRepo.signUp(userRequest)).called(1);
+  });
+  test("when signUp with Failure it should return message", () async {
+    when(
+      mockAuthDataSource.signUp(userRequest),
+    ).thenAnswer((_) async => Failure<UserDto>(message));
+    final result = await mockRepo.signUp(userRequest);
 
     test("When i call resetPassword it calls "
         "resetPassword from "
@@ -229,5 +302,11 @@ void main() {
       verifyNoMoreInteractions(authDataSource);
       expect((result as Failure<ResetPasswordResponse>).errorMessage, errorMessageResponse);
     });
+    expect(result, isA<Failure<UserEntity>>());
+    expect(
+      (result as Failure<UserEntity>).errorMessage.toString(),
+      equals(message),
+    );
+    verify(mockRepo.signUp(userRequest)).called(1);
   });
 }

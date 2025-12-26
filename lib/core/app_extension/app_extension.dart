@@ -5,9 +5,9 @@ extension AppNavigatorExtension on BuildContext {
 
   void pop() => Navigator.of(this).pop();
 
-  void pushReplacment(String routeName) =>
+  void pushReplacement(String routeName) =>
       Navigator.of(this).pushReplacementNamed(routeName);
 
-  TextTheme  get theme => Theme.of(this).textTheme;
-  ColorScheme  get colors => Theme.of(this).colorScheme;
+  TextTheme get theme => Theme.of(this).textTheme;
+  ColorScheme get colors => Theme.of(this).colorScheme;
 }
