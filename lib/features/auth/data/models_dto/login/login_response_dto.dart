@@ -1,10 +1,10 @@
 import 'package:flower_app/core/api/models/response/user_dto.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'signup_response.g.dart';
+part 'login_response_dto.g.dart';
 
 @JsonSerializable()
-class SignupResponse {
+class LoginResponseDto {
   @JsonKey(name: "message")
   final String? message;
   @JsonKey(name: "user")
@@ -12,17 +12,17 @@ class SignupResponse {
   @JsonKey(name: "token")
   final String? token;
 
-  SignupResponse ({
+  LoginResponseDto ({
     this.message,
     this.userDto,
     this.token,
   });
 
-  factory SignupResponse.fromJson(Map<String, dynamic> json) => _$SignupResponseFromJson(json);
+  factory LoginResponseDto.fromJson(Map<String, dynamic> json) => _$LoginResponseDtoFromJson(json);
 
-
-  Map<String, dynamic> toJson() => _$SignupResponseToJson(this);
+  Map<String, dynamic> toJson() => _$LoginResponseDtoToJson(this);
 }
+
 
 
 

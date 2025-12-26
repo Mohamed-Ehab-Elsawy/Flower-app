@@ -6,8 +6,9 @@
 import 'dart:async' as _i4;
 
 import 'package:flower_app/core/api/api_client.dart' as _i3;
-import 'package:flower_app/core/api/models/requests/user_request.dart' as _i5;
-import 'package:flower_app/core/api/models/response/signup_response.dart'
+import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart'
+    as _i5;
+import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -25,9 +26,9 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeSignupResponse_0 extends _i1.SmartFake
-    implements _i2.SignupResponse {
-  _FakeSignupResponse_0(Object parent, Invocation parentInvocation)
+class _FakeLoginResponseDto_0 extends _i1.SmartFake
+    implements _i2.LoginResponseDto {
+  _FakeLoginResponseDto_0(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -40,15 +41,17 @@ class MockApiClient extends _i1.Mock implements _i3.ApiClient {
   }
 
   @override
-  _i4.Future<_i2.SignupResponse> signUp(_i5.UserRequest? userRequest) =>
+  _i4.Future<_i2.LoginResponseDto> login({
+    required _i5.LoginRequest? loginRequest,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#signUp, [userRequest]),
-            returnValue: _i4.Future<_i2.SignupResponse>.value(
-              _FakeSignupResponse_0(
+            Invocation.method(#login, [], {#loginRequest: loginRequest}),
+            returnValue: _i4.Future<_i2.LoginResponseDto>.value(
+              _FakeLoginResponseDto_0(
                 this,
-                Invocation.method(#signUp, [userRequest]),
+                Invocation.method(#login, [], {#loginRequest: loginRequest}),
               ),
             ),
           )
-          as _i4.Future<_i2.SignupResponse>);
+          as _i4.Future<_i2.LoginResponseDto>);
 }
