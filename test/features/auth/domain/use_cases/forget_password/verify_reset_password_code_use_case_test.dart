@@ -1,5 +1,5 @@
-import 'package:flower_app/core/api/models/response/verify_reset_code_response.dart';
 import 'package:flower_app/core/error_handling/result.dart';
+import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
 import 'package:flower_app/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:flower_app/features/auth/domain/use_cases/forget_password/verify_reset_password_code_use_case.dart';
