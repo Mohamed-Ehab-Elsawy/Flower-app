@@ -1,6 +1,6 @@
 class IAppText {
   static const String appName = "Flower App";
-
+  static const String fontFamily = "Inter";
   //==============>Error Strings<==============
   static const String connectionTimeout = "Connection Timeout";
   static const String sendTimeout = "Send Timeout";
@@ -24,7 +24,6 @@ class IAppText {
   static const String error503 = 'Service unavailable. Please try again later.';
   static const String error504 = 'Gateway timeout. Please try again.';
   static const String defaultError = 'Server error. Please try again.';
-
 
   //==============>Validation Strings<==============
   static const String enterUsername = "Please enter a username";
@@ -59,7 +58,4 @@ class IAppText {
   static const String enterPhoneNumber = "Please enter your phone number";
   static const String validPhoneNumber =
       "Please enter a valid phone number (10-15 digits)";
-
-
-
 }

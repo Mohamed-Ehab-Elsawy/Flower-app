@@ -1,3 +1,4 @@
+import 'package:flower_app/core/constants/text_strings.dart';
 import 'package:flower_app/core/styles/app_textstyles.dart';
 import 'package:flower_app/core/theme/app_theme.dart';
 import 'package:flower_app/core/theme/theme_extension.dart';
@@ -23,6 +24,7 @@ class LightTheme extends AppTheme {
       thumbColor: WidgetStateProperty.all(color.secondary),
       trackColor: WidgetStateProperty.all(color.primary),
     ),
+    fontFamily: IAppText.fontFamily,
     useMaterial3: true,
     filledButtonTheme: filledButtonThemeData,
     inputDecorationTheme: inputDecorationTheme,
