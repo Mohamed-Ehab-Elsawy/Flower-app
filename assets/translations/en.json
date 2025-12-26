@@ -21,6 +21,7 @@
   "Already have an account? ": "Already have an account? ",
   "Login":  "Login",
   "account_created_success": "account_created_success",
+  "continue" : "Continue",
   "errors": {
     "connectionTimeout": "Connection Timeout",
     "sendTimeout": "Send Timeout",

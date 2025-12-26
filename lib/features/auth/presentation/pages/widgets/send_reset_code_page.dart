@@ -65,7 +65,7 @@ class _SendResetCodePageState extends State<SendResetCodePage> {
               state.isLoading == true
                   ? const CircularProgressIndicator()
                   : CustomElevatedButton(
-                      textOnButton: 'continueText'.tr(),
+                      textOnButton: 'continue'.tr(),
                       onPressed: widget.onPressed,
                     ),
             ],
