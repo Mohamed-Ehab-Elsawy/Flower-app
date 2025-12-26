@@ -9,13 +9,8 @@ import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/core/api/models/requests/user_request.dart';
 import 'package:flower_app/core/api/models/response/user_dto.dart';
 import 'package:flower_app/features/auth/domain/models/user_entity.dart';
-import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
-import 'package:flower_app/core/api/models/requests/user_request.dart';
-import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
-import 'package:flower_app/features/auth/domain/models/user_entity.dart';
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart';
 import 'package:injectable/injectable.dart';
 
@@ -61,12 +56,6 @@ class AuthRepoImpl implements AuthRepo {
     );
   }
 
-@LazySingleton(as: AuthRepo)
-class AuthRepoImpl extends AuthRepo {
-  final AuthDataSource _authDataSource;
-  AuthRepoImpl(this._authDataSource);
-
-
   @override
   Future<Result<LoginResponseDto>> login({
     required LoginRequest loginRequest,
@@ -101,5 +90,4 @@ class AuthRepoImpl extends AuthRepo {
         }
     }
   }
-
 }

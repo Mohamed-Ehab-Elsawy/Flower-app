@@ -5,8 +5,23 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
+import 'package:flower_app/core/api/models/requests/user_request.dart' as _i11;
+import 'package:flower_app/core/api/models/response/user_dto.dart' as _i10;
 import 'package:flower_app/core/error_handling/result.dart' as _i4;
-import 'package:flower_app/features/auth/data/datasources/auth_ds.dart' as _i2;
+import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart'
+    as _i2;
+import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart'
+    as _i9;
+import 'package:flower_app/features/auth/data/models/requests/send_reset_password_code_request.dart'
+    as _i13;
+import 'package:flower_app/features/auth/data/models/requests/verify_reset_code_request.dart'
+    as _i15;
+import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart'
+    as _i8;
+import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart'
+    as _i12;
+import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart'
+    as _i14;
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart'
     as _i6;
 import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart'
@@ -28,11 +43,12 @@ import 'package:mockito/src/dummies.dart' as _i7;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-/// A class which mocks [AuthDataSource].
+/// A class which mocks [AuthDataSourceImpl].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthDataSource extends _i1.Mock implements _i2.AuthDataSource {
-  MockAuthDataSource() {
+class MockAuthDataSourceImpl extends _i1.Mock
+    implements _i2.AuthDataSourceImpl {
+  MockAuthDataSourceImpl() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -50,4 +66,85 @@ class MockAuthDataSource extends _i1.Mock implements _i2.AuthDataSource {
             ),
           )
           as _i3.Future<_i4.Result<_i5.LoginResponseDto>>);
+
+  @override
+  _i3.Future<_i4.Result<_i8.ResetPasswordResponse>> resetPassword({
+    required _i9.ResetPasswordRequest? resetPasswordRequest,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#resetPassword, [], {
+              #resetPasswordRequest: resetPasswordRequest,
+            }),
+            returnValue:
+                _i3.Future<_i4.Result<_i8.ResetPasswordResponse>>.value(
+                  _i7.dummyValue<_i4.Result<_i8.ResetPasswordResponse>>(
+                    this,
+                    Invocation.method(#resetPassword, [], {
+                      #resetPasswordRequest: resetPasswordRequest,
+                    }),
+                  ),
+                ),
+          )
+          as _i3.Future<_i4.Result<_i8.ResetPasswordResponse>>);
+
+  @override
+  _i3.Future<_i4.Result<_i10.UserDto>> signUp(
+    _i11.UserSignupRequest? request,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#signUp, [request]),
+            returnValue: _i3.Future<_i4.Result<_i10.UserDto>>.value(
+              _i7.dummyValue<_i4.Result<_i10.UserDto>>(
+                this,
+                Invocation.method(#signUp, [request]),
+              ),
+            ),
+          )
+          as _i3.Future<_i4.Result<_i10.UserDto>>);
+
+  @override
+  _i3.Future<_i4.Result<_i12.SendResetPasswordCodeResponse>>
+  sendResetPasswordCode({
+    required _i13.SendResetPasswordCodeRequest? sendResetPasswordCodeRequest,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#sendResetPasswordCode, [], {
+              #sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
+            }),
+            returnValue:
+                _i3.Future<
+                  _i4.Result<_i12.SendResetPasswordCodeResponse>
+                >.value(
+                  _i7.dummyValue<
+                    _i4.Result<_i12.SendResetPasswordCodeResponse>
+                  >(
+                    this,
+                    Invocation.method(#sendResetPasswordCode, [], {
+                      #sendResetPasswordCodeRequest:
+                          sendResetPasswordCodeRequest,
+                    }),
+                  ),
+                ),
+          )
+          as _i3.Future<_i4.Result<_i12.SendResetPasswordCodeResponse>>);
+
+  @override
+  _i3.Future<_i4.Result<_i14.VerifyResetCodeResponse>> verifyResetPasswordCode({
+    required _i15.VerifyResetCodeRequest? verifyResetCodeRequest,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#verifyResetPasswordCode, [], {
+              #verifyResetCodeRequest: verifyResetCodeRequest,
+            }),
+            returnValue:
+                _i3.Future<_i4.Result<_i14.VerifyResetCodeResponse>>.value(
+                  _i7.dummyValue<_i4.Result<_i14.VerifyResetCodeResponse>>(
+                    this,
+                    Invocation.method(#verifyResetPasswordCode, [], {
+                      #verifyResetCodeRequest: verifyResetCodeRequest,
+                    }),
+                  ),
+                ),
+          )
+          as _i3.Future<_i4.Result<_i14.VerifyResetCodeResponse>>);
 }

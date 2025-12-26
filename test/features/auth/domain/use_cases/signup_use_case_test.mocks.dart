@@ -5,15 +5,19 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
-import 'package:flower_app/core/api/models/requests/user_request.dart' as _i6;
+import 'package:flower_app/core/api/models/requests/user_request.dart' as _i9;
 import 'package:flower_app/core/error_handling/result.dart' as _i4;
 import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart'
-    as _i10;
+    as _i12;
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart'
-    as _i8;
+    as _i10;
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart'
-    as _i9;
-import 'package:flower_app/features/auth/domain/models/user_entity.dart' as _i5;
+    as _i11;
+import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart'
+    as _i6;
+import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart'
+    as _i5;
+import 'package:flower_app/features/auth/domain/models/user_entity.dart' as _i8;
 import 'package:flower_app/features/auth/domain/repositories/auth_repo.dart'
     as _i2;
 import 'package:mockito/mockito.dart' as _i1;
@@ -42,28 +46,47 @@ class MockAuthRepo extends _i1.Mock implements _i2.AuthRepo {
   }
 
   @override
-  _i3.Future<_i4.Result<_i5.UserEntity>> signUp(
-    _i6.UserSignupRequest? request,
+  _i3.Future<_i4.Result<_i5.LoginResponseDto>> login({
+    required _i6.LoginRequest? loginRequest,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#login, [], {#loginRequest: loginRequest}),
+            returnValue: _i3.Future<_i4.Result<_i5.LoginResponseDto>>.value(
+              _i7.dummyValue<_i4.Result<_i5.LoginResponseDto>>(
+                this,
+                Invocation.method(#login, [], {#loginRequest: loginRequest}),
+              ),
+            ),
+          )
+          as _i3.Future<_i4.Result<_i5.LoginResponseDto>>);
+
+  @override
+  _i3.Future<_i4.Result<_i8.UserEntity>> signUp(
+    _i9.UserSignupRequest? request,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#signUp, [request]),
-            returnValue: _i3.Future<_i4.Result<_i5.UserEntity>>.value(
-              _i7.dummyValue<_i4.Result<_i5.UserEntity>>(
+            returnValue: _i3.Future<_i4.Result<_i8.UserEntity>>.value(
+              _i7.dummyValue<_i4.Result<_i8.UserEntity>>(
                 this,
                 Invocation.method(#signUp, [request]),
               ),
             ),
           )
-          as _i3.Future<_i4.Result<_i5.UserEntity>>);
+          as _i3.Future<_i4.Result<_i8.UserEntity>>);
 
   @override
-  _i3.Future<_i4.Result<_i8.SendResetPasswordCodeResponse>>
+  _i3.Future<_i4.Result<_i10.SendResetPasswordCodeResponse>>
   sendResetPasswordCode({required String? email}) =>
       (super.noSuchMethod(
             Invocation.method(#sendResetPasswordCode, [], {#email: email}),
             returnValue:
-                _i3.Future<_i4.Result<_i8.SendResetPasswordCodeResponse>>.value(
-                  _i7.dummyValue<_i4.Result<_i8.SendResetPasswordCodeResponse>>(
+                _i3.Future<
+                  _i4.Result<_i10.SendResetPasswordCodeResponse>
+                >.value(
+                  _i7.dummyValue<
+                    _i4.Result<_i10.SendResetPasswordCodeResponse>
+                  >(
                     this,
                     Invocation.method(#sendResetPasswordCode, [], {
                       #email: email,
@@ -71,10 +94,10 @@ class MockAuthRepo extends _i1.Mock implements _i2.AuthRepo {
                   ),
                 ),
           )
-          as _i3.Future<_i4.Result<_i8.SendResetPasswordCodeResponse>>);
+          as _i3.Future<_i4.Result<_i10.SendResetPasswordCodeResponse>>);
 
   @override
-  _i3.Future<_i4.Result<_i9.VerifyResetCodeResponse>> verifyResetPasswordCode({
+  _i3.Future<_i4.Result<_i11.VerifyResetCodeResponse>> verifyResetPasswordCode({
     required String? resetCode,
   }) =>
       (super.noSuchMethod(
@@ -82,8 +105,8 @@ class MockAuthRepo extends _i1.Mock implements _i2.AuthRepo {
               #resetCode: resetCode,
             }),
             returnValue:
-                _i3.Future<_i4.Result<_i9.VerifyResetCodeResponse>>.value(
-                  _i7.dummyValue<_i4.Result<_i9.VerifyResetCodeResponse>>(
+                _i3.Future<_i4.Result<_i11.VerifyResetCodeResponse>>.value(
+                  _i7.dummyValue<_i4.Result<_i11.VerifyResetCodeResponse>>(
                     this,
                     Invocation.method(#verifyResetPasswordCode, [], {
                       #resetCode: resetCode,
@@ -91,10 +114,10 @@ class MockAuthRepo extends _i1.Mock implements _i2.AuthRepo {
                   ),
                 ),
           )
-          as _i3.Future<_i4.Result<_i9.VerifyResetCodeResponse>>);
+          as _i3.Future<_i4.Result<_i11.VerifyResetCodeResponse>>);
 
   @override
-  _i3.Future<_i4.Result<_i10.ResetPasswordResponse>> resetPassword({
+  _i3.Future<_i4.Result<_i12.ResetPasswordResponse>> resetPassword({
     required String? email,
     dynamic password,
   }) =>
@@ -104,8 +127,8 @@ class MockAuthRepo extends _i1.Mock implements _i2.AuthRepo {
               #password: password,
             }),
             returnValue:
-                _i3.Future<_i4.Result<_i10.ResetPasswordResponse>>.value(
-                  _i7.dummyValue<_i4.Result<_i10.ResetPasswordResponse>>(
+                _i3.Future<_i4.Result<_i12.ResetPasswordResponse>>.value(
+                  _i7.dummyValue<_i4.Result<_i12.ResetPasswordResponse>>(
                     this,
                     Invocation.method(#resetPassword, [], {
                       #email: email,
@@ -114,5 +137,5 @@ class MockAuthRepo extends _i1.Mock implements _i2.AuthRepo {
                   ),
                 ),
           )
-          as _i3.Future<_i4.Result<_i10.ResetPasswordResponse>>);
+          as _i3.Future<_i4.Result<_i12.ResetPasswordResponse>>);
 }
