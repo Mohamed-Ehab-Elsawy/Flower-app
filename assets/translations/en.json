@@ -1,4 +1,27 @@
 {
+  "signup":"signup",
+  "First name": "First name",
+  "Enter First name": "Enter First name",
+  "Last name":"Last name",
+  "Enter last name": "Enter last name",
+  "Email":"Email",
+  "Enter your email":"Enter your email",
+  "Password": "Password",
+  "Enter Password":"Enter Password",
+  "Confirm password": "Confirm password",
+  "Phone number": "Phone number",
+  "Enter Phone number": "Enter Phone number",
+  "Gender": "Gender",
+  "male": "male",
+  "female": "female",
+  "account Created Successfully": "account Created Successfully",
+  "don't Have Acc":   "don't Have Acc",
+  "Creating an account, you agree to our ": "Creating an account, you agree to our ",
+  "Terms&Conditions": "Terms&Conditions",
+  "Already have an account? ": "Already have an account? ",
+  "Login":  "Login",
+  "account_created_success": "account_created_success",
+  "continue" : "Continue",
   "errors": {
     "connectionTimeout": "Connection Timeout",
     "sendTimeout": "Send Timeout",
@@ -18,6 +41,13 @@
     "error503": "Service unavailable. Please try again later.",
     "error504": "Gateway timeout. Please try again.",
     "defaultError": "Server error. Please try again."
+  },
+
+  "navigation": {
+    "home": "Home",
+    "categories": "Categories",
+    "cart": "Cart",
+    "profile": "Profile"
   },
 
   "validation": {
@@ -45,4 +75,6 @@
     "enterPhoneNumber": "Please enter your phone number",
     "validPhoneNumber": "Please enter a valid phone number (10-15 digits)"
   }
+
+
 }

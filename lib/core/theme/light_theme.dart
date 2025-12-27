@@ -9,9 +9,11 @@ class LightTheme extends AppTheme {
   BottomNavigationBarThemeData get bottomAppBarThemeData =>
       BottomNavigationBarThemeData(
         type: BottomNavigationBarType.fixed,
+        unselectedLabelStyle: textTheme.bodySmall,
+        selectedLabelStyle: textTheme.bodySmall,
         selectedItemColor: color.primary,
         unselectedItemColor: color.secondary[80],
-        backgroundColor: color.secondary[60],
+        backgroundColor: color.secondary,
       );
 
   @override
@@ -20,6 +22,7 @@ class LightTheme extends AppTheme {
   @override
   ThemeData get themeData => ThemeData(
     brightness: Brightness.light,
+
     switchTheme: SwitchThemeData(
       thumbColor: WidgetStateProperty.all(color.secondary),
       trackColor: WidgetStateProperty.all(color.primary),
@@ -121,6 +124,45 @@ class LightTheme extends AppTheme {
     success: color.success,
     grey: color.grey,
     lightPink: color.lightPink,
+  );
+  @override
+  TextFormField get textFormField => TextFormField(
+    style: textTheme.bodyMedium,
+    cursorColor: Color(0xFF535353),
+    decoration: InputDecoration(
+      isDense: true,
+      contentPadding: const EdgeInsets.all(16),
+      hintStyle: textTheme.bodyMedium?.copyWith(color: Color(0xFF535353)),
+      labelStyle: textTheme.bodyMedium?.copyWith(color: Color(0xFF535353)),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: BorderSide(color: Color(0xFF535353), width: 1),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: BorderSide(color: Color(0xFF535353), width: 1),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: BorderSide(color: Color(0xFF535353), width: 1),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: BorderSide(color: Color(0xFFCC1010), width: 1),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: BorderSide(color: Color(0xFFCC1010), width: 1),
+      ),
+    ),
+  );
+  @override
+  AppBarTheme get appBarTheme => AppBarTheme(
+    centerTitle: false,
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    titleTextStyle: textTheme.headlineMedium,
+    actionsIconTheme: IconThemeData(size: 20, color: Colors.black),
   );
 }
 

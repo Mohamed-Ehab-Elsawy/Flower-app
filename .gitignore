@@ -12,6 +12,12 @@
 .swiftpm/
 migrate_working_dir/
 
+#files don't upload 
+.env
+.env.*
+*.g.dart
+*.config.dart
+pubspec.lock
 # IntelliJ related
 *.iml
 *.ipr
@@ -33,6 +39,10 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Generated files (build_runner, json_serializable, mockito)
+*.g.dart
+*.mocks.dart
+
 # Symbolication related
 app.*.symbols
 
@@ -44,25 +54,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# -------- Opinionated: Ignore generated code & env files (DO NOT COMMIT) --------
-# Reason: Generated files are build artifacts and env files may contain secrets or
-# local configuration. Keeping them out of VCS keeps the repo clean and secure.
-
-# Generated Dart/Flutter outputs (e.g. build_runner, json_serializable, freezed)
-**/*.g.dart
-**/*.pb.dart
-**/*.pb.*
-**/generated/
-generated_plugin_registrant.dart
-
-# Environment files (local secrets / configs)
-.env
-.env.*
-env/
-
-# Local build outputs (redundant with /build/, kept for clarity)
-**/build/
-
-# Note: Keep the app's lockfile (pubspec.lock) committed for apps to ensure
-# reproducible builds; don't ignore it unless this is a package.
-# --------------------------------------------------------------------------------
+*.g.dart
+*.mocks.dart
