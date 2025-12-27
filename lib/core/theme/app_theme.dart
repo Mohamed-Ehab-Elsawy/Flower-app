@@ -23,5 +23,6 @@ abstract class AppTheme {
   ElevatedButtonThemeData get elevatedButtonThemeData;
   InputDecorationTheme get inputDecorationTheme;
   CheckboxThemeData get checkboxThemeData;
+  AppBarTheme get appBarTheme;
   
 }
