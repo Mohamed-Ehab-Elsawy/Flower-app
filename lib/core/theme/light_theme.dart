@@ -112,6 +112,7 @@ class LightTheme extends AppTheme {
     semiBold24: AppTextStyles.semiBold24.copyWith(color: color.textColor),
     medium20: AppTextStyles.medium20.copyWith(color: color.textColor),
     semiBold18: AppTextStyles.semiBold18.copyWith(color: color.textColor),
+    medium13: AppTextStyles.medium13.copyWith(color: color.textColor),
     medium16: AppTextStyles.medium16.copyWith(color: color.textColor),
     regular16: AppTextStyles.regular16.copyWith(color: color.textColor),
     regular14: AppTextStyles.regular14.copyWith(color: color.textColor),
@@ -129,14 +130,12 @@ class LightTheme extends AppTheme {
 
   @override
   AppBarTheme get appBarTheme => AppBarTheme(
-
     foregroundColor: Colors.transparent,
     backgroundColor: Colors.transparent,
     elevation: 0,
-    iconTheme: const IconThemeData(size: 20,color: Colors.black,),
+    iconTheme: const IconThemeData(size: 20, color: Colors.black),
     titleTextStyle: appThemeExtension.medium20,
     centerTitle: false,
-
   );
 }
 
