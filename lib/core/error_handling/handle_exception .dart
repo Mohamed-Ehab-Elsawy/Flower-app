@@ -36,7 +36,7 @@ class NetworkException {
         case 400:
           return 'errors.error400'.tr();
         case 401:
-          return 'errors.error401return'.tr() + data['error'].toString();
+          return 'errors.error401'.tr() + data['error'].toString();
         case 403:
           return 'errors.error403'.tr();
         case 404:
