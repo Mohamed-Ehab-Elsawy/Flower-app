@@ -31,6 +31,19 @@ import '../../features/auth/presentation/cubit/forget_password/forget_password_c
 import '../../features/auth/presentation/cubit/login_view_model/login_view_model.dart'
     as _i869;
 import '../../features/auth/presentation/cubit/signup_viewmodel.dart' as _i68;
+import '../../features/categories/data/datasources/category_data_source.dart'
+    as _i842;
+import '../../features/categories/data/datasources/category_data_source_impl.dart'
+    as _i236;
+import '../../features/categories/data/repositories/category_repo_impl.dart'
+    as _i504;
+import '../../features/categories/domain/repositories/category_repo.dart'
+    as _i736;
+import '../../features/home/data/datasources/home_data_source.dart' as _i426;
+import '../../features/home/data/datasources/home_data_source_impl.dart'
+    as _i375;
+import '../../features/home/data/repositories/home_repo_impl.dart' as _i333;
+import '../../features/home/domain/repositories/home_repo.dart' as _i1021;
 import '../api/api_client.dart' as _i277;
 import '../api/api_module.dart' as _i0;
 
@@ -44,11 +57,17 @@ extension GetItInjectableX on _i174.GetIt {
     final apiModule = _$ApiModule();
     gh.lazySingleton<_i361.BaseOptions>(() => apiModule.providerOption());
     gh.lazySingleton<_i52.TalkerDioLogger>(() => apiModule.prvoideLogger());
+    gh.lazySingleton<_i736.CategoryRepo>(() => _i504.CategoryRepoImpl());
+    gh.lazySingleton<_i426.HomeDataSource>(() => _i375.HomeDataSourceImpl());
     gh.lazySingleton<_i361.Dio>(
       () => apiModule.provideDio(
         gh<_i361.BaseOptions>(),
         gh<_i52.TalkerDioLogger>(),
       ),
+    );
+    gh.lazySingleton<_i1021.HomeRepo>(() => _i333.HomeRepoImpl());
+    gh.lazySingleton<_i842.CategoryDataSource>(
+      () => _i236.CategoryDataSourceImpl(),
     );
     gh.lazySingleton<_i277.ApiClient>(
       () => apiModule.provideApiClient(gh<_i361.Dio>()),
