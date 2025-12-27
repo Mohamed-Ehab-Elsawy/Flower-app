@@ -12,6 +12,12 @@
 .swiftpm/
 migrate_working_dir/
 
+#files don't upload 
+.env
+.env.*
+*.g.dart
+*.config.dart
+pubspec.lock
 # IntelliJ related
 *.iml
 *.ipr
@@ -33,6 +39,10 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Generated files (build_runner, json_serializable, mockito)
+*.g.dart
+*.mocks.dart
+
 # Symbolication related
 app.*.symbols
 
@@ -43,3 +53,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+*.g.dart
+*.mocks.dart

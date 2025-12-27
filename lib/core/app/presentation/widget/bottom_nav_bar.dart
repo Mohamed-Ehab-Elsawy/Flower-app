@@ -1,0 +1,34 @@
+import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
+
+class BottomNavBar extends StatelessWidget {
+  const BottomNavBar({super.key, required this.currentIndex});
+  final int currentIndex;
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      onTap: context.read<AppSectionViewModel>().onTap,
+      currentIndex: currentIndex,
+      items: [
+        BottomNavigationBarItem(
+          icon: const Icon(Icons.home_outlined),
+          label: 'navigation.home'.tr(),
+        ),
+        BottomNavigationBarItem(
+          icon: const Icon(Icons.category_outlined),
+          label: 'navigation.categories'.tr(),
+        ),
+        BottomNavigationBarItem(
+          icon: const Icon(Icons.shopping_cart_outlined),
+          label: 'navigation.cart'.tr(),
+        ),
+        BottomNavigationBarItem(
+          icon: const Icon(Icons.person_outline),
+          label: 'navigation.profile'.tr(),
+        ),
+      ],
+    );
+  }
+}
