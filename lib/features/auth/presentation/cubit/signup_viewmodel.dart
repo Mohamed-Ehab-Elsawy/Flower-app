@@ -36,11 +36,9 @@ class SignUpViewModel extends Cubit<SignupStates> with EquatableMixin {
   void doEvent(SignupUiEvent event) {
     switch (event) {
       case ShowToast():
-        _signupUiEvent.add(ShowToast(message: event.message));
+        _signupUiEvent.add(ShowToast(message: event.message,isError: event.isError));
       case NavigateToLogin():
         _signupUiEvent.add(NavigateToLogin());
-      case NavigateToLoginAfterSignup():
-        _signupUiEvent.add(NavigateToLoginAfterSignup());
       case NavigateToTermsConditions():
         _signupUiEvent.add(NavigateToTermsConditions());
     }
@@ -49,7 +47,9 @@ class SignUpViewModel extends Cubit<SignupStates> with EquatableMixin {
   void _signUp(UserSignupRequest userRequest) async {
     emit(
       state.copyWith(
-        signUpState: const BaseState<UserEntity>(requestState: RequestState.loading),
+        signUpState: const BaseState<UserEntity>(
+          requestState: RequestState.loading,
+        ),
       ),
     );
     Result<UserEntity> response = await _signUpUseCase(userRequest);

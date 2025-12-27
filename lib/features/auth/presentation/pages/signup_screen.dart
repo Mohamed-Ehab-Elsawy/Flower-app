@@ -44,10 +44,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Navigator.pop(context);
           }
 
-        case NavigateToLoginAfterSignup():
-          {
-            Navigator.pop(context);
-          }
         case NavigateToTermsConditions():
           {
             Navigator.pushNamed(context, AppRoutes.terms);
@@ -248,15 +244,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (signUpState == null) {
                           return;
                         } else if (signUpState.errorMessage != null) {
+                          signUpState.isError==true;
                           signUpViewModel.doEvent(
-                            ShowToast(message: signUpState.errorMessage!,isError: true),
+                            ShowToast(message: signUpState.errorMessage!,isError: signUpState.isError),
                           );
                         } else if (signUpState.data != null) {
+                          signUpState.isError==false;
+
                           signUpViewModel.doEvent(
-                            ShowToast(message: "account_created_success".tr(),isError: false),
+                            ShowToast(message: "account_created_success".tr(),isError: signUpState.isError),
                           );
 
-                          signUpViewModel.doEvent(NavigateToLoginAfterSignup());
+                          signUpViewModel.doEvent(NavigateToLogin());
                         }
                       },
                       child: ElevatedButton(
