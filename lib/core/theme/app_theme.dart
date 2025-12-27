@@ -1,3 +1,4 @@
+import 'package:flower_app/core/theme/theme_extension.dart';
 import 'package:flutter/material.dart';
 
 abstract class AppColors {
@@ -9,11 +10,12 @@ abstract class AppColors {
   Color get success;
   Color get grey;
   Color get lightPink;
+  Color get textColor;
 }
 
 abstract class AppTheme {
   AppColors get color;
-  TextTheme get textTheme;
+  AppThemeExtension get appThemeExtension;
   FilledButtonThemeData get filledButtonThemeData;
   ThemeData get themeData;
   OutlinedButtonThemeData get outlinedButtonThemeData;
@@ -21,7 +23,4 @@ abstract class AppTheme {
   ElevatedButtonThemeData get elevatedButtonThemeData;
   InputDecorationTheme get inputDecorationTheme;
   CheckboxThemeData get checkboxThemeData;
-  ColorScheme get colorScheme;
-  AppBarTheme get appBarTheme;
-  TextFormField get textFormField;
 }

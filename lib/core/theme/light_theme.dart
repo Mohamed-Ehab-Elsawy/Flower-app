@@ -1,5 +1,7 @@
+import 'package:flower_app/core/constants/text_strings.dart';
 import 'package:flower_app/core/styles/app_textstyles.dart';
 import 'package:flower_app/core/theme/app_theme.dart';
+import 'package:flower_app/core/theme/theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class LightTheme extends AppTheme {
@@ -15,7 +17,7 @@ class LightTheme extends AppTheme {
       );
 
   @override
-  AppColors get color => LightColors();
+  AppColors get color => _LightColors();
 
   @override
   ThemeData get themeData => ThemeData(
@@ -25,6 +27,7 @@ class LightTheme extends AppTheme {
       thumbColor: WidgetStateProperty.all(color.secondary),
       trackColor: WidgetStateProperty.all(color.primary),
     ),
+    fontFamily: IAppText.fontFamily,
     useMaterial3: true,
     filledButtonTheme: filledButtonThemeData,
     inputDecorationTheme: inputDecorationTheme,
@@ -33,8 +36,8 @@ class LightTheme extends AppTheme {
     scaffoldBackgroundColor: color.backgroundColor,
     outlinedButtonTheme: outlinedButtonThemeData,
     checkboxTheme: checkboxThemeData,
-    colorScheme: colorScheme,
-    textTheme: textTheme,
+    extensions: [appThemeExtension],
+    primarySwatch: materialColorWithStandardShades(color.primary),
   );
 
   @override
@@ -46,8 +49,7 @@ class LightTheme extends AppTheme {
           minimumSize: const Size(double.infinity, 48),
           backgroundColor: color.primary,
           foregroundColor: color.secondary,
-
-          textStyle: textTheme.titleMedium,
+          textStyle: appThemeExtension.medium16,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
           ),
@@ -61,7 +63,7 @@ class LightTheme extends AppTheme {
           minimumSize: const Size(double.infinity, 48),
           side: BorderSide(color: color.grey, width: 2),
           foregroundColor: color.grey,
-          textStyle: textTheme.titleMedium,
+          textStyle: appThemeExtension.medium16,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
           ),
@@ -85,7 +87,7 @@ class LightTheme extends AppTheme {
       borderSide: BorderSide(color: color.grey),
     ),
 
-    hintStyle: textTheme.bodyMedium?.copyWith(color: color.secondary[70]),
+    hintStyle: appThemeExtension.medium16.copyWith(color: color.secondary[70]),
   );
 
   @override
@@ -99,35 +101,29 @@ class LightTheme extends AppTheme {
     style: FilledButton.styleFrom(
       backgroundColor: color.primary,
       foregroundColor: color.secondary,
-      textStyle: textTheme.titleMedium,
+      textStyle: appThemeExtension.medium16,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
     ),
   );
 
   @override
-  ColorScheme get colorScheme => ColorScheme.fromSeed(
+  AppThemeExtension get appThemeExtension => AppThemeExtension(
+    semiBold24: AppTextStyles.semiBold24,
+    medium20: AppTextStyles.medium20,
+    semiBold18: AppTextStyles.semiBold18,
+    medium16: AppTextStyles.medium16,
+    regular16: AppTextStyles.regular16,
+    regular14: AppTextStyles.regular14,
+    regular12: AppTextStyles.regular12,
+    semiBold12: AppTextStyles.semiBold12,
     primary: color.primary,
-    seedColor: color.primary,
-
-    onPrimaryContainer: color.lightPink,
-    error: color.error,
-    surface: color.backgroundColor,
     secondary: color.secondary,
-    onSurface: color.surface,
-    onTertiary: color.grey,
-    tertiary: color.success,
-  );
-
-  @override
-  TextTheme get textTheme => TextTheme(
-    headlineLarge: AppTextStyles.headlineLarge,
-    headlineMedium: AppTextStyles.headlineMedium,
-    titleLarge: AppTextStyles.titleLarge,
-    titleMedium: AppTextStyles.titleMedium,
-    bodyLarge: AppTextStyles.bodyLarge,
-    bodyMedium: AppTextStyles.bodyMedium,
-    bodySmall: AppTextStyles.bodySmall,
-    labelMedium: AppTextStyles.labelMedium,
+    surface: color.surface,
+    backgroundColor: color.backgroundColor,
+    error: color.error,
+    success: color.success,
+    grey: color.grey,
+    lightPink: color.lightPink,
   );
   @override
   TextFormField get textFormField => TextFormField(
@@ -170,7 +166,7 @@ class LightTheme extends AppTheme {
   );
 }
 
-class LightColors extends AppColors {
+class _LightColors extends AppColors {
   @override
   Color get backgroundColor => Colors.white;
 
@@ -178,7 +174,8 @@ class LightColors extends AppColors {
   Color get error => const Color(0xFFCC1010);
 
   @override
-  MaterialColor get primary => const MaterialColor(0xFFD21E6A, <int, Color>{
+  MaterialColor get primary => MaterialColor(0xFFD21E6A, <int, Color>{
+    0: Color(0xFFD21E6A),
     10: Color(0xFFf6d2e1),
     20: Color(0xFFf0b4cd),
     30: Color(0xFFe98fb5),
@@ -190,9 +187,9 @@ class LightColors extends AppColors {
     90: Color(0xFF460a23),
     100: Color(0xFF2a0615),
   });
-
   @override
-  MaterialColor get secondary => const MaterialColor(0xFFf9f9f9, <int, Color>{
+  MaterialColor get secondary => MaterialColor(0xFFf9f9f9, <int, Color>{
+    0: Color(0xFFf9f9f9),
     10: Color(0xFFfefefe),
     20: Color(0xFFfdfdfd),
     30: Color(0xFFfcfcfc),
@@ -209,7 +206,8 @@ class LightColors extends AppColors {
   Color get success => const Color(0xFF0CB359);
 
   @override
-  MaterialColor get surface => const MaterialColor(0xFF0c1015, <int, Color>{
+  MaterialColor get surface => MaterialColor(0xFF0c1015, <int, Color>{
+    0: Color(0xFF0c1015),
     10: Color(0xFFcecfd0),
     20: Color(0xFFaeafb1),
     30: Color(0xFF86888a),
@@ -226,5 +224,8 @@ class LightColors extends AppColors {
   Color get grey => const Color(0xFF535353);
 
   @override
-  Color get lightPink => const Color(0xFFF9ECF0);
+  Color get lightPink => Color(0xFFF9ECF0);
+
+  @override
+  Color get textColor => Colors.black;
 }
