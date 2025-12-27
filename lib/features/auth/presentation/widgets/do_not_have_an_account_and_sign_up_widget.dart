@@ -14,16 +14,16 @@ class DoNotHaveAnAccountAndSignUpWidget extends StatelessWidget {
         children: [
           TextSpan(
             text: IAppText.doNotHaveAnAccount,
-            style: context.theme.titleMedium,
+            style: context.appTheme.medium16.copyWith(color: Colors.black),
           ),
           const WidgetSpan(child: SizedBox(width: 6)),
           TextSpan(
             text: IAppText.signUp,
             recognizer: TapGestureRecognizer()..onTap = onTapSignUp,
-            style: context.theme.titleMedium?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
+            style: context.appTheme.medium16.copyWith(
+              color: context.appTheme.primary,
               decoration: TextDecoration.underline,
-              decorationColor: context.colors.primary,
+              decorationColor: context.appTheme.primary,
             ),
           ),
         ],

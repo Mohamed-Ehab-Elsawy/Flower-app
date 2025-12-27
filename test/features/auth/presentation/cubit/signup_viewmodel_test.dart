@@ -56,12 +56,12 @@ void main() {
     },
     act: (bloc) => bloc.doIntent(SignUpEvent(userRequest: dummyRequest)),
     expect: () {
-      var state = SignupStates(
+      var state = const SignupStates(
         signUpState: BaseState<UserEntity>(requestState: RequestState.loading),
       );
       return [
         state.copyWith(
-          signUpState: BaseState<UserEntity>(
+          signUpState: const BaseState<UserEntity>(
             requestState: RequestState.loading,
           ),
         ),
@@ -88,17 +88,17 @@ void main() {
     },
     act: (bloc) => bloc.doIntent(SignUpEvent(userRequest: dummyRequest)),
     expect: () {
-      var state = SignupStates(
+      var state = const SignupStates(
         signUpState: BaseState<UserEntity>(requestState: RequestState.loading),
       );
       return [
         state.copyWith(
-          signUpState: BaseState<UserEntity>(
+          signUpState: const BaseState<UserEntity>(
             requestState: RequestState.loading,
           ),
         ),
         state.copyWith(
-          signUpState: BaseState<UserEntity>(
+          signUpState: const BaseState<UserEntity>(
             errorMessage: "Signup Failed",
             requestState: RequestState.error,
           ),
@@ -113,6 +113,6 @@ void main() {
     'emits state with selectedGender when SelectGender event is triggered',
     build: () => viewModel,
     act: (bloc) => bloc.doIntent(SelectGender(selectGender: "male")),
-    expect: () => [SignupStates(selectedGender: "male")],
+    expect: () => [const SignupStates(selectedGender: "male")],
   );
 }

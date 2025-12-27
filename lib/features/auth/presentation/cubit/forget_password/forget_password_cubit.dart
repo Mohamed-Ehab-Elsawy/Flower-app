@@ -34,7 +34,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
     this._sendResetPasswordCodeUseCase,
     this._verifyResetPasswordCodeUseCase,
     this._resetPasswordUseCase,
-  ) : super(ForgetPasswordState());
+  ) : super(const ForgetPasswordState());
 
   void doIntent(ForgetPasswordIntent intent) {
     switch (intent) {

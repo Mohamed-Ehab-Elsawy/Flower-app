@@ -27,14 +27,14 @@ class ResentEmail extends StatelessWidget {
                       Text(
                         'resendIn'.tr(args: [remaining.toString()]),
                         style: TextStyle(
-                          color: context.colors.primary,
+                          color: context.appTheme.primary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         ' 00:$remaining',
                         style: TextStyle(
-                          color: context.colors.primary,
+                          color: context.appTheme.primary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -56,7 +56,7 @@ class ResentEmail extends StatelessWidget {
                     child: Text(
                       'resend'.tr(),
                       style: TextStyle(
-                        color: isLoading ? Colors.grey : context.colors.primary,
+                        color: isLoading ? Colors.grey : context.appTheme.primary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

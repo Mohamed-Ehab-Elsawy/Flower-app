@@ -44,7 +44,7 @@ class CustomTextFromField extends StatelessWidget {
         labelText: label,
         floatingLabelBehavior: FloatingLabelBehavior.always,
         hintText:hintText,
-        hintStyle: hintStyle ?? context.theme.bodyMedium,
+        hintStyle: hintStyle ?? context.appTheme.regular14,
       ),
     );
   }

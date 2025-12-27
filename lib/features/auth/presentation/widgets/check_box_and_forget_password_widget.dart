@@ -34,14 +34,14 @@ class _CheckBoxAndForgetPasswordWidgetState
                 await AppLocalStorage.setData(LocalKeys.rememberMe, isCheck);
               },
             ),
-            Text(IAppText.rememberMe, style: context.theme.bodyMedium),
+            Text(IAppText.rememberMe, style: context.appTheme.regular14),
           ],
         ),
         GestureDetector(
           onTap: widget.onTapForgetPassword,
           child: Text(
             IAppText.forgetPassword,
-            style: context.theme.bodySmall?.copyWith(
+            style: context.appTheme.regular12.copyWith(
               decoration: TextDecoration.underline,
             ),
           ),

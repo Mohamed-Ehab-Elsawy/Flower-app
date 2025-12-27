@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) => Scaffold(
     resizeToAvoidBottomInset: true,
     appBar: AppBar(
-      title: Text(IAppText.login, style: context.theme.headlineMedium),
+      title: Text(IAppText.login, style: context.appTheme.medium20),
     ),
     body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -69,7 +69,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 validator: AppValidator.validateEmail,
                 label: IAppText.email,
                 hintText: IAppText.enterYouEmail,
-                hintStyle: context.theme.bodyMedium,
                 textInputAction: TextInputAction.next,
               ),
               const SizedBox(height: 24),
@@ -78,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 validator: AppValidator.validatePassword,
                 label: IAppText.password,
                 hintText: IAppText.enterYouPassword,
-                hintStyle: context.theme.bodyMedium,
+               
                 isObscureText: true,
                 onFieldSubmitted: (_) => _validateLogin(context),
                 textInputAction: TextInputAction.done,
@@ -106,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 16),
               OutlinedButton(
-                child: Text(IAppText.continueAsGuest),
+                child: const Text(IAppText.continueAsGuest),
                 onPressed: () =>
                     context.read<LoginViewModel>().doIntent(GuestLoginIntent()),
               ),
@@ -137,11 +136,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _showLoadingOrText(bool isLoading) => isLoading
-      ? CircularProgressIndicator(color: context.colors.secondary)
+      ? CircularProgressIndicator(color: context.appTheme.secondary)
       : Text(
           IAppText.login,
-          style: context.theme.titleMedium?.copyWith(
-            color: context.colors.secondary,
+          style: context.appTheme.medium16.copyWith(
+            color: context.appTheme.secondary,
           ),
         );
 

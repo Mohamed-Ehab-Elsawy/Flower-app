@@ -26,7 +26,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   @override
   void initState() {
@@ -61,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       create: (context) => signUpViewModel,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Sign Up", style: context.theme.headlineMedium).tr(),
+          title: Text("Sign Up", style: context.appTheme.medium20).tr(),
         ),
         body: SafeArea(
           child: Padding(
@@ -72,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     const SizedBox(height: 18),
                     Row(
                       children: [
@@ -163,13 +164,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 children: [
                                   Text(
                                     "Gender".tr(),
-                                    style: context.theme.titleMedium,
+                                    style: context.appTheme.medium16,
                                   ),
                                   Expanded(
                                     child: RadioListTile<String>(
                                       title: Text(
                                         "male".tr(),
-                                        style: context.theme.bodyMedium,
+                                        style: context.appTheme.regular14,
                                       ).tr(),
                                       value: "male",
                                       groupValue: state.selectedGender ?? '',
@@ -190,7 +191,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     child: RadioListTile<String>(
                                       title: Text(
                                         "female".tr(),
-                                        style: context.theme.bodyMedium,
+                                        style: context.appTheme.regular14,
                                       ).tr(),
                                       value: "female",
                                       groupValue: state.selectedGender ?? '',
@@ -219,7 +220,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       children: [
                         Text(
                           "Creating an account, you agree to our ".tr(),
-                          style: context.theme.bodySmall,
+                          style: context.appTheme.regular12,
                         ),
                         InkWell(
                           onTap: () {
@@ -230,7 +231,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: Text(
                             "Terms&Conditions".tr(),
 
-                            style: context.theme.labelMedium?.copyWith(
+                            style: context.appTheme.semiBold12.copyWith(
                               decoration: TextDecoration.underline,
                             ),
                           ),
@@ -272,7 +273,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         children: [
                           Text(
                             "Already have an account? ".tr(),
-                            style: context.theme.bodyLarge,
+                            style: context.appTheme.regular16,
                           ),
                           InkWell(
                             onTap: () {
@@ -280,9 +281,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             },
                             child: Text(
                               "Login".tr(),
-                              style: context.theme.titleMedium?.copyWith(
+                              style: context.appTheme.regular16.copyWith(
                                 decoration: TextDecoration.underline,
-                                color: context.colors.primary,
+                                color: context.appTheme.primary,
                               ),
                             ),
                           ),

@@ -32,7 +32,7 @@ class PinputWidget extends StatelessWidget {
         ),
       ),
       focusedPinTheme: PinTheme(
-        textStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        textStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         height: 50,
         width: 68,
         decoration: BoxDecoration(
@@ -41,12 +41,12 @@ class PinputWidget extends StatelessWidget {
         ),
       ),
       submittedPinTheme: PinTheme(
-        textStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        textStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         height: 50,
         width: 68,
         decoration: BoxDecoration(
           border: Border.all(
-            color: hasError ? Colors.red : context.colors.primaryFixed,
+            color: hasError ? Colors.red : context.appTheme.primary,
             width: 1,
           ),
           borderRadius: BorderRadius.circular(10),

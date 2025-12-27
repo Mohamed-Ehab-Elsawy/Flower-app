@@ -1,16 +1,5 @@
 import 'package:flutter/material.dart';
 
-extension AppThemeContext on BuildContext {
-  AppThemeExtension get appTheme {
-    final ext = Theme.of(this).extension<AppThemeExtension>();
-    if (ext == null) {
-      throw FlutterError(
-        'AppThemeExtension not found in ThemeData.extensions. Make sure you add AppThemeExtension to your ThemeData (e.g., ThemeData(extensions: [appThemeExtension]))',
-      );
-    }
-    return ext;
-  }
-}
 
 class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   //>>>>>>>>>>>>>>>TextStyles<<<<<<<<<<<<<<<<//

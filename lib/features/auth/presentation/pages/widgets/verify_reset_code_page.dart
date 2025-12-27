@@ -29,7 +29,7 @@ class VerifyResetCodePage extends StatelessWidget {
 
               Text(
                 'emailVerification'.tr(),
-                style: context.theme.titleLarge,
+                style: context.appTheme.semiBold18,
                 textAlign: TextAlign.center,
               ),
 
@@ -38,7 +38,7 @@ class VerifyResetCodePage extends StatelessWidget {
               Text(
                 'otpDescription'.tr(),
                 textAlign: TextAlign.center,
-                style: context.theme.bodyMedium?.copyWith(color: Colors.grey),
+                style: context.appTheme.regular14.copyWith(color: Colors.grey),
               ),
 
               context.h(48),
@@ -52,8 +52,8 @@ class VerifyResetCodePage extends StatelessWidget {
               if (hasError)
                 Text(
                   'invalidCode'.tr(),
-                  style: context.theme.bodySmall?.copyWith(
-                    color: context.colors.error,
+                  style: context.appTheme.regular12.copyWith(
+                    color: context.appTheme.error,
                   ),
 
                   textAlign: TextAlign.right,
@@ -61,15 +61,15 @@ class VerifyResetCodePage extends StatelessWidget {
 
               context.h(40),
 
-              ResentEmail(),
+              const ResentEmail(),
 
               context.h(40),
 
               // Loading indicator
               if (isLoading)
-                Padding(
-                  padding: const EdgeInsets.only(top: 32),
-                  child: const Center(child: CircularProgressIndicator()),
+                const Padding(
+                  padding: EdgeInsets.only(top: 32),
+                  child: Center(child: CircularProgressIndicator()),
                 ),
             ],
           ),

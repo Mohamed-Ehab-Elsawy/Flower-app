@@ -8,14 +8,13 @@ import 'package:flower_app/features/auth/domain/models/user_entity.dart';
 import 'package:flower_app/features/auth/domain/use_cases/signup_use_case.dart';
 import 'package:flower_app/features/auth/presentation/cubit/signup_event.dart';
 import 'package:flower_app/features/auth/presentation/cubit/signup_states.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class SignUpViewModel extends Cubit<SignupStates> with EquatableMixin {
   final SignUpUseCase _signUpUseCase;
-  SignUpViewModel(this._signUpUseCase) : super(SignupStates());
+  SignUpViewModel(this._signUpUseCase) : super(const SignupStates());
 
   final StreamController<SignupUiEvent> _signupUiEvent =
       StreamController.broadcast();
@@ -50,7 +49,7 @@ class SignUpViewModel extends Cubit<SignupStates> with EquatableMixin {
   void _signUp(UserSignupRequest userRequest) async {
     emit(
       state.copyWith(
-        signUpState: BaseState<UserEntity>(requestState: RequestState.loading),
+        signUpState: const BaseState<UserEntity>(requestState: RequestState.loading),
       ),
     );
     Result<UserEntity> response = await _signUpUseCase(userRequest);

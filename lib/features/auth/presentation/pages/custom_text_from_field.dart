@@ -47,13 +47,13 @@ class CustomTextFromField extends StatelessWidget {
         hintText: hintText,
         hintStyle:
             hintStyle ??
-            TextStyle(
+            const TextStyle(
               fontSize: 14,
               color: Color(0xFF535353),
               fontWeight: FontWeight.w400,
             ),
         labelText: label,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           fontSize: 14,
           color: Color(0xFF535353),
           fontWeight: FontWeight.w400,
@@ -63,38 +63,38 @@ class CustomTextFromField extends StatelessWidget {
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 4),
               borderSide:
-                  borderSide ?? BorderSide(color: Color(0xFF535353), width: 1),
+                  borderSide ?? const BorderSide(color: Color(0xFF535353), width: 1),
             ),
         focusedBorder:
             outlineInputBorder ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 4),
               borderSide:
-                  borderSide ?? BorderSide(color: Color(0xFF535353), width: 1),
+                  borderSide ?? const BorderSide(color: Color(0xFF535353), width: 1),
             ),
         disabledBorder:
             outlineInputBorder ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 4),
               borderSide:
-                  borderSide ?? BorderSide(color: Color(0xFF535353), width: 1),
+                  borderSide ?? const BorderSide(color: Color(0xFF535353), width: 1),
             ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 4),
           borderSide:
-              borderSide ?? BorderSide(color: Color(0xFFCC1010), width: 1),
+              borderSide ?? const BorderSide(color: Color(0xFFCC1010), width: 1),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 4),
           borderSide:
-              borderSide ?? BorderSide(color: Color(0xFFCC1010), width: 1),
+              borderSide ?? const BorderSide(color: Color(0xFFCC1010), width: 1),
         ),
 
         suffixIcon: suffixIcon,
       ),
       obscureText: isObscureText ?? false,
-      cursorColor: Color(0xFF535353),
-      style: TextStyle(
+      cursorColor: const Color(0xFF535353),
+      style: const TextStyle(
         fontSize: 14,
         color: Color(0xFF535353),
         fontWeight: FontWeight.w400,

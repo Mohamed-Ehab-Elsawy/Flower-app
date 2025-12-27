@@ -90,7 +90,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
         emailController: _emailController,
         formKey: _emailFormKey,
       ),
-      VerifyResetCodePage(),
+      const VerifyResetCodePage(),
       ResetPasswordPage(
         onPressed: _resetPassword,
         passwordController: _newPasswordController,

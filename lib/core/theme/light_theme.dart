@@ -9,8 +9,8 @@ class LightTheme extends AppTheme {
   BottomNavigationBarThemeData get bottomAppBarThemeData =>
       BottomNavigationBarThemeData(
         type: BottomNavigationBarType.fixed,
-        unselectedLabelStyle: textTheme.bodySmall,
-        selectedLabelStyle: textTheme.bodySmall,
+        unselectedLabelStyle: appThemeExtension.regular12,
+        selectedLabelStyle: appThemeExtension.regular12,
         selectedItemColor: color.primary,
         unselectedItemColor: color.secondary[80],
         backgroundColor: color.secondary,
@@ -108,14 +108,14 @@ class LightTheme extends AppTheme {
 
   @override
   AppThemeExtension get appThemeExtension => AppThemeExtension(
-    semiBold24: AppTextStyles.semiBold24,
-    medium20: AppTextStyles.medium20,
-    semiBold18: AppTextStyles.semiBold18,
-    medium16: AppTextStyles.medium16,
-    regular16: AppTextStyles.regular16,
-    regular14: AppTextStyles.regular14,
-    regular12: AppTextStyles.regular12,
-    semiBold12: AppTextStyles.semiBold12,
+    semiBold24: AppTextStyles.semiBold24.copyWith(color: color.textColor),
+    medium20: AppTextStyles.medium20.copyWith(color: color.textColor),
+    semiBold18: AppTextStyles.semiBold18.copyWith(color: color.textColor),
+    medium16: AppTextStyles.medium16.copyWith(color: color.textColor),
+    regular16: AppTextStyles.regular16.copyWith(color: color.textColor),
+    regular14: AppTextStyles.regular14.copyWith(color: color.textColor),
+    regular12: AppTextStyles.regular12.copyWith(color: color.textColor),
+    semiBold12: AppTextStyles.semiBold12.copyWith(color: color.textColor),
     primary: color.primary,
     secondary: color.secondary,
     surface: color.surface,
@@ -124,45 +124,6 @@ class LightTheme extends AppTheme {
     success: color.success,
     grey: color.grey,
     lightPink: color.lightPink,
-  );
-  @override
-  TextFormField get textFormField => TextFormField(
-    style: textTheme.bodyMedium,
-    cursorColor: Color(0xFF535353),
-    decoration: InputDecoration(
-      isDense: true,
-      contentPadding: const EdgeInsets.all(16),
-      hintStyle: textTheme.bodyMedium?.copyWith(color: Color(0xFF535353)),
-      labelStyle: textTheme.bodyMedium?.copyWith(color: Color(0xFF535353)),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: BorderSide(color: Color(0xFF535353), width: 1),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: BorderSide(color: Color(0xFF535353), width: 1),
-      ),
-      disabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: BorderSide(color: Color(0xFF535353), width: 1),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: BorderSide(color: Color(0xFFCC1010), width: 1),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(4),
-        borderSide: BorderSide(color: Color(0xFFCC1010), width: 1),
-      ),
-    ),
-  );
-  @override
-  AppBarTheme get appBarTheme => AppBarTheme(
-    centerTitle: false,
-    backgroundColor: Colors.transparent,
-    elevation: 0,
-    titleTextStyle: textTheme.headlineMedium,
-    actionsIconTheme: IconThemeData(size: 20, color: Colors.black),
   );
 }
 
@@ -174,7 +135,7 @@ class _LightColors extends AppColors {
   Color get error => const Color(0xFFCC1010);
 
   @override
-  MaterialColor get primary => MaterialColor(0xFFD21E6A, <int, Color>{
+  MaterialColor get primary => const MaterialColor(0xFFD21E6A, <int, Color>{
     0: Color(0xFFD21E6A),
     10: Color(0xFFf6d2e1),
     20: Color(0xFFf0b4cd),
@@ -188,7 +149,7 @@ class _LightColors extends AppColors {
     100: Color(0xFF2a0615),
   });
   @override
-  MaterialColor get secondary => MaterialColor(0xFFf9f9f9, <int, Color>{
+  MaterialColor get secondary => const MaterialColor(0xFFf9f9f9, <int, Color>{
     0: Color(0xFFf9f9f9),
     10: Color(0xFFfefefe),
     20: Color(0xFFfdfdfd),
@@ -206,7 +167,7 @@ class _LightColors extends AppColors {
   Color get success => const Color(0xFF0CB359);
 
   @override
-  MaterialColor get surface => MaterialColor(0xFF0c1015, <int, Color>{
+  MaterialColor get surface => const MaterialColor(0xFF0c1015, <int, Color>{
     0: Color(0xFF0c1015),
     10: Color(0xFFcecfd0),
     20: Color(0xFFaeafb1),
@@ -224,7 +185,7 @@ class _LightColors extends AppColors {
   Color get grey => const Color(0xFF535353);
 
   @override
-  Color get lightPink => Color(0xFFF9ECF0);
+  Color get lightPink => const Color(0xFFF9ECF0);
 
   @override
   Color get textColor => Colors.black;
