@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -13,7 +12,7 @@ class FlowerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      log("validation.enterUsername".tr());
+    log("validation.enterUsername".tr());
     return MaterialApp(
       title: IAppText.appName,
       debugShowCheckedModeBanner: false,
@@ -23,7 +22,6 @@ class FlowerApp extends StatelessWidget {
       locale: context.locale,
       initialRoute: isLoggedInUser ? AppRoutes.appSection : AppRoutes.login,
       onGenerateRoute: onGenerateRoute,
-      
     );
   }
 }
