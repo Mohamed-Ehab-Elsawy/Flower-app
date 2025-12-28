@@ -1,5 +1,5 @@
-import 'package:flower_app/core/shared_models/models/product_type_dto.dart';
-import 'package:flower_app/core/shared_models/entities/product_type_entity.dart';
+import 'package:flower_app/core/app/data/models/product_type_dto.dart';
+import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 
 extension ProductTypeDtoX on ProductTypeDto {
   ProductTypeEntity toEntity() => ProductTypeEntity(
