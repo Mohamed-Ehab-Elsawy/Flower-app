@@ -105,7 +105,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       backgroundColor: Color.lerp(backgroundColor, other.backgroundColor, t)!,
       error: Color.lerp(error, other.error, t)!,
       success: Color.lerp(success, other.success, t)!,
-      grey: Color.lerp(grey, other.grey, t)!,
+      grey: const Color.fromARGB(255, 145, 143, 143),
       lightPink: Color.lerp(lightPink, other.lightPink, t)!,
     );
   }

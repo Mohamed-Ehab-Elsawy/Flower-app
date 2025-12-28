@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
 import 'package:flower_app/core/widgets/custom_image_view.dart';
@@ -30,8 +31,8 @@ class CustomCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(7),
         decoration: BoxDecoration(
-          color: context.appTheme.secondary,
-          border: Border.all(color: context.appTheme.surface.shade100),
+          color: Colors.transparent,
+          border: Border.all(color: context.appTheme.grey.withAlpha(30)),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -41,78 +42,95 @@ class CustomCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(12),
-              ),
-              child: CustomImageView(imagePath: imageUrl),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
+        child: Expanded(
+          flex: 55,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomImageView(
+                imagePath: imageUrl,
+                radius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
                 ),
-                const SizedBox(height: 4),
-                Row(
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+              Expanded(
+                flex: 45,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                   children: [
                     Text(
-                      'EGP $price',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 4),
+                    Wrap(
+                      spacing: 5,
+                      children: [
+                        Text(
+                          'EGP'.tr(args: [price.toString()]),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+
+                        if (oldPrice != null)
+                          Text(
+                            '$oldPrice',
+                            style: context.appTheme.regular14.copyWith(
+                              decoration: TextDecoration.lineThrough,
+                              color: Colors.grey,
+                              fontSize: 12,
+                            ),
+                          ),
+
+                        if (discountPercentage != null)
+                          Text(
+                            '$discountPercentage%',
+                            style: context.appTheme.regular14.copyWith(
+                              color: context.appTheme.success,
+                              fontSize: 12,
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                      ],
+                    ),
+                    context.h(8),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 35,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          onAddToCart;
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.shopping_cart_outlined),
+                            Text(
+                              'addToCart'.tr(),
+                              style: context.appTheme.medium13.copyWith(
+                                color: context.appTheme.secondary,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    context.w(8),
-                    if (oldPrice != null)
-                      Text(
-                        '$oldPrice',
-                        style: const TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          color: Colors.grey,
-                          fontSize: 12,
-                        ),
-                      ),
-                    context.w(10),
-                    if (discountPercentage != null)
-                      Text(
-                        '$discountPercentage%',
-                        style: context.appTheme.regular14.copyWith(
-                          color: context.appTheme.success,
-                        ),
-                        textAlign: TextAlign.start,
-                      ),
                   ],
                 ),
-                context.h(8),
-
-                ElevatedButton(
-                  onPressed: () {
-                    onAddToCart;
-                  },
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.shopping_cart_outlined),
-                      Text(
-                        'Add to cart',
-                        style: context.appTheme.medium13.copyWith(
-                          color: context.appTheme.secondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

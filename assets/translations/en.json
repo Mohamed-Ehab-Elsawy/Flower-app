@@ -1,13 +1,13 @@
 {
-  "signup":"signup",
+  "signup": "signup",
   "First name": "First name",
   "Enter First name": "Enter First name",
-  "Last name":"Last name",
+  "Last name": "Last name",
   "Enter last name": "Enter last name",
-  "Email":"Email",
-  "Enter your email":"Enter your email",
+  "Email": "Email",
+  "Enter your email": "Enter your email",
   "Password": "Password",
-  "Enter Password":"Enter Password",
+  "Enter Password": "Enter Password",
   "Confirm password": "Confirm password",
   "Phone number": "Phone number",
   "Enter Phone number": "Enter Phone number",
@@ -15,13 +15,13 @@
   "male": "male",
   "female": "female",
   "account Created Successfully": "account Created Successfully",
-  "don't Have Acc":   "don't Have Acc",
+  "don't Have Acc": "don't Have Acc",
   "Creating an account, you agree to our ": "Creating an account, you agree to our ",
   "Terms&Conditions": "Terms&Conditions",
   "Already have an account? ": "Already have an account? ",
-  "Login":  "Login",
+  "Login": "Login",
   "account_created_success": "account_created_success",
-  "continue" : "Continue",
+  "continue": "Continue",
   "errors": {
     "connectionTimeout": "Connection Timeout",
     "sendTimeout": "Send Timeout",
@@ -42,39 +42,32 @@
     "error504": "Gateway timeout. Please try again.",
     "defaultError": "Server error. Please try again."
   },
-
   "navigation": {
     "home": "Home",
     "categories": "Categories",
     "cart": "Cart",
     "profile": "Profile"
   },
-
   "validation": {
     "enterUsername": "Please enter a username",
     "least3CharUsername": "Username must be at least 3 characters",
     "usernamePattern": "Username can only contain letters\nnumbers, and underscore",
-
     "enterFirstName": "Please enter your first name",
     "least2CharFirstName": "First name must be at least 2 characters",
     "firstNamePattern": "First name can only contain letters and spaces",
-
     "enterLastName": "Please enter your last name",
     "least2CharLastName": "Last name must be at least 2 characters",
     "lastNamePattern": "Last name can only contain letters and spaces",
-
     "enterEmail": "Please enter your email",
     "validEmail": "Please enter a valid email address",
-
     "enterPassword": "Please enter password",
     "passwordCriteria": "Password must be\nat least 8 characters\nand contain uppercase\nletter number,\nand special character",
     "passwordValidation": "Password must be\nat least 8 characters\nand contain uppercase\nletter number,\nand special character\n(@$!%*?&)",
     "enterConfirmPassword": "Please confirm password",
     "confirmPasswordNotMatch": "Passwords do not match",
-
     "enterPhoneNumber": "Please enter your phone number",
     "validPhoneNumber": "Please enter a valid phone number (10-15 digits)"
-  }
-
-
+  },
+  "addToCart": "Add to cart",
+  "EGP": "EGP {}"
 }
