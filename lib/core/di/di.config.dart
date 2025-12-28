@@ -35,15 +35,13 @@ import '../../features/categories/data/datasources/category_data_source.dart'
     as _i842;
 import '../../features/categories/data/datasources/category_data_source_impl.dart'
     as _i236;
-import '../../features/categories/data/repositories/category_repo_impl.dart'
-    as _i504;
-import '../../features/categories/domain/repositories/category_repo.dart'
-    as _i736;
+import '../../features/categories/data/repo/category_repo_impl.dart' as _i782;
+import '../../features/categories/domain/repo/category_repo.dart' as _i51;
 import '../../features/home/data/datasources/home_data_source.dart' as _i426;
 import '../../features/home/data/datasources/home_data_source_impl.dart'
     as _i375;
-import '../../features/home/data/repositories/home_repo_impl.dart' as _i333;
-import '../../features/home/domain/repositories/home_repo.dart' as _i1021;
+import '../../features/home/data/repo/home_repo_impl.dart' as _i1024;
+import '../../features/home/domain/repo/home_repo.dart' as _i280;
 import '../../features/home/domain/use_cases/get_products.dart'
     as _i211;
 import '../../features/home/presentation/occasions/occasions_cubit.dart'
@@ -62,6 +60,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.BaseOptions>(() => apiModule.providerOption());
     gh.lazySingleton<_i52.TalkerDioLogger>(() => apiModule.prvoideLogger());
     gh.lazySingleton<_i736.CategoryRepo>(() => _i504.CategoryRepoImpl());
+    gh.lazySingleton<_i51.CategoryRepo>(() => _i782.CategoryRepoImpl());
+    gh.lazySingleton<_i280.HomeRepo>(() => _i1024.HomeRepoImpl());
+    gh.lazySingleton<_i426.HomeDataSource>(() => _i375.HomeDataSourceImpl());
     gh.lazySingleton<_i361.Dio>(
       () => apiModule.provideDio(
         gh<_i361.BaseOptions>(),

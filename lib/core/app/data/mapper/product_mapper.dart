@@ -1,9 +1,9 @@
 // lib/core/shared_models/mapper/product_mapper.dart
 
-import 'package:flower_app/core/shared_models/models/product_dto.dart';
-import 'package:flower_app/core/shared_models/entities/product_entity.dart';
+import 'package:flower_app/core/app/data/models/product_dto.dart';
+import 'package:flower_app/core/app/domain/entities/product_entity.dart';
 
-extension ProductModelX on ProductModel {
+extension ProductModelX on ProductDto {
   ProductEntity toEntity() => ProductEntity(
     id: id,
     title: title,

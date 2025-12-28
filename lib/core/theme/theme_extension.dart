@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-
 class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   //>>>>>>>>>>>>>>>TextStyles<<<<<<<<<<<<<<<<//
   final TextStyle semiBold24;
   final TextStyle medium20;
   final TextStyle semiBold18;
+  final TextStyle medium13;
   final TextStyle medium16;
   final TextStyle regular16;
   final TextStyle regular14;
@@ -25,6 +25,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     required this.semiBold24,
     required this.medium20,
     required this.semiBold18,
+    required this.medium13,
     required this.medium16,
     required this.regular16,
     required this.regular14,
@@ -45,6 +46,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     TextStyle? semiBold2,
     TextStyle? medium20,
     TextStyle? semiBold18,
+    TextStyle? medium13,
     TextStyle? medium16,
     TextStyle? regular16,
     TextStyle? regular14,
@@ -61,6 +63,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     Color? lightPink,
   }) {
     return AppThemeExtension(
+      medium13: medium13 ?? this.medium13,
       semiBold24: semiBold24,
       medium20: medium20 ?? this.medium20,
       semiBold18: semiBold18 ?? this.semiBold18,
@@ -91,6 +94,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       medium20: TextStyle.lerp(medium20, other.medium20, t)!,
       semiBold18: TextStyle.lerp(semiBold18, other.semiBold18, t)!,
       medium16: TextStyle.lerp(medium16, other.medium16, t)!,
+      medium13: TextStyle.lerp(medium13, other.medium13, t)!,
       regular16: TextStyle.lerp(regular16, other.regular16, t)!,
       regular14: TextStyle.lerp(regular14, other.regular14, t)!,
       regular12: TextStyle.lerp(regular12, other.regular12, t)!,
@@ -102,7 +106,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       error: Color.lerp(error, other.error, t)!,
       success: Color.lerp(success, other.success, t)!,
       grey: Color.lerp(grey, other.grey, t)!,
-          lightPink: Color.lerp(lightPink, other.lightPink, t)!,
+      lightPink: Color.lerp(lightPink, other.lightPink, t)!,
     );
   }
 }
@@ -138,8 +142,12 @@ MaterialColor materialColorWithStandardShades(MaterialColor src) {
 
 // Interpolate two MaterialColor instances in a concise way and avoid nulls.
 MaterialColor _lerpMaterialColor(MaterialColor a, MaterialColor b, double t) {
-  final primary = Color.lerp(Color(a.value), Color(b.value), t) ?? Color(a.value);
+  final primary =
+      Color.lerp(Color(a.value), Color(b.value), t) ?? Color(a.value);
   final keys = {...a.keys, ...b.keys}.toList()..sort();
-  final map = {for (final k in keys) k: (Color.lerp(a[k], b[k], t) ?? a[k] ?? b[k] ?? primary)};
+  final map = {
+    for (final k in keys)
+      k: (Color.lerp(a[k], b[k], t) ?? a[k] ?? b[k] ?? primary),
+  };
   return MaterialColor(primary.value, map);
 }
