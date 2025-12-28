@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/constants/app_dimensions.dart';
 import 'package:flower_app/core/helper/show_toast.dart';
@@ -32,7 +34,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
     context.read<ForgetPasswordCubit>().uiEventsStream.listen((event) {
       switch (event) {
         case ForgetPasswordShowToastEvent():
-          Toast.showToast(context, event.message);
+          Toast.showToast(context, event.message, isError: event.isError);
         case NavigateToOTPEvent():
           _pageController.animateToPage(
             1,

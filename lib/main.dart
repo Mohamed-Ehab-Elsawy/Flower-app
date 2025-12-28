@@ -23,13 +23,15 @@ void main() async {
       path:
           'assets/translations', // <-- change the path of the translation files
       fallbackLocale: const Locale('en'),
-      child:const FlowerApp(),
+      child: const FlowerApp(),
     ),
   );
 }
 
 Future<bool> getInitialAppRoute() async {
   final rememberMe = await AppLocalStorage.getBool(LocalKeys.rememberMe);
-  final token = await AppLocalStorage.getSecuredString(key: LocalKeys.authToken);
+  final token = await AppLocalStorage.getSecuredString(
+    key: LocalKeys.authToken,
+  );
   return rememberMe && token.isNotEmpty;
 }
