@@ -13,7 +13,7 @@ class OccasionsCubit extends Cubit<OccasionsStates> {
   final GetProductsUseCase _getProductsUseCase;
 
   OccasionsCubit(this._getProductsUseCase) : super(OccasionsStates());
-  String occasionId = "673b35c01159920171827aed";
+  String occasionId = "673b34c21159920171827ae0";
 
   List<Object> get props {
     return [state];

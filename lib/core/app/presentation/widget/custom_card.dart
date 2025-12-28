@@ -28,6 +28,7 @@ class CustomCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+
         padding: const EdgeInsets.all(7),
         decoration: BoxDecoration(
           color: context.appTheme.secondary,
@@ -43,74 +44,73 @@ class CustomCard extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(12),
+            Expanded(
+
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(12),
+                ),
+                child: CustomImageView(imagePath: imageUrl),
               ),
-              child: CustomImageView(imagePath: imageUrl),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 4),
+            Row(
               children: [
                 Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    Text(
-                      'EGP $price',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    context.w(8),
-                    if (oldPrice != null)
-                      Text(
-                        '$oldPrice',
-                        style: const TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          color: Colors.grey,
-                          fontSize: 12,
-                        ),
-                      ),
-                    context.w(10),
-                    if (discountPercentage != null)
-                      Text(
-                        '$discountPercentage%',
-                        style: context.appTheme.regular14.copyWith(
-                          color: context.appTheme.success,
-                        ),
-                        textAlign: TextAlign.start,
-                      ),
-                  ],
-                ),
-                context.h(8),
-
-                ElevatedButton(
-                  onPressed: () {
-                    onAddToCart;
-                  },
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.shopping_cart_outlined),
-                      Text(
-                        'Add to cart',
-                        style: context.appTheme.medium13.copyWith(
-                          color: context.appTheme.secondary,
-                        ),
-                      ),
-                    ],
+                  'EGP $price',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
                 ),
+                context.w(8),
+                if (oldPrice != null)
+                  Text(
+                    '$oldPrice',
+                    style: const TextStyle(
+                      decoration: TextDecoration.lineThrough,
+                      color: Colors.grey,
+                      fontSize: 12,
+                    ),
+                  ),
+                context.w(10),
+                if (discountPercentage != null)
+                  Text(
+                    '$discountPercentage%',
+                    style: context.appTheme.regular14.copyWith(
+                      color: context.appTheme.success,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
               ],
+            ),
+            context.h(8),
+
+            ElevatedButton(
+              onPressed: () {
+                onAddToCart;
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.shopping_cart_outlined),
+                  Text(
+                    'Add to cart',
+                    style: context.appTheme.medium13.copyWith(
+                      color: context.appTheme.secondary,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
