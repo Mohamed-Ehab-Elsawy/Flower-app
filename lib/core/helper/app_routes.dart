@@ -51,17 +51,17 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const ForgetPasswordView(),
         ),
       );
-    case AppRoutes.occasion:
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (_) => BlocProvider<OccasionsCubit>(
-          create: (context) => getIt.get< OccasionsCubit>(),
-
-          child:  OccasionScreen(),
-        ),
-      );
-    case AppRoutes.testScreen:
-      return MaterialPageRoute(builder: (_) =>  TestScreen());
+    // case AppRoutes.occasion:
+    //   return MaterialPageRoute(
+    //     settings: settings,
+    //     builder: (_) => BlocProvider<OccasionsCubit>(
+    //       create: (context) => getIt.get< OccasionsCubit>(),
+    //
+    //       child:  OccasionScreen(),
+    //     ),
+    //   );
+    // case AppRoutes.testScreen:
+    //   return MaterialPageRoute(builder: (_) =>  TestScreen());
     default:
       return null;
   }

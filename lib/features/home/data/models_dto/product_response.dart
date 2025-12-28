@@ -1,7 +1,7 @@
 import 'package:flower_app/features/home/data/models_dto/product_dto.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../../core/shared_models/models/product_dto.dart';
+
 
 part 'product_response.g.dart';
 

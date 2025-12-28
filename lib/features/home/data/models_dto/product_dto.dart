@@ -1,5 +1,5 @@
 import 'package:flower_app/features/auth/domain/models/user_entity.dart';
-import 'package:flower_app/features/home/domain/model/product_entity.dart';
+import 'package:flower_app/features/home/domain/entities/product_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'product_dto.g.dart';

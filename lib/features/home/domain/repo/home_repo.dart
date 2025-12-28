@@ -1,5 +1,5 @@
 import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/home/domain/model/product_entity.dart';
+import 'package:flower_app/features/home/domain/entities/product_entity.dart';
 
 abstract interface class HomeRepo {
   Future<Result<List<ProductsEntity>>> getProducts({String? occasionId, String? categoryId});

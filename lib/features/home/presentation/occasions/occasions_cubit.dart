@@ -1,12 +1,12 @@
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/home/domain/use_cases/get_products.dart';
+import 'package:flower_app/features/home/domain/usecases/get_products.dart';
 import 'package:flower_app/features/home/presentation/occasions/occasions_events.dart';
 import 'package:flower_app/features/home/presentation/occasions/occasions_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show Cubit;
 import 'package:injectable/injectable.dart';
 
-import '../../domain/model/product_entity.dart';
+import '../../domain/entities/product_entity.dart';
 
 @injectable
 class OccasionsCubit extends Cubit<OccasionsStates> {
