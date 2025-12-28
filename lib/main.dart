@@ -29,9 +29,8 @@ void main() async {
 }
 
 Future<bool> getInitialAppRoute() async {
-  final rememberMe = await AppLocalStorage.getBool(LocalKeys.rememberMe);
   final token = await AppLocalStorage.getSecuredString(
     key: LocalKeys.authToken,
   );
-  return rememberMe && token.isNotEmpty;
+  return token.isNotEmpty;
 }
