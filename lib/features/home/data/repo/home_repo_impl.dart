@@ -1,4 +1,4 @@
-import 'package:flower_app/features/home/domain/repositories/home_repo.dart';
+import 'package:flower_app/features/home/domain/repo/home_repo.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: HomeRepo)

@@ -65,13 +65,20 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
             error: '',
           ),
         );
-        _uiEventsController.add(ForgetPasswordShowToastEvent(result.data.info));
+        _uiEventsController.add(
+          ForgetPasswordShowToastEvent(result.data.info, false),
+        );
         _uiEventsController.add(NavigateToOTPEvent());
 
       case Failure<SendResetPasswordCodeResponse>():
-        emit(state.copyWith(isLoading: false, error: result.errorMessage));
+        emit(
+          state.copyWith(
+            isLoading: false,
+            error: result.errorMessage.toString(),
+          ),
+        );
         _uiEventsController.add(
-          ForgetPasswordShowToastEvent(result.errorMessage),
+          ForgetPasswordShowToastEvent(result.errorMessage, true),
         );
     }
   }
@@ -92,13 +99,13 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
         );
         _uiEventsController.add(NavigateToChangePasswordEvent());
         _uiEventsController.add(
-          ForgetPasswordShowToastEvent(result.data.message),
+          ForgetPasswordShowToastEvent(result.data.message, false),
         );
 
       case Failure<VerifyResetCodeResponse>():
         emit(state.copyWith(isLoading: false, error: result.errorMessage));
         _uiEventsController.add(
-          ForgetPasswordShowToastEvent(result.errorMessage),
+          ForgetPasswordShowToastEvent(result.errorMessage.toString(), true),
         );
     }
   }
@@ -116,13 +123,13 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
         _savedEmail = email;
         emit(state.copyWith(isLoading: false, message: result.data.message));
         _uiEventsController.add(
-          ForgetPasswordShowToastEvent(result.data.message),
+          ForgetPasswordShowToastEvent(result.data.message, false),
         );
         _uiEventsController.add(NavigateToLoginEvent());
       case Failure<ResetPasswordResponse>():
         emit(state.copyWith(isLoading: false, error: result.errorMessage));
         _uiEventsController.add(
-          ForgetPasswordShowToastEvent(result.errorMessage),
+          ForgetPasswordShowToastEvent(result.errorMessage.toString(), true),
         );
     }
   }
