@@ -21,7 +21,8 @@ class FlowerApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      initialRoute: isLoggedInUser ? AppRoutes.appSection : AppRoutes.login,
+      // initialRoute: isLoggedInUser ? AppRoutes.appSection : AppRoutes.login,
+      initialRoute: AppRoutes.testScreen,
       onGenerateRoute: onGenerateRoute,
       
     );

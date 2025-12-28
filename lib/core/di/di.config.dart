@@ -44,6 +44,10 @@ import '../../features/home/data/datasources/home_data_source_impl.dart'
     as _i375;
 import '../../features/home/data/repositories/home_repo_impl.dart' as _i333;
 import '../../features/home/domain/repositories/home_repo.dart' as _i1021;
+import '../../features/home/domain/use_cases/get_products.dart'
+    as _i211;
+import '../../features/home/presentation/occasions/occasions_cubit.dart'
+    as _i240;
 import '../api/api_client.dart' as _i277;
 import '../api/api_module.dart' as _i0;
 
@@ -58,14 +62,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.BaseOptions>(() => apiModule.providerOption());
     gh.lazySingleton<_i52.TalkerDioLogger>(() => apiModule.prvoideLogger());
     gh.lazySingleton<_i736.CategoryRepo>(() => _i504.CategoryRepoImpl());
-    gh.lazySingleton<_i426.HomeDataSource>(() => _i375.HomeDataSourceImpl());
     gh.lazySingleton<_i361.Dio>(
       () => apiModule.provideDio(
         gh<_i361.BaseOptions>(),
         gh<_i52.TalkerDioLogger>(),
       ),
     );
-    gh.lazySingleton<_i1021.HomeRepo>(() => _i333.HomeRepoImpl());
     gh.lazySingleton<_i842.CategoryDataSource>(
       () => _i236.CategoryDataSourceImpl(),
     );
@@ -75,8 +77,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i586.AuthDataSource>(
       () => _i775.AuthDataSourceImpl(gh<_i277.ApiClient>()),
     );
+    gh.lazySingleton<_i426.HomeDataSource>(
+      () => _i375.HomeDataSourceImpl(gh<_i277.ApiClient>()),
+    );
+    gh.lazySingleton<_i1021.HomeRepo>(
+      () => _i333.HomeRepoImpl(gh<_i426.HomeDataSource>()),
+    );
     gh.lazySingleton<_i723.AuthRepo>(
       () => _i662.AuthRepoImpl(gh<_i586.AuthDataSource>()),
+    );
+    gh.factory<_i211.GetProductsByOccasionsUseCase>(
+      () => _i211.GetProductsByOccasionsUseCase(gh<_i1021.HomeRepo>()),
     );
     gh.factory<_i437.ResetPasswordUseCase>(
       () => _i437.ResetPasswordUseCase(gh<_i723.AuthRepo>()),
@@ -105,6 +116,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i869.LoginViewModel>(
       () => _i869.LoginViewModel(gh<_i1038.LoginUseCase>()),
+    );
+    gh.factory<_i240.OccasionsCubit>(
+      () => _i240.OccasionsCubit(gh<_i211.GetProductsByOccasionsUseCase>()),
     );
     return this;
   }

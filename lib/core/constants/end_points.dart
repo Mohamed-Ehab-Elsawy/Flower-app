@@ -4,4 +4,5 @@ class EndPoints {
   static const String verifyResetCode = 'auth/verifyResetCode';
   static const String resetPassword = 'auth/resetPassword';
   static const String login = "auth/signin";
+  static const String products ="products/";
 }
