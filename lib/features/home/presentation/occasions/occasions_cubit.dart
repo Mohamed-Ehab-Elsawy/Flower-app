@@ -26,7 +26,9 @@ class OccasionsCubit extends Cubit<OccasionsStates> {
   void doEvent(OccasionsUiEvent event) {
     switch (event) {
       case NavigateToProductDetails():
-        _occasionsUiEvents.add(NavigateToProductDetails());
+        _occasionsUiEvents.add(
+          NavigateToProductDetails(product: event.product),
+        );
     }
   }
 

@@ -65,6 +65,12 @@ void main() {
             requestState: RequestState.loading,
           ),
         ),
+        state.copyWith(
+          signUpState: BaseState<UserEntity>(
+            requestState: RequestState.loaded,
+            data: dummyUser,
+          ),
+        ),
       ];
     },
     verify: (_) {

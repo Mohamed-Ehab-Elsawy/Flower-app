@@ -40,7 +40,8 @@ class _OccasionScreenState extends State<OccasionScreen> {
       switch (event) {
         case NavigateToProductDetails():
           {
-            Navigator.pushNamed(context, "/productDetails");
+            Navigator.pushNamed(context, "/productDetails",
+                arguments: event.product);
           }
       }
     });
@@ -150,7 +151,7 @@ class _OccasionScreenState extends State<OccasionScreen> {
                         final product = products[index];
                         return InkWell(
                           onTap: () {
-                            occasionsCubit.doEvent(NavigateToProductDetails());
+                            occasionsCubit.doEvent(NavigateToProductDetails(product: product));
                           },
                           child: CustomCard(
                             title: product.title ?? "",
