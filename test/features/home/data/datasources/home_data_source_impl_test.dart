@@ -1,8 +1,8 @@
 import 'package:flower_app/core/api/api_client.dart';
+import 'package:flower_app/core/app/data/models/product_dto.dart' show ProductDto;
 import 'package:flower_app/core/error_handling/handle_exception%20.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/home/data/datasources/home_data_source_impl.dart';
-import 'package:flower_app/features/home/data/models_dto/product_dto.dart';
 import 'package:flower_app/features/home/data/models_dto/product_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -15,7 +15,7 @@ void main() {
   late HomeDataSourceImpl homeDataSourceImpl;
   late MockApiClient api;
   late ProductResponse productResponse;
-  late List<ProductsDto> productsDtoList;
+  late List<ProductDto> productsDtoList;
   late String? categoryId ;
   late String? occasionId ;
   late Exception exception;
@@ -24,8 +24,8 @@ void main() {
     api = MockApiClient();
     homeDataSourceImpl = HomeDataSourceImpl(api);
     productsDtoList = [
-      ProductsDto(id: '1', title: 'title', description: 'description'),
-      ProductsDto(id: '2', title: 'title', description: 'description'),
+      const ProductDto(id: '1', title: 'title', description: 'description'),
+      const ProductDto(id: '2', title: 'title', description: 'description'),
     ];
     productResponse = ProductResponse(
       message: "message",
@@ -41,8 +41,8 @@ void main() {
       () async {
         when(api.getProducts()).thenAnswer((_) async => productResponse);
         final result = await homeDataSourceImpl.getProducts();
-        expect(result, isA<Success<List<ProductsDto>>>());
-        expect(result as Success<List<ProductsDto>>, isNotNull);
+        expect(result, isA<Success<List<ProductDto>>>());
+        expect(result as Success<List<ProductDto>>, isNotNull);
         expect(result.data.length, equals(2));
         for (var i = 0; i < result.data.length; i++) {
           expect(result.data[i].id, equals(productsDtoList[i].id));
@@ -62,8 +62,8 @@ void main() {
       () async {
         when(api.getProducts()).thenThrow(exception);
         final result = await homeDataSourceImpl.getProducts();
-        expect(result, isA<Failure<List<ProductsDto>>>());
-        expect(result as Failure<List<ProductsDto>>, isNotNull);
+        expect(result, isA<Failure<List<ProductDto>>>());
+        expect(result as Failure<List<ProductDto>>, isNotNull);
         expect(
           result.errorMessage,
           equals(NetworkException.getMessageError(exception)),
@@ -84,8 +84,8 @@ void main() {
           categoryId: categoryId,
           occasionId: null,
         );
-        expect(result, isA<Success<List<ProductsDto>>>());
-        expect(result as Success<List<ProductsDto>>, isNotNull);
+        expect(result, isA<Success<List<ProductDto>>>());
+        expect(result as Success<List<ProductDto>>, isNotNull);
         expect(result.data.length, equals(2));
         for (var i = 0; i < result.data.length; i++) {
           expect(result.data[i].id, equals(productsDtoList[i].id));
@@ -112,8 +112,8 @@ void main() {
           categoryId: categoryId,
           occasionId: null,
         );
-        expect(result, isA<Failure<List<ProductsDto>>>());
-        expect(result as Failure<List<ProductsDto>>, isNotNull);
+        expect(result, isA<Failure<List<ProductDto>>>());
+        expect(result as Failure<List<ProductDto>>, isNotNull);
         expect(
           result.errorMessage,
           equals(NetworkException.getMessageError(exception)),
@@ -136,8 +136,8 @@ void main() {
           categoryId: null,
           occasionId: occasionId,
         );
-        expect(result, isA<Success<List<ProductsDto>>>());
-        expect(result as Success<List<ProductsDto>>, isNotNull);
+        expect(result, isA<Success<List<ProductDto>>>());
+        expect(result as Success<List<ProductDto>>, isNotNull);
         expect(result.data.length, equals(2));
         for (var i = 0; i < result.data.length; i++) {
           expect(result.data[i].id, equals(productsDtoList[i].id));
@@ -164,8 +164,8 @@ void main() {
           categoryId: null,
           occasionId: occasionId,
         );
-        expect(result, isA<Failure<List<ProductsDto>>>());
-        expect(result as Failure<List<ProductsDto>>, isNotNull);
+        expect(result, isA<Failure<List<ProductDto>>>());
+        expect(result as Failure<List<ProductDto>>, isNotNull);
         expect(
           result.errorMessage,
           equals(NetworkException.getMessageError(exception)),

@@ -55,13 +55,13 @@ Route? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         settings: settings,
         builder: (_) => BlocProvider<OccasionsCubit>(
-          create: (context) => getIt.get< OccasionsCubit>(),
+          create: (context) => getIt.get<OccasionsCubit>(),
 
-          child:  OccasionScreen(),
+          child: const OccasionScreen(),
         ),
       );
     case AppRoutes.testScreen:
-      return MaterialPageRoute(builder: (_) =>  TestScreen());
+      return MaterialPageRoute(builder: (_) => const TestScreen());
     default:
       return null;
   }

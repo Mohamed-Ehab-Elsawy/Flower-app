@@ -126,6 +126,7 @@ class LightTheme extends AppTheme {
     success: color.success,
     grey: color.grey,
     lightPink: color.lightPink,
+    kDefaultRainbowColors: color.kDefaultRainbowColors,
   );
 
   @override
@@ -201,4 +202,14 @@ class _LightColors extends AppColors {
 
   @override
   Color get textColor => Colors.black;
+  @override
+  List <Color> get   kDefaultRainbowColors => const[
+    Color(0xFFf6d2e1),
+     Color(0xFFf0b4cd),
+    Color(0xFFe98fb5),
+     Color(0xFFe1699c),
+     Color(0xFFda4483),
+    Color(0xFFaf1958),
+    Color(0xFF8c1447),
+  ];
 }

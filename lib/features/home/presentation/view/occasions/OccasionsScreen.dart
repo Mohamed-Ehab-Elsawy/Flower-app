@@ -1,13 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
+import 'package:flower_app/core/app/presentation/widget/custom_card.dart';
+import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/di/di.dart';
 import 'package:flower_app/features/home/presentation/occasions/occasions_cubit.dart';
 import 'package:flower_app/features/home/presentation/occasions/occasions_events.dart';
 import 'package:flower_app/features/home/presentation/occasions/occasions_states.dart';
-import 'package:flower_app/features/home/presentation/view/occasions/tab_controler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../core/app/presentation/widget/custom_card.dart';
-import 'ocassion_model.dart';
+import 'package:loading_indicator/loading_indicator.dart'
+    show LoadingIndicator, Indicator;
 
 class OccasionScreen extends StatefulWidget {
   const OccasionScreen({super.key});
@@ -18,107 +20,177 @@ class OccasionScreen extends StatefulWidget {
 
 class _OccasionScreenState extends State<OccasionScreen> {
   final occasionsCubit = getIt.get<OccasionsCubit>();
-  late List<OcassionModel> occasions;
+  late List<ProductTypeEntity> occasions;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
     final args = ModalRoute.of(context)?.settings.arguments;
-    if (args != null && args is List<OcassionModel>) {
+    if (args != null && args is List<ProductTypeEntity>) {
       occasions = args;
-      print("Occasions length: ${occasions.length}"); // لازم يطبع 2
     } else {
       occasions = [];
-      print("No arguments received");
     }
   }
 
   @override
+  void initState() {
+    super.initState();
+    occasionsCubit.occasionsUiEvent.listen((event) {
+      switch (event) {
+        case NavigateToProductDetails():
+          {
+            Navigator.pushNamed(context, "/productDetails");
+          }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // occasionsCubit.occasionId = args.id! ;
     return BlocProvider<OccasionsCubit>(
-      create: (context) => occasionsCubit
-        ..doIntent(
-          GetAllProductsByOccasionsEvents(
-            occasionId: occasionsCubit.occasionId ?? "673b34c21159920171827ae0",
+      create: (context) {
+        final cubit = occasionsCubit;
+        if (occasions.isNotEmpty) {
+          cubit.doIntent(
+            GetAllProductsByOccasionsEvents(occasionId: occasions.first.id!),
+          );
+        }
+        return cubit;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Occasion").tr(),
+              Text(
+                "Bloom with our exquisite best sellers",
+                style: context.appTheme.regular16,
+              ).tr(),
+            ],
           ),
         ),
-      child: Scaffold(
-        appBar: AppBar(title: const Text("Occasion")),
         body: Column(
           children: [
             DefaultTabController(
               length: occasions.length,
-              child: TabBar(
-                isScrollable: true,
-                onTap: (index) {
-                  //// HomeCubit.get(context).changeSources(index) ;
+              child: Builder(
+                builder: (context) {
+                  return TabBar(
+                    isScrollable: true,
+                    // indicator: BoxDecoration(
+                    //   color: Colors.white,
+                    //   borderRadius: BorderRadius.circular(30),
+                    // ),
+                    // labelColor: context.appTheme.primary,
+                    // unselectedLabelColor: Colors.grey,
+                    //// indicatorSize: TabBarIndicatorSize.tab,
+                    //  indicatorColor: context.appTheme.primary,
+                    //dividerColor: context.appTheme.primary,
+                    // indicatorPadding: const EdgeInsets.symmetric(
+                    //   horizontal: 2,
+                    //   vertical: 2,
+                    // ),
+                    tabs: occasions
+                        .map(
+                          (occasions) => Tab(
+                            child: Text(
+                              occasions.name ?? "untitled".tr(),
+                              style: context.appTheme.regular16,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onTap: (index) {
+                      final selectedOccasion = occasions[index];
+                      context.read<OccasionsCubit>().doIntent(
+                        GetAllProductsByOccasionsEvents(
+                          occasionId: selectedOccasion.id!,
+                        ),
+                      );
+                    },
+                  );
                 },
-                indicator: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.green,
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorPadding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-                tabs: occasions
-                    .map((occasions) => Tab(
-                  child: Text(
-                    occasions.name ?? "",
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ))
-                    .toList(),
               ),
             ),
             BlocBuilder<OccasionsCubit, OccasionsStates>(
               builder: (context, state) {
-                if (state.productsStates?.errorMessage != null &&
-                    state.productsStates!.errorMessage!.isNotEmpty) {
-                  return Text(state.productsStates!.errorMessage!);
-                } else if (!(state.productsStates?.isLoading ?? false) &&
-                    state.productsStates?.data != null &&
-                    state.productsStates!.data!.isNotEmpty) {
-                  final products = state.productsStates?.data ?? [];
+                if (state.productsState?.errorMessage != null &&
+                    state.productsState!.errorMessage!.isNotEmpty) {
+                  return Text(state.productsState!.errorMessage!);
+                } else if (!(state.productsState?.isLoading ?? false) &&
+                    state.productsState?.data != null &&
+                    state.productsState!.data!.isNotEmpty) {
+                  final products = state.productsState?.data ?? [];
                   if (products.isEmpty) {
-                    return const Center(child: Text("لا توجد منتجات متاحة"));
+                    return Center(
+                      child: Text(
+                        "There is no products yet",
+                        style: context.appTheme.medium20,
+                      ).tr(),
+                    );
                   }
-                  return  Expanded(
+                  return Expanded(
                     child: GridView.builder(
                       padding: const EdgeInsets.all(12),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,              // عمودين
-                        childAspectRatio: 0.75,         // نسبة العرض للارتفاع (تعدلها حسب التصميم)
-                        mainAxisSpacing: 16,            // مسافة رأسية
-                        crossAxisSpacing: 16,           // مسافة أفقية
-                      ),                      scrollDirection: Axis.horizontal,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            mainAxisExtent: 250,
+                            crossAxisCount: 2,
+                            childAspectRatio: 1,
+                            mainAxisSpacing: 16,
+                            crossAxisSpacing: 16,
+                          ),
+                      scrollDirection: Axis.vertical,
                       itemBuilder: (context, index) {
-                        final products = state.productsStates?.data ?? [];
-
+                        final products = state.productsState?.data ?? [];
 
                         final product = products[index];
                         return InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            occasionsCubit.doEvent(NavigateToProductDetails());
+                          },
                           child: CustomCard(
                             title: product.title ?? "",
-                            imageUrl: product.imgCover!,
+                            imageUrl: product.imageCover!,
                             price: product.price?.toDouble() ?? 0,
+                            oldPrice: product.sold?.toDouble(),
+                            discountPercentage: product.priceAfterDiscount,
                           ),
                         );
                       },
-                      itemCount: state.productsStates!.data!.length,                    ),
+                      itemCount: state.productsState!.data!.length,
+                    ),
                   );
-                } else if (!(state.productsStates?.isLoading ?? false) &&
-                    state.productsStates?.data != null &&
-                    state.productsStates!.data!.isEmpty) {
-                  return Text("AppStrings.noDate");
+                } else if (!(state.productsState?.isLoading ?? false) &&
+                    state.productsState?.data != null &&
+                    state.productsState!.data!.isEmpty) {
+                  return Text(
+                    "There is no products yet",
+                    style: context.appTheme.medium20,
+                  ).tr();
                 } else {
-                  return const CircularProgressIndicator();
+                  return Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: LoadingIndicator(
+                            indicatorType: Indicator.lineScale,
+                            colors: context.appTheme.kDefaultRainbowColors,
+                            strokeWidth: 1,
+                            backgroundColor: context.appTheme.backgroundColor,
+                            pathBackgroundColor: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 }
               },
             ),

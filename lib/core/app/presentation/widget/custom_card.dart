@@ -8,7 +8,7 @@ class CustomCard extends StatelessWidget {
   final String title;
   final double price;
   final double? oldPrice;
-  final int? discountPercentage;
+  final double? discountPercentage;
   final VoidCallback? onAddToCart;
   final VoidCallback? onTap;
 
