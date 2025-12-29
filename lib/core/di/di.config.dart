@@ -56,8 +56,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.BaseOptions>(() => apiModule.providerOption());
     gh.lazySingleton<_i52.TalkerDioLogger>(() => apiModule.prvoideLogger());
     gh.lazySingleton<_i51.CategoryRepo>(() => _i782.CategoryRepoImpl());
-    gh.lazySingleton<_i280.HomeRepo>(() => _i1024.HomeRepoImpl());
-    gh.lazySingleton<_i426.HomeDataSource>(() => _i375.HomeDataSourceImpl());
     gh.lazySingleton<_i361.Dio>(
       () => apiModule.provideDio(
         gh<_i361.BaseOptions>(),
@@ -72,6 +70,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i586.AuthDataSource>(
       () => _i775.AuthDataSourceImpl(gh<_i277.ApiClient>()),
+    );
+    gh.lazySingleton<_i426.HomeDataSource>(
+      () => _i375.HomeDataSourceImpl(gh<_i277.ApiClient>()),
+    );
+    gh.lazySingleton<_i280.HomeRepo>(
+      () => _i1024.HomeRepoImpl(gh<_i426.HomeDataSource>()),
     );
     gh.lazySingleton<_i723.AuthRepo>(
       () => _i662.AuthRepoImpl(gh<_i586.AuthDataSource>()),

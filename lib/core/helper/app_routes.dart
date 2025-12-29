@@ -6,7 +6,7 @@ import 'package:flower_app/features/auth/presentation/pages/forget_password/forg
 import 'package:flower_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/signup_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/terms_and_conditions.dart';
-import 'package:flower_app/features/home/presentation/view/most_selling_view.dart';
+import 'package:flower_app/features/home/presentation/view/best_seller_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../di/di.dart';
@@ -23,7 +23,7 @@ class AppRoutes {
 Route? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
     case AppRoutes.mostSelling:
-      return MaterialPageRoute(builder: (_) => const MostSellingView());
+      return MaterialPageRoute(builder: (_) => const BestSellerView());
     case AppRoutes.signup:
       return MaterialPageRoute(builder: (_) => const SignUpScreen());
     case AppRoutes.appSection:

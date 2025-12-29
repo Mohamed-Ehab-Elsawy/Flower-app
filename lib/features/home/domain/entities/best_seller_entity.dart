@@ -1,44 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:flower_app/features/home/domain/entities/best_seller_item_entity.dart';
 
 class BestSellerEntity extends Equatable {
-  final String id;
-  final String title;
-  final String description;
-  final String imgCover;
-  final List<String> images;
-  final num price;
-  final num priceAfterDiscount;
-  final double discountPercentage;
-  final int quantity;
-  final int sold;
-  final num rateAvg;
+  final String? massage;
+  final List<BestSellerItemEntity>? bestSellerItemEntityList;
 
-  const BestSellerEntity({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.imgCover,
-    required this.images,
-    required this.price,
-    required this.priceAfterDiscount,
-    required this.discountPercentage,
-    required this.quantity,
-    required this.sold,
-    required this.rateAvg,
-  });
-
+  const BestSellerEntity({this.massage, this.bestSellerItemEntityList});
   @override
-  List<Object?> get props => [
-    id,
-    title,
-    description,
-    imgCover,
-    images,
-    price,
-    priceAfterDiscount,
-    discountPercentage,
-    quantity,
-    sold,
-    rateAvg,
-  ];
+  List<Object?> get props => [massage, bestSellerItemEntityList];
 }
