@@ -68,6 +68,8 @@
     "enterPhoneNumber": "Please enter your phone number",
     "validPhoneNumber": "Please enter a valid phone number (10-15 digits)"
   },
+  "addToCart": "Add to cart",
+  "EGP": "EGP {}",
   "forgetPassword": "Forget password",
   "enterEmailDescription": "Please enter your email associated to your account",
   "emailVerification": "Email verification",
