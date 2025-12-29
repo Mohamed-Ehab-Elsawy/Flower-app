@@ -1,3 +1,4 @@
+import 'package:flower_app/core/app/domain/entities/product_entity.dart';
 import 'package:flower_app/core/app/presentation/view/app_section.dart';
 import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
@@ -6,6 +7,7 @@ import 'package:flower_app/features/auth/presentation/pages/forget_password/forg
 import 'package:flower_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/signup_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/terms_and_conditions.dart';
+import 'package:flower_app/features/product_details/presentation/views/product_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../di/di.dart';
@@ -16,6 +18,7 @@ class AppRoutes {
   static const String appSection = "appSection";
   static const String forgetPassword = "/forgetPassword";
   static const String terms = '/terms';
+  static const String productDetails = '/productDetails';
 }
 
 Route? onGenerateRoute(RouteSettings settings) {
@@ -23,19 +26,16 @@ Route? onGenerateRoute(RouteSettings settings) {
     case AppRoutes.signup:
       return MaterialPageRoute(builder: (_) => const SignUpScreen());
     case AppRoutes.appSection:
-      return MaterialPageRoute(
-        builder: (_) => BlocProvider<AppSectionViewModel>(
-          create: (context) => AppSectionViewModel(),
-          child: const AppSection(),
+      return MaterialPageRoute(builder: (_) =>
+          BlocProvider<AppSectionViewModel>(
+            create: (context) => AppSectionViewModel(),
+            child: const AppSection(),
         ),
       );
     case AppRoutes.login:
       var cubit = getIt.get<LoginViewModel>();
-      return MaterialPageRoute(
-        builder: (_) => BlocProvider(
-          create: (context) => cubit,
-          child: const LoginScreen(),
-        ),
+      return MaterialPageRoute(builder: (_) =>
+          BlocProvider(create: (context) => cubit, child: const LoginScreen()),
       );
     case AppRoutes.terms:
       return MaterialPageRoute(builder: (_) => const TermsAndConditions());
@@ -46,6 +46,9 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const ForgetPasswordView(),
         ),
       );
+      case AppRoutes.productDetails:
+         final args = settings.arguments as ProductEntity;
+        return MaterialPageRoute(builder: (_) => ProductDetailsView(product: args,));
     default:
       return null;
   }
