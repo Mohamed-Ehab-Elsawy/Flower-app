@@ -158,7 +158,7 @@ class _OccasionScreenState extends State<OccasionScreen> {
                             imageUrl: product.imageCover!,
                             price: product.price?.toDouble() ?? 0,
                             oldPrice: product.sold?.toDouble(),
-                            discountPercentage: product.priceAfterDiscount,
+                            discountPercentage: product.priceAfterDiscount!.toInt(),
                           ),
                         );
                       },
