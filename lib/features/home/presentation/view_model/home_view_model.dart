@@ -36,13 +36,17 @@ class HomeViewModel extends Cubit<HomeState> {
   }
 
   Future<void> _fetchHomeData() async {
-    emit(state.copyWith(homeState: BaseState.loading()));
+    emit(
+      state.copyWith(
+        const BaseState<HomeResponseEntity>(requestState: RequestState.loading),
+      ),
+    );
     final result = await _homeUseCase.call();
     switch (result) {
       case Success<HomeResponseEntity>():
-        emit(state.copyWith(homeState: BaseState.loaded(result.data)));
+        emit(state.copyWith(BaseState.loaded(result.data)));
       case Failure<HomeResponseEntity>():
-        emit(state.copyWith(homeState: BaseState.error(result.errorMessage)));
+        emit(state.copyWith(BaseState.error(result.errorMessage)));
     }
   }
 }

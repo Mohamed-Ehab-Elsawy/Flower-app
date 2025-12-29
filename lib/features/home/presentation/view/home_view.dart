@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
 import 'package:flower_app/features/home/presentation/widgets/best_seller_list.dart';
 import 'package:flower_app/features/home/presentation/widgets/categories_list.dart';
