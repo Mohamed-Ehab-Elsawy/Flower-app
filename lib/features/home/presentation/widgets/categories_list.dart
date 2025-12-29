@@ -14,9 +14,15 @@ class CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<HomeViewModel>();
+    List<ProductTypeEntity>? categories = [];
     return Column(
       children: [
-        const SectionHeader(title: "home.categories", onPressed: null),
+        SectionHeader(
+          title: "home.categories",
+          onPressed: () =>
+              cubit.doEvent(ViewAllCategoriesEvent(categories: categories)),
+        ),
         BlocBuilder<HomeViewModel, HomeState>(
           buildWhen: (previous, current) =>
               previous.homeState.data?.categories !=
@@ -27,7 +33,8 @@ class CategoryList extends StatelessWidget {
               case RequestState.loading:
                 return _buildDummyCategoriesList(state);
               case RequestState.loaded:
-                return _buildCategoriesList(state.homeState.data?.categories);
+                categories = state.homeState.data?.categories;
+                return _buildCategoriesList(categories?.take(5).toList());
               case RequestState.error:
                 return const SizedBox.shrink();
             }

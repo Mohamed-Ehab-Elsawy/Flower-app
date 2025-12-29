@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'package:flower_app/core/app/domain/entities/product_entity.dart';
+import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/home/domain/entities/home_response_entity.dart';
@@ -23,6 +24,17 @@ class HomeViewModel extends Cubit<HomeState> {
     }
   }
 
+  void doEvent(HomeUIEvents event) {
+    switch (event) {
+      case ViewAllCategoriesEvent():
+        _uiEventsController.add(event);
+      case ViewAllBestSellerEvent():
+        _uiEventsController.add(event);
+      case ViewAllOccasionsEvent():
+        _uiEventsController.add(event);
+    }
+  }
+
   Future<void> _fetchHomeData() async {
     emit(state.copyWith(homeState: BaseState.loading()));
     final result = await _homeUseCase.call();
@@ -41,8 +53,20 @@ class FetchHomeData extends Intent {}
 
 sealed class HomeUIEvents {}
 
-class ViewAllCategoriesEvent extends HomeUIEvents {}
+class ViewAllCategoriesEvent extends HomeUIEvents {
+  final List<ProductTypeEntity>? categories;
 
-class ViewAllBestSellerEvent extends HomeUIEvents {}
+  ViewAllCategoriesEvent({this.categories});
+}
 
-class ViewAllOccasionsEvent extends HomeUIEvents {}
+class ViewAllBestSellerEvent extends HomeUIEvents {
+  final List<ProductEntity>? bestSeller;
+
+  ViewAllBestSellerEvent({this.bestSeller});
+}
+
+class ViewAllOccasionsEvent extends HomeUIEvents {
+  final List<ProductTypeEntity>? occasions;
+
+  ViewAllOccasionsEvent({this.occasions});
+}

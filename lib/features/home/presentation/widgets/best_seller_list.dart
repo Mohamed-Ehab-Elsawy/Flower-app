@@ -15,9 +15,15 @@ class BestSellerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<HomeViewModel>();
+    List<ProductEntity>? bestSeller = [];
     return Column(
       children: [
-        const SectionHeader(title: "home.best_seller"),
+        SectionHeader(
+          title: "home.best_seller",
+          onPressed: () =>
+              cubit.doEvent(ViewAllBestSellerEvent(bestSeller: bestSeller)),
+        ),
         BlocBuilder<HomeViewModel, HomeState>(
           buildWhen: (previous, current) =>
               previous.homeState.data?.bestSeller !=
@@ -28,9 +34,8 @@ class BestSellerList extends StatelessWidget {
               case RequestState.loading:
                 return _buildDummyBestSellerList(state);
               case RequestState.loaded:
-                return _buildBestSellerList(
-                  state.homeState.data?.bestSeller?.take(5).toList(),
-                );
+                bestSeller = state.homeState.data?.bestSeller;
+                return _buildBestSellerList(bestSeller?.take(5).toList());
               case RequestState.error:
                 return const SizedBox.shrink();
             }

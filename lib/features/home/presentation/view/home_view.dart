@@ -23,14 +23,14 @@ class _HomeViewState extends State<HomeView> {
     context.read<HomeViewModel>().uiEventsStream.listen((event) {
       switch (event) {
         case ViewAllCategoriesEvent():
-          log("ViewAllCategoriesEvent");
-          //context.pushName(routeName);
+          log(event.categories?[0].name.toString() ?? "No Data");
+        //context.pushName(routeName);
         case ViewAllBestSellerEvent():
-          log("ViewAllBestSellerEvent");
-          //context.pushName(routeName);
+          log(event.bestSeller?[0].title.toString() ?? "No Data");
+        //context.pushName(routeName);
         case ViewAllOccasionsEvent():
-          log("ViewAllOccasionsEvent");
-          //context.pushName(routeName);
+          log(event.occasions?[0].name.toString() ?? "No Data");
+        //context.pushName(routeName);
       }
     });
     super.didChangeDependencies();

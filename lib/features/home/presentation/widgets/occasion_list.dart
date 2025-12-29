@@ -15,9 +15,15 @@ class OccasionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<HomeViewModel>();
+    List<ProductTypeEntity>? occasions = [];
     return Column(
       children: [
-        const SectionHeader(title: "home.occasion"),
+        SectionHeader(
+          title: "home.occasion",
+          onPressed: () =>
+              cubit.doEvent(ViewAllOccasionsEvent(occasions: occasions)),
+        ),
         BlocBuilder<HomeViewModel, HomeState>(
           buildWhen: (previous, current) =>
               previous.homeState.data?.occasions !=
@@ -28,9 +34,8 @@ class OccasionList extends StatelessWidget {
               case RequestState.loading:
                 return _buildDummyOccasionList(state);
               case RequestState.loaded:
-                return _buildOccasionList(
-                  state.homeState.data!.occasions?.take(5).toList(),
-                );
+                occasions = state.homeState.data!.occasions;
+                return _buildOccasionList(occasions?.take(5).toList());
               case RequestState.error:
                 return const SizedBox.shrink();
             }
