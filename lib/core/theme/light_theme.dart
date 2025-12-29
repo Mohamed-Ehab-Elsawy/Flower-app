@@ -82,6 +82,7 @@ class LightTheme extends AppTheme {
       borderRadius: BorderRadius.circular(4),
       borderSide: BorderSide(color: color.error),
     ),
+    prefixIconColor: color.secondary[70],
     labelStyle: TextStyle(color: color.grey),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(4),

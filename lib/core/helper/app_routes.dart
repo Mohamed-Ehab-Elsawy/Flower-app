@@ -6,6 +6,7 @@ import 'package:flower_app/features/auth/presentation/pages/forget_password/forg
 import 'package:flower_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/signup_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/terms_and_conditions.dart';
+import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../di/di.dart';
@@ -23,9 +24,15 @@ Route? onGenerateRoute(RouteSettings settings) {
     case AppRoutes.signup:
       return MaterialPageRoute(builder: (_) => const SignUpScreen());
     case AppRoutes.appSection:
+      var cubit = getIt.get<HomeViewModel>();
       return MaterialPageRoute(
-        builder: (_) => BlocProvider<AppSectionViewModel>(
-          create: (context) => AppSectionViewModel(),
+        builder: (_) => MultiBlocProvider(
+          providers: [
+            BlocProvider<AppSectionViewModel>(
+              create: (context) => getIt.get<AppSectionViewModel>(),
+            ),
+            BlocProvider(create: (context) => cubit..doIntent(FetchHomeData())),
+          ],
           child: const AppSection(),
         ),
       );

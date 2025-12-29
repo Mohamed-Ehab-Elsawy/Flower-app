@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
+import 'package:flower_app/features/home/data/models/home_response_dto.dart';
 import 'package:injectable/injectable.dart';
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/send_reset_password_code_request.dart';
@@ -40,4 +41,7 @@ abstract class ApiClient {
   Future<ResetPasswordResponse> resetPassword({
     @Body() required ResetPasswordRequest resetPasswordRequest,
   });
+
+  @GET(EndPoints.home)
+  Future<HomeResponseDto>fetchHomeData();
 }
