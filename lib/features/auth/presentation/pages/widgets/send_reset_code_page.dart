@@ -42,7 +42,7 @@ class _SendResetCodePageState extends State<SendResetCodePage> {
             children: [
               context.h(40),
               Text(
-                "enterEmail".tr(),
+                "forgetPassword".tr(),
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               context.h(16),
@@ -55,8 +55,8 @@ class _SendResetCodePageState extends State<SendResetCodePage> {
               ),
               context.h(32),
               CustomTextFormField(
-                labelText: "enterEmail".tr(),
-                hintText: 'email'.tr(),
+                labelText: "Email".tr(),
+                hintText: 'Enter your email'.tr(),
                 controller: widget.emailController,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) => AppValidator.validateEmail(value),
