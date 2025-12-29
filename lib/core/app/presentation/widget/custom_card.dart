@@ -63,11 +63,12 @@ class CustomCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                   children: [
+                    context.h(8),
                     Text(
                       title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontWeight: FontWeight.w600),
+                      style: context.appTheme.regular12,
                     ),
                     const SizedBox(height: 4),
                     Wrap(

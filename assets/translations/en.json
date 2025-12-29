@@ -68,10 +68,10 @@
     "enterPhoneNumber": "Please enter your phone number",
     "validPhoneNumber": "Please enter a valid phone number (10-15 digits)"
   },
-<<<<<<< HEAD
   "addToCart": "Add to cart",
-  "EGP": "EGP {}"
-=======
+  "EGP": "EGP {}",
+  "mostSelling": "Most selling",
+  "Bloom with our exquisite best sellers": "Bloom with our exquisite best sellers",
   "forgetPassword": "Forget password",
   "enterEmailDescription": "Please enter your email associated to your account",
   "emailVerification": "Email verification",
@@ -85,5 +85,4 @@
   "confirmPassword": "Confirm password",
   "confirm": "Confirm",
   "resendIn": "Resend in"
->>>>>>> 9c38f9ae301d04eb042680412b89ac208b289089
 }
