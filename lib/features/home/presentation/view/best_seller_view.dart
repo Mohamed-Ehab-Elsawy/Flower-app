@@ -20,19 +20,16 @@ class BestSellerView extends StatelessWidget {
           getIt.get<BestSellerViewModel>()..doIntent(GetBestSellerIntent()),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
           systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
             statusBarIconBrightness: Brightness.dark,
-            statusBarBrightness: Brightness.light,
           ),
+          elevation: 0,
           titleSpacing: 0,
           leading: IconButton(
             onPressed: () {},
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back_ios_new,
-              color: Colors.black,
+              color: context.appTheme.surface,
               size: 20,
             ),
           ),
@@ -66,7 +63,10 @@ class BestSellerView extends StatelessWidget {
                   state.bestSellerState.data?.bestSellerItemEntityList ?? [];
 
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
                 child: GridView.builder(
                   itemCount: items.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
