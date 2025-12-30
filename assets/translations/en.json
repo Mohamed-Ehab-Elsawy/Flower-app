@@ -75,4 +75,20 @@
     "best_seller": "Best seller",
     "occasion": "Occasion"
   }
+,
+  "addToCart": "Add to cart",
+  "EGP": "EGP {}",
+  "forgetPassword": "Forget password",
+  "enterEmailDescription": "Please enter your email associated to your account",
+  "emailVerification": "Email verification",
+  "otpDescription": "Please enter your code that send to your email address",
+  "invalidCode": "Invalid code",
+  "didn'tReceiveCode": "Didn't receive code?",
+  "resend": "Resend",
+  "resetPassword": "Reset password",
+  "resetPasswordDescription": "Password must not be empty and must contain 8 characters with upper case letter and one number at least",
+  "newPassword": "New password",
+  "confirmPassword": "Confirm password",
+  "confirm": "Confirm",
+  "resendIn": "Resend in"
 }

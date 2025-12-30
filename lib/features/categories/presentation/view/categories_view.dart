@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CategoryView extends StatelessWidget {
-  const CategoryView({super.key});
+class CategoriesView extends StatelessWidget {
+  const CategoriesView({super.key});
 
   @override
   Widget build(BuildContext context) {
