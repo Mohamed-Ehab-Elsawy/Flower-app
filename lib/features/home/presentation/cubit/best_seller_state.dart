@@ -23,6 +23,8 @@ class NavigateToProductDetailsIntent extends BestSellerIntent {
   NavigateToProductDetailsIntent({required this.productId});
 }
 
+class NavigateToHomeIntent extends BestSellerIntent {}
+
 class AddToCartIntent extends BestSellerIntent {
   final String productId;
   AddToCartIntent({required this.productId});

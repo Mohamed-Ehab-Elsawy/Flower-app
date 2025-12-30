@@ -42,12 +42,12 @@ class CustomCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Expanded(
-          flex: 55,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomImageView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 3,
+              child: CustomImageView(
                 imagePath: imageUrl,
                 radius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
@@ -56,82 +56,82 @@ class CustomCard extends StatelessWidget {
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
-              Expanded(
-                flex: 45,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            Expanded(
+              flex: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-                  children: [
-                    context.h(8),
-                    Text(
-                      title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: context.appTheme.regular12,
-                    ),
-                    const SizedBox(height: 4),
-                    Wrap(
-                      spacing: 5,
-                      children: [
-                        Text(
-                          'EGP'.tr(args: [price.toString()]),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-
-                        if (oldPrice != null)
-                          Text(
-                            '$oldPrice',
-                            style: context.appTheme.regular14.copyWith(
-                              decoration: TextDecoration.lineThrough,
-                              color: Colors.grey,
-                              fontSize: 12,
-                            ),
-                          ),
-
-                        if (discountPercentage != null)
-                          Text(
-                            '$discountPercentage%',
-                            style: context.appTheme.regular14.copyWith(
-                              color: context.appTheme.success,
-                              fontSize: 12,
-                            ),
-                            textAlign: TextAlign.start,
-                          ),
-                      ],
-                    ),
-                    context.h(8),
-
-                    SizedBox(
-                      width: double.infinity,
-                      height: 35,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          onAddToCart;
-                        },
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.shopping_cart_outlined),
-                            Text(
-                              'addToCart'.tr(),
-                              style: context.appTheme.medium13.copyWith(
-                                color: context.appTheme.secondary,
-                              ),
-                            ),
-                          ],
+                children: [
+                  context.h(8),
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: context.appTheme.regular12,
+                  ),
+                  const SizedBox(height: 4),
+                  Wrap(
+                    spacing: 5,
+                    children: [
+                      Text(
+                        'EGP'.tr(args: [price.toString()]),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
                       ),
+
+                      if (oldPrice != null)
+                        Text(
+                          '$oldPrice',
+                          style: context.appTheme.regular14.copyWith(
+                            decoration: TextDecoration.lineThrough,
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+
+                      if (discountPercentage != null)
+                        Text(
+                          '$discountPercentage%',
+                          style: context.appTheme.regular14.copyWith(
+                            color: context.appTheme.success,
+                            fontSize: 12,
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+                    ],
+                  ),
+                  context.h(8),
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 35,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        onAddToCart;
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.shopping_cart_outlined),
+                          Text(
+                            'addToCart'.tr(),
+                            style: context.appTheme.medium13.copyWith(
+                              color: context.appTheme.secondary,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
