@@ -7,6 +7,7 @@ import 'package:flower_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/signup_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/terms_and_conditions.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_cubit.dart';
+import 'package:flower_app/features/categories/presentation/view/manager/categories_view_intents.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../di/di.dart';
@@ -51,7 +52,11 @@ Route? onGenerateRoute(RouteSettings settings) {
         builder: (_) => MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => AppSectionViewModel()),
-            BlocProvider(create: (context) => getIt.get<CategoriesViewCubit>()),
+            BlocProvider(
+              create: (context) =>
+                  getIt.get<CategoriesViewCubit>()
+                    ..doIntent(InitCategoriesViewIntent()),
+            ),
           ],
           child: const AppSection(),
         ),

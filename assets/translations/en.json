@@ -80,5 +80,7 @@
   "newPassword": "New password",
   "confirmPassword": "Confirm password",
   "confirm": "Confirm",
-  "resendIn": "Resend in"
+  "resendIn": "Resend in",
+  "search" : "Search",
+  "no_products_found": "Unfortunately no product available now"
 }

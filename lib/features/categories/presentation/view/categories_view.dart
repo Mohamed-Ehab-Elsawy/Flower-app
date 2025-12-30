@@ -1,14 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flower_app/core/app/presentation/widget/custom_card.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
+import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/constants/app_dimensions.dart';
+import 'package:flower_app/core/helper/show_toast.dart';
+import 'package:flower_app/core/widgets/custom_products_grid_list_builder.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_cubit.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_intents.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_states.dart';
+import 'package:flower_app/features/categories/presentation/view/widgets/categories_search_and_filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'manager/categories_view_events.dart';
 
 class CategoriesView extends StatefulWidget {
   const CategoriesView({super.key});
@@ -25,15 +30,8 @@ class _CategoriesViewState extends State<CategoriesView> {
   void initState() {
     super.initState();
     context.read<CategoriesViewCubit>().doIntent(GetProductsByCategoryIntent());
-    _scrollController.addListener(() {
-      final direction = _scrollController.position.userScrollDirection;
-
-      if (direction == ScrollDirection.reverse && _showFilterButton) {
-        setState(() => _showFilterButton = false);
-      } else if (direction == ScrollDirection.forward && !_showFilterButton) {
-        setState(() => _showFilterButton = true);
-      }
-    });
+    _scrollListener();
+    _eventsListener();
   }
 
   @override
@@ -44,126 +42,55 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   Widget build(BuildContext context) {
-    var greyColor = context.appTheme.secondary[70]!;
-
     return SafeArea(
       child: Padding(
         padding: AppDimensions.pagePadding,
         child: Stack(
           children: [
             BlocBuilder<CategoriesViewCubit, CategoriesViewStates>(
-              builder: (context, state) {
-                return DefaultTabController(
-                  length: state.categories?.length ?? 0,
-                  child: Column(
-                    children: [
-                      Row(
-                        spacing: 8,
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              enabled: false,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.search_rounded,
-                                  color: greyColor,
+              builder: (context, state) => DefaultTabController(
+                length: state.categories?.data?.length ?? 0,
+                child: Column(
+                  children: [
+                    const CategoriesSearchAndFilterWidget(),
+                    context.h(8),
+                    state.categories?.requestState == RequestState.loaded
+                        ? TabBar(
+                            isScrollable: true,
+                            onTap: (index) {
+                              context.read<CategoriesViewCubit>().doIntent(
+                                GetProductsByCategoryIntent(
+                                  categoryId: state.categories?.data?[index].id,
                                 ),
-                                hint: Text(
-                                  'search',
-                                  style: context.appTheme.regular16.copyWith(
-                                    color: greyColor,
-                                  ),
-                                ).tr(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    color: greyColor,
-                                    width: 1,
-                                  ),
-                                ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                    color: greyColor,
-                                    width: 1,
-                                  ),
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 16,
-                                ),
+                              );
+                            },
+                            tabs:
+                                state.categories?.data
+                                    ?.map(
+                                      (category) => Tab(text: category.name),
+                                    )
+                                    .toList() ??
+                                [],
+                          )
+                        : const SizedBox.shrink(),
+                    context.h(8),
+                    Expanded(
+                      child:
+                          state.productsStates?.requestState ==
+                              RequestState.loaded
+                          ? CustomProductsGridListBuilder(
+                              products: state.productsStates?.data,
+                              scrollController: _scrollController,
+                            )
+                          : Center(
+                              child: CircularProgressIndicator(
+                                color: context.appTheme.primary,
                               ),
                             ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 16,
-                            ),
-                            decoration: BoxDecoration(
-                              border: BoxBorder.all(color: greyColor, width: 1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Icon(Icons.filter_list, color: greyColor),
-                          ),
-                        ],
-                      ),
-                      context.h(8),
-                      TabBar(
-                        isScrollable: true,
-                        onTap: (index) {
-                          context.read<CategoriesViewCubit>().doIntent(
-                            GetProductsByCategoryIntent(
-                              categoryId: state.categories?[index],
-                            ),
-                          );
-                        },
-                        tabs:
-                            state.categories
-                                ?.map((category) => Tab(text: category))
-                                .toList() ??
-                            [],
-                      ),
-                      context.h(8),
-                      Expanded(
-                        child: GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                              ),
-                          physics: const BouncingScrollPhysics(),
-                          controller: _scrollController,
-                          itemCount: state.productsStates?.data?.length ?? 0,
-                          itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: CustomCard(
-                              imageUrl:
-                                  state
-                                      .productsStates
-                                      ?.data?[index]
-                                      .imgCover ??
-                                  "",
-                              title:
-                                  state.productsStates?.data?[index].title ??
-                                  "",
-                              price:
-                                  state
-                                      .productsStates
-                                      ?.data?[index]
-                                      .priceAfterDiscount
-                                      ?.toDouble() ??
-                                  0.0,
-                              oldPrice:
-                                  state.productsStates?.data?[index].price
-                                      ?.toDouble() ??
-                                  0.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                    ),
+                  ],
+                ),
+              ),
             ),
             // Filter Button
             Positioned(
@@ -211,4 +138,24 @@ class _CategoriesViewState extends State<CategoriesView> {
       ),
     ),
   );
+
+  void _eventsListener() {
+    context.read<CategoriesViewCubit>().uiEvents.listen((event) {
+      if (event is CategoriesViewShowErrorEvent) {
+        Toast.showToast(context, event.errorMessage);
+      }
+    });
+  }
+
+  void _scrollListener() {
+    _scrollController.addListener(() {
+      final direction = _scrollController.position.userScrollDirection;
+
+      if (direction == ScrollDirection.reverse && _showFilterButton) {
+        setState(() => _showFilterButton = false);
+      } else if (direction == ScrollDirection.forward && !_showFilterButton) {
+        setState(() => _showFilterButton = true);
+      }
+    });
+  }
 }
