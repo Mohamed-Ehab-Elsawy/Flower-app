@@ -31,7 +31,7 @@ class CustomCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(7),
         decoration: BoxDecoration(
-          color: Colors.transparent,
+          color: context.appTheme.secondary.withAlpha(0),
           border: Border.all(color: context.appTheme.grey.withAlpha(30)),
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
@@ -76,10 +76,10 @@ class CustomCard extends StatelessWidget {
                     spacing: 5,
                     children: [
                       Text(
-                        'EGP'.tr(args: [price.toString()]),
-                        style: const TextStyle(
+                        'EGP'.tr(args: [price.toStringAsFixed(0)]),
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: context.appTheme.surface,
                         ),
                       ),
 
@@ -88,7 +88,7 @@ class CustomCard extends StatelessWidget {
                           '$oldPrice',
                           style: context.appTheme.regular14.copyWith(
                             decoration: TextDecoration.lineThrough,
-                            color: Colors.grey,
+                            color: context.appTheme.secondary[80],
                             fontSize: 12,
                           ),
                         ),
