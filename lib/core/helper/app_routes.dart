@@ -1,3 +1,4 @@
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app/presentation/view/app_section.dart';
 import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
@@ -6,7 +7,12 @@ import 'package:flower_app/features/auth/presentation/pages/forget_password/forg
 import 'package:flower_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/signup_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/terms_and_conditions.dart';
-import 'package:flower_app/features/home/presentation/view/best_seller_view.dart';
+import 'package:flower_app/features/product_details/presentation/views/product_details_view.dart';
+import 'package:flower_app/features/categories/presentation/view/manager/categories_view_cubit.dart';
+import 'package:flower_app/features/categories/presentation/view/manager/categories_view_intents.dart';
+import 'package:flower_app/features/home/presentation/occasions/occasions_cubit.dart';
+import 'package:flower_app/features/home/presentation/view/occasions/OccasionsScreen.dart';
+import 'package:flower_app/features/home/presentation/view/testScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../di/di.dart';
@@ -18,31 +24,27 @@ class AppRoutes {
   static const String forgetPassword = "/forgetPassword";
   static const String terms = '/terms';
   static const String mostSelling = '/mostSelling';
+  static const String productDetails = '/productDetails';
+  static const String occasion = '/occasion';
+  static const String testScreen = '/TestScreen';
 }
 
 Route? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
     case AppRoutes.mostSelling:
       return MaterialPageRoute(builder: (_) => const BestSellerView());
-    case AppRoutes.signup:
-      return MaterialPageRoute(builder: (_) => const SignUpScreen());
-    case AppRoutes.appSection:
-      return MaterialPageRoute(
-        builder: (_) => BlocProvider<AppSectionViewModel>(
-          create: (context) => AppSectionViewModel(),
-          child: const AppSection(),
-        ),
-      );
     case AppRoutes.login:
       var cubit = getIt.get<LoginViewModel>();
-      return MaterialPageRoute(
-        builder: (_) => BlocProvider(
-          create: (context) => cubit,
-          child: const LoginScreen(),
-        ),
+      return MaterialPageRoute(builder: (_) =>
+          BlocProvider(create: (context) => cubit, child: const LoginScreen()),
       );
+
+    case AppRoutes.signup:
+      return MaterialPageRoute(builder: (_) => const SignUpScreen());
+
     case AppRoutes.terms:
       return MaterialPageRoute(builder: (_) => const TermsAndConditions());
+
     case AppRoutes.forgetPassword:
       return MaterialPageRoute(
         builder: (_) => BlocProvider(
@@ -50,7 +52,6 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const ForgetPasswordView(),
         ),
       );
-
     default:
       return null;
   }

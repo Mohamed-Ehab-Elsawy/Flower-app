@@ -11,6 +11,7 @@ abstract class AppColors {
   Color get grey;
   Color get lightPink;
   Color get textColor;
+  List <Color> get kDefaultRainbowColors;
 }
 
 abstract class AppTheme {

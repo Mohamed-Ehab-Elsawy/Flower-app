@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flower_app/core/api/api_client.dart';
 import 'package:flower_app/core/api/env.dart';
@@ -16,7 +15,7 @@ abstract class ApiModule {
   Dio provideDio(BaseOptions option, TalkerDioLogger logger) {
     var dio = Dio(option);
     dio.interceptors.add(logger);
-   
+
     return dio;
   }
 
@@ -32,14 +31,14 @@ abstract class ApiModule {
   @lazySingleton
   TalkerDioLogger prvoideLogger() {
     return TalkerDioLogger(
-        settings: const TalkerDioLoggerSettings(
-          printRequestHeaders: true,
-          printResponseHeaders: true,
-          printResponseMessage: true,
-          printErrorMessage: true,
-          printRequestData: true,
-          printResponseData: true,
-        ),
+      settings: const TalkerDioLoggerSettings(
+        printRequestHeaders: true,
+        printResponseHeaders: true,
+        printResponseMessage: true,
+        printErrorMessage: true,
+        printRequestData: true,
+        printResponseData: true,
+      ),
     );
   }
 }
