@@ -90,5 +90,13 @@
   "newPassword": "New password",
   "confirmPassword": "Confirm password",
   "confirm": "Confirm",
+  "resendIn": "Resend in",
+  "search" : "Search",
+  "no_products_found": "Unfortunately no product available now"
+  "Occasion":"Occasion",
+  "Bloom with our exquisite best sellers": "Bloom with our exquisite best sellers",
+  "untitled": "untitled",
+  "There is no products yet":"There is no products yet"
+
   "resendIn": "Resend in"
 }

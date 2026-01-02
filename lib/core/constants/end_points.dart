@@ -5,4 +5,6 @@ class EndPoints {
   static const String resetPassword = 'auth/resetPassword';
   static const String login = "auth/signin";
   static const String home = "home";
+  static const String products ="products/";
+  static const String categories ="categories";
 }

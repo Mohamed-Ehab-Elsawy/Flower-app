@@ -20,6 +20,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   final Color success;
   final Color grey;
   final Color lightPink;
+  final List<Color> kDefaultRainbowColors;
+
 
   AppThemeExtension({
     required this.semiBold24,
@@ -39,6 +41,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     required this.success,
     required this.grey,
     required this.lightPink,
+    required this.kDefaultRainbowColors
   });
 
   @override
@@ -61,6 +64,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     Color? success,
     Color? grey,
     Color? lightPink,
+    List<Color>? kDefaultRainbowColors,
   }) {
     return AppThemeExtension(
       medium13: medium13 ?? this.medium13,
@@ -80,6 +84,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       success: success ?? this.success,
       grey: grey ?? this.grey,
       lightPink: lightPink ?? this.lightPink,
+      kDefaultRainbowColors: kDefaultRainbowColors ?? this.kDefaultRainbowColors,
+
     );
   }
 
@@ -107,6 +113,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       success: Color.lerp(success, other.success, t)!,
       grey: const Color.fromARGB(255, 145, 143, 143),
       lightPink: Color.lerp(lightPink, other.lightPink, t)!,
+      kDefaultRainbowColors: <Color>[],
+
     );
   }
 }
