@@ -9,7 +9,7 @@ class UserAddress extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = context.appTheme;
     return SliverPadding(
-      padding: const EdgeInsetsGeometry.only(left: 16),
+      padding: const EdgeInsets.only(left: 16),
       sliver: Row(
         spacing: 8,
         children: [

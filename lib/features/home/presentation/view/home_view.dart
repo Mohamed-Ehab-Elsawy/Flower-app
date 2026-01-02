@@ -24,11 +24,14 @@ class _HomeViewState extends State<HomeView> {
           log(event.categories?[0].name.toString() ?? "No Data");
         //context.pushName(routeName);
         case ViewAllBestSellerEvent():
-          log(event.bestSeller?[0].title.toString() ?? "No Data");
+          
         //context.pushName(routeName);
         case ViewAllOccasionsEvent():
-          log(event.occasions?[0].name.toString() ?? "No Data");
+          //  log(event.occasions?[0].name.toString() ?? "No Data");
         //context.pushName(routeName);
+        case ItemBestSellerSelectedEvent():
+          // context.pushName(details,event.product)
+         
       }
     });
     super.didChangeDependencies();

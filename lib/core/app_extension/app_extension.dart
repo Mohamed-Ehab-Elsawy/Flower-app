@@ -6,8 +6,8 @@ extension AppNavigatorExtension on BuildContext {
 
   void pop() => Navigator.of(this).pop();
 
-  void pushReplacement(String routeName) =>
-      Navigator.of(this).pushReplacementNamed(routeName);
+  void pushReplacement(String routeName, {Object? arguments}) =>
+      Navigator.of(this).pushReplacementNamed(routeName, arguments: arguments);
 
   AppThemeExtension get appTheme {
     final ext = Theme.of(this).extension<AppThemeExtension>();

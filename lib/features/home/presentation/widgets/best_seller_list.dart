@@ -5,7 +5,7 @@ import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_state.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
-import 'package:flower_app/features/home/presentation/widgets/seaction_header.dart';
+import 'package:flower_app/features/home/presentation/widgets/section_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -16,13 +16,12 @@ class BestSellerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<HomeViewModel>();
-    List<ProductEntity>? bestSeller = [];
+
     return Column(
       children: [
         SectionHeader(
           title: "home.best_seller",
-          onPressed: () =>
-              cubit.doEvent(ViewAllBestSellerEvent(bestSeller: bestSeller)),
+          onPressed: () => cubit.doEvent(ViewAllBestSellerEvent()),
         ),
         BlocBuilder<HomeViewModel, HomeState>(
           buildWhen: (previous, current) =>
@@ -34,8 +33,9 @@ class BestSellerList extends StatelessWidget {
               case RequestState.loading:
                 return _buildDummyBestSellerList(state);
               case RequestState.loaded:
-                bestSeller = state.homeState.data?.bestSeller;
-                return _buildBestSellerList(bestSeller?.take(5).toList());
+                return _buildBestSellerList(
+                  state.homeState.data?.bestSeller?.toList(),
+                );
               case RequestState.error:
                 return const SizedBox.shrink();
             }
@@ -53,8 +53,12 @@ class BestSellerList extends StatelessWidget {
 
         scrollDirection: Axis.horizontal,
         itemCount: bestSeller?.length ?? 0,
-        itemBuilder: (context, index) =>
-            BestSellerItem(product: bestSeller?[index]),
+        itemBuilder: (context, index) => GestureDetector(
+          onTap: () => context.read<HomeViewModel>().doEvent(
+            ItemBestSellerSelectedEvent(product: bestSeller?[index]),
+          ),
+          child: BestSellerItem(product: bestSeller?[index]),
+        ),
       ),
     );
   }

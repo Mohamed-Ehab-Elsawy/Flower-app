@@ -57,13 +57,18 @@ class ViewAllCategoriesEvent extends HomeUIEvents {
 }
 
 class ViewAllBestSellerEvent extends HomeUIEvents {
-  final List<ProductEntity>? bestSeller;
 
-  ViewAllBestSellerEvent({this.bestSeller});
+
+  ViewAllBestSellerEvent();
 }
 
 class ViewAllOccasionsEvent extends HomeUIEvents {
   final List<ProductTypeEntity>? occasions;
 
   ViewAllOccasionsEvent({this.occasions});
+}
+
+class ItemBestSellerSelectedEvent extends HomeUIEvents {
+  final ProductEntity? product;
+   ItemBestSellerSelectedEvent({this.product});
 }

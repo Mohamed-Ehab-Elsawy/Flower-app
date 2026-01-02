@@ -26,6 +26,7 @@ Route? onGenerateRoute(RouteSettings settings) {
     case AppRoutes.appSection:
       var cubit = getIt.get<HomeViewModel>();
       return MaterialPageRoute(
+        settings: settings,
         builder: (_) => MultiBlocProvider(
           providers: [
             BlocProvider<AppSectionViewModel>(

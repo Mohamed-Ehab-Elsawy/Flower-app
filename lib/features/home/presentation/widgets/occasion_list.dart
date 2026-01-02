@@ -5,7 +5,7 @@ import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_state.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
-import 'package:flower_app/features/home/presentation/widgets/seaction_header.dart';
+import 'package:flower_app/features/home/presentation/widgets/section_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -45,7 +45,7 @@ class OccasionList extends StatelessWidget {
     ).toSliverBoxAdapter;
   }
 
-  _buildOccasionList(List<ProductTypeEntity>? occasions) {
+  Widget _buildOccasionList(List<ProductTypeEntity>? occasions) {
     return SizedBox(
       height: 200,
       child: ListView.builder(
@@ -58,7 +58,7 @@ class OccasionList extends StatelessWidget {
     );
   }
 
-  _buildDummyOccasionList(HomeState state) {
+ Widget _buildDummyOccasionList(HomeState state) {
     final occasions = List.generate(
       5,
       (index) => const ProductTypeEntity(

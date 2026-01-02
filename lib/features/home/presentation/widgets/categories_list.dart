@@ -4,7 +4,7 @@ import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_state.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
-import 'package:flower_app/features/home/presentation/widgets/seaction_header.dart';
+import 'package:flower_app/features/home/presentation/widgets/section_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
