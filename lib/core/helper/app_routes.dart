@@ -1,3 +1,4 @@
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app/presentation/view/app_section.dart';
 import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
@@ -64,9 +65,9 @@ Route? onGenerateRoute(RouteSettings settings) {
         settings: settings,
       );
     case AppRoutes.productDetails:
+      final args = settings.arguments as ProductsEntity;
       return MaterialPageRoute(
-        builder: (_) => const ProductDetailsView(),
-        settings: settings,
+        builder: (_) => ProductDetailsView(product: args),
       );
 
     case AppRoutes.forgetPassword:
