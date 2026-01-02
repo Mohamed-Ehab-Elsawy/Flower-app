@@ -9,23 +9,17 @@ import 'package:flower_app/features/home/data/models/home_response_dto.dart';
 import 'package:flower_app/features/home/data/repo/home_repo_impl.dart';
 import 'package:flower_app/features/home/domain/entities/best_seller_entity.dart';
 import 'package:flower_app/features/home/domain/entities/home_response_entity.dart';
+import 'package:flower_app/features/home/domain/repo/home_repo.dart';
 import 'package:flower_app/features/home/mapper/home_response_mapper.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'home_repo_impl_test.mocks.dart';
-import 'package:flower_app/core/app/data/models/products_dto.dart';
-import 'package:flower_app/core/app/domain/entities/products_entity.dart';
-import 'package:flower_app/core/error_handling/handle_exception%20.dart';
 
-
-import 'home_repo_impl_test.mocks.dart' show MockHomeDataSource;
 @GenerateMocks([HomeDataSource])
 void main() {
-  late HomeDataSource mockHomeDataSource;
-  late HomeRepoImpl homeRepoImpl;
-  late MockHomeDataSource dataSource;
-  late HomeRepoImpl repo;
+  late HomeDataSource dataSource;
+  late HomeRepo repo;
   late List<ProductsDto> productsDtoList;
   late List<ProductsEntity> productsEntityList;
   late String? categoryId;
@@ -33,53 +27,12 @@ void main() {
   late Exception exception;
 
   setUp(() {
-    mockHomeDataSource = MockHomeDataSource();
-    homeRepoImpl = HomeRepoImpl(mockHomeDataSource);
-  });
-  group('test home repo impl', () {
-    final tBestSellerResponse = BestSellerResponse();
-    test('when getBestSeller is called then return Success', () async {
-      // arrange
-      provideDummy<Result<BestSellerResponse>>(Success(BestSellerResponse()));
-
-      when(
-        mockHomeDataSource.getBestSeller(),
-      ).thenAnswer((_) async => Success(tBestSellerResponse));
-      // act
-      final result = await homeRepoImpl.getBestSeller();
-      // assert
-      expect(result, isA<Success<BestSellerEntity>>());
-
-      verify(mockHomeDataSource.getBestSeller()).called(1);
-    });
-
-    test('when getBestSeller is called then return failure', () async {
-      // arrange
-      const appFailure = UnexpectedFailure("error");
-      final failureResponse = Failure<BestSellerResponse>(appFailure.message!);
-      provideDummy<Result<BestSellerResponse>>(
-        Failure(failureResponse.errorMessage),
-      );
-
-      when(
-        mockHomeDataSource.getBestSeller(),
-      ).thenAnswer((_) async => (failureResponse));
-      // act
-      final result = await homeRepoImpl.getBestSeller();
-      // assert
-      expect(result, isA<Failure<BestSellerEntity>>());
-
-      verify(mockHomeDataSource.getBestSeller()).called(1);
-    });
-  });
-  setUpAll(() {
     dataSource = MockHomeDataSource();
     repo = HomeRepoImpl(dataSource);
     productsDtoList = [
       const ProductsDto(id: '1', title: 'title', description: 'description'),
       const ProductsDto(id: '2', title: 'title', description: 'description'),
     ];
-    });
     productsEntityList = [
       ProductsEntity(
         id: '1',
@@ -120,8 +73,55 @@ void main() {
         images: const ["httpng", "httpsg"],
       ),
     ];
+    exception = Exception("error");
+    provideDummy<Result<List<ProductsDto>>>(
+      Success<List<ProductsDto>>(productsDtoList),
+    );
+    provideDummy<Result<List<ProductsEntity>>>(
+      Success<List<ProductsEntity>>(productsEntityList),
+    );
+    categoryId = "category_1";
+    occasionId = "occasion_1";
+  });
 
-group("TEST HomeRepoImpl FetchData", () {
+  group('test home repo impl', () {
+    final tBestSellerResponse = BestSellerResponse();
+    test('when getBestSeller is called then return Success', () async {
+      // arrange
+      provideDummy<Result<BestSellerResponse>>(Success(BestSellerResponse()));
+
+      when(
+        dataSource.getBestSeller(),
+      ).thenAnswer((_) async => Success(tBestSellerResponse));
+      // act
+      final result = await repo.getBestSeller();
+      // assert
+      expect(result, isA<Success<BestSellerEntity>>());
+
+      verify(dataSource.getBestSeller()).called(1);
+    });
+
+    test('when getBestSeller is called then return failure', () async {
+      // arrange
+      const appFailure = UnexpectedFailure("error");
+      final failureResponse = Failure<BestSellerResponse>(appFailure.message!);
+      provideDummy<Result<BestSellerResponse>>(
+        Failure(failureResponse.errorMessage),
+      );
+
+      when(
+        dataSource.getBestSeller(),
+      ).thenAnswer((_) async => (failureResponse));
+      // act
+      final result = await repo.getBestSeller();
+      // assert
+      expect(result, isA<Failure<BestSellerEntity>>());
+
+      verify(dataSource.getBestSeller()).called(1);
+    });
+  });
+
+  group("TEST repo FetchData", () {
     test("FetchData should return HomeResponseDto when Pass", () async {
       //arrange
       final tHomeResponseDto = Success<HomeResponseDto>(
@@ -133,8 +133,7 @@ group("TEST HomeRepoImpl FetchData", () {
         dataSource.fetchHomeData(),
       ).thenAnswer((_) async => tHomeResponseDto);
       //act
-      final result =
-          await repo.fetchHomeData() as Success<HomeResponseEntity>;
+      final result = await repo.fetchHomeData() as Success<HomeResponseEntity>;
       //assert
       expect(result, isA<Success<HomeResponseEntity>>());
       expect(result.data, tHomeResponseEntity);
@@ -147,28 +146,17 @@ group("TEST HomeRepoImpl FetchData", () {
       provideDummy<Result<HomeResponseDto>>(failureResponse);
       when(dataSource.fetchHomeData()).thenAnswer((_) async => failureResponse);
       //act
-      final result =
-          await repo.fetchHomeData() as Failure<HomeResponseEntity>;
+      final result = await repo.fetchHomeData() as Failure<HomeResponseEntity>;
       //assert
       expect(result, isA<Failure<HomeResponseEntity>>());
       expect(result.errorMessage, "UnexpectedFailure");
     });
-  
-
-    exception = Exception("error");
-    provideDummy<Result<List<ProductsDto>>>(
-      Success<List<ProductsDto>>(productsDtoList),
-    );
-    provideDummy<Result<List<ProductsEntity>>>(
-      Success<List<ProductsEntity>>(productsEntityList),
-    );
-    categoryId = "category_1";
-    occasionId = "occasion_1";
   });
+
   group("when call getProducts with no parameters ", () {
     test(
       'Testing getProducts with no parameter it should return Success with productsDto ',
-          () async {
+      () async {
         when(
           dataSource.getProducts(occasionId: null, categoryId: null),
         ).thenAnswer((_) async => Success<List<ProductsDto>>(productsDtoList));
@@ -182,13 +170,14 @@ group("TEST HomeRepoImpl FetchData", () {
         verifyNoMoreInteractions(dataSource);
       },
     );
+
     test(
       'Testing getProducts with no parameter it should return Failure with error message ',
-          () async {
+      () async {
         when(
           dataSource.getProducts(occasionId: null, categoryId: null),
         ).thenAnswer(
-              (_) async => Failure<List<ProductsDto>>(
+          (_) async => Failure<List<ProductsDto>>(
             NetworkException.getMessageError(exception),
           ),
         );
@@ -209,10 +198,11 @@ group("TEST HomeRepoImpl FetchData", () {
       },
     );
   });
+
   group("when call getProducts with occasionId parameter ", () {
     test(
       'Testing getProducts with occasionId parameter it should return Success with productsDto(occasion) ',
-          () async {
+      () async {
         when(
           dataSource.getProducts(occasionId: occasionId, categoryId: null),
         ).thenAnswer((_) async => Success<List<ProductsDto>>(productsDtoList));
@@ -231,11 +221,11 @@ group("TEST HomeRepoImpl FetchData", () {
     );
     test(
       'Testing getProducts with occasionId parameter it should return Failure with error message ',
-          () async {
+      () async {
         when(
           dataSource.getProducts(occasionId: occasionId, categoryId: null),
         ).thenAnswer(
-              (_) async => Failure<List<ProductsDto>>(
+          (_) async => Failure<List<ProductsDto>>(
             NetworkException.getMessageError(exception),
           ),
         );
@@ -259,7 +249,7 @@ group("TEST HomeRepoImpl FetchData", () {
   group("when call getProducts with categoryId parameter ", () {
     test(
       'Testing getProducts with categoryId parameter it should return Success with productsDto(category) ',
-          () async {
+      () async {
         when(
           dataSource.getProducts(occasionId: null, categoryId: categoryId),
         ).thenAnswer((_) async => Success<List<ProductsDto>>(productsDtoList));
@@ -278,11 +268,11 @@ group("TEST HomeRepoImpl FetchData", () {
     );
     test(
       'Testing getProducts with categoryId parameter it should return Failure with error message ',
-          () async {
+      () async {
         when(
           dataSource.getProducts(occasionId: null, categoryId: categoryId),
         ).thenAnswer(
-              (_) async => Failure<List<ProductsDto>>(
+          (_) async => Failure<List<ProductsDto>>(
             NetworkException.getMessageError(exception),
           ),
         );
@@ -303,5 +293,4 @@ group("TEST HomeRepoImpl FetchData", () {
       },
     );
   });
-
 }
