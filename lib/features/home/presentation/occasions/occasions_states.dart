@@ -1,12 +1,13 @@
+import 'package:equatable/equatable.dart';
+import 'package:flower_app/core/app/domain/entities/product_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 
-import 'package:flower_app/features/home/domain/entities/product_entity.dart';
-
-class OccasionsStates {
-  BaseState<List<ProductsEntity>>? productsStates;
-  OccasionsStates({this.productsStates});
-
-  OccasionsStates copyWith({BaseState<List<ProductsEntity>>? productsState}) {
-    return OccasionsStates(productsStates: productsState ?? productsStates);
+class OccasionsStates extends Equatable {
+  final BaseState<List<ProductEntity>>? productsState;
+  const OccasionsStates({this.productsState});
+  @override
+  List<Object?> get props => [productsState];
+  OccasionsStates copyWith({BaseState<List<ProductEntity>>? productsState}) {
+    return OccasionsStates(productsState: productsState ?? this.productsState);
   }
 }

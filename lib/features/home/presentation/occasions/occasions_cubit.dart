@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:flower_app/core/app/domain/entities/product_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/home/domain/usecases/get_products.dart';
@@ -6,19 +8,14 @@ import 'package:flower_app/features/home/presentation/occasions/occasions_states
 import 'package:flutter_bloc/flutter_bloc.dart' show Cubit;
 import 'package:injectable/injectable.dart';
 
-import '../../domain/entities/product_entity.dart';
-
 @injectable
 class OccasionsCubit extends Cubit<OccasionsStates> {
   final GetProductsUseCase _getProductsUseCase;
 
   OccasionsCubit(this._getProductsUseCase) : super(OccasionsStates());
-  String occasionId = "673b35c01159920171827aed";
-
-  List<Object> get props {
-    return [state];
-  }
-
+  final StreamController<OccasionsUiEvent> _occasionsUiEvents =
+      StreamController.broadcast();
+  Stream<OccasionsUiEvent> get occasionsUiEvent => _occasionsUiEvents.stream;
   void doIntent(OccasionsEvents event) {
     switch (event) {
       case GetAllProductsByOccasionsEvents():
@@ -26,34 +23,43 @@ class OccasionsCubit extends Cubit<OccasionsStates> {
     }
   }
 
+  void doEvent(OccasionsUiEvent event) {
+    switch (event) {
+      case NavigateToProductDetails():
+        _occasionsUiEvents.add(
+          NavigateToProductDetails(product: event.product),
+        );
+    }
+  }
+
   Future<void> _getAllProductsByOccasions(String? occasionId) async {
     emit(
       state.copyWith(
-        productsState: const BaseState<List<ProductsEntity>>(
+        productsState: const BaseState<List<ProductEntity>>(
           requestState: RequestState.loading,
         ),
       ),
     );
-    Result<List<ProductsEntity>> response = await _getProductsUseCase(
+    Result<List<ProductEntity>> response = await _getProductsUseCase(
       occasionId: occasionId,
     );
     switch (response) {
-      case Success<List<ProductsEntity>>():
+      case Success<List<ProductEntity>>():
         {
           emit(
             state.copyWith(
-              productsState: BaseState<List<ProductsEntity>>.loaded(
+              productsState: BaseState<List<ProductEntity>>.loaded(
                 response.data,
               ),
             ),
           );
         }
 
-      case Failure<List<ProductsEntity>>():
+      case Failure<List<ProductEntity>>():
         {
           emit(
             state.copyWith(
-              productsState: BaseState<List<ProductsEntity>>.error(
+              productsState: BaseState<List<ProductEntity>>.error(
                 response.errorMessage,
               ),
             ),

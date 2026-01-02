@@ -46,6 +46,17 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const ForgetPasswordView(),
         ),
       );
+    case AppRoutes.occasion:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => BlocProvider<OccasionsCubit>(
+          create: (context) => getIt.get<OccasionsCubit>(),
+
+          child: const OccasionScreen(),
+        ),
+      );
+    case AppRoutes.testScreen:
+      return MaterialPageRoute(builder: (_) => const TestScreen());
 
     case AppRoutes.appSection:
       return MaterialPageRoute(
