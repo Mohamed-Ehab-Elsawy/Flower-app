@@ -1,3 +1,4 @@
+import 'package:flower_app/core/app/data/models/product_type_dto.dart';
 import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/categories/data/datasources/category_data_source.dart';
@@ -14,14 +15,26 @@ import 'category_repo_impl_test.mocks.dart';
 void main() {
   late CategoryDataSource categoryDataSource;
   late CategoryRepo categoryRepo;
+  late ProductTypeDto categoryDto;
+  late List<ProductTypeDto> categoriesDto;
   late ProductTypeEntity categoryEntity;
   late List<ProductTypeEntity> categories;
-  late Result<List<ProductTypeEntity>> response;
+  late Result<List<ProductTypeDto>> response;
 
   setUp(() {
     categoryDataSource = MockCategoryDataSourceImpl();
     categoryRepo = CategoryRepoImpl(categoryDataSource);
 
+    categoryDto = ProductTypeDto(
+      id: 'id',
+      name: 'name',
+      slug: 'slug',
+      image: 'image',
+      createdAt: DateTime(2025),
+      updatedAt: DateTime(2025),
+      isSuperAdmin: false,
+    );
+    categoriesDto = [categoryDto, categoryDto, categoryDto];
     categoryEntity = ProductTypeEntity(
       id: 'id',
       name: 'name',
@@ -39,8 +52,8 @@ void main() {
     "and returns a list of categories when Success result",
     () async {
       // arrange
-      response = Success(categories);
-      provideDummy<Result<List<ProductTypeEntity>>>(response);
+      response = Success(categoriesDto);
+      provideDummy<Result<List<ProductTypeDto>>>(response);
       when(
         categoryDataSource.getCategories(),
       ).thenAnswer((_) async => response);
@@ -62,8 +75,8 @@ void main() {
     "and returns Failure result with error message if there is an error",
     () async {
       // arrange
-      response = Failure<List<ProductTypeEntity>>('errors.connectionError');
-      provideDummy<Result<List<ProductTypeEntity>>>(response);
+      response = Failure<List<ProductTypeDto>>('errors.connectionError');
+      provideDummy<Result<List<ProductTypeDto>>>(response);
       when(
         categoryDataSource.getCategories(),
       ).thenAnswer((_) async => response);

@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:flower_app/core/app/domain/entities/product_entity.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 
 class CategoriesViewStates with EquatableMixin {
   final int selectedIndex;
   final BaseState<List<ProductTypeEntity>>? categories;
-  final BaseState<List<ProductEntity>>? productsStates;
+  final BaseState<List<ProductsEntity>>? productsStates;
 
   const CategoriesViewStates({
     this.selectedIndex = 0,
@@ -15,7 +15,7 @@ class CategoriesViewStates with EquatableMixin {
   });
 
   CategoriesViewStates copyWith({
-    BaseState<List<ProductEntity>>? productsStates,
+    BaseState<List<ProductsEntity>>? productsStates,
     BaseState<List<ProductTypeEntity>>? categories,
     int? selectedIndex,
   }) => CategoriesViewStates(

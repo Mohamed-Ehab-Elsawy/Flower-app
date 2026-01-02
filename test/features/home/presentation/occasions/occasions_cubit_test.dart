@@ -1,7 +1,7 @@
-import 'package:flower_app/core/app/domain/entities/product_entity.dart';
+
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/home/data/models_dto/product_response.dart';
 import 'package:flower_app/features/home/domain/usecases/get_products.dart';
 import 'package:flower_app/features/home/presentation/occasions/occasions_cubit.dart';
 import 'package:flower_app/features/home/presentation/occasions/occasions_events.dart';
@@ -16,15 +16,13 @@ import 'occasions_cubit_test.mocks.dart';
 @GenerateMocks([GetProductsUseCase])
 void main() {
   late MockGetProductsUseCase mockOccasionUseCase;
-  late List<ProductEntity> productsEntityList;
-  late ProductResponse productResponse;
+  late List<ProductsEntity> productsEntityList;
   late String? occasionId;
   late Exception exception;
   setUp(() {
     mockOccasionUseCase = MockGetProductsUseCase();
-    productResponse = ProductResponse(message: "message");
     productsEntityList = [
-      ProductEntity(
+      ProductsEntity(
         id: '1',
         title: 'title',
         description: 'description',
@@ -43,7 +41,7 @@ void main() {
         ratingCount: null,
         images: ["httpng", "httpsg"],
       ),
-      ProductEntity(
+      ProductsEntity(
         id: '1',
         title: 'title',
         description: 'description',
@@ -64,8 +62,8 @@ void main() {
       ),
     ];
     occasionId = "occasion_1";
-    provideDummy<Result<List<ProductEntity>>>(
-      Success<List<ProductEntity>>(productsEntityList),
+    provideDummy<Result<List<ProductsEntity>>>(
+      Success<List<ProductsEntity>>(productsEntityList),
     );
     exception = Exception("message");
   });
@@ -74,7 +72,7 @@ void main() {
     ' emits [loading, success] when getProductsUseCase returns Success',
     build: () {
       when(mockOccasionUseCase(occasionId: occasionId)).thenAnswer(
-        (_) async => Success<List<ProductEntity>>(productsEntityList),
+        (_) async => Success<List<ProductsEntity>>(productsEntityList),
       );
       return OccasionsCubit(mockOccasionUseCase);
     },
@@ -83,19 +81,19 @@ void main() {
     ),
     expect: () {
       var state = const OccasionsStates(
-        productsState: BaseState<List<ProductEntity>>(
+        productsState: BaseState<List<ProductsEntity>>(
           requestState: RequestState.loading,
         ),
       );
       return [
         state.copyWith(
-          productsState: const BaseState<List<ProductEntity>>(
+          productsState: const BaseState<List<ProductsEntity>>(
             requestState: RequestState.loading,
           ),
         ),
 
         state.copyWith(
-          productsState: BaseState<List<ProductEntity>>(
+          productsState: BaseState<List<ProductsEntity>>(
             data: productsEntityList,
             requestState: RequestState.loaded,
           ),
@@ -110,7 +108,7 @@ void main() {
     ' emits [loading, failure] when getProductsUseCase returns failure ',
     build: () {
       when(mockOccasionUseCase(occasionId: occasionId)).thenAnswer(
-        (_) async => Failure<List<ProductEntity>>(exception.toString()),
+        (_) async => Failure<List<ProductsEntity>>(exception.toString()),
       );
       return OccasionsCubit(mockOccasionUseCase);
     },
@@ -119,19 +117,19 @@ void main() {
     ),
     expect: () {
       var state = const OccasionsStates(
-        productsState: BaseState<List<ProductEntity>>(
+        productsState: BaseState<List<ProductsEntity>>(
           requestState: RequestState.loading,
         ),
       );
       return [
         state.copyWith(
-          productsState: const BaseState<List<ProductEntity>>(
+          productsState: const BaseState<List<ProductsEntity>>(
             requestState: RequestState.loading,
           ),
         ),
 
         state.copyWith(
-          productsState: BaseState<List<ProductEntity>>(
+          productsState: BaseState<List<ProductsEntity>>(
             requestState: RequestState.error,
             errorMessage: exception.toString(),
           ),

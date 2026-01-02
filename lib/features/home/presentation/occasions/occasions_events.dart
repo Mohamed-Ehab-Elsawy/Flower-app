@@ -1,4 +1,4 @@
-import 'package:flower_app/core/app/domain/entities/product_entity.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 
 sealed class OccasionsEvents {}
 
@@ -11,7 +11,7 @@ class GetAllProductsByOccasionsEvents extends OccasionsEvents {
 }
 
 class NavigateToProductDetails extends OccasionsUiEvent {
-  ProductEntity product;
+  ProductsEntity product;
 
   NavigateToProductDetails({required this.product});
 }

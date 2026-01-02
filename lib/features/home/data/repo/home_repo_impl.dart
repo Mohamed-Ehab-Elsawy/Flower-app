@@ -1,6 +1,6 @@
 import 'package:flower_app/core/app/data/mapper/product_mapper.dart';
-import 'package:flower_app/core/app/data/models/product_dto.dart';
-import 'package:flower_app/core/app/domain/entities/product_entity.dart';
+import 'package:flower_app/core/app/data/models/products_dto.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/home/data/datasources/home_data_source.dart';
 import 'package:flower_app/features/home/domain/repo/home_repo.dart';
@@ -12,27 +12,27 @@ class HomeRepoImpl implements HomeRepo {
 
   HomeRepoImpl(this.dataSource);
   @override
-  Future<Result<List<ProductEntity>>> getProducts({
+  Future<Result<List<ProductsEntity>>> getProducts({
     String? occasionId,
     String? categoryId,
   }) async {
-    Result<List<ProductDto>> productResponse = await dataSource.getProducts(
+    Result<List<ProductsDto>> productResponse = await dataSource.getProducts(
       occasionId: occasionId,
       categoryId: categoryId,
     );
     switch (productResponse) {
-      case Success<List<ProductDto>>():
+      case Success<List<ProductsDto>>():
         {
-          List<ProductDto> productsDto = productResponse.data;
-          List<ProductEntity> productsEntity = productsDto
+          List<ProductsDto> productsDto = productResponse.data;
+          List<ProductsEntity> productsEntity = productsDto
               .map((dto) => dto.toEntity())
               .toList();
-          return Success<List<ProductEntity>>(productsEntity);
+          return Success<List<ProductsEntity>>(productsEntity);
         }
 
-      case Failure<List<ProductDto>>():
+      case Failure<List<ProductsDto>>():
         {
-          return Failure<List<ProductEntity>>(productResponse.errorMessage);
+          return Failure<List<ProductsEntity>>(productResponse.errorMessage);
         }
     }
   }

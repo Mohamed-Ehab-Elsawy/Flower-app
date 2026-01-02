@@ -1,11 +1,10 @@
-// product_model.dart
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'product_dto.g.dart';
+part 'products_dto.g.dart';
 
 @JsonSerializable()
-class ProductDto extends Equatable {
+class ProductsDto extends Equatable {
   @JsonKey(name: '_id')
   final String? id;
 
@@ -66,7 +65,7 @@ class ProductDto extends Equatable {
   @JsonKey(name: 'alternateId')
   final String? alternateId;
 
-  const ProductDto({
+  const ProductsDto({
     this.id,
     this.title,
     this.slug,
@@ -89,10 +88,10 @@ class ProductDto extends Equatable {
     this.alternateId,
   });
 
-  factory ProductDto.fromJson(Map<String, dynamic> json) =>
-      _$ProductDtoFromJson(json);
+  factory ProductsDto.fromJson(Map<String, dynamic> json) =>
+      _$ProductsDtoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ProductDtoToJson(this);
+  Map<String, dynamic> toJson() => _$ProductsDtoToJson(this);
 
   @override
   List<Object?> get props => [

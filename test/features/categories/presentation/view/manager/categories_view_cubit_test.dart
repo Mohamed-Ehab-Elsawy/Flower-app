@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flower_app/core/app/domain/entities/product_entity.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';
@@ -22,8 +22,8 @@ void main() {
   late CategoriesViewCubit categoriesViewCubit;
   late ProductTypeEntity categoryEntity;
   late List<ProductTypeEntity> categories;
-  late ProductEntity productEntity;
-  late List<ProductEntity> products;
+  late ProductsEntity productEntity;
+  late List<ProductsEntity> products;
   late Result<List<ProductTypeEntity>> response;
 
   setUp(() {
@@ -43,7 +43,7 @@ void main() {
       isSuperAdmin: false,
     );
     categories = [categoryEntity, categoryEntity, categoryEntity];
-    productEntity = ProductEntity(
+    productEntity = ProductsEntity(
       id: 'id',
       title: 'title',
       slug: 'slug',
@@ -94,9 +94,9 @@ void main() {
       "emits [loading, loaded] when getProductsUseCase success",
       build: () => categoriesViewCubit,
       setUp: () {
-        final response = Success<List<ProductEntity>>(products);
+        final response = Success<List<ProductsEntity>>(products);
 
-        provideDummy<Result<List<ProductEntity>>>(response);
+        provideDummy<Result<List<ProductsEntity>>>(response);
 
         when(
           getProductsUseCase.call(categoryId: "1"),
@@ -106,12 +106,12 @@ void main() {
           bloc.doIntent(GetProductsByCategoryIntent(categoryId: "1")),
       expect: () => [
         const CategoriesViewStates(
-          productsStates: BaseState<List<ProductEntity>>(
+          productsStates: BaseState<List<ProductsEntity>>(
             requestState: RequestState.loading,
           ),
         ),
         CategoriesViewStates(
-          productsStates: BaseState<List<ProductEntity>>(
+          productsStates: BaseState<List<ProductsEntity>>(
             requestState: RequestState.loaded,
             data: products,
           ),
@@ -162,8 +162,8 @@ void main() {
       "emits [loading, error] and UI event when getProductsUseCase fails",
       build: () => categoriesViewCubit,
       setUp: () {
-        final response = Failure<List<ProductEntity>>("Server error");
-        provideDummy<Result<List<ProductEntity>>>(response);
+        final response = Failure<List<ProductsEntity>>("Server error");
+        provideDummy<Result<List<ProductsEntity>>>(response);
         when(
           getProductsUseCase.call(categoryId: "1"),
         ).thenAnswer((_) async => response);
@@ -181,12 +181,12 @@ void main() {
       },
       expect: () => [
         const CategoriesViewStates(
-          productsStates: BaseState<List<ProductEntity>>(
+          productsStates: BaseState<List<ProductsEntity>>(
             requestState: RequestState.loading,
           ),
         ),
         const CategoriesViewStates(
-          productsStates: BaseState<List<ProductEntity>>(
+          productsStates: BaseState<List<ProductsEntity>>(
             requestState: RequestState.error,
             errorMessage: "Server error",
           ),

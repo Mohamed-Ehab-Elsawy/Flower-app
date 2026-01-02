@@ -1,7 +1,7 @@
-import 'package:flower_app/features/home/data/models_dto/pagination_dto.dart';
+import 'package:flower_app/core/app/data/models/products_dto.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../../core/app/data/models/product_dto.dart';
+import 'meta_data.dart';
 
 part 'product_response.g.dart';
 
@@ -10,11 +10,11 @@ class ProductResponse {
   @JsonKey(name: "message")
   final String? message;
   @JsonKey(name: "metadata")
-  final PaginationDto? paginationDto;
+  final Metadata? metadata;
   @JsonKey(name: "products")
-  final List<ProductDto>? productsDto;
+  final List<ProductsDto>? productsDto;
 
-  ProductResponse({this.message, this.paginationDto, this.productsDto});
+  ProductResponse({this.message, this.metadata, this.productsDto});
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) {
     return _$ProductResponseFromJson(json);

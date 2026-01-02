@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flower_app/core/app/domain/entities/product_entity.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';
@@ -44,10 +44,10 @@ class CategoriesViewCubit extends Cubit<CategoriesViewStates> {
 
     var response = await _getProductsUseCase(categoryId: categoryId);
     switch (response) {
-      case Success<List<ProductEntity>>():
+      case Success<List<ProductsEntity>>():
         emit(state.copyWith(productsStates: BaseState.loaded(response.data)));
 
-      case Failure<List<ProductEntity>>():
+      case Failure<List<ProductsEntity>>():
         emit(
           state.copyWith(
             productsStates: BaseState.error(response.errorMessage),

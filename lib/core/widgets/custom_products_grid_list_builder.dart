@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flower_app/core/app/domain/entities/product_entity.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app/presentation/widget/custom_card.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class CustomProductsGridListBuilder extends StatelessWidget {
   final ScrollController? scrollController;
-  final List<ProductEntity>? products;
+  final List<ProductsEntity>? products;
 
   const CustomProductsGridListBuilder({
     super.key,

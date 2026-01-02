@@ -114,28 +114,16 @@ class _CategoriesViewState extends State<CategoriesView> {
     );
   }
 
-  Widget _filterButton() => Container(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(24),
-      color: context.appTheme.primary,
+  Widget _filterButton() => ElevatedButton.icon(
+    onPressed: () {},
+    icon: const Icon(Icons.tune, color: Colors.white),
+    label: Text(
+      'Filter'.tr(),
+      style: context.appTheme.medium16.copyWith(color: Colors.white),
     ),
-    child: InkWell(
-      borderRadius: BorderRadius.circular(24),
-      onTap: () {},
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 12,
-          children: [
-            const Icon(Icons.tune, color: Colors.white),
-            Text(
-              'Filter',
-              style: context.appTheme.medium16.copyWith(color: Colors.white),
-            ).tr(),
-          ],
-        ),
-      ),
+    style: ElevatedButton.styleFrom(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      minimumSize: Size.zero,
     ),
   );
 

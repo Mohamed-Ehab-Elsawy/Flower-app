@@ -1,6 +1,6 @@
-import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
+import 'package:flower_app/core/app/data/models/product_type_dto.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 
 abstract interface class CategoryDataSource {
-  Future<Result<List<ProductTypeEntity>>> getCategories();
+  Future<Result<List<ProductTypeDto>>> getCategories();
 }
