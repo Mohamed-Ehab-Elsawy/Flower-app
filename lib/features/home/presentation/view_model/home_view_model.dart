@@ -25,7 +25,19 @@ class HomeViewModel extends Cubit<HomeState> {
   }
 
   void doEvent(HomeUIEvents event) {
-    _uiEventsController.add(event);
+    switch (event) {
+      case ViewAllCategoriesEvent():
+        _uiEventsController.add(ViewAllCategoriesEvent(categories: event.categories));
+
+      case ViewAllOccasionsEvent():
+        _uiEventsController.add(ViewAllOccasionsEvent(occasions: event.occasions));
+
+      case ItemBestSellerSelectedEvent():
+        _uiEventsController.add(ItemBestSellerSelectedEvent(product: event.product));
+      case ViewAllBestSellerEvent():
+         _uiEventsController.add(ViewAllBestSellerEvent());
+       
+    }
   }
 
   Future<void> _fetchHomeData() async {
@@ -56,19 +68,18 @@ class ViewAllCategoriesEvent extends HomeUIEvents {
   ViewAllCategoriesEvent({this.categories});
 }
 
-class ViewAllBestSellerEvent extends HomeUIEvents {
-
-
-  ViewAllBestSellerEvent();
-}
-
 class ViewAllOccasionsEvent extends HomeUIEvents {
   final List<ProductTypeEntity>? occasions;
 
   ViewAllOccasionsEvent({this.occasions});
 }
+class ViewAllBestSellerEvent extends HomeUIEvents {
+  final List<ProductTypeEntity>? occasions;
+
+  ViewAllBestSellerEvent({this.occasions});
+}
 
 class ItemBestSellerSelectedEvent extends HomeUIEvents {
   final ProductsEntity? product;
-   ItemBestSellerSelectedEvent({this.product});
+  ItemBestSellerSelectedEvent({this.product});
 }

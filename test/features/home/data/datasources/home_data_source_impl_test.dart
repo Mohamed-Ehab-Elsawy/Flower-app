@@ -23,7 +23,7 @@ void main() {
   late String? occasionId;
   late Exception exception;
 
-  setUpAll(() {
+  setUp(() {
     api = MockApiClient();
     homeDataSourceImpl = HomeDataSourceImpl(api);
     productsDtoList = [
@@ -39,7 +39,7 @@ void main() {
     categoryId = "category_1";
   });
 
- group("TEST HomeDataSourceImpl  FetchData", () {
+  group("TEST HomeDataSourceImpl  FetchData", () {
     test("FetchData should return HomeResponseDto when Pass", () async {
       //arrange
       final tHomeResponseDto = HomeResponseDto(message: "success");
@@ -61,7 +61,6 @@ void main() {
       expect(result, isA<Failure<HomeResponseDto>>());
     });
   });
-
 
   group("when call getProducts with no parameters", () {
     test(
