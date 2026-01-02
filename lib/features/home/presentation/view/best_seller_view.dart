@@ -3,6 +3,7 @@ import 'package:flower_app/core/app/presentation/widget/custom_card.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/di/di.dart';
+import 'package:flower_app/core/helper/app_routes.dart';
 import 'package:flower_app/features/home/presentation/cubit/best_seller_state.dart';
 import 'package:flower_app/features/home/presentation/cubit/best_seller_view_model.dart';
 import 'package:flower_app/features/home/presentation/widgets/loading_list.dart';
