@@ -9,6 +9,7 @@ import 'package:flower_app/features/auth/presentation/pages/terms_and_conditions
 import 'package:flower_app/features/home/presentation/view/best_seller_view.dart';
 import 'package:flower_app/features/home/presentation/view/occasions/occasion_screen.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
+import 'package:flower_app/features/product_details/presentation/views/product_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../di/di.dart';
@@ -23,6 +24,7 @@ class AppRoutes {
   static const String productDetails = '/productDetails';
   static const String occasion = '/occasion';
   static const String testScreen = '/TestScreen';
+  
 }
 
 Route? onGenerateRoute(RouteSettings settings) {
@@ -59,6 +61,11 @@ Route? onGenerateRoute(RouteSettings settings) {
     case AppRoutes.occasion:
       return MaterialPageRoute(
         builder: (_) => const OccasionScreen(),
+        settings: settings,
+      );
+    case AppRoutes.productDetails:
+      return MaterialPageRoute(
+        builder: (_) => const ProductDetailsView(),
         settings: settings,
       );
 
