@@ -69,7 +69,7 @@
     "validPhoneNumber": "Please enter a valid phone number (10-15 digits)"
   },
   "addToCart": "Add to cart",
-  "EGP": "EGP {}",
+  "EGP": "EGP ",
   "forgetPassword": "Forget password",
   "enterEmailDescription": "Please enter your email associated to your account",
   "emailVerification": "Email verification",
@@ -82,6 +82,15 @@
   "newPassword": "New password",
   "confirmPassword": "Confirm password",
   "confirm": "Confirm",
+  "resendIn": "Resend in",
+  "allPricesIncludeTax": "All prices include tax",
+  "description": "Description",
+  "inStock": "In Stock",
+  "outOfStock": "Out Of Stock",
+  "status": "Status: ",
+  "bouquetInclude": "Bouquet include",
+  "whiteWrap": "White wrap",
+  "quantity": "Quantity"
   "resendIn": "Resend in",
   "search" : "Search",
   "no_products_found": "Unfortunately no product available now"
