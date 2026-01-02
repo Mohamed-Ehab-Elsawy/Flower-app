@@ -6,6 +6,11 @@ import 'package:flower_app/features/auth/presentation/pages/forget_password/forg
 import 'package:flower_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/signup_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/terms_and_conditions.dart';
+import 'package:flower_app/features/categories/presentation/view/manager/categories_view_cubit.dart';
+import 'package:flower_app/features/categories/presentation/view/manager/categories_view_intents.dart';
+import 'package:flower_app/features/home/presentation/occasions/occasions_cubit.dart';
+import 'package:flower_app/features/home/presentation/view/occasions/OccasionsScreen.dart';
+import 'package:flower_app/features/home/presentation/view/testScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../di/di.dart';
@@ -16,19 +21,12 @@ class AppRoutes {
   static const String appSection = "appSection";
   static const String forgetPassword = "/forgetPassword";
   static const String terms = '/terms';
+  static const String occasion = '/occasion';
+  static const String testScreen = '/TestScreen';
 }
 
 Route? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
-    case AppRoutes.signup:
-      return MaterialPageRoute(builder: (_) => const SignUpScreen());
-    case AppRoutes.appSection:
-      return MaterialPageRoute(
-        builder: (_) => BlocProvider<AppSectionViewModel>(
-          create: (context) => AppSectionViewModel(),
-          child: const AppSection(),
-        ),
-      );
     case AppRoutes.login:
       var cubit = getIt.get<LoginViewModel>();
       return MaterialPageRoute(
@@ -37,8 +35,13 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const LoginScreen(),
         ),
       );
+
+    case AppRoutes.signup:
+      return MaterialPageRoute(builder: (_) => const SignUpScreen());
+
     case AppRoutes.terms:
       return MaterialPageRoute(builder: (_) => const TermsAndConditions());
+
     case AppRoutes.forgetPassword:
       return MaterialPageRoute(
         builder: (_) => BlocProvider(
@@ -46,6 +49,44 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const ForgetPasswordView(),
         ),
       );
+    case AppRoutes.occasion:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => BlocProvider<OccasionsCubit>(
+          create: (context) => getIt.get<OccasionsCubit>(),
+
+          child: const OccasionScreen(),
+        ),
+      );
+    case AppRoutes.testScreen:
+      return MaterialPageRoute(builder: (_) => const TestScreen());
+
+    case AppRoutes.appSection:
+      return MaterialPageRoute(
+        builder: (_) => MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => AppSectionViewModel()),
+            BlocProvider(
+              create: (context) =>
+                  getIt.get<CategoriesViewCubit>()
+                    ..doIntent(InitCategoriesViewIntent()),
+            ),
+          ],
+          child: const AppSection(),
+        ),
+      );
+
+    // case AppRoutes.occasion:
+    //   return MaterialPageRoute(
+    //     settings: settings,
+    //     builder: (_) => BlocProvider<OccasionsCubit>(
+    //       create: (context) => getIt.get< OccasionsCubit>(),
+    //
+    //       child:  OccasionScreen(),
+    //     ),
+    //   );
+    // case AppRoutes.testScreen:
+    //   return MaterialPageRoute(builder: (_) =>  TestScreen());
     default:
       return null;
   }

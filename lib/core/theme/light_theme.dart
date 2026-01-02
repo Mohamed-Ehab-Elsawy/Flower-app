@@ -5,6 +5,23 @@ import 'package:flower_app/core/theme/theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class LightTheme extends AppTheme {
+  TabBarThemeData get tabBarThemeData => TabBarThemeData(
+    labelColor: appThemeExtension.primary,
+    unselectedLabelColor: Colors.grey,
+    indicatorSize: TabBarIndicatorSize.label,
+    overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+    dividerColor: Colors.transparent,
+    indicator: UnderlineTabIndicator(
+      borderSide: BorderSide(color: appThemeExtension.primary, width: 3),
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(8),
+        topRight: Radius.circular(8),
+      ),
+      insets: const EdgeInsets.symmetric(vertical: 8),
+    ),
+    tabAlignment: TabAlignment.start,
+  );
+
   @override
   BottomNavigationBarThemeData get bottomAppBarThemeData =>
       BottomNavigationBarThemeData(
@@ -39,6 +56,7 @@ class LightTheme extends AppTheme {
     extensions: [appThemeExtension],
     primarySwatch: materialColorWithStandardShades(color.primary),
     appBarTheme: appBarTheme,
+    tabBarTheme: tabBarThemeData,
   );
 
   @override
@@ -126,6 +144,7 @@ class LightTheme extends AppTheme {
     success: color.success,
     grey: color.grey,
     lightPink: color.lightPink,
+    kDefaultRainbowColors: color.kDefaultRainbowColors,
   );
 
   @override
@@ -160,6 +179,7 @@ class _LightColors extends AppColors {
     90: Color(0xFF460a23),
     100: Color(0xFF2a0615),
   });
+
   @override
   MaterialColor get secondary => const MaterialColor(0xFFf9f9f9, <int, Color>{
     0: Color(0xFFf9f9f9),
@@ -201,4 +221,14 @@ class _LightColors extends AppColors {
 
   @override
   Color get textColor => Colors.black;
+  @override
+  List <Color> get   kDefaultRainbowColors => const[
+    Color(0xFFf6d2e1),
+     Color(0xFFf0b4cd),
+    Color(0xFFe98fb5),
+     Color(0xFFe1699c),
+     Color(0xFFda4483),
+    Color(0xFFaf1958),
+    Color(0xFF8c1447),
+  ];
 }

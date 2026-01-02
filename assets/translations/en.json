@@ -68,10 +68,8 @@
     "enterPhoneNumber": "Please enter your phone number",
     "validPhoneNumber": "Please enter a valid phone number (10-15 digits)"
   },
-<<<<<<< HEAD
   "addToCart": "Add to cart",
-  "EGP": "EGP {}"
-=======
+  "EGP": "EGP {}",
   "forgetPassword": "Forget password",
   "enterEmailDescription": "Please enter your email associated to your account",
   "emailVerification": "Email verification",
@@ -84,6 +82,12 @@
   "newPassword": "New password",
   "confirmPassword": "Confirm password",
   "confirm": "Confirm",
-  "resendIn": "Resend in"
->>>>>>> 9c38f9ae301d04eb042680412b89ac208b289089
+  "resendIn": "Resend in",
+  "search" : "Search",
+  "no_products_found": "Unfortunately no product available now"
+  "Occasion":"Occasion",
+  "Bloom with our exquisite best sellers": "Bloom with our exquisite best sellers",
+  "untitled": "untitled",
+  "There is no products yet":"There is no products yet"
+
 }

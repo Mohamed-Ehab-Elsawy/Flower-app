@@ -20,8 +20,7 @@ void main() async {
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en')],
-      path:
-          'assets/translations', // <-- change the path of the translation files
+      path: 'assets/translations', // <-- change the path of the translation files
       fallbackLocale: const Locale('en'),
       child: const FlowerApp(),
     ),
@@ -29,9 +28,8 @@ void main() async {
 }
 
 Future<bool> getInitialAppRoute() async {
-  final rememberMe = await AppLocalStorage.getBool(LocalKeys.rememberMe);
   final token = await AppLocalStorage.getSecuredString(
     key: LocalKeys.authToken,
   );
-  return rememberMe && token.isNotEmpty;
+  return token.isNotEmpty;
 }
