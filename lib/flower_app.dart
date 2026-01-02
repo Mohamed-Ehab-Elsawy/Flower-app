@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/constants/text_strings.dart';
 import 'package:flower_app/core/helper/app_routes.dart';
@@ -11,18 +9,14 @@ class FlowerApp extends StatelessWidget {
   const FlowerApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    log("validation.enterUsername".tr());
-    return MaterialApp(
+  Widget build(BuildContext context) => MaterialApp(
       title: IAppText.appName,
       debugShowCheckedModeBanner: false,
       theme: LightTheme().themeData,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      // initialRoute: isLoggedInUser ? AppRoutes.appSection : AppRoutes.login,
-      initialRoute: AppRoutes.testScreen,
+      initialRoute: isLoggedInUser ? AppRoutes.appSection : AppRoutes.login,
       onGenerateRoute: onGenerateRoute,
     );
-  }
 }

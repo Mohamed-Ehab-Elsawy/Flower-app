@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flower_app/core/app/domain/entities/product_entity.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/home/domain/usecases/get_products.dart';
@@ -35,31 +35,31 @@ class OccasionsCubit extends Cubit<OccasionsStates> {
   Future<void> _getAllProductsByOccasions(String? occasionId) async {
     emit(
       state.copyWith(
-        productsState: const BaseState<List<ProductEntity>>(
+        productsState: const BaseState<List<ProductsEntity>>(
           requestState: RequestState.loading,
         ),
       ),
     );
-    Result<List<ProductEntity>> response = await _getProductsUseCase(
+    Result<List<ProductsEntity>> response = await _getProductsUseCase(
       occasionId: occasionId,
     );
     switch (response) {
-      case Success<List<ProductEntity>>():
+      case Success<List<ProductsEntity>>():
         {
           emit(
             state.copyWith(
-              productsState: BaseState<List<ProductEntity>>.loaded(
+              productsState: BaseState<List<ProductsEntity>>.loaded(
                 response.data,
               ),
             ),
           );
         }
 
-      case Failure<List<ProductEntity>>():
+      case Failure<List<ProductsEntity>>():
         {
           emit(
             state.copyWith(
-              productsState: BaseState<List<ProductEntity>>.error(
+              productsState: BaseState<List<ProductsEntity>>.error(
                 response.errorMessage,
               ),
             ),

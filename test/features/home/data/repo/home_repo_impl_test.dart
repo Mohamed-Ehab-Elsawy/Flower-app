@@ -1,5 +1,5 @@
-import 'package:flower_app/core/app/data/models/product_dto.dart';
-import 'package:flower_app/core/app/domain/entities/product_entity.dart';
+import 'package:flower_app/core/app/data/models/products_dto.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/error_handling/handle_exception%20.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/home/data/datasources/home_data_source.dart';
@@ -14,8 +14,8 @@ import 'home_repo_impl_test.mocks.dart' show MockHomeDataSource;
 void main() {
   late MockHomeDataSource dataSource;
   late HomeRepoImpl repo;
-  late List<ProductDto> productsDtoList;
-  late List<ProductEntity> productsEntityList;
+  late List<ProductsDto> productsDtoList;
+  late List<ProductsEntity> productsEntityList;
   late String? categoryId;
   late String? occasionId;
   late Exception exception;
@@ -23,11 +23,11 @@ void main() {
     dataSource = MockHomeDataSource();
     repo = HomeRepoImpl(dataSource);
     productsDtoList = [
-      const ProductDto(id: '1', title: 'title', description: 'description'),
-      const ProductDto(id: '2', title: 'title', description: 'description'),
+      const ProductsDto(id: '1', title: 'title', description: 'description'),
+      const ProductsDto(id: '2', title: 'title', description: 'description'),
     ];
     productsEntityList = [
-      ProductEntity(
+      ProductsEntity(
         id: '1',
         title: 'title',
         description: 'description',
@@ -46,7 +46,7 @@ void main() {
         ratingCount: null,
         images: ["httpng", "httpsg"],
       ),
-      ProductEntity(
+      ProductsEntity(
         id: '1',
         title: 'title',
         description: 'description',
@@ -67,11 +67,11 @@ void main() {
       ),
     ];
     exception = Exception("error");
-    provideDummy<Result<List<ProductDto>>>(
-      Success<List<ProductDto>>(productsDtoList),
+    provideDummy<Result<List<ProductsDto>>>(
+      Success<List<ProductsDto>>(productsDtoList),
     );
-    provideDummy<Result<List<ProductEntity>>>(
-      Success<List<ProductEntity>>(productsEntityList),
+    provideDummy<Result<List<ProductsEntity>>>(
+      Success<List<ProductsEntity>>(productsEntityList),
     );
     categoryId = "category_1";
     occasionId = "occasion_1";
@@ -82,10 +82,10 @@ void main() {
       () async {
         when(
           dataSource.getProducts(occasionId: null, categoryId: null),
-        ).thenAnswer((_) async => Success<List<ProductDto>>(productsDtoList));
+        ).thenAnswer((_) async => Success<List<ProductsDto>>(productsDtoList));
         final result = await repo.getProducts();
-        expect(result, isA<Success<List<ProductEntity>>>());
-        expect(result as Success<List<ProductEntity>>, isNotNull);
+        expect(result, isA<Success<List<ProductsEntity>>>());
+        expect(result as Success<List<ProductsEntity>>, isNotNull);
         expect(result.data.length, equals(2));
         verify(
           dataSource.getProducts(occasionId: null, categoryId: null),
@@ -99,7 +99,7 @@ void main() {
         when(
           dataSource.getProducts(occasionId: null, categoryId: null),
         ).thenAnswer(
-          (_) async => Failure<List<ProductDto>>(
+          (_) async => Failure<List<ProductsDto>>(
             NetworkException.getMessageError(exception),
           ),
         );
@@ -107,8 +107,8 @@ void main() {
           categoryId: null,
           occasionId: null,
         );
-        expect(result, isA<Failure<List<ProductEntity>>>());
-        expect(result as Failure<List<ProductEntity>>, isNotNull);
+        expect(result, isA<Failure<List<ProductsEntity>>>());
+        expect(result as Failure<List<ProductsEntity>>, isNotNull);
         expect(
           result.errorMessage,
           equals(NetworkException.getMessageError(exception)),
@@ -126,13 +126,13 @@ void main() {
       () async {
         when(
           dataSource.getProducts(occasionId: occasionId, categoryId: null),
-        ).thenAnswer((_) async => Success<List<ProductDto>>(productsDtoList));
+        ).thenAnswer((_) async => Success<List<ProductsDto>>(productsDtoList));
         final result = await repo.getProducts(
           occasionId: occasionId,
           categoryId: null,
         );
-        expect(result, isA<Success<List<ProductEntity>>>());
-        expect(result as Success<List<ProductEntity>>, isNotNull);
+        expect(result, isA<Success<List<ProductsEntity>>>());
+        expect(result as Success<List<ProductsEntity>>, isNotNull);
         expect(result.data.length, equals(2));
         verify(
           dataSource.getProducts(occasionId: occasionId, categoryId: null),
@@ -146,7 +146,7 @@ void main() {
         when(
           dataSource.getProducts(occasionId: occasionId, categoryId: null),
         ).thenAnswer(
-          (_) async => Failure<List<ProductDto>>(
+          (_) async => Failure<List<ProductsDto>>(
             NetworkException.getMessageError(exception),
           ),
         );
@@ -154,8 +154,8 @@ void main() {
           occasionId: occasionId,
           categoryId: null,
         );
-        expect(result, isA<Failure<List<ProductEntity>>>());
-        expect(result as Failure<List<ProductEntity>>, isNotNull);
+        expect(result, isA<Failure<List<ProductsEntity>>>());
+        expect(result as Failure<List<ProductsEntity>>, isNotNull);
         expect(
           result.errorMessage,
           equals(NetworkException.getMessageError(exception)),
@@ -173,13 +173,13 @@ void main() {
       () async {
         when(
           dataSource.getProducts(occasionId: null, categoryId: categoryId),
-        ).thenAnswer((_) async => Success<List<ProductDto>>(productsDtoList));
+        ).thenAnswer((_) async => Success<List<ProductsDto>>(productsDtoList));
         final result = await repo.getProducts(
           occasionId: null,
           categoryId: categoryId,
         );
-        expect(result, isA<Success<List<ProductEntity>>>());
-        expect(result as Success<List<ProductEntity>>, isNotNull);
+        expect(result, isA<Success<List<ProductsEntity>>>());
+        expect(result as Success<List<ProductsEntity>>, isNotNull);
         expect(result.data.length, equals(2));
         verify(
           dataSource.getProducts(occasionId: null, categoryId: categoryId),
@@ -193,7 +193,7 @@ void main() {
         when(
           dataSource.getProducts(occasionId: null, categoryId: categoryId),
         ).thenAnswer(
-          (_) async => Failure<List<ProductDto>>(
+          (_) async => Failure<List<ProductsDto>>(
             NetworkException.getMessageError(exception),
           ),
         );
@@ -201,8 +201,8 @@ void main() {
           occasionId: null,
           categoryId: categoryId,
         );
-        expect(result, isA<Failure<List<ProductEntity>>>());
-        expect(result as Failure<List<ProductEntity>>, isNotNull);
+        expect(result, isA<Failure<List<ProductsEntity>>>());
+        expect(result as Failure<List<ProductsEntity>>, isNotNull);
         expect(
           result.errorMessage,
           equals(NetworkException.getMessageError(exception)),
