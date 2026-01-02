@@ -1,13 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
-import 'package:flower_app/core/app/domain/entities/product_entity.dart';
 import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 
 class HomeResponseEntity extends Equatable {
   String? message;
-  List<ProductEntity>? products;
+  List<ProductsEntity>? products;
   List<ProductTypeEntity>? categories;
-  List<ProductEntity>? bestSeller;
+  List<ProductsEntity>? bestSeller;
   List<ProductTypeEntity>? occasions;
   HomeResponseEntity({
     this.message,

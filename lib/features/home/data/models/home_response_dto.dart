@@ -1,8 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
+import 'package:flower_app/core/app/data/models/products_dto.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package:flower_app/core/app/data/models/product_dto.dart';
+
 import 'package:flower_app/core/app/data/models/product_type_dto.dart';
 
 part 'home_response_dto.g.dart';
@@ -12,11 +12,11 @@ class HomeResponseDto extends Equatable {
   @JsonKey(name: 'message')
   String? message;
   @JsonKey(name: 'products')
-  List<ProductDto>? products;
+  List<ProductsDto>? products;
   @JsonKey(name: 'categories')
   List<ProductTypeDto>? categories;
   @JsonKey(name: 'bestSeller')
-  List<ProductDto>? bestSeller;
+  List<ProductsDto>? bestSeller;
   @JsonKey(name: 'occasions')
   List<ProductTypeDto>? occasions;
   HomeResponseDto({

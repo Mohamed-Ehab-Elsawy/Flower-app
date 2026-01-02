@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flower_app/core/app/domain/entities/product_entity.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
@@ -45,7 +45,7 @@ class BestSellerList extends StatelessWidget {
     ).toSliverBoxAdapter;
   }
 
-  Widget _buildBestSellerList(List<ProductEntity>? bestSeller) {
+  Widget _buildBestSellerList(List<ProductsEntity>? bestSeller) {
     return SizedBox(
       height: 200,
       child: ListView.builder(
@@ -67,7 +67,7 @@ class BestSellerList extends StatelessWidget {
 Widget _buildDummyBestSellerList(HomeState state) {
   final bestSeller = List.generate(
     5,
-    (index) => const ProductEntity(
+    (index) =>  ProductsEntity(
       title: "XXXXXXX",
       imageCover: 'https://picsum.photos/600',
     ),
@@ -90,7 +90,7 @@ Widget _buildDummyBestSellerList(HomeState state) {
 class BestSellerItem extends StatelessWidget {
   const BestSellerItem({super.key, required this.product});
 
-  final ProductEntity? product;
+  final ProductsEntity? product;
 
   @override
   Widget build(BuildContext context) {

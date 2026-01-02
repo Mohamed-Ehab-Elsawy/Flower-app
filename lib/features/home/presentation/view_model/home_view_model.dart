@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flower_app/core/app/domain/entities/product_entity.dart';
 import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';

@@ -51,7 +51,7 @@ void main() {
         slug: '',
         ratingAverage: null,
         ratingCount: null,
-        images: ["httpng", "httpsg"],
+        images: const ["httpng", "httpsg"],
       ),
       ProductsEntity(
         id: '1',
@@ -70,7 +70,7 @@ void main() {
         slug: '',
         ratingAverage: null,
         ratingCount: null,
-        images: ["httpng", "httpsg"],
+        images: const ["httpng", "httpsg"],
       ),
     ];
 

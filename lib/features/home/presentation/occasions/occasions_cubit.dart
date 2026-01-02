@@ -13,7 +13,7 @@ import 'package:injectable/injectable.dart';
 class OccasionsCubit extends Cubit<OccasionsStates> {
   final GetProductsUseCase _getProductsUseCase;
 
-  OccasionsCubit(this._getProductsUseCase) : super(OccasionsStates());
+  OccasionsCubit(this._getProductsUseCase) : super(const OccasionsStates());
   final StreamController<OccasionsUiEvent> _occasionsUiEvents =
       StreamController.broadcast();
 

@@ -46,16 +46,13 @@ import '../../features/home/data/datasources/home_data_source_impl.dart'
     as _i375;
 import '../../features/home/data/repo/home_repo_impl.dart' as _i1024;
 import '../../features/home/domain/repo/home_repo.dart' as _i280;
-<<<<<<< HEAD
 import '../../features/home/domain/usecases/fetch_home_data_usecase.dart'
     as _i798;
-import '../../features/home/presentation/view_model/home_view_model.dart'
-    as _i77;
-=======
 import '../../features/home/domain/usecases/get_products.dart' as _i491;
 import '../../features/home/presentation/occasions/occasions_cubit.dart'
     as _i240;
->>>>>>> 8e1b1fcc49914ea29a777b20e8e00830339b9cda
+import '../../features/home/presentation/view_model/home_view_model.dart'
+    as _i77;
 import '../api/api_client.dart' as _i277;
 import '../api/api_module.dart' as _i0;
 import '../app/presentation/view_model/app_section_view_model.dart' as _i752;
@@ -71,10 +68,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i752.AppSectionViewModel>(() => _i752.AppSectionViewModel());
     gh.lazySingleton<_i361.BaseOptions>(() => apiModule.providerOption());
     gh.lazySingleton<_i52.TalkerDioLogger>(() => apiModule.prvoideLogger());
-<<<<<<< HEAD
-    gh.lazySingleton<_i51.CategoryRepo>(() => _i782.CategoryRepoImpl());
-=======
->>>>>>> 8e1b1fcc49914ea29a777b20e8e00830339b9cda
     gh.lazySingleton<_i361.Dio>(
       () => apiModule.provideDio(
         gh<_i361.BaseOptions>(),
@@ -87,24 +80,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i586.AuthDataSource>(
       () => _i775.AuthDataSourceImpl(gh<_i277.ApiClient>()),
     );
-<<<<<<< HEAD
-=======
     gh.lazySingleton<_i842.CategoryDataSource>(
       () => _i236.CategoryDataSourceImpl(gh<_i277.ApiClient>()),
     );
->>>>>>> 8e1b1fcc49914ea29a777b20e8e00830339b9cda
     gh.lazySingleton<_i426.HomeDataSource>(
       () => _i375.HomeDataSourceImpl(gh<_i277.ApiClient>()),
     );
     gh.lazySingleton<_i280.HomeRepo>(
       () => _i1024.HomeRepoImpl(gh<_i426.HomeDataSource>()),
     );
-<<<<<<< HEAD
-=======
     gh.factory<_i491.GetProductsUseCase>(
       () => _i491.GetProductsUseCase(gh<_i280.HomeRepo>()),
     );
->>>>>>> 8e1b1fcc49914ea29a777b20e8e00830339b9cda
     gh.lazySingleton<_i723.AuthRepo>(
       () => _i662.AuthRepoImpl(gh<_i586.AuthDataSource>()),
     );
@@ -126,13 +113,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i723.AuthRepo>()),
     );
-<<<<<<< HEAD
-    gh.lazySingleton<_i798.FetchHomeDataUsecase>(
-      () => _i798.FetchHomeDataUsecase(gh<_i280.HomeRepo>()),
-=======
     gh.factory<_i308.GetCategoriesUseCase>(
       () => _i308.GetCategoriesUseCase(gh<_i51.CategoryRepo>()),
->>>>>>> 8e1b1fcc49914ea29a777b20e8e00830339b9cda
+    );
+    gh.lazySingleton<_i798.FetchHomeDataUsecase>(
+      () => _i798.FetchHomeDataUsecase(gh<_i280.HomeRepo>()),
     );
     gh.factory<_i571.SignUpUseCase>(
       () => _i571.SignUpUseCase(gh<_i723.AuthRepo>()),
