@@ -14,5 +14,6 @@ class IAppText {
   static const String password = "Password";
   static const String enterYouPassword = "Enter you password";
 
-  //==============> Home <==============
+  //==============> Images <==============================
+  static const String placeHolderImage = "assets/image/place_holder.png";
 }

@@ -1,8 +1,11 @@
+import 'package:flower_app/core/error_handling/result.dart';
+import 'package:flower_app/features/home/data/datasources/home_data_source.dart';
+import 'package:flower_app/features/home/data/models/best_seller_response.dart';
+import 'package:flower_app/features/home/domain/entities/best_seller_entity.dart';
+import 'package:flower_app/features/home/domain/mapper/best_seller_response_mapper.dart';
 import 'package:flower_app/core/app/data/mapper/product_mapper.dart';
 import 'package:flower_app/core/app/data/models/products_dto.dart';
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
-import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/home/data/datasources/home_data_source.dart';
 import 'package:flower_app/features/home/data/models/home_response_dto.dart';
 import 'package:flower_app/features/home/domain/entities/home_response_entity.dart';
 import 'package:flower_app/features/home/domain/repo/home_repo.dart';
@@ -26,6 +29,17 @@ class HomeRepoImpl implements HomeRepo {
     }
   }
 
+  @override
+  Future<Result<BestSellerEntity>> getBestSeller() async {
+    final response = await _homeDataSource.getBestSeller();
+    switch (response) {
+      case Success<BestSellerResponse>():
+        var result = response.data.toModel();
+        return Success(result);
+        case Failure<BestSellerResponse>():
+        return Failure(response.errorMessage);
+    }
+  }
   @override
   Future<Result<List<ProductsEntity>>> getProducts({
     String? occasionId,
