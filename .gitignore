@@ -18,6 +18,7 @@ migrate_working_dir/
 *.g.dart
 *.config.dart
 pubspec.lock
+
 # IntelliJ related
 *.iml
 *.ipr
@@ -39,9 +40,12 @@ pubspec.lock
 /build/
 /coverage/
 
-# Generated files (build_runner, json_serializable, mockito)
+# Generated files (build_runner, json_serializable, freezed, retrofit, injectable, mockito/mocktail)
 *.g.dart
+*.freezed.dart
 *.mocks.dart
+*.config.dart
+*.inject.summary
 
 # Symbolication related
 app.*.symbols
@@ -53,6 +57,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
-*.g.dart
-*.mocks.dart

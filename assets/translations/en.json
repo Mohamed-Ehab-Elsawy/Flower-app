@@ -70,6 +70,8 @@
   },
   "addToCart": "Add to cart",
   "EGP": "EGP {}",
+  "mostSelling": "Most selling",
+  "Bloom with our exquisite best sellers": "Bloom with our exquisite best sellers",
   "forgetPassword": "Forget password",
   "enterEmailDescription": "Please enter your email associated to your account",
   "emailVerification": "Email verification",
@@ -83,10 +85,18 @@
   "confirmPassword": "Confirm password",
   "confirm": "Confirm",
   "resendIn": "Resend in",
+  "allPricesIncludeTax": "All prices include tax",
+  "description": "Description",
+  "inStock": "In Stock",
+  "outOfStock": "Out Of Stock",
+  "status": "Status: ",
+  "bouquetInclude": "Bouquet include",
+  "whiteWrap": "White wrap",
+  "quantity": "Quantity",
+
   "search" : "Search",
-  "no_products_found": "Unfortunately no product available now"
+  "no_products_found": "Unfortunately no product available now",
   "Occasion":"Occasion",
-  "Bloom with our exquisite best sellers": "Bloom with our exquisite best sellers",
   "untitled": "untitled",
   "There is no products yet":"There is no products yet"
 
