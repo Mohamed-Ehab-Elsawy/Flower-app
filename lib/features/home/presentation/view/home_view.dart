@@ -1,4 +1,5 @@
-import 'dart:developer';
+
+import 'package:flower_app/core/helper/app_routes.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
 import 'package:flower_app/features/home/presentation/widgets/best_seller_list.dart';
 import 'package:flower_app/features/home/presentation/widgets/categories_list.dart';
@@ -19,20 +20,20 @@ class _HomeViewState extends State<HomeView> {
   @override
   void didChangeDependencies() {
     context.read<HomeViewModel>().uiEventsStream.listen((event) {
-      switch (event) {
-        case ViewAllCategoriesEvent():
-          log(event.categories?[0].name.toString() ?? "No Data");
-        //context.pushName(routeName);
-        case ViewAllBestSellerEvent():
-          
-        //context.pushName(routeName);
-        case ViewAllOccasionsEvent():
-          //  log(event.occasions?[0].name.toString() ?? "No Data");
-        //context.pushName(routeName);
-        case ItemBestSellerSelectedEvent():
-          // context.pushName(details,event.product)
+      switch(event){
+      
          
+        case ViewAllCategoriesEvent():
+          Navigator.of(context).pushNamed(AppRoutes.appSection,arguments: event.categories ?? []);
+        
+        case ViewAllOccasionsEvent():
+          Navigator.of(context).pushNamed(AppRoutes.occasion,arguments: event.occasions ?? []);
+        case ItemBestSellerSelectedEvent():
+          Navigator.of(context).pushNamed(AppRoutes.productDetails,arguments: event.product);
+        case ViewAllBestSellerEvent():
+          Navigator.of(context).pushNamed(AppRoutes.mostSelling);  
       }
+      
     });
     super.didChangeDependencies();
   }

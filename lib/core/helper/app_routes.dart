@@ -7,6 +7,7 @@ import 'package:flower_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/signup_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/terms_and_conditions.dart';
 import 'package:flower_app/features/home/presentation/view/best_seller_view.dart';
+import 'package:flower_app/features/home/presentation/view/occasions/occasion_screen.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,6 +56,11 @@ Route? onGenerateRoute(RouteSettings settings) {
 
     case AppRoutes.terms:
       return MaterialPageRoute(builder: (_) => const TermsAndConditions());
+    case AppRoutes.occasion:
+      return MaterialPageRoute(
+        builder: (_) => const OccasionScreen(),
+        settings: settings,
+      );
 
     case AppRoutes.forgetPassword:
       return MaterialPageRoute(
