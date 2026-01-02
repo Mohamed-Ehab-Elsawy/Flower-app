@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
+
 part 'pagination_dto.g.dart';
+
 @JsonSerializable()
 class PaginationDto {
   @JsonKey(name: "currentPage")
@@ -11,7 +13,7 @@ class PaginationDto {
   @JsonKey(name: "totalItems")
   final int? totalItems;
 
-  PaginationDto ({
+  PaginationDto({
     this.currentPage,
     this.totalPages,
     this.limit,

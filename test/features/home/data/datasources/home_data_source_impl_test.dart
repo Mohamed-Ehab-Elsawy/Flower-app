@@ -1,6 +1,7 @@
 import 'package:flower_app/core/api/api_client.dart';
 import 'package:flower_app/core/app/data/models/product_response.dart';
-import 'package:flower_app/core/app/data/models/products_dto.dart' show ProductsDto;
+import 'package:flower_app/core/app/data/models/products_dto.dart'
+    show ProductsDto;
 import 'package:flower_app/core/error_handling/handle_exception%20.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/home/data/datasources/home_data_source_impl.dart';
@@ -16,8 +17,8 @@ void main() {
   late MockApiClient api;
   late ProductResponse productResponse;
   late List<ProductsDto> productsDtoList;
-  late String? categoryId ;
-  late String? occasionId ;
+  late String? categoryId;
+  late String? occasionId;
   late Exception exception;
 
   setUpAll(() {

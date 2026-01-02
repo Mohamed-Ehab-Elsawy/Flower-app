@@ -6,7 +6,9 @@ import 'package:injectable/injectable.dart';
 @injectable
 class GetProductsUseCase {
   final HomeRepo repo;
+
   GetProductsUseCase(this.repo);
+
   Future<Result<List<ProductsEntity>>> call({
     String? occasionId,
     String? categoryId,

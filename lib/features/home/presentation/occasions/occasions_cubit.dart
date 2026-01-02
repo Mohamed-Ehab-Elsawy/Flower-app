@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';
@@ -15,7 +16,9 @@ class OccasionsCubit extends Cubit<OccasionsStates> {
   OccasionsCubit(this._getProductsUseCase) : super(OccasionsStates());
   final StreamController<OccasionsUiEvent> _occasionsUiEvents =
       StreamController.broadcast();
+
   Stream<OccasionsUiEvent> get occasionsUiEvent => _occasionsUiEvents.stream;
+
   void doIntent(OccasionsEvents event) {
     switch (event) {
       case GetAllProductsByOccasionsEvents():
