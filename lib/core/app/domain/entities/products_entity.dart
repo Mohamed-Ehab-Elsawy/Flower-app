@@ -1,43 +1,43 @@
 import 'package:equatable/equatable.dart';
 
 class ProductsEntity extends Equatable {
-  final String? id;
-  final String? title;
-  final String? slug;
-  final String? description;
-  final String? imageCover;
-  final List<String>? images;
-  final double? price;
-  final double? priceAfterDiscount;
-  final int? quantity;
-  final String? categoryId;
-  final String? occasionId;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final bool? isSuperAdmin;
-  final int? sold;
-  final double? ratingAverage;
-  final int? ratingCount;
-  final double? discount;
+   String? id;
+   String? title;
+   String? slug;
+   String? description;
+   String? imageCover;
+   List<String>? images;
+   double? price;
+   double? priceAfterDiscount;
+   int? quantity;
+   String? categoryId;
+   String? occasionId;
+   DateTime? createdAt;
+   DateTime? updatedAt;
+   bool? isSuperAdmin;
+   int? sold;
+   double? ratingAverage;
+   int? ratingCount;
+   double? discount;
 
-  const ProductsEntity({
-    required this.id,
-    required this.title,
-    required this.slug,
-    required this.description,
-    required this.imageCover,
-    required this.images,
-    required this.price,
-    required this.priceAfterDiscount,
-    required this.quantity,
-    required this.categoryId,
-    required this.occasionId,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.isSuperAdmin,
-    required this.sold,
-    required this.ratingAverage,
-    required this.ratingCount,
+   ProductsEntity({
+     this.id,
+    this.title,
+    this.slug,
+    this.description,
+    this.imageCover,
+    this.images,
+    this.price,
+    this.priceAfterDiscount,
+    this.quantity,
+    this.categoryId,
+    this.occasionId,
+    this.createdAt,
+    this.updatedAt,
+    this.isSuperAdmin,
+    this.sold,
+    this.ratingAverage,
+    this.ratingCount,
     this.discount,
   });
 

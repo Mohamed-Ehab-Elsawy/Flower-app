@@ -2,9 +2,11 @@ import 'package:flower_app/core/api/api_client.dart';
 import 'package:flower_app/core/app/data/models/product_response.dart';
 import 'package:flower_app/core/app/data/models/products_dto.dart'
     show ProductsDto;
+import 'package:flower_app/core/error_handling/failures.dart';
 import 'package:flower_app/core/error_handling/handle_exception%20.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/home/data/datasources/home_data_source_impl.dart';
+import 'package:flower_app/features/home/data/models/home_response_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -21,7 +23,7 @@ void main() {
   late String? occasionId;
   late Exception exception;
 
-  setUpAll(() {
+  setUp(() {
     api = MockApiClient();
     homeDataSourceImpl = HomeDataSourceImpl(api);
     productsDtoList = [
@@ -36,6 +38,30 @@ void main() {
     occasionId = "occasion_1";
     categoryId = "category_1";
   });
+
+  group("TEST HomeDataSourceImpl  FetchData", () {
+    test("FetchData should return HomeResponseDto when Pass", () async {
+      //arrange
+      final tHomeResponseDto = HomeResponseDto(message: "success");
+
+      when(api.fetchHomeData()).thenAnswer((_) async => tHomeResponseDto);
+      //act
+      final result = await homeDataSourceImpl.fetchHomeData();
+      //assert
+      expect(result, isA<Success<HomeResponseDto>>());
+    });
+    test("FetchData should return Failure when Exception", () async {
+      //arrange
+      AppFailure appFailure = const UnexpectedFailure("UnexpectedFailure");
+
+      when(api.fetchHomeData()).thenThrow(appFailure);
+      //act
+      final result = await homeDataSourceImpl.fetchHomeData();
+      //assert
+      expect(result, isA<Failure<HomeResponseDto>>());
+    });
+  });
+
   group("when call getProducts with no parameters", () {
     test(
       'when call getProducts with no parameters it should return Success with productsDto ',

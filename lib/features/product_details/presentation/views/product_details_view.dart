@@ -5,8 +5,8 @@ import 'package:flower_app/core/widgets/custom_image_view.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailsView extends StatefulWidget {
-  final ProductsEntity product;
-  const ProductDetailsView({super.key,required this.product});
+  final ProductsEntity ?product;
+  const ProductDetailsView({super.key, this.product});
 
   @override
   State<ProductDetailsView> createState() => _ProductDetailsViewState();
@@ -16,8 +16,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  late final List<String> _images = widget.product.images??[];
-  late final isInStock = (widget.product.quantity ?? 0) > 0;
+  late final List<String> _images = widget.product?.images??[];
+  late final isInStock = (widget.product?.quantity ?? 0) > 0;
 
 
   @override
@@ -74,7 +74,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("${"EGP".tr()} ${widget.product.price}",style: context.appTheme.medium20.copyWith(
+                          Text("${"EGP".tr()} ${widget.product?.price}",style: context.appTheme.medium20.copyWith(
                             fontWeight: FontWeight.bold,
                           )),
                           RichText(text:
@@ -99,17 +99,17 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                         color: context.appTheme.grey,
                       ),),
                       const SizedBox(height: 8),
-                      Text(widget.product.title ?? "",style: context.appTheme.medium16.copyWith(
+                      Text(widget.product?.title ?? "",style: context.appTheme.medium16.copyWith(
                         color: context.appTheme.surface
                       )),
                       const SizedBox(height: 24),
                       Text("description".tr(),style: context.appTheme.medium16),
                       const SizedBox(height: 8),
-                      Text(widget.product.description ??"",style: context.appTheme.regular14),
+                      Text(widget.product?.description ??"",style: context.appTheme.regular14),
                       const SizedBox(height: 24),
                       Text("bouquetInclude".tr(),style: context.appTheme.medium16),
                       const SizedBox(height: 8),
-                      Text("${"quantity".tr()}: ${widget.product.quantity ?? 0}",style: context.appTheme.regular14),
+                      Text("${"quantity".tr()}: ${widget.product?.quantity ?? 0}",style: context.appTheme.regular14),
                       const SizedBox(height: 2),
                       Text("whiteWrap".tr(),style: context.appTheme.regular14),
                       const SizedBox(height: 24),

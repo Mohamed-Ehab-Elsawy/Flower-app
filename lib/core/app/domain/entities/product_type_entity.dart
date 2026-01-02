@@ -10,13 +10,13 @@ class ProductTypeEntity extends Equatable {
   final bool? isSuperAdmin;
 
   const ProductTypeEntity({
-    required this.id,
-    required this.name,
-    required this.slug,
-    required this.image,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.isSuperAdmin,
+    this.id,
+    this.name,
+    this.slug,
+    this.image,
+    this.createdAt,
+    this.updatedAt,
+    this.isSuperAdmin,
   });
 
   @override

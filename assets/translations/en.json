@@ -68,6 +68,14 @@
     "enterPhoneNumber": "Please enter your phone number",
     "validPhoneNumber": "Please enter a valid phone number (10-15 digits)"
   },
+  "home": {
+    "search": "Search",
+    "view_all": "View All",
+    "categories": "Categories",
+    "best_seller": "Best seller",
+    "occasion": "Occasion"
+  }
+,
   "addToCart": "Add to cart",
   "EGP": "EGP {}",
   "mostSelling": "Most selling",
@@ -84,7 +92,7 @@
   "newPassword": "New password",
   "confirmPassword": "Confirm password",
   "confirm": "Confirm",
-  "resendIn": "Resend in",
+  
   "allPricesIncludeTax": "All prices include tax",
   "description": "Description",
   "inStock": "In Stock",
@@ -98,6 +106,7 @@
   "no_products_found": "Unfortunately no product available now",
   "Occasion":"Occasion",
   "untitled": "untitled",
-  "There is no products yet":"There is no products yet"
+  "There is no products yet":"There is no products yet",
 
+  "resendIn": "Resend in"
 }

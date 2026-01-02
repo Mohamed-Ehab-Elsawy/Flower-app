@@ -1,9 +1,15 @@
+import 'package:flower_app/core/app/data/models/products_dto.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/error_handling/failures.dart';
+import 'package:flower_app/core/error_handling/handle_exception%20.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/home/data/datasources/home_data_source.dart';
 import 'package:flower_app/features/home/data/models/best_seller_response.dart';
+import 'package:flower_app/features/home/data/models/home_response_dto.dart';
 import 'package:flower_app/features/home/data/repo/home_repo_impl.dart';
 import 'package:flower_app/features/home/domain/entities/best_seller_entity.dart';
+import 'package:flower_app/features/home/domain/entities/home_response_entity.dart';
+import 'package:flower_app/features/home/mapper/home_response_mapper.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -73,6 +79,7 @@ void main() {
       const ProductsDto(id: '1', title: 'title', description: 'description'),
       const ProductsDto(id: '2', title: 'title', description: 'description'),
     ];
+    });
     productsEntityList = [
       ProductsEntity(
         id: '1',
@@ -91,7 +98,7 @@ void main() {
         slug: '',
         ratingAverage: null,
         ratingCount: null,
-        images: ["httpng", "httpsg"],
+        images: const ["httpng", "httpsg"],
       ),
       ProductsEntity(
         id: '1',
@@ -110,9 +117,44 @@ void main() {
         slug: '',
         ratingAverage: null,
         ratingCount: null,
-        images: ["httpng", "httpsg"],
+        images: const ["httpng", "httpsg"],
       ),
     ];
+
+group("TEST HomeRepoImpl FetchData", () {
+    test("FetchData should return HomeResponseDto when Pass", () async {
+      //arrange
+      final tHomeResponseDto = Success<HomeResponseDto>(
+        HomeResponseDto(message: "success"),
+      );
+      final tHomeResponseEntity = tHomeResponseDto.data.toEntity();
+      provideDummy<Result<HomeResponseDto>>(tHomeResponseDto);
+      when(
+        dataSource.fetchHomeData(),
+      ).thenAnswer((_) async => tHomeResponseDto);
+      //act
+      final result =
+          await repo.fetchHomeData() as Success<HomeResponseEntity>;
+      //assert
+      expect(result, isA<Success<HomeResponseEntity>>());
+      expect(result.data, tHomeResponseEntity);
+      expect(result.data.message, "success");
+    });
+    test("FetchData should return Failure when Exception", () async {
+      //arrange
+      const appFailure = UnexpectedFailure("UnexpectedFailure");
+      final failureResponse = Failure<HomeResponseDto>(appFailure.message!);
+      provideDummy<Result<HomeResponseDto>>(failureResponse);
+      when(dataSource.fetchHomeData()).thenAnswer((_) async => failureResponse);
+      //act
+      final result =
+          await repo.fetchHomeData() as Failure<HomeResponseEntity>;
+      //assert
+      expect(result, isA<Failure<HomeResponseEntity>>());
+      expect(result.errorMessage, "UnexpectedFailure");
+    });
+  
+
     exception = Exception("error");
     provideDummy<Result<List<ProductsDto>>>(
       Success<List<ProductsDto>>(productsDtoList),
@@ -261,4 +303,5 @@ void main() {
       },
     );
   });
+
 }

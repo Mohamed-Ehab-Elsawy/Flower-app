@@ -4,6 +4,7 @@ import 'package:flower_app/features/auth/data/models_dto/login/login_response_dt
 import 'package:flower_app/features/home/data/models/best_seller_response.dart';
 import 'package:flower_app/core/app/data/models/product_response.dart';
 import 'package:flower_app/features/categories/data/models/categories_response.dart';
+import 'package:flower_app/features/home/data/models/home_response_dto.dart';
 import 'package:injectable/injectable.dart';
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/send_reset_password_code_request.dart';
@@ -55,4 +56,7 @@ abstract class ApiClient {
 
   @GET(EndPoints.categories)
   Future<CategoriesResponse> getCategories();
+
+  @GET(EndPoints.home)
+  Future<HomeResponseDto>fetchHomeData();
 }

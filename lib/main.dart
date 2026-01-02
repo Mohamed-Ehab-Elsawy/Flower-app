@@ -11,10 +11,12 @@ bool isLoggedInUser = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await EasyLocalization.ensureInitialized();
   Bloc.observer = MyBlocObserver();
 
   isLoggedInUser = await getInitialAppRoute();
+
   configureDependencies();
 
   runApp(
