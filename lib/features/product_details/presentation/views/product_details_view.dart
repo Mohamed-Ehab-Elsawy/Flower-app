@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flower_app/core/app/domain/entities/product_entity.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/widgets/custom_image_view.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailsView extends StatefulWidget {
-  final ProductEntity product;
+  final ProductsEntity product;
   const ProductDetailsView({super.key,required this.product});
 
   @override
