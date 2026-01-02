@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
@@ -16,7 +17,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'manager/categories_view_events.dart';
 
 class CategoriesView extends StatefulWidget {
-  const CategoriesView({super.key});
+  final int? index;
+
+  const CategoriesView({super.key, this.index});
 
   @override
   State<CategoriesView> createState() => _CategoriesViewState();
@@ -29,7 +32,9 @@ class _CategoriesViewState extends State<CategoriesView> {
   @override
   void initState() {
     super.initState();
-    context.read<CategoriesViewCubit>().doIntent(GetProductsByCategoryIntent());
+    context.read<CategoriesViewCubit>().doIntent(
+      InitCategoriesViewIntent(index: widget.index),
+    );
     _scrollListener();
     _eventsListener();
   }
@@ -50,6 +55,7 @@ class _CategoriesViewState extends State<CategoriesView> {
             BlocBuilder<CategoriesViewCubit, CategoriesViewStates>(
               builder: (context, state) => DefaultTabController(
                 length: state.categories?.data?.length ?? 0,
+                initialIndex: widget.index ?? 0,
                 child: Column(
                   children: [
                     const CategoriesSearchAndFilterWidget(),

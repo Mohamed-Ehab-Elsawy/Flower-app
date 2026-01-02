@@ -7,6 +7,7 @@ import 'package:flower_app/features/auth/presentation/pages/forget_password/forg
 import 'package:flower_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/signup_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/terms_and_conditions.dart';
+import 'package:flower_app/features/categories/presentation/view/manager/categories_view_cubit.dart';
 import 'package:flower_app/features/home/presentation/view/best_seller_view.dart';
 import 'package:flower_app/features/home/presentation/view/occasions/occasion_screen.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
@@ -25,29 +26,37 @@ class AppRoutes {
   static const String productDetails = '/productDetails';
   static const String occasion = '/occasion';
   static const String testScreen = '/TestScreen';
-  
 }
 
 Route? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
     case AppRoutes.mostSelling:
       return MaterialPageRoute(builder: (_) => const BestSellerView());
+
     case AppRoutes.signup:
       return MaterialPageRoute(builder: (_) => const SignUpScreen());
+
     case AppRoutes.appSection:
-      var cubit = getIt.get<HomeViewModel>();
+      var appSectionsViewModel = getIt.get<AppSectionViewModel>();
+      var homeViewModel = getIt.get<HomeViewModel>();
+      var categoriesViewModel = getIt.get<CategoriesViewCubit>();
+
       return MaterialPageRoute(
         settings: settings,
         builder: (_) => MultiBlocProvider(
           providers: [
             BlocProvider<AppSectionViewModel>(
-              create: (context) => getIt.get<AppSectionViewModel>(),
+              create: (_) => appSectionsViewModel,
             ),
-            BlocProvider(create: (context) => cubit..doIntent(FetchHomeData())),
+            BlocProvider(
+              create: (_) => homeViewModel..doIntent(FetchHomeData()),
+            ),
+            BlocProvider(create: (_) => categoriesViewModel),
           ],
           child: const AppSection(),
         ),
       );
+
     case AppRoutes.login:
       var cubit = getIt.get<LoginViewModel>();
       return MaterialPageRoute(
@@ -59,11 +68,13 @@ Route? onGenerateRoute(RouteSettings settings) {
 
     case AppRoutes.terms:
       return MaterialPageRoute(builder: (_) => const TermsAndConditions());
+
     case AppRoutes.occasion:
       return MaterialPageRoute(
         builder: (_) => const OccasionScreen(),
         settings: settings,
       );
+
     case AppRoutes.productDetails:
       final args = settings.arguments as ProductsEntity;
       return MaterialPageRoute(

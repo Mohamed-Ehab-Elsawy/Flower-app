@@ -12,6 +12,7 @@ import 'package:injectable/injectable.dart';
 @injectable
 class HomeViewModel extends Cubit<HomeState> {
   final FetchHomeDataUsecase _homeUseCase;
+
   HomeViewModel(this._homeUseCase) : super(HomeState(BaseState.init()));
   final _uiEventsController = StreamController<HomeUIEvents>.broadcast();
 
@@ -27,16 +28,21 @@ class HomeViewModel extends Cubit<HomeState> {
   void doEvent(HomeUIEvents event) {
     switch (event) {
       case ViewAllCategoriesEvent():
-        _uiEventsController.add(ViewAllCategoriesEvent(categories: event.categories));
+        _uiEventsController.add(
+          ViewAllCategoriesEvent(index: event.index),
+        );
 
       case ViewAllOccasionsEvent():
-        _uiEventsController.add(ViewAllOccasionsEvent(occasions: event.occasions));
+        _uiEventsController.add(
+          ViewAllOccasionsEvent(occasions: event.occasions),
+        );
 
       case ItemBestSellerSelectedEvent():
-        _uiEventsController.add(ItemBestSellerSelectedEvent(product: event.product));
+        _uiEventsController.add(
+          ItemBestSellerSelectedEvent(product: event.product),
+        );
       case ViewAllBestSellerEvent():
-         _uiEventsController.add(ViewAllBestSellerEvent());
-       
+        _uiEventsController.add(ViewAllBestSellerEvent());
     }
   }
 
@@ -63,9 +69,9 @@ class FetchHomeData extends Intent {}
 sealed class HomeUIEvents {}
 
 class ViewAllCategoriesEvent extends HomeUIEvents {
-  final List<ProductTypeEntity>? categories;
+  final int index;
 
-  ViewAllCategoriesEvent({this.categories});
+  ViewAllCategoriesEvent({required this.index});
 }
 
 class ViewAllOccasionsEvent extends HomeUIEvents {
@@ -73,6 +79,7 @@ class ViewAllOccasionsEvent extends HomeUIEvents {
 
   ViewAllOccasionsEvent({this.occasions});
 }
+
 class ViewAllBestSellerEvent extends HomeUIEvents {
   final List<ProductTypeEntity>? occasions;
 
@@ -81,5 +88,6 @@ class ViewAllBestSellerEvent extends HomeUIEvents {
 
 class ItemBestSellerSelectedEvent extends HomeUIEvents {
   final ProductsEntity? product;
+
   ItemBestSellerSelectedEvent({this.product});
 }

@@ -79,13 +79,7 @@ class BestSellerView extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final item = items[index];
                     return CustomCard(
-                      title: item.title ?? "",
-                      imageUrl: item.imgCover ?? "",
-
-                      onTap: () {},
-                      price: item.priceAfterDiscount?.toDouble() ?? 0,
-                      oldPrice: item.price?.toDouble(),
-                      discountPercentage: item.discountPercentage?.toInt(),
+                      product: item,
                     );
                   },
                 ),

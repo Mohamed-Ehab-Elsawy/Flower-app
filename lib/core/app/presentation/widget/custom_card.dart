@@ -1,33 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
+import 'package:flower_app/core/helper/app_routes.dart';
 import 'package:flower_app/core/widgets/custom_image_view.dart';
 import 'package:flutter/material.dart';
 
 class CustomCard extends StatelessWidget {
-  final String imageUrl;
-  final String title;
-  final double price;
-  final double? oldPrice;
-  final int? discountPercentage;
-  final VoidCallback? onAddToCart;
-  final VoidCallback? onTap;
+  final ProductsEntity product;
 
-  const CustomCard({
-    super.key,
-    required this.imageUrl,
-    required this.title,
-    required this.price,
-    this.oldPrice,
-    this.discountPercentage,
-    this.onAddToCart,
-    this.onTap,
-  });
+  const CustomCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
+    return InkWell(
+      onTap: () {},
       child: Container(
         padding: const EdgeInsets.all(7),
         decoration: BoxDecoration(
@@ -48,7 +35,7 @@ class CustomCard extends StatelessWidget {
             Expanded(
               flex: 3,
               child: CustomImageView(
-                imagePath: imageUrl,
+                imagePath: product.imageCover,
                 radius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
@@ -66,7 +53,7 @@ class CustomCard extends StatelessWidget {
                 children: [
                   context.h(8),
                   Text(
-                    title,
+                    product.title ?? "",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: context.appTheme.regular12,
@@ -76,16 +63,16 @@ class CustomCard extends StatelessWidget {
                     spacing: 5,
                     children: [
                       Text(
-                        'EGP'.tr(args: [price.toStringAsFixed(0)]),
+                        '${'EGP '.tr()}${product.priceAfterDiscount}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: context.appTheme.surface,
                         ),
                       ),
 
-                      if (oldPrice != null)
+                      if (product.price != null)
                         Text(
-                          '$oldPrice',
+                          '${product.price}',
                           style: context.appTheme.regular14.copyWith(
                             decoration: TextDecoration.lineThrough,
                             color: context.appTheme.secondary[80],
@@ -93,15 +80,15 @@ class CustomCard extends StatelessWidget {
                           ),
                         ),
 
-                      if (discountPercentage != null)
-                        Text(
-                          '$discountPercentage%',
-                          style: context.appTheme.regular14.copyWith(
-                            color: context.appTheme.success,
-                            fontSize: 12,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
+                      // if (product.percentageDiscount != null)
+                      //   Text(
+                      //     '$discountPercentage%',
+                      //     style: context.appTheme.regular14.copyWith(
+                      //       color: context.appTheme.success,
+                      //       fontSize: 12,
+                      //     ),
+                      //     textAlign: TextAlign.start,
+                      //   ),
                     ],
                   ),
                   context.h(8),
@@ -109,22 +96,16 @@ class CustomCard extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     height: 35,
-                    child: ElevatedButton(
+                    child: ElevatedButton.icon(
                       onPressed: () {
-                        onAddToCart;
+                        //TODO: Add to Cart
                       },
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.shopping_cart_outlined),
-                          Text(
-                            'addToCart'.tr(),
-                            style: context.appTheme.medium13.copyWith(
-                              color: context.appTheme.secondary,
-                            ),
-                          ),
-                        ],
+                      icon: const Icon(Icons.shopping_cart_outlined),
+                      label: Text(
+                        'addToCart'.tr(),
+                        style: context.appTheme.medium13.copyWith(
+                          color: context.appTheme.secondary,
+                        ),
                       ),
                     ),
                   ),

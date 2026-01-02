@@ -1,4 +1,5 @@
-
+import 'package:flower_app/core/app/presentation/view/app_section.dart';
+import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
 import 'package:flower_app/core/helper/app_routes.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
 import 'package:flower_app/features/home/presentation/widgets/best_seller_list.dart';
@@ -18,24 +19,26 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   @override
-  void didChangeDependencies() {
+  void initState() {
+    super.initState();
     context.read<HomeViewModel>().uiEventsStream.listen((event) {
-      switch(event){
-      
-         
-        case ViewAllCategoriesEvent():
-          Navigator.of(context).pushNamed(AppRoutes.appSection,arguments: event.categories ?? []);
-        
+      switch (event) {
         case ViewAllOccasionsEvent():
-          Navigator.of(context).pushNamed(AppRoutes.occasion,arguments: event.occasions ?? []);
+          Navigator.of(
+            context,
+          ).pushNamed(AppRoutes.occasion, arguments: event.occasions ?? []);
         case ItemBestSellerSelectedEvent():
-          Navigator.of(context).pushNamed(AppRoutes.productDetails,arguments: event.product);
+          Navigator.of(
+            context,
+          ).pushNamed(AppRoutes.productDetails, arguments: event.product);
         case ViewAllBestSellerEvent():
-          Navigator.of(context).pushNamed(AppRoutes.mostSelling);  
+          Navigator.of(context).pushNamed(AppRoutes.mostSelling);
+        case ViewAllCategoriesEvent():
+          context.read<AppSectionViewModel>().doIntent(
+            ViewCategoryIntent(event.index),
+          );
       }
-      
     });
-    super.didChangeDependencies();
   }
 
   @override

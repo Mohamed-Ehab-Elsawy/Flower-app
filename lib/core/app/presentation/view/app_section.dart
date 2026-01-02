@@ -7,22 +7,44 @@ import 'package:flower_app/features/profile/presentation/view/profile_view.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AppSection extends StatelessWidget {
+class AppSection extends StatefulWidget {
   const AppSection({super.key});
 
-  List<Widget> get pages => const [
-    HomeView(),
-    CategoriesView(),
-    CartView(),
-    ProfileView(),
+  @override
+  State<AppSection> createState() => _AppSectionState();
+}
+
+class _AppSectionState extends State<AppSection> {
+  List<Widget> get pages => [
+    const HomeView(),
+    BlocBuilder<AppSectionViewModel, AppSectionState>(
+      builder: (context, state) => CategoriesView(index: state.selectedCategoryIndex),
+    ),
+    const CartView(),
+    const ProfileView(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    int currentTab = context.watch<AppSectionViewModel>().state;
-    return Scaffold(
-      body: pages[currentTab],
-      bottomNavigationBar: BottomNavBar(currentIndex: currentTab),
+    return BlocBuilder<AppSectionViewModel, AppSectionState>(
+      builder: (context, state) {
+        return Scaffold(
+          body: pages[state.currentTab],
+          bottomNavigationBar: BottomNavBar(
+            currentIndex: state.currentTab,
+            onTap: (index) => _onTap(index, state),
+          ),
+        );
+      },
     );
+  }
+
+  _onTap(int index, AppSectionState state) {
+    context.read<AppSectionViewModel>().doIntent(switch (index) {
+      0 => ViewHomeIntent(),
+      1 => ViewCategoryIntent(state.selectedCategoryIndex),
+      2 => ViewCartIntent(),
+      _ => ViewProfileIntent(),
+    });
   }
 }

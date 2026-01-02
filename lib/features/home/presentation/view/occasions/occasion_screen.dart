@@ -158,14 +158,7 @@ class _OccasionScreenState extends State<OccasionScreen> {
                               NavigateToProductDetails(product: product),
                             );
                           },
-                          child: CustomCard(
-                            title: product.title ?? "",
-                            imageUrl: product.imageCover!,
-                            price: product.price?.toDouble() ?? 0,
-                            oldPrice: product.sold?.toDouble(),
-                            discountPercentage: product.priceAfterDiscount!
-                                .toInt(),
-                          ),
+                          child: CustomCard(product: product),
                         );
                       },
                       itemCount: state.productsState!.data!.length,

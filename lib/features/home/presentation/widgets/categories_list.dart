@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
+import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_state.dart';
@@ -20,8 +21,7 @@ class CategoryList extends StatelessWidget {
       children: [
         SectionHeader(
           title: "home.categories",
-          onPressed: () =>
-              cubit.doEvent(ViewAllCategoriesEvent(categories: categories)),
+          onPressed: () => cubit.doEvent(ViewAllCategoriesEvent(index: 0)),
         ),
         BlocBuilder<HomeViewModel, HomeState>(
           buildWhen: (previous, current) =>
@@ -61,7 +61,14 @@ class CategoryList extends StatelessWidget {
         itemCount: 5,
         itemBuilder: (context, index) => Skeletonizer(
           enabled: state.homeState.isLoading,
-          child: CategoryItem(category: categories[index]),
+          child: CategoryItem(
+            category: categories[index],
+            onCategoryClick: () {
+              context.read<HomeViewModel>().doEvent(
+                ViewAllCategoriesEvent(index: index),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -75,17 +82,24 @@ class CategoryList extends StatelessWidget {
         separatorBuilder: (context, index) => const SizedBox(width: 16),
         scrollDirection: Axis.horizontal,
         itemCount: categories?.length ?? 0,
-        itemBuilder: (context, index) =>
-            CategoryItem(category: categories?[index]),
+        itemBuilder: (context, index) => CategoryItem(
+          category: categories?[index],
+          onCategoryClick: () {
+            context.read<HomeViewModel>().doEvent(
+              ViewAllCategoriesEvent(index: index),
+            );
+          },
+        ),
       ),
     );
   }
 }
 
 class CategoryItem extends StatelessWidget {
-  const CategoryItem({super.key, required this.category});
+  const CategoryItem({super.key, required this.category, this.onCategoryClick});
 
   final ProductTypeEntity? category;
+  final VoidCallback? onCategoryClick;
 
   @override
   Widget build(BuildContext context) {
@@ -93,20 +107,23 @@ class CategoryItem extends StatelessWidget {
     return Column(
       spacing: 8,
       children: [
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 22),
-          decoration: BoxDecoration(
-            color: theme.lightPink,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          alignment: Alignment.center,
-          child: CachedNetworkImage(
-            imageUrl: category?.image ?? "",
-            height: 24,
-            width: 24,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => const SizedBox.shrink(),
-            errorWidget: (context, url, error) => const SizedBox.shrink(),
+        InkWell(
+          onTap: onCategoryClick,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 22),
+            decoration: BoxDecoration(
+              color: theme.lightPink,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            alignment: Alignment.center,
+            child: CachedNetworkImage(
+              imageUrl: category?.image ?? "",
+              height: 24,
+              width: 24,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => const SizedBox.shrink(),
+              errorWidget: (context, url, error) => const SizedBox.shrink(),
+            ),
           ),
         ),
         Text(category?.name ?? "", style: theme.regular14),

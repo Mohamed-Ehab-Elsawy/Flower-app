@@ -1,3 +1,4 @@
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app/presentation/widget/custom_card.dart';
 import 'package:flower_app/core/constants/text_strings.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +22,12 @@ class LoadingList extends StatelessWidget {
             mainAxisSpacing: 15,
           ),
           itemBuilder: (context, index) {
-            return const CustomCard(
-              title: "Loading Name",
-              imageUrl: IAppText.placeHolderImage,
-              price: 0,
+            return CustomCard(
+              product: ProductsEntity(
+                title: "Loading Name",
+                imageCover: IAppText.placeHolderImage,
+                price: 0,
+              ),
             );
           },
         ),
