@@ -23,6 +23,7 @@ class AppRoutes {
   static const String appSection = "appSection";
   static const String forgetPassword = "/forgetPassword";
   static const String terms = '/terms';
+  static const String mostSelling = '/mostSelling';
   static const String productDetails = '/productDetails';
   static const String occasion = '/occasion';
   static const String testScreen = '/TestScreen';
@@ -30,6 +31,8 @@ class AppRoutes {
 
 Route? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
+    case AppRoutes.mostSelling:
+      return MaterialPageRoute(builder: (_) => const BestSellerView());
     case AppRoutes.login:
       var cubit = getIt.get<LoginViewModel>();
       return MaterialPageRoute(builder: (_) =>
@@ -49,47 +52,6 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const ForgetPasswordView(),
         ),
       );
-      case AppRoutes.productDetails:
-         final args = settings.arguments as ProductsEntity;
-        return MaterialPageRoute(builder: (_) => ProductDetailsView(product: args,));
-    case AppRoutes.occasion:
-      return MaterialPageRoute(
-        settings: settings,
-        builder: (_) => BlocProvider<OccasionsCubit>(
-          create: (context) => getIt.get<OccasionsCubit>(),
-
-          child: const OccasionScreen(),
-        ),
-      );
-    case AppRoutes.testScreen:
-      return MaterialPageRoute(builder: (_) => const TestScreen());
-
-    case AppRoutes.appSection:
-      return MaterialPageRoute(
-        builder: (_) => MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (context) => AppSectionViewModel()),
-            BlocProvider(
-              create: (context) =>
-                  getIt.get<CategoriesViewCubit>()
-                    ..doIntent(InitCategoriesViewIntent()),
-            ),
-          ],
-          child: const AppSection(),
-        ),
-      );
-
-    // case AppRoutes.occasion:
-    //   return MaterialPageRoute(
-    //     settings: settings,
-    //     builder: (_) => BlocProvider<OccasionsCubit>(
-    //       create: (context) => getIt.get< OccasionsCubit>(),
-    //
-    //       child:  OccasionScreen(),
-    //     ),
-    //   );
-    // case AppRoutes.testScreen:
-    //   return MaterialPageRoute(builder: (_) =>  TestScreen());
     default:
       return null;
   }

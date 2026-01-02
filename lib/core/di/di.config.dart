@@ -46,7 +46,11 @@ import '../../features/home/data/datasources/home_data_source_impl.dart'
     as _i375;
 import '../../features/home/data/repo/home_repo_impl.dart' as _i1024;
 import '../../features/home/domain/repo/home_repo.dart' as _i280;
+import '../../features/home/domain/usecases/get_best_seller_use_case.dart'
+    as _i92;
 import '../../features/home/domain/usecases/get_products.dart' as _i491;
+import '../../features/home/presentation/cubit/best_seller_view_model.dart'
+    as _i645;
 import '../../features/home/presentation/occasions/occasions_cubit.dart'
     as _i240;
 import '../api/api_client.dart' as _i277;
@@ -110,6 +114,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i308.GetCategoriesUseCase>(
       () => _i308.GetCategoriesUseCase(gh<_i51.CategoryRepo>()),
     );
+    gh.factory<_i92.GetBestSellerUseCase>(
+      () => _i92.GetBestSellerUseCase(gh<_i280.HomeRepo>()),
+    );
     gh.factory<_i571.SignUpUseCase>(
       () => _i571.SignUpUseCase(gh<_i723.AuthRepo>()),
     );
@@ -131,6 +138,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i869.LoginViewModel>(
       () => _i869.LoginViewModel(gh<_i1038.LoginUseCase>()),
+    );
+    gh.factory<_i645.BestSellerViewModel>(
+      () => _i645.BestSellerViewModel(gh<_i92.GetBestSellerUseCase>()),
     );
     return this;
   }

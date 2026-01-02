@@ -1,17 +1,23 @@
-import 'package:flower_app/core/app/data/models/products_dto.dart';
-import 'package:flower_app/core/app/domain/entities/products_entity.dart';
-import 'package:flower_app/core/error_handling/handle_exception%20.dart';
+import 'package:flower_app/core/error_handling/failures.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/home/data/datasources/home_data_source.dart';
+import 'package:flower_app/features/home/data/models/best_seller_response.dart';
 import 'package:flower_app/features/home/data/repo/home_repo_impl.dart';
+import 'package:flower_app/features/home/domain/entities/best_seller_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'home_repo_impl_test.mocks.dart';
+import 'package:flower_app/core/app/data/models/products_dto.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
+import 'package:flower_app/core/error_handling/handle_exception%20.dart';
+
 
 import 'home_repo_impl_test.mocks.dart' show MockHomeDataSource;
-
 @GenerateMocks([HomeDataSource])
 void main() {
+  late HomeDataSource mockHomeDataSource;
+  late HomeRepoImpl homeRepoImpl;
   late MockHomeDataSource dataSource;
   late HomeRepoImpl repo;
   late List<ProductsDto> productsDtoList;
@@ -19,6 +25,47 @@ void main() {
   late String? categoryId;
   late String? occasionId;
   late Exception exception;
+
+  setUp(() {
+    mockHomeDataSource = MockHomeDataSource();
+    homeRepoImpl = HomeRepoImpl(mockHomeDataSource);
+  });
+  group('test home repo impl', () {
+    final tBestSellerResponse = BestSellerResponse();
+    test('when getBestSeller is called then return Success', () async {
+      // arrange
+      provideDummy<Result<BestSellerResponse>>(Success(BestSellerResponse()));
+
+      when(
+        mockHomeDataSource.getBestSeller(),
+      ).thenAnswer((_) async => Success(tBestSellerResponse));
+      // act
+      final result = await homeRepoImpl.getBestSeller();
+      // assert
+      expect(result, isA<Success<BestSellerEntity>>());
+
+      verify(mockHomeDataSource.getBestSeller()).called(1);
+    });
+
+    test('when getBestSeller is called then return failure', () async {
+      // arrange
+      const appFailure = UnexpectedFailure("error");
+      final failureResponse = Failure<BestSellerResponse>(appFailure.message!);
+      provideDummy<Result<BestSellerResponse>>(
+        Failure(failureResponse.errorMessage),
+      );
+
+      when(
+        mockHomeDataSource.getBestSeller(),
+      ).thenAnswer((_) async => (failureResponse));
+      // act
+      final result = await homeRepoImpl.getBestSeller();
+      // assert
+      expect(result, isA<Failure<BestSellerEntity>>());
+
+      verify(mockHomeDataSource.getBestSeller()).called(1);
+    });
+  });
   setUpAll(() {
     dataSource = MockHomeDataSource();
     repo = HomeRepoImpl(dataSource);
@@ -79,7 +126,7 @@ void main() {
   group("when call getProducts with no parameters ", () {
     test(
       'Testing getProducts with no parameter it should return Success with productsDto ',
-      () async {
+          () async {
         when(
           dataSource.getProducts(occasionId: null, categoryId: null),
         ).thenAnswer((_) async => Success<List<ProductsDto>>(productsDtoList));
@@ -95,11 +142,11 @@ void main() {
     );
     test(
       'Testing getProducts with no parameter it should return Failure with error message ',
-      () async {
+          () async {
         when(
           dataSource.getProducts(occasionId: null, categoryId: null),
         ).thenAnswer(
-          (_) async => Failure<List<ProductsDto>>(
+              (_) async => Failure<List<ProductsDto>>(
             NetworkException.getMessageError(exception),
           ),
         );
@@ -123,7 +170,7 @@ void main() {
   group("when call getProducts with occasionId parameter ", () {
     test(
       'Testing getProducts with occasionId parameter it should return Success with productsDto(occasion) ',
-      () async {
+          () async {
         when(
           dataSource.getProducts(occasionId: occasionId, categoryId: null),
         ).thenAnswer((_) async => Success<List<ProductsDto>>(productsDtoList));
@@ -142,11 +189,11 @@ void main() {
     );
     test(
       'Testing getProducts with occasionId parameter it should return Failure with error message ',
-      () async {
+          () async {
         when(
           dataSource.getProducts(occasionId: occasionId, categoryId: null),
         ).thenAnswer(
-          (_) async => Failure<List<ProductsDto>>(
+              (_) async => Failure<List<ProductsDto>>(
             NetworkException.getMessageError(exception),
           ),
         );
@@ -170,7 +217,7 @@ void main() {
   group("when call getProducts with categoryId parameter ", () {
     test(
       'Testing getProducts with categoryId parameter it should return Success with productsDto(category) ',
-      () async {
+          () async {
         when(
           dataSource.getProducts(occasionId: null, categoryId: categoryId),
         ).thenAnswer((_) async => Success<List<ProductsDto>>(productsDtoList));
@@ -189,11 +236,11 @@ void main() {
     );
     test(
       'Testing getProducts with categoryId parameter it should return Failure with error message ',
-      () async {
+          () async {
         when(
           dataSource.getProducts(occasionId: null, categoryId: categoryId),
         ).thenAnswer(
-          (_) async => Failure<List<ProductsDto>>(
+              (_) async => Failure<List<ProductsDto>>(
             NetworkException.getMessageError(exception),
           ),
         );

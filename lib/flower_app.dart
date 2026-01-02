@@ -10,13 +10,13 @@ class FlowerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-      title: IAppText.appName,
-      debugShowCheckedModeBanner: false,
-      theme: LightTheme().themeData,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      initialRoute: isLoggedInUser ? AppRoutes.appSection : AppRoutes.login,
-      onGenerateRoute: onGenerateRoute,
-    );
+    title: IAppText.appName,
+    debugShowCheckedModeBanner: false,
+    theme: LightTheme().themeData,
+    localizationsDelegates: context.localizationDelegates,
+    supportedLocales: context.supportedLocales,
+    locale: context.locale,
+    initialRoute: isLoggedInUser ? AppRoutes.appSection : AppRoutes.login,
+    onGenerateRoute: onGenerateRoute,
+  );
 }
