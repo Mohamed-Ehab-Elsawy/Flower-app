@@ -3,18 +3,19 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i8;
+import 'dart:async' as _i10;
 
-import 'package:flower_app/core/api/api_client.dart' as _i7;
-import 'package:flower_app/core/api/models/requests/user_request.dart' as _i10;
+import 'package:flower_app/core/api/api_client.dart' as _i9;
+import 'package:flower_app/core/api/models/requests/user_request.dart' as _i12;
 import 'package:flower_app/core/api/models/response/signup_response.dart'
     as _i3;
+import 'package:flower_app/core/app/data/models/product_response.dart' as _i7;
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart'
-    as _i13;
+    as _i15;
 import 'package:flower_app/features/auth/data/models/requests/send_reset_password_code_request.dart'
-    as _i11;
+    as _i13;
 import 'package:flower_app/features/auth/data/models/requests/verify_reset_code_request.dart'
-    as _i12;
+    as _i14;
 import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart'
     as _i6;
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart'
@@ -22,9 +23,11 @@ import 'package:flower_app/features/auth/data/models/response/send_reset_passwor
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart'
     as _i5;
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart'
-    as _i9;
+    as _i11;
 import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart'
     as _i2;
+import 'package:flower_app/features/categories/data/models/categories_response.dart'
+    as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -73,51 +76,63 @@ class _FakeResetPasswordResponse_4 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
+class _FakeProductResponse_5 extends _i1.SmartFake
+    implements _i7.ProductResponse {
+  _FakeProductResponse_5(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeCategoriesResponse_6 extends _i1.SmartFake
+    implements _i8.CategoriesResponse {
+  _FakeCategoriesResponse_6(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [ApiClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiClient extends _i1.Mock implements _i7.ApiClient {
+class MockApiClient extends _i1.Mock implements _i9.ApiClient {
   MockApiClient() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i8.Future<_i2.LoginResponseDto> login({
-    required _i9.LoginRequest? loginRequest,
+  _i10.Future<_i2.LoginResponseDto> login({
+    required _i11.LoginRequest? loginRequest,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#login, [], {#loginRequest: loginRequest}),
-            returnValue: _i8.Future<_i2.LoginResponseDto>.value(
+            returnValue: _i10.Future<_i2.LoginResponseDto>.value(
               _FakeLoginResponseDto_0(
                 this,
                 Invocation.method(#login, [], {#loginRequest: loginRequest}),
               ),
             ),
           )
-          as _i8.Future<_i2.LoginResponseDto>);
+          as _i10.Future<_i2.LoginResponseDto>);
 
   @override
-  _i8.Future<_i3.SignupResponse> signUp(_i10.UserSignupRequest? userRequest) =>
+  _i10.Future<_i3.SignupResponse> signUp(_i12.UserSignupRequest? userRequest) =>
       (super.noSuchMethod(
             Invocation.method(#signUp, [userRequest]),
-            returnValue: _i8.Future<_i3.SignupResponse>.value(
+            returnValue: _i10.Future<_i3.SignupResponse>.value(
               _FakeSignupResponse_1(
                 this,
                 Invocation.method(#signUp, [userRequest]),
               ),
             ),
           )
-          as _i8.Future<_i3.SignupResponse>);
+          as _i10.Future<_i3.SignupResponse>);
 
   @override
-  _i8.Future<_i4.SendResetPasswordCodeResponse> sendResetPasswordCode({
-    required _i11.SendResetPasswordCodeRequest? sendResetPasswordCodeRequest,
+  _i10.Future<_i4.SendResetPasswordCodeResponse> sendResetPasswordCode({
+    required _i13.SendResetPasswordCodeRequest? sendResetPasswordCodeRequest,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#sendResetPasswordCode, [], {
               #sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
             }),
-            returnValue: _i8.Future<_i4.SendResetPasswordCodeResponse>.value(
+            returnValue: _i10.Future<_i4.SendResetPasswordCodeResponse>.value(
               _FakeSendResetPasswordCodeResponse_2(
                 this,
                 Invocation.method(#sendResetPasswordCode, [], {
@@ -126,17 +141,17 @@ class MockApiClient extends _i1.Mock implements _i7.ApiClient {
               ),
             ),
           )
-          as _i8.Future<_i4.SendResetPasswordCodeResponse>);
+          as _i10.Future<_i4.SendResetPasswordCodeResponse>);
 
   @override
-  _i8.Future<_i5.VerifyResetCodeResponse> verifyResetPasswordCode({
-    required _i12.VerifyResetCodeRequest? verifyResetCodeRequest,
+  _i10.Future<_i5.VerifyResetCodeResponse> verifyResetPasswordCode({
+    required _i14.VerifyResetCodeRequest? verifyResetCodeRequest,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#verifyResetPasswordCode, [], {
               #verifyResetCodeRequest: verifyResetCodeRequest,
             }),
-            returnValue: _i8.Future<_i5.VerifyResetCodeResponse>.value(
+            returnValue: _i10.Future<_i5.VerifyResetCodeResponse>.value(
               _FakeVerifyResetCodeResponse_3(
                 this,
                 Invocation.method(#verifyResetPasswordCode, [], {
@@ -145,17 +160,17 @@ class MockApiClient extends _i1.Mock implements _i7.ApiClient {
               ),
             ),
           )
-          as _i8.Future<_i5.VerifyResetCodeResponse>);
+          as _i10.Future<_i5.VerifyResetCodeResponse>);
 
   @override
-  _i8.Future<_i6.ResetPasswordResponse> resetPassword({
-    required _i13.ResetPasswordRequest? resetPasswordRequest,
+  _i10.Future<_i6.ResetPasswordResponse> resetPassword({
+    required _i15.ResetPasswordRequest? resetPasswordRequest,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#resetPassword, [], {
               #resetPasswordRequest: resetPasswordRequest,
             }),
-            returnValue: _i8.Future<_i6.ResetPasswordResponse>.value(
+            returnValue: _i10.Future<_i6.ResetPasswordResponse>.value(
               _FakeResetPasswordResponse_4(
                 this,
                 Invocation.method(#resetPassword, [], {
@@ -164,5 +179,40 @@ class MockApiClient extends _i1.Mock implements _i7.ApiClient {
               ),
             ),
           )
-          as _i8.Future<_i6.ResetPasswordResponse>);
+          as _i10.Future<_i6.ResetPasswordResponse>);
+
+  @override
+  _i10.Future<_i7.ProductResponse> getProducts({
+    String? occasionId,
+    String? categoryId,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#getProducts, [], {
+              #occasionId: occasionId,
+              #categoryId: categoryId,
+            }),
+            returnValue: _i10.Future<_i7.ProductResponse>.value(
+              _FakeProductResponse_5(
+                this,
+                Invocation.method(#getProducts, [], {
+                  #occasionId: occasionId,
+                  #categoryId: categoryId,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i7.ProductResponse>);
+
+  @override
+  _i10.Future<_i8.CategoriesResponse> getCategories() =>
+      (super.noSuchMethod(
+            Invocation.method(#getCategories, []),
+            returnValue: _i10.Future<_i8.CategoriesResponse>.value(
+              _FakeCategoriesResponse_6(
+                this,
+                Invocation.method(#getCategories, []),
+              ),
+            ),
+          )
+          as _i10.Future<_i8.CategoriesResponse>);
 }
