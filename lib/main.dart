@@ -11,17 +11,18 @@ bool isLoggedInUser = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await EasyLocalization.ensureInitialized();
   Bloc.observer = MyBlocObserver();
 
   isLoggedInUser = await getInitialAppRoute();
+
   configureDependencies();
 
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en')],
-      path:
-          'assets/translations', // <-- change the path of the translation files
+      path: 'assets/translations', // <-- change the path of the translation files
       fallbackLocale: const Locale('en'),
       child: const FlowerApp(),
     ),
@@ -33,5 +34,9 @@ Future<bool> getInitialAppRoute() async {
   final token = await AppLocalStorage.getSecuredString(
     key: LocalKeys.authToken,
   );
-  return rememberMe && token.isNotEmpty;
+  if (rememberMe && token.isNotEmpty) {
+    return true;
+  } else {
+    return false;
+  }
 }

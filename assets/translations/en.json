@@ -1,6 +1,6 @@
 {
-  "signup": "signup",
-  "First name": "First name",
+  "signup": "Signup",
+  "first_name": "First name",
   "Enter First name": "Enter First name",
   "Last name": "Last name",
   "Enter last name": "Enter last name",
@@ -68,6 +68,17 @@
     "enterPhoneNumber": "Please enter your phone number",
     "validPhoneNumber": "Please enter a valid phone number (10-15 digits)"
   },
+  "home": {
+    "search": "Search",
+    "view_all": "View All",
+    "categories": "Categories",
+    "best_seller": "Best seller",
+    "occasion": "Occasion"
+  },
+  "addToCart": "Add to cart",
+  "EGP": "EGP",
+  "mostSelling": "Most selling",
+  "Bloom with our exquisite best sellers": "Bloom with our exquisite best sellers",
   "forgetPassword": "Forget password",
   "enterEmailDescription": "Please enter your email associated to your account",
   "emailVerification": "Email verification",
@@ -80,5 +91,18 @@
   "newPassword": "New password",
   "confirmPassword": "Confirm password",
   "confirm": "Confirm",
+  "allPricesIncludeTax": "All prices include tax",
+  "description": "Description",
+  "inStock": "In Stock",
+  "outOfStock": "Out Of Stock",
+  "status": "Status: ",
+  "bouquetInclude": "Bouquet include",
+  "whiteWrap": "White wrap",
+  "quantity": "Quantity",
+  "search": "Search",
+  "no_products_found": "Unfortunately no product available now",
+  "Occasion": "Occasion",
+  "untitled": "untitled",
+  "There is no products yet": "There is no products yet",
   "resendIn": "Resend in"
 }

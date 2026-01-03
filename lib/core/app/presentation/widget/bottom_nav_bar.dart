@@ -4,12 +4,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class BottomNavBar extends StatelessWidget {
-  const BottomNavBar({super.key, required this.currentIndex});
+  const BottomNavBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
+
   final int currentIndex;
+  final Function(int index) onTap;
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      onTap: context.read<AppSectionViewModel>().onTap,
+      onTap: onTap,
       currentIndex: currentIndex,
       items: [
         BottomNavigationBarItem(
