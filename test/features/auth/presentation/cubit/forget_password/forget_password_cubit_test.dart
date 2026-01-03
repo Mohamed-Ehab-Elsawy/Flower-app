@@ -41,7 +41,7 @@ void main() {
       mockResetPasswordUseCase,
     );
   });
-  group('forget password view model test success cases', () {
+  group('forget password views model test success cases', () {
     blocTest(
       'When the user enters a valid email to send otp ',
       build: () => cubit,
@@ -156,7 +156,7 @@ void main() {
       ],
     );
   });
-  group('forget password view model test failure cases', () {
+  group('forget password views model test failure cases', () {
     blocTest(
       'When the user enters an invalid email, it should emit failure state',
       build: () => cubit,
