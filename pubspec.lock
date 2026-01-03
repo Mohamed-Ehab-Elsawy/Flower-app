@@ -854,7 +854,7 @@ packages:
     source: hosted
     version: "0.14.0"
   rive_native:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: rive_native
       sha256: "4e72aab284fe875e4b7da4b445117e8882f777fcc0358d4416b5850334246fb7"

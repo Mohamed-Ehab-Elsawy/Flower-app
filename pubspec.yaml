@@ -83,3 +83,18 @@ flutter:
         - asset: assets/fonts/Inter_SemiBold.ttf
           weight: 600
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+dependency_overrides:
+  rive_native: null
