@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/home/domain/entities/best_seller_entity.dart';
 import 'package:flower_app/features/home/domain/usecases/get_best_seller_use_case.dart';
 import 'package:flower_app/features/home/presentation/cubit/best_seller_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,12 +22,13 @@ class BestSellerViewModel extends Cubit<BestSellerState> {
         _getBestSeller();
 
       case NavigateToProductDetailsIntent():
-      // TODO: Handle this case.
-
+        _uiEventsController.add(
+          NavigateToProductDetailsIntent(productId: event.productId),
+        );
       case AddToCartIntent():
       // TODO: Handle this case.
       case NavigateToHomeIntent():
-      // TODO: Handle this case.
+        _uiEventsController.add(NavigateToHomeIntent());
     }
   }
 
@@ -35,9 +36,9 @@ class BestSellerViewModel extends Cubit<BestSellerState> {
     emit(BestSellerState(bestSellerState: BaseState.loading()));
     final result = await _getBestSellerUseCase.invoke();
     switch (result) {
-      case Success<BestSellerEntity>():
+      case Success<List<ProductsEntity>>():
         emit(BestSellerState(bestSellerState: BaseState.loaded(result.data)));
-      case Failure<BestSellerEntity>():
+      case Failure<List<ProductsEntity>>():
         emit(
           BestSellerState(
             bestSellerState: BaseState.error(result.errorMessage),

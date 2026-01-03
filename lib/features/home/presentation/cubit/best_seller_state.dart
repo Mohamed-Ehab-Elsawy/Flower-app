@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
-import 'package:flower_app/features/home/domain/entities/best_seller_entity.dart';
 
 class BestSellerState extends Equatable {
-  final BaseState<BestSellerEntity> bestSellerState;
+  final BaseState<List<ProductsEntity>> bestSellerState;
 
   const BestSellerState({required this.bestSellerState});
   BestSellerState copyWith({
-    required BaseState<BestSellerEntity>? bestSellerState,
+    required BaseState<List<ProductsEntity>>? bestSellerState,
   }) =>
       BestSellerState(bestSellerState: bestSellerState ?? this.bestSellerState);
   @override
@@ -19,7 +19,7 @@ sealed class BestSellerIntent {}
 class GetBestSellerIntent extends BestSellerIntent {}
 
 class NavigateToProductDetailsIntent extends BestSellerIntent {
-  final String productId;
+  final ProductsEntity productId;
   NavigateToProductDetailsIntent({required this.productId});
 }
 
