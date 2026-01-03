@@ -77,15 +77,15 @@ class CustomCard extends StatelessWidget {
                         ),
                       ),
 
-                    // if (product.percentageDiscount != null)
-                    //   Text(
-                    //     '$discountPercentage%',
-                    //     style: context.appTheme.regular14.copyWith(
-                    //       color: context.appTheme.success,
-                    //       fontSize: 12,
-                    //     ),
-                    //     textAlign: TextAlign.start,
-                    //   ),
+                    if (product.discount != null)
+                      Text(
+                        '${product.discount?.toInt()}%',
+                        style: context.appTheme.regular14.copyWith(
+                          color: context.appTheme.success,
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
                   ],
                 ),
                 context.h(8),

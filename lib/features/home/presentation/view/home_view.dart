@@ -1,4 +1,4 @@
-import 'package:flower_app/core/app/presentation/view/app_section.dart';
+import 'package:flower_app/core/app/presentation/view_model/app_section_contracts.dart';
 import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
 import 'package:flower_app/core/helper/app_routes.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';

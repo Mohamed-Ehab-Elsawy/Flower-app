@@ -7,7 +7,6 @@ import 'package:flower_app/features/home/data/datasources/home_data_source.dart'
 import 'package:flower_app/features/home/data/models/best_seller_response.dart';
 import 'package:flower_app/features/home/data/models/home_response_dto.dart';
 import 'package:flower_app/features/home/data/repo/home_repo_impl.dart';
-import 'package:flower_app/features/home/domain/entities/best_seller_entity.dart';
 import 'package:flower_app/features/home/domain/entities/home_response_entity.dart';
 import 'package:flower_app/features/home/domain/repo/home_repo.dart';
 import 'package:flower_app/features/home/mapper/home_response_mapper.dart';
@@ -96,7 +95,7 @@ void main() {
       // act
       final result = await repo.getBestSeller();
       // assert
-      expect(result, isA<Success<BestSellerEntity>>());
+      expect(result, isA<Success<List<ProductsEntity>>>());
 
       verify(dataSource.getBestSeller()).called(1);
     });
@@ -115,7 +114,7 @@ void main() {
       // act
       final result = await repo.getBestSeller();
       // assert
-      expect(result, isA<Failure<BestSellerEntity>>());
+      expect(result, isA<Failure<List<ProductsEntity>>>());
 
       verify(dataSource.getBestSeller()).called(1);
     });
