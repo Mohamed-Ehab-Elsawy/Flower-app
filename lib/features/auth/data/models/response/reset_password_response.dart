@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 part 'reset_password_response.g.dart';
-
+// TODO : rename to DTO
 @JsonSerializable()
 class ResetPasswordResponse {
   @JsonKey(name: 'token')

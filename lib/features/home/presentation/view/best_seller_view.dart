@@ -54,6 +54,7 @@ class _BestSellerViewState extends State<BestSellerView> {
           ),
           elevation: 0,
           titleSpacing: 0,
+          scrolledUnderElevation: 0,
           leading: IconButton(
             onPressed: () =>
                 _bestSellerViewModel.doIntent(NavigateToHomeIntent()),

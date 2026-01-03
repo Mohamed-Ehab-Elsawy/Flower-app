@@ -13,7 +13,7 @@ class AppSectionViewModel extends Cubit<AppSectionState> {
         _switchToHome();
 
       case ViewCategoryIntent():
-        _switchToCategory(intent.categoryIndex!);
+        _switchToCategory(intent.categoryIndex ?? 0);
 
       case ViewCartIntent():
         _switchToCart();

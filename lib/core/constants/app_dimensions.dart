@@ -13,6 +13,7 @@ class AppDimensions {
   static const double mediumBorderRadius = 16.0;
   static const double largeBorderRadius = 24.0;
 
+  // TODO: rename screenPadding
   static const EdgeInsets pagePadding = EdgeInsets.symmetric(
     horizontal: AppPadding.medium,
     vertical: AppPadding.medium,
