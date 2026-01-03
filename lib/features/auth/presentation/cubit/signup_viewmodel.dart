@@ -8,10 +8,12 @@ import 'package:flower_app/features/auth/domain/models/user_entity.dart';
 import 'package:flower_app/features/auth/domain/use_cases/signup_use_case.dart';
 import 'package:flower_app/features/auth/presentation/cubit/signup_event.dart';
 import 'package:flower_app/features/auth/presentation/cubit/signup_states.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
+// ignore: must_be_immutable
 class SignUpViewModel extends Cubit<SignupStates> with EquatableMixin {
   final SignUpUseCase _signUpUseCase;
   SignUpViewModel(this._signUpUseCase) : super(const SignupStates());
@@ -73,5 +75,11 @@ class SignUpViewModel extends Cubit<SignupStates> with EquatableMixin {
 
   void _selectedGender(String selectGender) {
     emit(state.copyWith(selectedGender: selectGender));
+  }
+
+  @override
+  Future<void> close() {
+    _signupUiEvent.close();
+    return super.close();
   }
 }

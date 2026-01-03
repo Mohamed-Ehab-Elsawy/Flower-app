@@ -26,8 +26,8 @@ void main() {
   late LoginRequest loginRequest;
   late LoginResponseDto loginResponse;
   late Result<LoginResponseDto> response;
-  late AuthRepoImpl mockRepo;
   late UserSignupRequest userRequest;
+
   late UserDto userDto;
   late UserEntity userEntity;
   late String message;

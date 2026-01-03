@@ -36,16 +36,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
       switch (event) {
         case ShowToast():
           {
+            if (!mounted) return;
             Toast.showToast(context, event.message,isError: event.isError);
           }
 
         case NavigateToLogin():
           {
+            if (!mounted) return;
             Navigator.pop(context);
           }
 
         case NavigateToTermsConditions():
           {
+            if (!mounted) return;
             Navigator.pushNamed(context, AppRoutes.terms);
           }
       }
@@ -244,13 +247,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (signUpState == null) {
                           return;
                         } else if (signUpState.errorMessage != null) {
-                          signUpState.isError==true;
                           signUpViewModel.doEvent(
                             ShowToast(message: signUpState.errorMessage!,isError: signUpState.isError),
                           );
                         } else if (signUpState.data != null) {
-                          signUpState.isError==false;
-
                           signUpViewModel.doEvent(
                             ShowToast(message: "account_created_success".tr(),isError: signUpState.isError),
                           );

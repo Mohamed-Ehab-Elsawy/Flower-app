@@ -32,12 +32,16 @@ class _LoginScreenState extends State<LoginScreen> {
     context.read<LoginViewModel>().uiEventsStream.listen((event) {
       switch (event) {
         case NavigateToHome():
+          if (!mounted) return;
           context.pushReplacement((AppRoutes.appSection));
         case NavigateToSignup():
+          if (!mounted) return;
           context.pushName(AppRoutes.signup);
         case NavigateToForgetPassword():
+          if (!mounted) return;
           context.pushName(AppRoutes.forgetPassword);
         case LoginViewShowToast():
+          if (!mounted) return;
           Toast.showToast(context, event.message, isError: event.isError);
       }
     });

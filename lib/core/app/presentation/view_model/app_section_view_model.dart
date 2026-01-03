@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+// ignore: must_be_immutable
 class AppSectionViewModel extends Cubit<int> with EquatableMixin {
   AppSectionViewModel() : super(0);
 
