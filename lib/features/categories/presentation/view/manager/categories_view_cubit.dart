@@ -31,7 +31,7 @@ class CategoriesViewCubit extends Cubit<CategoriesViewStates> {
       case GetProductsByCategoryIntent():
         _getAllProductsByOccasions(categoryId: intent.categoryId);
       case InitCategoriesViewIntent():
-        _init();
+        _init(intent.index);
     }
   }
 
@@ -59,17 +59,25 @@ class CategoriesViewCubit extends Cubit<CategoriesViewStates> {
     }
   }
 
-  _init() async {
+  Future<void> _init(int? index) async {
     emit(
       state.copyWith(
         categories: const BaseState(requestState: RequestState.loading),
+        selectedIndex: index,
       ),
     );
-    var result = await _getCategoriesUseCase.call();
+
+    final result = await _getCategoriesUseCase();
+
     switch (result) {
       case Success<List<ProductTypeEntity>>():
-        emit(state.copyWith(categories: BaseState.loaded(result.data)));
+        final categories = result.data;
 
+        emit(state.copyWith(categories: BaseState.loaded(categories)));
+
+        if (index != null && index >= 0 && index < categories.length) {
+          _getAllProductsByOccasions(categoryId: categories[index].id);
+        }
       case Failure<List<ProductTypeEntity>>():
         emit(state.copyWith(categories: BaseState.error(result.errorMessage)));
         _uiEventsController.add(
@@ -80,5 +88,11 @@ class CategoriesViewCubit extends Cubit<CategoriesViewStates> {
 
   List<Object> get props {
     return [state];
+  }
+
+  @override
+  Future<void> close() {
+    _uiEventsController.close();
+    return super.close();
   }
 }

@@ -11,8 +11,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BestSellerView extends StatelessWidget {
+class BestSellerView extends StatefulWidget {
   const BestSellerView({super.key});
+
+  @override
+  State<BestSellerView> createState() => _BestSellerViewState();
+}
+
+class _BestSellerViewState extends State<BestSellerView> {
+  late BestSellerViewModel _bestSellerViewModel;
+
+  @override
+  void initState() {
+    _bestSellerViewModel = getIt.get<BestSellerViewModel>()
+      ..uiEventsStream.listen((event) {
+        switch (event) {
+          case GetBestSellerIntent():
+            GetBestSellerIntent();
+          case NavigateToProductDetailsIntent():
+            Navigator.pushNamed(
+              context,
+              AppRoutes.productDetails,
+              arguments: event.productId,
+            );
+          case NavigateToHomeIntent():
+            Navigator.pop(context);
+          case AddToCartIntent():
+        }
+      });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +54,10 @@ class BestSellerView extends StatelessWidget {
           ),
           elevation: 0,
           titleSpacing: 0,
+          scrolledUnderElevation: 0,
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () =>
+                _bestSellerViewModel.doIntent(NavigateToHomeIntent()),
             icon: Icon(
               Icons.arrow_back_ios_new,
               color: context.appTheme.surface,
@@ -60,8 +90,7 @@ class BestSellerView extends StatelessWidget {
               );
             } else if (state.bestSellerState.requestState ==
                 RequestState.loaded) {
-              final items =
-                  state.bestSellerState.data?.bestSellerItemEntityList ?? [];
+              final items = state.bestSellerState.data ?? [];
 
               return Padding(
                 padding: const EdgeInsets.symmetric(
@@ -78,14 +107,13 @@ class BestSellerView extends StatelessWidget {
                   ),
                   itemBuilder: (context, index) {
                     final item = items[index];
-                    return CustomCard(
-                      title: item.title ?? "",
-                      imageUrl: item.imgCover ?? "",
-
-                      onTap: () {},
-                      price: item.priceAfterDiscount?.toDouble() ?? 0,
-                      oldPrice: item.price?.toDouble(),
-                      discountPercentage: item.discountPercentage?.toInt(),
+                    return InkWell(
+                      onTap: () {
+                        _bestSellerViewModel.doIntent(
+                          NavigateToProductDetailsIntent(productId: item),
+                        );
+                      },
+                      child: CustomCard(product: item),
                     );
                   },
                 ),

@@ -29,12 +29,8 @@ class CustomProductsGridListBuilder extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           controller: scrollController,
           itemCount: products?.length ?? 0,
-          itemBuilder: (context, index) => CustomCard(
-            imageUrl: products?[index].imageCover ?? "",
-            title: products?[index].title ?? "",
-            price: products?[index].priceAfterDiscount?.toDouble() ?? 0.0,
-            oldPrice: products?[index].price?.toDouble() ?? 0.0,
-          ),
+          itemBuilder: (context, index) =>
+              CustomCard(product: products![index]),
         )
       : const NoProductsView();
 }
@@ -57,7 +53,9 @@ class NoProductsView extends StatelessWidget {
       Text(
         "no_products_found".tr(),
         textAlign: TextAlign.center,
-        style: context.appTheme.semiBold18.copyWith(color: context.appTheme.grey),
+        style: context.appTheme.semiBold18.copyWith(
+          color: context.appTheme.grey,
+        ),
       ),
     ],
   );

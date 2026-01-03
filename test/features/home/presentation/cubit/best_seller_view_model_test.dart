@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/home/domain/entities/best_seller_entity.dart';
@@ -23,7 +24,10 @@ void main() {
   });
 
   group('BestSellerViewModel Unit Tests', () {
-    const tBestSellerEntity = BestSellerEntity(); // Mock Data
+    final tBestSellerEntity = [
+      ProductsEntity(id: '1'),
+      ProductsEntity(id: '1'),
+    ]; // Mock Data
     const tErrorMessage = "Network Connection Error";
 
     test('initial state should be BaseState.init()', () {
@@ -34,9 +38,7 @@ void main() {
       'emits [Loading, Loaded] when GetBestSellerIntent is successful',
       build: () {
         // Arrange
-        provideDummy<Result<BestSellerEntity>>(
-          Success(const BestSellerEntity()),
-        );
+        provideDummy<Result<List<ProductsEntity>>>(Success(tBestSellerEntity));
         when(
           mockGetBestSellerUseCase.invoke(),
         ).thenAnswer((_) async => Success(tBestSellerEntity));

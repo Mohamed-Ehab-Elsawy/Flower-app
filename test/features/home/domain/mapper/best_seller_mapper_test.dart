@@ -16,21 +16,21 @@ void main() {
           imgCover: "flowerImg",
         );
         // act
-        final entity = dto.toModel();
+        final entity = dto.toProductsEntity();
         // assert
         expect(entity.id, dto.id);
         expect(entity.title, dto.title);
         expect(entity.price, dto.price);
         expect(entity.priceAfterDiscount, dto.priceAfterDiscount);
-        expect(entity.imgCover, dto.imgCover);
-        expect(entity.discountPercentage, 25.0);
+        expect(entity.imageCover, dto.imgCover);
+        expect(entity.discount, 25.0);
       },
     );
     test('when call bestSellerMapper with null values ', () {
       // arrange
       final dto = BestSellerDto(id: null, title: null);
       // act
-      final entity = dto.toModel();
+      final entity = dto.toProductsEntity();
       // assert
       expect(entity.id, null);
       expect(entity.title, null);

@@ -1,14 +1,41 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-@injectable
-class AppSectionViewModel extends Cubit<int> with EquatableMixin {
-  AppSectionViewModel() : super(0);
 
-  void onTap(int currentTab) {
-    emit(currentTab);
+import 'app_section_contracts.dart';
+
+@injectable
+class AppSectionViewModel extends Cubit<AppSectionState> {
+  AppSectionViewModel() : super(const AppSectionState());
+
+  void doIntent(AppSectionIntent intent) {
+    switch (intent) {
+      case ViewHomeIntent():
+        _switchToHome();
+
+      case ViewCategoryIntent():
+        _switchToCategory(intent.categoryIndex ?? 0);
+
+      case ViewCartIntent():
+        _switchToCart();
+
+      case ViewProfileIntent():
+        _switchToProfile();
+    }
   }
 
-  @override
-  List<Object?> get props => [state];
+  _switchToHome() {
+    emit(state.copyWith(currentTab: 0, selectedCategoryIndex: null));
+  }
+
+  _switchToCategory(int index) {
+    emit(state.copyWith(currentTab: 1, selectedCategoryIndex: index));
+  }
+
+  _switchToCart() {
+    emit(state.copyWith(currentTab: 2));
+  }
+
+  _switchToProfile() {
+    emit(state.copyWith(currentTab: 3));
+  }
 }
