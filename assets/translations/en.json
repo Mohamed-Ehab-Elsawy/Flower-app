@@ -75,6 +75,21 @@
     "best_seller": "Best seller",
     "occasion": "Occasion"
   },
+
+  "cart": {
+    "cart": "Cart",
+    "items": "items",
+    "checkout": "Checkout",
+    "deliver_to": "Deliver to",
+    "delivery_fee": "Delivery Fee",
+    "sub_total": "Sub Total",
+    "total": "Total"
+  },
+
+
+
+
+
   "addToCart": "Add to cart",
   "EGP": "EGP",
   "mostSelling": "Most selling",
