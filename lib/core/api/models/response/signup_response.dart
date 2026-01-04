@@ -12,17 +12,10 @@ class SignupResponse {
   @JsonKey(name: "token")
   final String? token;
 
-  SignupResponse ({
-    this.message,
-    this.userDto,
-    this.token,
-  });
+  SignupResponse({this.message, this.userDto, this.token});
 
-  factory SignupResponse.fromJson(Map<String, dynamic> json) => _$SignupResponseFromJson(json);
-
+  factory SignupResponse.fromJson(Map<String, dynamic> json) =>
+      _$SignupResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SignupResponseToJson(this);
 }
-
-
-

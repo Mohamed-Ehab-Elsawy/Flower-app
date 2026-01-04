@@ -8,22 +8,22 @@ part 'product_type_dto.g.dart';
 class ProductTypeDto extends Equatable {
   @JsonKey(name: '_id')
   final String? id;
-  
+
   @JsonKey(name: 'name')
   final String? name;
-  
+
   @JsonKey(name: 'slug')
   final String? slug;
-  
+
   @JsonKey(name: 'image')
   final String? image;
-  
+
   @JsonKey(name: 'createdAt')
   final DateTime? createdAt;
-  
+
   @JsonKey(name: 'updatedAt')
   final DateTime? updatedAt;
-  
+
   @JsonKey(name: 'isSuperAdmin')
   final bool? isSuperAdmin;
 
@@ -37,7 +37,7 @@ class ProductTypeDto extends Equatable {
     this.isSuperAdmin,
   });
 
-  factory ProductTypeDto.fromJson(Map<String, dynamic> json) => 
+  factory ProductTypeDto.fromJson(Map<String, dynamic> json) =>
       _$ProductTypeDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductTypeDtoToJson(this);
