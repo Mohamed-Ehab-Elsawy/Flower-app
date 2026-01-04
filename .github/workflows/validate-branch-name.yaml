@@ -24,13 +24,13 @@ jobs:
         run: |
           echo "Validating branch: $BRANCH_NAME"
 
-          # Regex: task-123-description
-          PATTERN="^(feature|fix|hotfix|task)-[0-9]+-[a-z0-9-]+$"
+          # feature|fix|hotfix|task / FA-18-description
+          PATTERN="^(feature|fix|hotfix|task)\/FA-[0-9]+-[a-z0-9-]+$"
 
           if [[ ! "$BRANCH_NAME" =~ $PATTERN ]]; then
             echo "❌ Invalid branch name!"
-            echo "Branch name must match: task-<id>-<description>"
-            echo "Example: task-123-login-screen"
+            echo "Expected format:"
+            echo "feature|fix|hotfix|task/FA-18-description"
             exit 1
           fi
 
