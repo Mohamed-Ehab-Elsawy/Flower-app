@@ -4,6 +4,7 @@ import 'package:flower_app/core/app/presentation/widget/custom_card.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
 import 'package:flower_app/core/widgets/custom_image_view.dart';
+import 'package:flower_app/features/orders/presentation/view_model/order_state.dart';
 import 'package:flower_app/features/orders/presentation/view_model/order_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,10 +32,16 @@ class CustomProductsGridListBuilder extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           controller: scrollController,
           itemCount: products?.length ?? 0,
-          itemBuilder: (context, index) =>
-              CustomCard(product: products![index],onTap: products![index].outOfStock?null:(){
-                context.read<OrderViewModel>().addItemToCart(products![index]);
-              },),
+          itemBuilder: (context, index) => CustomCard(
+            product: products![index],
+            onTap: products![index].outOfStock
+                ? null
+                : () {
+                    context.read<OrderViewModel>().doIntent(
+                      AddItemToCart(product: products![index]),
+                    );
+                  },
+          ),
         )
       : const NoProductsView();
 }

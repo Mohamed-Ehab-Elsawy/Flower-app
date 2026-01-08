@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/widgets/custom_image_view.dart';
+import 'package:flower_app/features/orders/presentation/view_model/order_state.dart';
 import 'package:flower_app/features/orders/presentation/view_model/order_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,10 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ProductDetailsView extends StatefulWidget {
   final ProductsEntity product;
 
-  const ProductDetailsView({
-    super.key,
-    required this.product,
-  });
+  const ProductDetailsView({super.key, required this.product});
 
   @override
   State<ProductDetailsView> createState() => _ProductDetailsViewState();
@@ -43,7 +41,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   children: [
                     PageView.builder(
                       controller: _pageController,
-                      onPageChanged: (index) => setState(() => _currentPage = index),
+                      onPageChanged: (index) =>
+                          setState(() => _currentPage = index),
                       itemCount: images!.length,
                       itemBuilder: (context, index) {
                         return CustomImageView(
@@ -83,8 +82,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "${"EGP".tr()} ${widget.product.price}",
@@ -97,16 +95,13 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                             children: [
                               TextSpan(
                                 text: "status".tr(),
-                                style:
-                                context.appTheme.medium16,
+                                style: context.appTheme.medium16,
                               ),
                               TextSpan(
                                 text: isInStock
                                     ? "inStock".tr()
                                     : "outOfStock".tr(),
-                                style: context.appTheme
-                                    .regular14
-                                    .copyWith(
+                                style: context.appTheme.regular14.copyWith(
                                   color: isInStock
                                       ? context.appTheme.success
                                       : context.appTheme.error,
@@ -126,19 +121,22 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      widget.product.title??"",
+                      widget.product.title ?? "",
                       style: context.appTheme.medium16,
                     ),
                     const SizedBox(height: 24),
-                    Text("description".tr(),
-                        style: context.appTheme.medium16),
+                    Text("description".tr(), style: context.appTheme.medium16),
                     const SizedBox(height: 8),
-                    Text(widget.product.description??"",
-                        style: context.appTheme.regular14),
+                    Text(
+                      widget.product.description ?? "",
+                      style: context.appTheme.regular14,
+                    ),
 
                     const SizedBox(height: 24),
-                    Text("bouquetInclude".tr(),
-                        style: context.appTheme.medium16),
+                    Text(
+                      "bouquetInclude".tr(),
+                      style: context.appTheme.medium16,
+                    ),
                     const SizedBox(height: 8),
                     Text(
                       "${"quantity".tr()}: ${widget.product.quantity}",
@@ -146,9 +144,13 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     ),
                     const SizedBox(height: 32),
                     ElevatedButton(
-                      onPressed: isInStock ? () {
-                       context.read<OrderViewModel>().addItemToCart(widget.product);
-                      } : null,
+                      onPressed: isInStock
+                          ? () {
+                              context.read<OrderViewModel>().doIntent(
+                                AddItemToCart(product: widget.product),
+                              );
+                            }
+                          : null,
                       child: Text("addToCart".tr()),
                     ),
                   ],
@@ -162,18 +164,15 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   }
 
   Widget _buildIndicatorWidget(int images) {
-    return  Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
         images,
-            (index) => AnimatedContainer(
-          duration:
-          const Duration(milliseconds: 300),
-          margin:
-          const EdgeInsets.symmetric(horizontal: 4),
+        (index) => AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          margin: const EdgeInsets.symmetric(horizontal: 4),
           height: 8,
-          width:
-          _currentPage == index ? 24 : 8,
+          width: _currentPage == index ? 24 : 8,
           decoration: BoxDecoration(
             color: _currentPage == index
                 ? context.appTheme.primary

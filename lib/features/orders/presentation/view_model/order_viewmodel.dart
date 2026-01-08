@@ -14,20 +14,21 @@ import 'package:injectable/injectable.dart';
 class OrderViewModel extends Cubit<OrderState> {
   final OrderRepo _orderRepo;
   Timer? _timer;
+  final _uiEventsController = StreamController<UiEvents>.broadcast();
 
+  Stream<UiEvents> get uiEventsStream => _uiEventsController.stream;
   OrderViewModel(this._orderRepo) : super(OrderState(ordes: BaseState.init()));
 
   /// add item Local
-  void addItemToCart(ProductsEntity product) async {
+  void _addItemToCart(ProductsEntity product) async {
     if (product.outOfStock) {
-      emit(state.copyWith(
-        ordes: BaseState.error('Product is out of stock'),
-      ));
+      emit(state.copyWith(ordes: BaseState.error('Product is out of stock')));
       return;
     }
 
-    final currentMap =
-    Map<String, CartItemEntity>.from(state.ordes?.data ?? {});
+    final currentMap = Map<String, CartItemEntity>.from(
+      state.ordes?.data ?? {},
+    );
 
     final cartItem = CartItemEntity(
       id: product.id,
@@ -36,13 +37,9 @@ class OrderViewModel extends Cubit<OrderState> {
       quantity: 1,
     );
 
-
     currentMap[product.id!] = cartItem;
 
-    emit(state.copyWith(
-      ordes: BaseState.loaded(currentMap),
-    ));
-
+    emit(state.copyWith(ordes: BaseState.loaded(currentMap)));
 
     final response = await _orderRepo.addProductToCart(cartItem);
 
@@ -52,60 +49,52 @@ class OrderViewModel extends Cubit<OrderState> {
 
         final Map<String, CartItemEntity> ordersMap = {
           for (final item in cartItems)
-            if (item.product?.id != null)
-              item.product!.id!: item,
+            if (item.product?.id != null) item.product!.id!: item,
         };
 
-        emit(state.copyWith(
-          ordes: BaseState.loaded(ordersMap),
-        ));
+        emit(state.copyWith(ordes: BaseState.loaded(ordersMap)));
 
       case Failure<CartResponseEntity>():
-        emit(state.copyWith(
-          ordes: BaseState.error(response.errorMessage),
-        ));
+        emit(state.copyWith(ordes: BaseState.error(response.errorMessage)));
     }
   }
-  void removeProductFromCart(String productId) async {
-    final currentMap =
-    Map<String, CartItemEntity>.from(state.ordes?.data ?? {});
 
+  void _removeProductFromCart(String productId) async {
+    final currentMap = Map<String, CartItemEntity>.from(
+      state.ordes?.data ?? {},
+    );
 
     currentMap.remove(productId);
 
-    emit(state.copyWith(
-      ordes: BaseState.loaded(currentMap),
-    ));
+    emit(state.copyWith(ordes: BaseState.loaded(currentMap)));
 
-
-    final response =
-    await _orderRepo.removeSpecificProductFromCart(productId);
+    final response = await _orderRepo.removeSpecificProductFromCart(productId);
 
     switch (response) {
       case Success<CartResponseEntity>():
-
         break;
 
       case Failure<CartResponseEntity>():
-
-        emit(state.copyWith(
-          ordes: BaseState.error(response.errorMessage),
-        ));
+        emit(state.copyWith(ordes: BaseState.error(response.errorMessage)));
     }
   }
 
-
-  void updateProductQuantity({
+  void _updateProductQuantity({
     required String productId,
     required int quantity,
   }) {
     _timer?.cancel();
     _timer = Timer(const Duration(milliseconds: 600), () async {
-      final response = await _orderRepo.updateCartProductQuantity(productId, quantity);
+      final response = await _orderRepo.updateCartProductQuantity(
+        productId,
+        quantity,
+      );
       _timer?.cancel();
 
       // Get current item
-      final currentMap = Map<String, CartItemEntity>.from(state.ordes?.data ?? {});
+      final currentMap = Map<String, CartItemEntity>.from(
+        state.ordes?.data ?? {},
+      );
       final item = currentMap[productId];
 
       if (item == null) return;
@@ -134,8 +123,7 @@ class OrderViewModel extends Cubit<OrderState> {
     });
   }
 
-
-  void clearCart() async {
+  void _clearCart() async {
     emit(state.copyWith(ordes: BaseState.loading()));
     final response = await _orderRepo.clearCart();
     switch (response) {
@@ -150,14 +138,13 @@ class OrderViewModel extends Cubit<OrderState> {
     }
   }
 
-  void getOrders() async {
+  void _getOrders() async {
     emit(state.copyWith(ordes: BaseState.loading()));
     final response = await _orderRepo.getOrders();
 
     switch (response) {
       case Success<CartResponseEntity>():
         //upDataBillState
-
 
         //this is the response from the server [old orders]
         final cartItems = response.data.cart?.items ?? [];
@@ -167,9 +154,46 @@ class OrderViewModel extends Cubit<OrderState> {
           for (final item in cartItems)
             if (item.product?.id != null) ?item.product!.id: item,
         };
-        emit(state.copyWith(ordes: BaseState.loaded(ordersMap),cartOrders: BaseState.loaded(response.data)));
+        emit(
+          state.copyWith(
+            ordes: BaseState.loaded(ordersMap),
+            cartOrders: BaseState.loaded(response.data),
+          ),
+        );
       case Failure<CartResponseEntity>():
         emit(state.copyWith(ordes: BaseState.error(response.errorMessage)));
     }
+  }
+
+  void doIntent(Intent intent) {
+    switch (intent) {
+      case GetOrders():
+        _getOrders();
+
+      case ClearCart():
+        _clearCart();
+      case UpdateProductQuantity():
+        _updateProductQuantity(
+          productId: intent.productId,
+          quantity: intent.quantity,
+        );
+      case AddItemToCart():
+        _addItemToCart(intent.product);
+        _addAction();
+      case RemoveProductFromCart():
+        _removeProductFromCart(intent.productId);
+    }
+  }
+
+  void _addAction() {
+
+        _uiEventsController.add(AddToCartEvent());
+
+  }
+
+  dispose() {
+    _timer?.cancel();
+    _uiEventsController.close();
+    super.close();
   }
 }

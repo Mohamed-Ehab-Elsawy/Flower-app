@@ -44,104 +44,107 @@ class _BestSellerViewState extends State<BestSellerView> {
       });
     super.initState();
   }
-
+  @override
+  void didChangeDependencies() {
+    context.read<OrderViewModel>().uiEventsStream.listen((event){
+      if (event is AddToCartEvent){
+        //show toast
+        if(!mounted)return;
+        Toast.showToast(context, "Product added to cart");
+      }
+    });
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider<BestSellerViewModel>(
       create: (context) =>
           getIt.get<BestSellerViewModel>()..doIntent(GetBestSellerIntent()),
-      child: BlocListener<OrderViewModel, OrderState>(
-        listener: (context, state) {
-          if (state.ordes!.isError) {
-            Toast.showToast(context, state.ordes!.errorMessage ?? '',isError: true);
-          }
-          if (state.ordes!.isLoaded) {
-            Toast.showToast(context,"Product added to cart");
-          }
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            systemOverlayStyle: const SystemUiOverlayStyle(
-              statusBarIconBrightness: Brightness.dark,
+      child: Scaffold(
+        appBar: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarIconBrightness: Brightness.dark,
+          ),
+          elevation: 0,
+          titleSpacing: 0,
+          scrolledUnderElevation: 0,
+          leading: IconButton(
+            onPressed: () =>
+                _bestSellerViewModel.doIntent(NavigateToHomeIntent()),
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              color: context.appTheme.surface,
+              size: 20,
             ),
-            elevation: 0,
-            titleSpacing: 0,
-            scrolledUnderElevation: 0,
-            leading: IconButton(
-              onPressed: () =>
-                  _bestSellerViewModel.doIntent(NavigateToHomeIntent()),
-              icon: Icon(
-                Icons.arrow_back_ios_new,
-                color: context.appTheme.surface,
-                size: 20,
-              ),
-            ),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("mostSelling".tr(), style: context.appTheme.medium20),
-                Text(
-                  "Bloom with our exquisite best sellers".tr(),
-                  style: context.appTheme.medium13.copyWith(
-                    color: context.appTheme.surface[40],
-                  ),
+          ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("mostSelling".tr(), style: context.appTheme.medium20),
+              Text(
+                "Bloom with our exquisite best sellers".tr(),
+                style: context.appTheme.medium13.copyWith(
+                  color: context.appTheme.surface[40],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          body: BlocBuilder<BestSellerViewModel, BestSellerState>(
-            builder: (context, state) {
-              if (state.bestSellerState.requestState == RequestState.loading) {
-                return const LoadingList();
-              } else if (state.bestSellerState.requestState ==
-                  RequestState.error) {
-                return Center(
-                  child: Text(
-                    state.bestSellerState.errorMessage ?? "An error occurred",
-                  ),
-                );
-              } else if (state.bestSellerState.requestState ==
-                  RequestState.loaded) {
-                final items = state.bestSellerState.data ?? [];
+        ),
+        body: BlocBuilder<BestSellerViewModel, BestSellerState>(
+          builder: (context, state) {
+            if (state.bestSellerState.requestState == RequestState.loading) {
+              return const LoadingList();
+            } else if (state.bestSellerState.requestState ==
+                RequestState.error) {
+              return Center(
+                child: Text(
+                  state.bestSellerState.errorMessage ?? "An error occurred",
+                ),
+              );
+            } else if (state.bestSellerState.requestState ==
+                RequestState.loaded) {
+              final items = state.bestSellerState.data ?? [];
 
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 16,
-                  ),
-                  child: GridView.builder(
-                    itemCount: items.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.53,
-                      crossAxisSpacing: 15,
-                      mainAxisSpacing: 15,
-                    ),
-                    itemBuilder: (context, index) {
-                      final item = items[index];
-                      return InkWell(
-                        onTap: () {
-                          _bestSellerViewModel.doIntent(
-                            NavigateToProductDetailsIntent(productId: item),
-                          );
-                        },
-                        child: CustomCard(product: item,
-                          onTap: item.outOfStock
-                              ? null
-                              : () {
-                            context.read<OrderViewModel>().addItemToCart(
-                              item,
-                            );
-                          },),
-                      );
-                    },
-                  ),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            },
-          ),
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                child: GridView.builder(
+                  itemCount: items.length,
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.53,
+                        crossAxisSpacing: 15,
+                        mainAxisSpacing: 15,
+                      ),
+                  itemBuilder: (context, index) {
+                    final item = items[index];
+                    return InkWell(
+                      onTap: () {
+                        _bestSellerViewModel.doIntent(
+                          NavigateToProductDetailsIntent(productId: item),
+                        );
+                      },
+                      child: CustomCard(
+                        product: item,
+                        onTap: item.outOfStock
+                            ? null
+                            : () {
+                                context.read<OrderViewModel>().doIntent(
+                                  AddItemToCart(product: item),
+                                );
+                              },
+                      ),
+                    );
+                  },
+                ),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
         ),
       ),
     );
