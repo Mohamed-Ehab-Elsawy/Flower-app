@@ -41,6 +41,18 @@ class _CategoriesViewState extends State<CategoriesView> {
   }
 
   @override
+  void didChangeDependencies() {
+    context.read<OrderViewModel>().uiEventsStream.listen((event){
+      if (event is AddToCartEvent){
+        //show toast
+        if(!mounted)return;
+        Toast.showToast(context, "Product added to cart");
+      }
+    });
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();

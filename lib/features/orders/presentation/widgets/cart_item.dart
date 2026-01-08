@@ -59,11 +59,11 @@ class CartItem extends StatelessWidget {
                           ),
                           IconButton(
                             onPressed: () {
-                              context
-                                  .read<OrderViewModel>()
-                                  .removeProductFromCart(
-                                    currentItem.product!.id!,
-                                  );
+                              context.read<OrderViewModel>().doIntent(
+                                RemoveProductFromCart(
+                                  productId: currentItem.product!.id!,
+                                ),
+                              );
                             },
                             icon: const Icon(
                               Icons.delete_outline_outlined,

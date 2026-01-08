@@ -1,3 +1,4 @@
+import 'package:flower_app/features/orders/presentation/view_model/order_state.dart';
 import 'package:flower_app/features/orders/presentation/widgets/cart_address.dart';
 import 'package:flower_app/features/orders/presentation/widgets/cart_appbar.dart';
 import 'package:flower_app/features/orders/presentation/widgets/checkout_bill.dart';
@@ -18,7 +19,7 @@ class _OrderViewState extends State<OrderView> {
   @override
   void initState() {
     if (!mounted) return;
-    context.read<OrderViewModel>().getOrders();
+    context.read<OrderViewModel>().doIntent(GetOrders());
     super.initState();
   }
 

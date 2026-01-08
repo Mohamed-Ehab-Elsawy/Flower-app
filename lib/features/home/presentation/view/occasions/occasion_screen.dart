@@ -35,6 +35,14 @@ class _OccasionScreenState extends State<OccasionScreen> {
     } else {
       occasions = [];
     }
+    context.read<OrderViewModel>().uiEventsStream.listen((event){
+      if (event is AddToCartEvent){
+        //show toast
+        if(!mounted)return;
+        Toast.showToast(context, "Product added to cart");
+      }
+    });
+
   }
 
   @override
@@ -66,159 +74,148 @@ class _OccasionScreenState extends State<OccasionScreen> {
         }
         return cubit;
       },
-      child: BlocListener<OrderViewModel, OrderState>(
-        listener: (context, state) {
-          if (state.ordes!.isError) {
-            Toast.showToast(context, state.ordes!.errorMessage ?? '',isError: true);
-          }
-          if (state.ordes!.isLoaded) {
-            Toast.showToast(context,"Product added to cart");
-          }
-        },
-
-        child: Scaffold(
-          appBar: AppBar(
-            title: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Occasion").tr(),
-                Text(
-                  "Bloom with our exquisite best sellers",
-                  style: context.appTheme.regular16,
-                ).tr(),
-              ],
-            ),
-          ),
-          body: Column(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DefaultTabController(
-                length: occasions.length,
-                child: Builder(
-                  builder: (context) {
-                    return TabBar(
-                      isScrollable: true,
-                      // indicator: BoxDecoration(
-                      //   color: Colors.white,
-                      //   borderRadius: BorderRadius.circular(30),
-                      // ),
-                      // labelColor: context.appTheme.primary,
-                      // unselectedLabelColor: Colors.grey,
-                      //// indicatorSize: TabBarIndicatorSize.tab,
-                      //  indicatorColor: context.appTheme.primary,
-                      //dividerColor: context.appTheme.primary,
-                      // indicatorPadding: const EdgeInsets.symmetric(
-                      //   horizontal: 2,
-                      //   vertical: 2,
-                      // ),
-                      tabs: occasions
-                          .map(
-                            (occasions) => Tab(
-                              child: Text(
-                                occasions.name ?? "untitled".tr(),
-                                style: context.appTheme.regular16,
-                              ),
+              const Text("Occasion").tr(),
+              Text(
+                "Bloom with our exquisite best sellers",
+                style: context.appTheme.regular16,
+              ).tr(),
+            ],
+          ),
+        ),
+        body: Column(
+          children: [
+            DefaultTabController(
+              length: occasions.length,
+              child: Builder(
+                builder: (context) {
+                  return TabBar(
+                    isScrollable: true,
+                    // indicator: BoxDecoration(
+                    //   color: Colors.white,
+                    //   borderRadius: BorderRadius.circular(30),
+                    // ),
+                    // labelColor: context.appTheme.primary,
+                    // unselectedLabelColor: Colors.grey,
+                    //// indicatorSize: TabBarIndicatorSize.tab,
+                    //  indicatorColor: context.appTheme.primary,
+                    //dividerColor: context.appTheme.primary,
+                    // indicatorPadding: const EdgeInsets.symmetric(
+                    //   horizontal: 2,
+                    //   vertical: 2,
+                    // ),
+                    tabs: occasions
+                        .map(
+                          (occasions) => Tab(
+                            child: Text(
+                              occasions.name ?? "untitled".tr(),
+                              style: context.appTheme.regular16,
                             ),
-                          )
-                          .toList(),
-                      onTap: (index) {
-                        final selectedOccasion = occasions[index];
-                        context.read<OccasionsCubit>().doIntent(
-                          GetAllProductsByOccasionsEvents(
-                            occasionId: selectedOccasion.id!,
+                          ),
+                        )
+                        .toList(),
+                    onTap: (index) {
+                      final selectedOccasion = occasions[index];
+                      context.read<OccasionsCubit>().doIntent(
+                        GetAllProductsByOccasionsEvents(
+                          occasionId: selectedOccasion.id!,
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+            BlocBuilder<OccasionsCubit, OccasionsStates>(
+              builder: (context, state) {
+                if (state.productsState?.errorMessage != null &&
+                    state.productsState!.errorMessage!.isNotEmpty) {
+                  return Text(state.productsState!.errorMessage!);
+                } else if (!(state.productsState?.isLoading ?? false) &&
+                    state.productsState?.data != null &&
+                    state.productsState!.data!.isNotEmpty) {
+                  final products = state.productsState?.data ?? [];
+                  if (products.isEmpty) {
+                    return Center(
+                      child: Text(
+                        "There is no products yet",
+                        style: context.appTheme.medium20,
+                      ).tr(),
+                    );
+                  }
+                  return Expanded(
+                    child: GridView.builder(
+                      padding: const EdgeInsets.all(12),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            mainAxisExtent: 250,
+                            crossAxisCount: 2,
+                            childAspectRatio: 1,
+                            mainAxisSpacing: 16,
+                            crossAxisSpacing: 16,
+                          ),
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        final products = state.productsState?.data ?? [];
+
+                        final product = products[index];
+                        return InkWell(
+                          onTap: () {
+                            occasionsCubit.doEvent(
+                              NavigateToProductDetails(product: product),
+                            );
+                          },
+                          child: CustomCard(
+                            product: product,
+                            onTap: product.outOfStock
+                                ? null
+                                : () {
+                                    context.read<OrderViewModel>().doIntent(
+                                      AddItemToCart(product: product),
+                                    );
+                                  },
                           ),
                         );
                       },
-                    );
-                  },
-                ),
-              ),
-              BlocBuilder<OccasionsCubit, OccasionsStates>(
-                builder: (context, state) {
-                  if (state.productsState?.errorMessage != null &&
-                      state.productsState!.errorMessage!.isNotEmpty) {
-                    return Text(state.productsState!.errorMessage!);
-                  } else if (!(state.productsState?.isLoading ?? false) &&
-                      state.productsState?.data != null &&
-                      state.productsState!.data!.isNotEmpty) {
-                    final products = state.productsState?.data ?? [];
-                    if (products.isEmpty) {
-                      return Center(
-                        child: Text(
-                          "There is no products yet",
-                          style: context.appTheme.medium20,
-                        ).tr(),
-                      );
-                    }
-                    return Expanded(
-                      child: GridView.builder(
-                        padding: const EdgeInsets.all(12),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              mainAxisExtent: 250,
-                              crossAxisCount: 2,
-                              childAspectRatio: 1,
-                              mainAxisSpacing: 16,
-                              crossAxisSpacing: 16,
-                            ),
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index) {
-                          final products = state.productsState?.data ?? [];
-
-                          final product = products[index];
-                          return InkWell(
-                            onTap: () {
-                              occasionsCubit.doEvent(
-                                NavigateToProductDetails(product: product),
-                              );
-                            },
-                            child: CustomCard(
-                              product: product,
-                              onTap: product.outOfStock
-                                  ? null
-                                  : () {
-                                context.read<OrderViewModel>().addItemToCart(
-                                  product,
-                                );
-                              },
-                            ),
-                          );
-                        },
-                        itemCount: state.productsState!.data!.length,
-                      ),
-                    );
-                  } else if (!(state.productsState?.isLoading ?? false) &&
-                      state.productsState?.data != null &&
-                      state.productsState!.data!.isEmpty) {
-                    return Text(
-                      "There is no products yet",
-                      style: context.appTheme.medium20,
-                    ).tr();
-                  } else {
-                    return Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: LoadingIndicator(
-                              indicatorType: Indicator.lineScale,
-                              colors: context.appTheme.kDefaultRainbowColors,
-                              strokeWidth: 1,
-                              backgroundColor: context.appTheme.backgroundColor,
-                              pathBackgroundColor: Colors.black,
-                            ),
+                      itemCount: state.productsState!.data!.length,
+                    ),
+                  );
+                } else if (!(state.productsState?.isLoading ?? false) &&
+                    state.productsState?.data != null &&
+                    state.productsState!.data!.isEmpty) {
+                  return Text(
+                    "There is no products yet",
+                    style: context.appTheme.medium20,
+                  ).tr();
+                } else {
+                  return Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: LoadingIndicator(
+                            indicatorType: Indicator.lineScale,
+                            colors: context.appTheme.kDefaultRainbowColors,
+                            strokeWidth: 1,
+                            backgroundColor: context.appTheme.backgroundColor,
+                            pathBackgroundColor: Colors.black,
                           ),
-                        ],
-                      ),
-                    );
-                  }
-                },
-              ),
-            ],
-          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
         ),
       ),
     );

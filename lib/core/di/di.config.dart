@@ -57,29 +57,40 @@ import '../../features/home/presentation/occasions/occasions_cubit.dart'
     as _i240;
 import '../../features/home/presentation/view_model/home_view_model.dart'
     as _i77;
+import '../../features/orders/data/datasources/order_data_source.dart' as _i812;
+import '../../features/orders/data/datasources/order_data_source_impl.dart'
+    as _i589;
+import '../../features/orders/data/repositories/order_repo_impl.dart' as _i977;
+import '../../features/orders/domain/repositories/order_repo.dart' as _i93;
+import '../../features/orders/presentation/view_model/order_viewmodel.dart'
+    as _i20;
 import '../api/api_client.dart' as _i277;
 import '../api/api_module.dart' as _i0;
 import '../app/presentation/view_model/app_section_view_model.dart' as _i752;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
-  _i174.GetIt init({
+  Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
-  }) {
+  }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final apiModule = _$ApiModule();
     gh.factory<_i752.AppSectionViewModel>(() => _i752.AppSectionViewModel());
     gh.lazySingleton<_i361.BaseOptions>(() => apiModule.providerOption());
-    gh.lazySingleton<_i52.TalkerDioLogger>(() => apiModule.prvoideLogger());
-    gh.lazySingleton<_i361.Dio>(
+    gh.lazySingleton<_i52.TalkerDioLogger>(() => apiModule.provideLogger());
+    await gh.lazySingletonAsync<_i361.Dio>(
       () => apiModule.provideDio(
         gh<_i361.BaseOptions>(),
         gh<_i52.TalkerDioLogger>(),
       ),
+      preResolve: true,
     );
     gh.lazySingleton<_i277.ApiClient>(
       () => apiModule.provideApiClient(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i812.OrderDataSource>(
+      () => _i589.OrderDataSourceImplImpl(gh<_i277.ApiClient>()),
     );
     gh.factory<_i586.AuthDataSource>(
       () => _i775.AuthDataSourceImpl(gh<_i277.ApiClient>()),
@@ -89,6 +100,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i426.HomeDataSource>(
       () => _i375.HomeDataSourceImpl(gh<_i277.ApiClient>()),
+    );
+    gh.lazySingleton<_i93.OrderRepo>(
+      () => _i977.OrderRepoImpl(gh<_i812.OrderDataSource>()),
     );
     gh.lazySingleton<_i280.HomeRepo>(
       () => _i1024.HomeRepoImpl(gh<_i426.HomeDataSource>()),
@@ -102,17 +116,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i240.OccasionsCubit>(
       () => _i240.OccasionsCubit(gh<_i491.GetProductsUseCase>()),
     );
+    gh.lazySingleton<_i20.OrderViewModel>(
+      () => _i20.OrderViewModel(gh<_i93.OrderRepo>()),
+    );
     gh.lazySingleton<_i51.CategoryRepo>(
       () => _i782.CategoryRepoImpl(gh<_i842.CategoryDataSource>()),
     );
-    gh.factory<_i1073.VerifyResetPasswordCodeUseCase>(
-      () => _i1073.VerifyResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
+    gh.factory<_i437.ResetPasswordUseCase>(
+      () => _i437.ResetPasswordUseCase(gh<_i723.AuthRepo>()),
     );
     gh.factory<_i876.SendResetPasswordCodeUseCase>(
       () => _i876.SendResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
     );
-    gh.factory<_i437.ResetPasswordUseCase>(
-      () => _i437.ResetPasswordUseCase(gh<_i723.AuthRepo>()),
+    gh.factory<_i1073.VerifyResetPasswordCodeUseCase>(
+      () => _i1073.VerifyResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
     );
     gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i723.AuthRepo>()),

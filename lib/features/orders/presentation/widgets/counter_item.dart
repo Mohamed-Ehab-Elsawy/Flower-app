@@ -1,5 +1,6 @@
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/features/orders/domain/entities/order_entity.dart';
+import 'package:flower_app/features/orders/presentation/view_model/order_state.dart';
 import 'package:flower_app/features/orders/presentation/view_model/order_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,9 +20,11 @@ class CounterItem extends StatelessWidget {
               cartItem
                   .canDecrement // Using entity method
               ? () {
-                  viewModel.updateProductQuantity(
-                    productId: cartItem.product!.id!,
-                    quantity: cartItem.quantity! - 1,
+                  viewModel.doIntent(
+                    UpdateProductQuantity(
+                      productId: cartItem.product!.id!,
+                      quantity: cartItem.quantity! - 1,
+                    ),
                   );
                 }
               : null,
@@ -30,16 +33,18 @@ class CounterItem extends StatelessWidget {
         Text(
           cartItem.quantity.toString(),
           textAlign: TextAlign.center,
-          style: theme.semiBold12.copyWith(color: theme.surface,fontSize: 14),
+          style: theme.semiBold12.copyWith(color: theme.surface, fontSize: 14),
         ),
         IconButton(
           onPressed: () {
-            viewModel.updateProductQuantity(
-              productId: cartItem.product!.id!,
-              quantity: cartItem.quantity! + 1,
+            viewModel.doIntent(
+              UpdateProductQuantity(
+                productId: cartItem.product!.id!,
+                quantity: cartItem.quantity! + 1,
+              ),
             );
           },
-          icon:  Icon(Icons.add, color: theme.surface),
+          icon: Icon(Icons.add, color: theme.surface),
         ),
       ],
     );
