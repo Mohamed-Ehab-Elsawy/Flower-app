@@ -1,6 +1,4 @@
-import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class BottomNavBar extends StatelessWidget {

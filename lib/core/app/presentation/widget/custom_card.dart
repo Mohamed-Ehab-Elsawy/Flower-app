@@ -9,111 +9,106 @@ class CustomCard extends StatelessWidget {
   final ProductsEntity product;
   final VoidCallback? onTap;
 
-  const CustomCard({super.key, required this.product, this.onTap});
+  const CustomCard({super.key, required this.product,required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(7),
-        decoration: BoxDecoration(
-          color: context.appTheme.secondary.withAlpha(0),
-          border: Border.all(color: context.appTheme.grey.withAlpha(30)),
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: context.appTheme.surface.shade100.withAlpha(05),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 3,
-              child: CustomImageView(
-                imagePath: product.imageCover,
-                radius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-                width: double.infinity,
-                fit: BoxFit.cover,
+    return Container(
+      padding: const EdgeInsets.all(7),
+      decoration: BoxDecoration(
+        color: context.appTheme.secondary.withAlpha(0),
+        border: Border.all(color: context.appTheme.grey.withAlpha(30)),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: context.appTheme.surface.shade100.withAlpha(05),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 3,
+            child: CustomImageView(
+              imagePath: product.imageCover,
+              radius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
               ),
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
-            Expanded(
-              flex: 2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ),
+          Expanded(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-                children: [
-                  context.h(8),
-                  Text(
-                    product.title ?? "",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.appTheme.regular12,
-                  ),
-                  const SizedBox(height: 4),
-                  Wrap(
-                    spacing: 5,
-                    children: [
+              children: [
+                context.h(8),
+                Text(
+                  product.title ?? "",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: context.appTheme.regular12,
+                ),
+                const SizedBox(height: 4),
+                Wrap(
+                  spacing: 5,
+                  children: [
+                    Text(
+                      '${'EGP '.tr()}${product.priceAfterDiscount}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: context.appTheme.surface,
+                      ),
+                    ),
+
+                    if (product.price != null)
                       Text(
-                        '${'EGP '.tr()}${product.priceAfterDiscount}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: context.appTheme.surface,
+                        '${product.price}',
+                        style: context.appTheme.regular14.copyWith(
+                          decoration: TextDecoration.lineThrough,
+                          color: context.appTheme.secondary[80],
+                          fontSize: 12,
                         ),
                       ),
 
-                      if (product.price != null)
-                        Text(
-                          '${product.price}',
-                          style: context.appTheme.regular14.copyWith(
-                            decoration: TextDecoration.lineThrough,
-                            color: context.appTheme.secondary[80],
-                            fontSize: 12,
-                          ),
+                    if (product.discount != null)
+                      Text(
+                        '${product.discount?.toInt()}%',
+                        style: context.appTheme.regular14.copyWith(
+                          color: context.appTheme.success,
+                          fontSize: 12,
                         ),
+                        textAlign: TextAlign.start,
+                      ),
+                  ],
+                ),
+                context.h(8),
 
-                      if (product.discount != null)
-                        Text(
-                          '${product.discount?.toInt()}%',
-                          style: context.appTheme.regular14.copyWith(
-                            color: context.appTheme.success,
-                            fontSize: 12,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                    ],
-                  ),
-                  context.h(8),
-
-                  SizedBox(
-                    width: double.infinity,
-                    height: 35,
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        //TODO: Add to Cart
-                      },
-                      icon: const Icon(Icons.shopping_cart_outlined),
-                      label: Text(
-                        'addToCart'.tr(),
-                        style: context.appTheme.medium13.copyWith(
-                          color: context.appTheme.secondary,
-                        ),
+                SizedBox(
+                  width: double.infinity,
+                  height: 35,
+                  child: ElevatedButton.icon(
+                    onPressed:onTap,
+                    icon: const Icon(Icons.shopping_cart_outlined),
+                    label: Text(
+                      'addToCart'.tr(),
+                      style: context.appTheme.medium13.copyWith(
+                        color: context.appTheme.secondary,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

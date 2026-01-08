@@ -1,40 +1,45 @@
-
 import 'package:flower_app/core/app_extension/app_extension.dart';
+import 'package:flower_app/features/orders/domain/entities/order_entity.dart';
+import 'package:flower_app/features/orders/presentation/view_model/order_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CounterItem extends StatefulWidget {
-  const CounterItem({super.key});
-
-  @override
-  State<CounterItem> createState() => _CounterItemState();
-}
-
-class _CounterItemState extends State<CounterItem> {
-  int number = 1;
+class CounterItem extends StatelessWidget {
+  const CounterItem({super.key, required this.cartItem});
+  final CartItemEntity cartItem;
 
   @override
   Widget build(BuildContext context) {
-     final theme = context.appTheme;
+    final viewModel = context.read<OrderViewModel>();
+    final theme = context.appTheme;
     return Row(
       children: [
         IconButton(
+          onPressed:
+              cartItem
+                  .canDecrement // Using entity method
+              ? () {
+                  viewModel.updateProductQuantity(
+                    productId: cartItem.product!.id!,
+                    quantity: cartItem.quantity! - 1,
+                  );
+                }
+              : null,
           icon: Icon(Icons.remove, color: theme.surface),
-          onPressed: () {
-            setState(() {
-              if (number > 1) {
-                number--;
-              }
-            });
-          },
         ),
-        Text("$number", style: theme.semiBold12.copyWith(fontSize: 14)),
+        Text(
+          cartItem.quantity.toString(),
+          textAlign: TextAlign.center,
+          style: theme.semiBold12.copyWith(color: theme.surface,fontSize: 14),
+        ),
         IconButton(
-          icon: Icon(Icons.add, color: theme.surface),
           onPressed: () {
-            setState(() {
-              number++;
-            });
+            viewModel.updateProductQuantity(
+              productId: cartItem.product!.id!,
+              quantity: cartItem.quantity! + 1,
+            );
           },
+          icon:  Icon(Icons.add, color: theme.surface),
         ),
       ],
     );

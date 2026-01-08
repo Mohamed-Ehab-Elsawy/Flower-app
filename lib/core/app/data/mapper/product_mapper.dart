@@ -1,5 +1,3 @@
-// lib/core/shared_models/mapper/product_mapper.dart
-
 import 'package:flower_app/core/app/data/models/products_dto.dart';
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 
@@ -22,6 +20,30 @@ extension ProductModelX on ProductsDto {
     sold: sold,
     ratingAverage: rateAvg,
     ratingCount: rateCount,
+    discount: discount,
+  );
+}
+
+
+extension ProductEntityX on ProductsEntity {
+  ProductsDto toDto() => ProductsDto(
+    id: id,
+    rateAvg: ratingAverage,
+    occasion: occasionId,
+    category: categoryId,
+    rateCount: ratingCount,
+    title: title,
+    slug: slug,
+    description: description,
+    imgCover: imageCover,
+    images: images,
+    price: price,
+    priceAfterDiscount: priceAfterDiscount,
+    quantity: quantity,
+    createdAt: createdAt,
+    updatedAt: updatedAt,
+    isSuperAdmin: isSuperAdmin,
+    sold: sold,
     discount: discount,
   );
 }

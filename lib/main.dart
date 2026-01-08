@@ -17,7 +17,7 @@ void main() async {
 
   isLoggedInUser = await getInitialAppRoute();
 
-  configureDependencies();
+ await configureDependencies();
 
   runApp(
     EasyLocalization(

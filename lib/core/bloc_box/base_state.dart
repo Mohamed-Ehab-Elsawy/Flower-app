@@ -20,10 +20,12 @@ class BaseState<T> with EquatableMixin {
   factory BaseState.init() => const BaseState(
     requestState: RequestState.init,
   ); // Initial state (nothing happened yet)
-  factory BaseState.loading() => const BaseState(
+  factory BaseState.loading([T ?data]) =>  BaseState(
     requestState: RequestState.loading,
+    data: data
   ); // Operation in progress
-  factory BaseState.loaded(T data) => BaseState(
+ // Operation in progress
+  factory BaseState.loaded(T?data) => BaseState(
     requestState: RequestState.loaded,
     data: data,
   ); // Success + data
@@ -41,6 +43,8 @@ class BaseState<T> with EquatableMixin {
       requestState == RequestState.loading; // Currently loading
   bool get isLoaded => requestState == RequestState.loaded; // Success with data
   bool get isError => requestState == RequestState.error;
+
+
 
   @override
   List<Object> get props {

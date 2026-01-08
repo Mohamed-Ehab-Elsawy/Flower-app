@@ -47,6 +47,7 @@ class CategoriesViewCubit extends Cubit<CategoriesViewStates> {
       case Success<List<ProductsEntity>>():
         emit(state.copyWith(productsStates: BaseState.loaded(response.data)));
 
+
       case Failure<List<ProductsEntity>>():
         emit(
           state.copyWith(

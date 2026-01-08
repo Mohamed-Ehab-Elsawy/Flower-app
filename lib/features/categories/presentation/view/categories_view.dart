@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
@@ -10,10 +9,12 @@ import 'package:flower_app/features/categories/presentation/view/manager/categor
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_intents.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_states.dart';
 import 'package:flower_app/features/categories/presentation/view/widgets/categories_search_and_filter_widget.dart';
+import 'package:flower_app/features/orders/presentation/view_model/order_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../orders/presentation/view_model/order_viewmodel.dart';
 import 'manager/categories_view_events.dart';
 
 class CategoriesView extends StatefulWidget {
@@ -66,7 +67,8 @@ class _CategoriesViewState extends State<CategoriesView> {
                             onTap: (index) {
                               context.read<CategoriesViewCubit>().doIntent(
                                 GetProductsByCategoryIntent(
-                                  categoryId: state.categories?.data?[index].id,
+                                  categoryId:
+                                      state.categories?.data?[index].id,
                                 ),
                               );
                             },
@@ -138,6 +140,8 @@ class _CategoriesViewState extends State<CategoriesView> {
       if (event is CategoriesViewShowErrorEvent) {
         Toast.showToast(context, event.errorMessage);
       }
+
+
     });
   }
 

@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/widgets/custom_image_view.dart';
+import 'package:flower_app/features/orders/presentation/view_model/order_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductDetailsView extends StatefulWidget {
   final ProductsEntity product;
@@ -144,7 +146,9 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     ),
                     const SizedBox(height: 32),
                     ElevatedButton(
-                      onPressed: isInStock ? () {} : null,
+                      onPressed: isInStock ? () {
+                       context.read<OrderViewModel>().addItemToCart(widget.product);
+                      } : null,
                       child: Text("addToCart".tr()),
                     ),
                   ],
