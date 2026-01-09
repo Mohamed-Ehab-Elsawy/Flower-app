@@ -25,8 +25,8 @@ void main() {
 
   group('BestSellerViewModel Unit Tests', () {
     final tBestSellerEntity = [
-      ProductsEntity(id: '1'),
-      ProductsEntity(id: '1'),
+      const ProductsEntity(id: '1'),
+      const ProductsEntity(id: '1'),
     ]; // Mock Data
     const tErrorMessage = "Network Connection Error";
 

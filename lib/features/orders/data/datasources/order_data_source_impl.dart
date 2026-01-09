@@ -5,16 +5,14 @@ import 'package:flower_app/core/error_handling/execute_api.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/orders/data/datasources/order_data_source.dart';
 import 'package:flower_app/features/orders/data/models/cart_request_dto.dart';
-
 import 'package:flower_app/features/orders/data/models/order_response_dto.dart';
-
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: OrderDataSource)
-class OrderDataSourceImplImpl implements OrderDataSource {
+class OrderDataSourceImpl implements OrderDataSource {
   final ApiClient _apiClient;
 
-  OrderDataSourceImplImpl(this._apiClient);
+  OrderDataSourceImpl(this._apiClient);
 
   @override
   Future<Result<CartResponseDto>> addProductToCart(CartItemDto cartItem) {

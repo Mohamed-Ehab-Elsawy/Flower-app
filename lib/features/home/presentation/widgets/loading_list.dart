@@ -22,7 +22,7 @@ class LoadingList extends StatelessWidget {
             mainAxisSpacing: 15,
           ),
           itemBuilder: (context, index) {
-            return CustomCard(
+            return const CustomCard(
               onTap: null,
               product: ProductsEntity(
                 title: "Loading Name",

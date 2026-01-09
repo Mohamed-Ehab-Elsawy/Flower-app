@@ -90,7 +90,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => apiModule.provideApiClient(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i812.OrderDataSource>(
-      () => _i589.OrderDataSourceImplImpl(gh<_i277.ApiClient>()),
+      () => _i589.OrderDataSourceImpl(gh<_i277.ApiClient>()),
     );
     gh.factory<_i586.AuthDataSource>(
       () => _i775.AuthDataSourceImpl(gh<_i277.ApiClient>()),
