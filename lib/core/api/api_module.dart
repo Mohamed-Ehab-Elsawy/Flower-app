@@ -24,7 +24,7 @@ abstract class ApiModule {
     final userToken =  await AppLocalStorage.getSecuredString(
       key: LocalKeys.authToken,
     );
-    if(userToken.isEmpty||userToken!=null) {
+    if (userToken.isEmpty) {
       dio.options.headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $userToken'
