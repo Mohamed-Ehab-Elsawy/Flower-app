@@ -10,12 +10,16 @@ import 'package:flower_app/core/api/models/response/user_dto.dart' as _i10;
 import 'package:flower_app/core/error_handling/result.dart' as _i4;
 import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart'
     as _i2;
+import 'package:flower_app/features/auth/data/models/requests/change_password_request.dart'
+    as _i17;
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart'
     as _i9;
 import 'package:flower_app/features/auth/data/models/requests/send_reset_password_code_request.dart'
     as _i13;
 import 'package:flower_app/features/auth/data/models/requests/verify_reset_code_request.dart'
     as _i15;
+import 'package:flower_app/features/auth/data/models/response/change_password_response.dart'
+    as _i16;
 import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart'
     as _i8;
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart'
@@ -147,4 +151,24 @@ class MockAuthDataSourceImpl extends _i1.Mock
                 ),
           )
           as _i3.Future<_i4.Result<_i14.VerifyResetCodeResponse>>);
+
+  @override
+  _i3.Future<_i4.Result<_i16.ChangePasswordResponse>> changePassword({
+    required _i17.ChangePasswordRequest? changePasswordRequest,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#changePassword, [], {
+              #changePasswordRequest: changePasswordRequest,
+            }),
+            returnValue:
+                _i3.Future<_i4.Result<_i16.ChangePasswordResponse>>.value(
+                  _i7.dummyValue<_i4.Result<_i16.ChangePasswordResponse>>(
+                    this,
+                    Invocation.method(#changePassword, [], {
+                      #changePasswordRequest: changePasswordRequest,
+                    }),
+                  ),
+                ),
+          )
+          as _i3.Future<_i4.Result<_i16.ChangePasswordResponse>>);
 }

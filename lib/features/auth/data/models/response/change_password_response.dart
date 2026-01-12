@@ -9,10 +9,7 @@ class ChangePasswordResponse {
   @JsonKey(name: "token")
   final String? token;
 
-  ChangePasswordResponse ({
-    this.message,
-    this.token,
-  });
+  ChangePasswordResponse({this.message, this.token});
 
   factory ChangePasswordResponse.fromJson(Map<String, dynamic> json) {
     return _$ChangePasswordResponseFromJson(json);
@@ -22,5 +19,3 @@ class ChangePasswordResponse {
     return _$ChangePasswordResponseToJson(this);
   }
 }
-
-

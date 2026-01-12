@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flower_app/core/api/api_client.dart';
 import 'package:flower_app/core/api/env.dart';
+import 'package:flower_app/core/helper/app_local_storage.dart';
+import 'package:flower_app/core/helper/local_keys.dart';
 import 'package:injectable/injectable.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 
@@ -11,11 +13,20 @@ abstract class ApiModule {
     return ApiClient(dio, baseUrl: Env.baseUrl);
   }
 
+  @preResolve
   @lazySingleton
-  Dio provideDio(BaseOptions option, TalkerDioLogger logger) {
+  Future<Dio> provideDio(BaseOptions option, TalkerDioLogger logger) async {
     var dio = Dio(option);
     dio.interceptors.add(logger);
-
+    final userToken = await AppLocalStorage.getSecuredString(
+      key: LocalKeys.authToken,
+    );
+    if (userToken.isNotEmpty) {
+      dio.options.headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $userToken',
+      };
+    }
     return dio;
   }
 

@@ -16,9 +16,7 @@ void main() async {
   Bloc.observer = MyBlocObserver();
 
   isLoggedInUser = await getInitialAppRoute();
-
-  configureDependencies();
-
+  await configureDependencies();
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en')],

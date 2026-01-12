@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flower_app/features/auth/data/models/requests/change_password_request.dart';
+import 'package:flower_app/features/auth/data/models/response/change_password_response.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
 import 'package:flower_app/features/home/data/models/best_seller_response.dart';
@@ -59,4 +61,9 @@ abstract class ApiClient {
 
   @GET(EndPoints.home)
   Future<HomeResponseDto> fetchHomeData();
+
+  @PATCH(EndPoints.changePassword)
+  Future<ChangePasswordResponse> changePassword(
+    @Body() ChangePasswordRequest changePasswordRequest,
+  );
 }
