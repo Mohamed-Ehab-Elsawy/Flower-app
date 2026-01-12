@@ -10,22 +10,19 @@ import 'package:lottie/lottie.dart';
 
 class OrdersList extends StatelessWidget {
   const OrdersList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OrderViewModel, OrderState>(
-      buildWhen: (previous, current) => previous.ordes != current.ordes,
       builder: (context, state) {
         switch (state.ordes!.requestState) {
           case RequestState.init:
-            return Center(
-              child: Lottie.asset(AppPaths.emptyCart),
-            ).toSliverBoxAdapter;
+            return _emptyCart();
+
           case RequestState.loading:
             final orders = state.ordes?.data?.values.toList() ?? [];
             if (orders.isEmpty) {
-              return Center(
-                child: Lottie.asset(AppPaths.emptyCart),
-              ).toSliverBoxAdapter;
+              return _emptyCart();
             }
             return SliverList(
               delegate: SliverChildBuilderDelegate(
@@ -36,9 +33,7 @@ class OrdersList extends StatelessWidget {
           case RequestState.loaded:
             final orders = state.ordes!.data?.values.toList();
             if (orders!.isEmpty) {
-              return Center(
-                child: Lottie.asset(AppPaths.emptyCart),
-              ).toSliverBoxAdapter;
+              return _emptyCart();
             }
             return SliverList(
               delegate: SliverChildBuilderDelegate(
@@ -53,5 +48,9 @@ class OrdersList extends StatelessWidget {
         }
       },
     );
+  }
+
+  SliverToBoxAdapter _emptyCart() {
+    return Center(child: Lottie.asset(AppPaths.emptyCart)).toSliverBoxAdapter;
   }
 }

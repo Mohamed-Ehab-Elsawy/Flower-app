@@ -49,3 +49,9 @@ class AddToCartEvent extends UiEvents {
 
   AddToCartEvent();
 }
+
+class UnAuthorizedEvent extends UiEvents {
+  final String errorMessage;
+
+  UnAuthorizedEvent({required this.errorMessage});
+}

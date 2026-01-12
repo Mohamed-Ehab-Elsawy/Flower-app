@@ -26,6 +26,20 @@ class _BestSellerViewState extends State<BestSellerView> {
 
   @override
   void initState() {
+    context.read<OrderViewModel>().uiEventsStream.listen((event) {
+      switch (event) {
+        case AddToCartEvent():
+          //show toast
+          if (!mounted) return;
+          Toast.showToast(context, "Product added to cart");
+        case UnAuthorizedEvent():
+          //show toast
+
+          if (!mounted) return;
+          Toast.shodDialog(context: context, title: event.errorMessage);
+      }
+    });
+
     _bestSellerViewModel = getIt.get<BestSellerViewModel>()
       ..uiEventsStream.listen((event) {
         switch (event) {
@@ -42,19 +56,10 @@ class _BestSellerViewState extends State<BestSellerView> {
           case AddToCartIntent():
         }
       });
+
     super.initState();
   }
-  @override
-  void didChangeDependencies() {
-    context.read<OrderViewModel>().uiEventsStream.listen((event){
-      if (event is AddToCartEvent){
-        //show toast
-        if(!mounted)return;
-        Toast.showToast(context, "Product added to cart");
-      }
-    });
-    super.didChangeDependencies();
-  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<BestSellerViewModel>(
@@ -112,13 +117,12 @@ class _BestSellerViewState extends State<BestSellerView> {
                 ),
                 child: GridView.builder(
                   itemCount: items.length,
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.53,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 15,
-                      ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.53,
+                    crossAxisSpacing: 15,
+                    mainAxisSpacing: 15,
+                  ),
                   itemBuilder: (context, index) {
                     final item = items[index];
                     return InkWell(

@@ -7,14 +7,34 @@ import 'package:flower_app/features/orders/domain/entities/order_entity.dart';
 import 'package:flower_app/features/orders/domain/repositories/order_repo.dart';
 import 'package:flower_app/features/orders/presentation/view_model/order_state.dart';
 import 'package:flower_app/features/orders/presentation/view_model/order_viewmodel.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'order_viewmodel_test.mocks.dart';
 
 @GenerateMocks([OrderRepo])
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() {
+    SharedPreferences.setMockInitialValues({});
+
+    // Updated approach using TestDefaultBinaryMessenger
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.it_nomads.com/flutter_secure_storage'),
+          (call) async {
+            if (call.method == 'read') {
+              return 'mock_token';
+            }
+            return null;
+          },
+        );
+  });
+
   late OrderViewModel orderViewModel;
   late OrderRepo orderRepo;
 

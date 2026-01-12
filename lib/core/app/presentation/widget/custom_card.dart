@@ -61,7 +61,7 @@ class CustomCard extends StatelessWidget {
                   spacing: 5,
                   children: [
                     Text(
-                      '${'EGP '.tr()}${product.priceAfterDiscount}',
+                      '${'EGP'.tr()}${product.priceAfterDiscount}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: context.appTheme.surface,

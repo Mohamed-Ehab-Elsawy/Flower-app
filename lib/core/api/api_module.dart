@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flower_app/core/api/api_client.dart';
 import 'package:flower_app/core/api/env.dart';
@@ -24,8 +26,12 @@ abstract class ApiModule {
     final userToken =  await AppLocalStorage.getSecuredString(
       key: LocalKeys.authToken,
     );
-    if (userToken.isEmpty) {
+
+    log(userToken);
+    if (userToken.isNotEmpty) {
+
       dio.options.headers = {
+
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $userToken'
       };
@@ -48,7 +54,7 @@ abstract class ApiModule {
     return TalkerDioLogger(
       settings: const TalkerDioLoggerSettings(
         printRequestHeaders: true,
-
+        printErrorHeaders: true,
         printResponseHeaders: true,
         printResponseMessage: true,
         printErrorMessage: true,

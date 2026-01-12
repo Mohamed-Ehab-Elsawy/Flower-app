@@ -15,6 +15,7 @@ import 'package:flower_app/features/orders/presentation/view_model/order_viewmod
 import 'package:flower_app/features/product_details/presentation/views/product_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../di/di.dart';
 
 class AppRoutes {
@@ -30,12 +31,12 @@ class AppRoutes {
 }
 
 Route? onGenerateRoute(RouteSettings settings) {
-  final order = getIt.get<OrderViewModel>();
+
   switch (settings.name) {
     case AppRoutes.mostSelling:
       return MaterialPageRoute(
         builder: (_) => BlocProvider<OrderViewModel>.value(
-          value: order,
+          value: getIt.get<OrderViewModel>(),
           child: const BestSellerView(),
         ),
       );
@@ -52,7 +53,8 @@ Route? onGenerateRoute(RouteSettings settings) {
         settings: settings,
         builder: (_) => MultiBlocProvider(
           providers: [
-            BlocProvider<OrderViewModel>(create: (context) => order),
+            BlocProvider<OrderViewModel>(
+                create: (context) => getIt.get<OrderViewModel>()),
             BlocProvider<AppSectionViewModel>(
               create: (_) => appSectionsViewModel,
             ),
@@ -80,7 +82,7 @@ Route? onGenerateRoute(RouteSettings settings) {
     case AppRoutes.occasion:
       return MaterialPageRoute(
         builder: (_) => BlocProvider<OrderViewModel>.value(
-          value: order,
+          value: getIt.get<OrderViewModel>(),
           child: const OccasionScreen(),
         ),
         settings: settings,
@@ -90,7 +92,7 @@ Route? onGenerateRoute(RouteSettings settings) {
       final args = settings.arguments as ProductsEntity;
       return MaterialPageRoute(
         builder: (_) => BlocProvider<OrderViewModel>.value(
-          value: order,
+          value: getIt.get<OrderViewModel>(),
           child: ProductDetailsView(product: args),
         ),
       );

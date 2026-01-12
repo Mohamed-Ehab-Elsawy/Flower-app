@@ -1,9 +1,12 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/base_response_result_dto.dart';
 import 'package:flower_app/core/error_handling/result.dart';
+import 'package:flower_app/core/helper/app_local_storage.dart';
+import 'package:flower_app/core/helper/local_keys.dart';
 import 'package:flower_app/features/orders/domain/entities/order_entity.dart';
 import 'package:flower_app/features/orders/domain/repositories/order_repo.dart';
 import 'package:flower_app/features/orders/presentation/view_model/order_state.dart';
@@ -15,14 +18,12 @@ class OrderViewModel extends Cubit<OrderState> {
   final OrderRepo _orderRepo;
   Timer? _timer;
   final _uiEventsController = StreamController<UiEvents>.broadcast();
-
   Stream<UiEvents> get uiEventsStream => _uiEventsController.stream;
   OrderViewModel(this._orderRepo) : super(OrderState(ordes: BaseState.init()));
 
-  /// add item Local
   void _addItemToCart(ProductsEntity product) async {
     if (product.outOfStock) {
-      emit(state.copyWith(ordes: BaseState.error('Product is out of stock')));
+      emit(state.copyWith(ordes: BaseState.error('errors.outOfStock'.tr())));
       return;
     }
 
@@ -103,8 +104,6 @@ class OrderViewModel extends Cubit<OrderState> {
       final updatedItem = item.copyWith(quantity: quantity);
       currentMap[productId] = updatedItem;
 
-      currentMap[productId] = item.copyWith(quantity: quantity);
-
       switch (response) {
         case Success<CartResponseEntity>():
           final cartItems = response.data.cart?.items ?? [];
@@ -152,7 +151,7 @@ class OrderViewModel extends Cubit<OrderState> {
         ///  List -> Map
         final Map<String, CartItemEntity> ordersMap = {
           for (final item in cartItems)
-            if (item.product?.id != null) ?item.product!.id: item,
+            if (item.product?.id != null) item.product!.id!: item,
         };
         emit(
           state.copyWith(
@@ -165,10 +164,13 @@ class OrderViewModel extends Cubit<OrderState> {
     }
   }
 
-  void doIntent(Intent intent) {
+  void doIntent(Intent intent) async {
     switch (intent) {
       case GetOrders():
-        _getOrders();
+        if (await _checkUserState()) {
+          _getOrders();
+        }
+        break;
 
       case ClearCart():
         _clearCart();
@@ -178,22 +180,35 @@ class OrderViewModel extends Cubit<OrderState> {
           quantity: intent.quantity,
         );
       case AddItemToCart():
-        _addItemToCart(intent.product);
-        _addAction();
+        if (await _checkUserState()) {
+          _addItemToCart(intent.product);
+          _addAction();
+        } else {
+          _unAuthorizedAction('errors.unAuthorized'.tr());
+        }
       case RemoveProductFromCart():
         _removeProductFromCart(intent.productId);
     }
   }
 
   void _addAction() {
+    _uiEventsController.add(AddToCartEvent());
+  }
 
-        _uiEventsController.add(AddToCartEvent());
-
+  void _unAuthorizedAction(String errorMessage) {
+    _uiEventsController.add(UnAuthorizedEvent(errorMessage: errorMessage));
   }
 
   dispose() {
     _timer?.cancel();
     _uiEventsController.close();
     super.close();
+  }
+
+  Future<bool> _checkUserState() async {
+    final userState = await AppLocalStorage.getSecuredString(
+      key: LocalKeys.authToken,
+    );
+    return userState.isNotEmpty;
   }
 }

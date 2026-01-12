@@ -42,11 +42,16 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   void didChangeDependencies() {
-    context.read<OrderViewModel>().uiEventsStream.listen((event){
-      if (event is AddToCartEvent){
-        //show toast
-        if(!mounted)return;
-        Toast.showToast(context, "Product added to cart");
+    context.read<OrderViewModel>().uiEventsStream.listen((event) {
+      switch (event) {
+        case AddToCartEvent():
+          //show toast
+          if (!mounted) return;
+          Toast.showToast(context, "Product added to cart");
+        case UnAuthorizedEvent():
+          //show toast
+          if (!mounted) return;
+          Toast.shodDialog(context: context, title: event.errorMessage);
       }
     });
     super.didChangeDependencies();
@@ -79,8 +84,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                             onTap: (index) {
                               context.read<CategoriesViewCubit>().doIntent(
                                 GetProductsByCategoryIntent(
-                                  categoryId:
-                                      state.categories?.data?[index].id,
+                                  categoryId: state.categories?.data?[index].id,
                                 ),
                               );
                             },
@@ -152,8 +156,6 @@ class _CategoriesViewState extends State<CategoriesView> {
       if (event is CategoriesViewShowErrorEvent) {
         Toast.showToast(context, event.errorMessage);
       }
-
-
     });
   }
 
