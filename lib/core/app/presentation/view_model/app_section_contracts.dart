@@ -18,6 +18,8 @@ final class AppSectionState extends Equatable {
 
 sealed class AppSectionIntent {}
 
+class AppSectionInitIntent extends AppSectionIntent {}
+
 class ViewHomeIntent extends AppSectionIntent {}
 
 class ViewCategoryIntent extends AppSectionIntent {
@@ -29,3 +31,14 @@ class ViewCategoryIntent extends AppSectionIntent {
 class ViewCartIntent extends AppSectionIntent {}
 
 class ViewProfileIntent extends AppSectionIntent {}
+
+sealed class AppSectionUIEvents {}
+
+class AppSectionLogoutEvent extends AppSectionUIEvents with EquatableMixin {
+  final String message;
+
+  AppSectionLogoutEvent(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

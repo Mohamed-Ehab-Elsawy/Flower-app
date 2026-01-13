@@ -104,5 +104,16 @@
   "Occasion": "Occasion",
   "untitled": "untitled",
   "There is no products yet": "There is no products yet",
-  "resendIn": "Resend in"
+  "resendIn": "Resend in",
+  "my_orders": "My Orders",
+  "saved_address": "Saved Addresses",
+  "notification": "Notification",
+  "language": "Language",
+  "about_us": "About Us",
+  "terms_and_conditions": "Terms and Conditions",
+  "logout": "Logout",
+  "v": "V",
+  "user": "User",
+  "example_email": "user@example.com",
+  "invalid_token": "Invalid token, Please login again"
 }
