@@ -17,7 +17,6 @@ class OrderView extends StatefulWidget {
 class _OrderViewState extends State<OrderView> {
   @override
   void initState() {
-    if (!mounted) return;
     context.read<OrderViewModel>().doIntent(GetOrders());
     super.initState();
   }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app/presentation/widget/custom_card.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
@@ -23,10 +25,19 @@ class BestSellerView extends StatefulWidget {
 
 class _BestSellerViewState extends State<BestSellerView> {
   late BestSellerViewModel _bestSellerViewModel;
+  late StreamSubscription _orderSubscription;
 
   @override
+  void dispose() {
+    _orderSubscription.cancel();
+    super.dispose();
+  }
+  @override
   void initState() {
-    context.read<OrderViewModel>().uiEventsStream.listen((event) {
+    _orderSubscription = context
+        .read<OrderViewModel>()
+        .uiEventsStream
+        .listen((event) {
       switch (event) {
         case AddToCartEvent():
           //show toast
@@ -36,7 +47,7 @@ class _BestSellerViewState extends State<BestSellerView> {
           //show toast
 
           if (!mounted) return;
-          Toast.shodDialog(context: context, title: event.errorMessage);
+          Toast.showAppDialog(context: context, title: event.errorMessage);
       }
     });
 
@@ -59,6 +70,7 @@ class _BestSellerViewState extends State<BestSellerView> {
 
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {

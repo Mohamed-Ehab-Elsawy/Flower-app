@@ -51,7 +51,7 @@ class _CategoriesViewState extends State<CategoriesView> {
         case UnAuthorizedEvent():
           //show toast
           if (!mounted) return;
-          Toast.shodDialog(context: context, title: event.errorMessage);
+          Toast.showAppDialog(context: context, title: event.errorMessage);
       }
     });
     super.didChangeDependencies();

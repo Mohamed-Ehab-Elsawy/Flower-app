@@ -60,7 +60,7 @@ class _OccasionScreenState extends State<OccasionScreen> {
           Toast.showToast(context, "Product added to cart");
         case UnAuthorizedEvent():
           if (!mounted) return;
-          Toast.shodDialog(context: context, title: event.errorMessage);
+          Toast.showAppDialog(context: context, title: event.errorMessage);
       }
     });
   }

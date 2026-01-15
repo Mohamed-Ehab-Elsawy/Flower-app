@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flower_app/core/api/api_client.dart';
 import 'package:flower_app/core/api/env.dart';
@@ -27,7 +25,7 @@ abstract class ApiModule {
       key: LocalKeys.authToken,
     );
 
-    log(userToken);
+
     if (userToken.isNotEmpty) {
 
       dio.options.headers = {

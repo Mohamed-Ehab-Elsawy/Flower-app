@@ -34,8 +34,9 @@ class CartEntity extends Equatable {
     this.updatedAt,
   });
 
-  double get getTotalPrice =>deliveryFee+getSubTotal;
-  double get getSubTotal => totalPrice??0 ;
+  double get totalPriceWithDelivery => deliveryFee + subTotal;
+
+  double get subTotal => totalPrice ?? 0;
   double get getDeliveryFee => deliveryFee;
 
   @override

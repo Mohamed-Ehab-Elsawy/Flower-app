@@ -40,21 +40,21 @@ class ProductsEntity extends Equatable {
     this.ratingCount,
     this.discount,
   })  : quantity = quantity ?? 1,
-        price = price ?? 1,
-        priceAfterDiscount = priceAfterDiscount ?? price ?? 1;
+       price = price ?? 0.0,
+       priceAfterDiscount = priceAfterDiscount ?? price ?? 0.0;
 
   bool get outOfStock => (quantity ?? 0) <= 0;
 
-  double get totalPrice => (price ?? 1) * (quantity ?? 1);
+  double get totalPrice => (price ?? 0.0) * (quantity ?? 1);
 
   double get totalPriceAfterDiscount =>
-      (priceAfterDiscount ?? price ?? 1) * totalPrice;
+      (priceAfterDiscount ?? price ?? 0.0) * totalPrice;
 
   bool get hasDiscount =>
       (discount != null && price != null) ? discount! < price! : false;
 
   double get priceHasDiscount =>
-      hasDiscount ? (priceAfterDiscount ?? price ?? 1) : (price ?? 1);
+      hasDiscount ? (priceAfterDiscount ?? price ?? 0.0) : (price ?? 0.0);
 
   @override
   List<Object?> get props => [

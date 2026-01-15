@@ -22,7 +22,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   int _currentPage = 0;
 
   @override
-  void didChangeDependencies() {
+  void initState() {
     context
         .read<OrderViewModel>()
         .uiEventsStream
@@ -35,10 +35,10 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
         case UnAuthorizedEvent():
         //show toast
           if (!mounted) return;
-          Toast.shodDialog(context: context, title: event.errorMessage,);
+          Toast.showAppDialog(context: context, title: event.errorMessage,);
       }
     });
-    super.didChangeDependencies();
+    super.initState();
   }
 
   @override

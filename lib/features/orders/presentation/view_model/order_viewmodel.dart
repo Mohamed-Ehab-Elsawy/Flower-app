@@ -199,16 +199,18 @@ class OrderViewModel extends Cubit<OrderState> {
     _uiEventsController.add(UnAuthorizedEvent(errorMessage: errorMessage));
   }
 
-  dispose() {
-    _timer?.cancel();
-    _uiEventsController.close();
-    super.close();
-  }
-
   Future<bool> _checkUserState() async {
     final userState = await AppLocalStorage.getSecuredString(
       key: LocalKeys.authToken,
     );
     return userState.isNotEmpty;
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    _uiEventsController.close();
+    uiEventsStream.listen((event) {}).cancel();
+    return super.close();
   }
 }

@@ -28,7 +28,7 @@ class ConnectionFailure extends AppFailure {
 }
 
 class NoInternetFailure extends AppFailure {
-  const NoInternetFailure(super.message);
+  const NoInternetFailure([String super.message = 'No internet connection']);
 
   @override
   List<Object?> get props => [message];

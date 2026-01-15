@@ -21,7 +21,7 @@ class Toast {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  static Future<void> shodDialog({
+  static Future<void> showAppDialog({
     required BuildContext context,
     String? title,
   }) {
