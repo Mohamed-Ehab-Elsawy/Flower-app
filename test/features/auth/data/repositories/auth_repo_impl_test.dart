@@ -1,6 +1,8 @@
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart';
+import 'package:flower_app/features/auth/data/models/requests/change_password_request.dart';
+import 'package:flower_app/features/auth/data/models/response/change_password_response.dart';
 import 'package:flower_app/features/auth/data/repositories/auth_repo_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart';
@@ -33,24 +35,31 @@ void main() {
   late String email;
   late String resetCode;
   late String password;
+  late String token;
+  late String newPassword;
   late String responseMessage;
   late String errorMessageResponse;
+
   // requests
   late SendResetPasswordCodeRequest sendResetPasswordCodeRequest;
   late VerifyResetCodeRequest verifyResetCodeRequest;
   late ResetPasswordRequest resetPasswordRequest;
+  late ChangePasswordRequest changePasswordRequest;
   // responses
   late Result<SendResetPasswordCodeResponse> sendResetPasswordCodeResponse;
   late Result<VerifyResetCodeResponse> verifyResetCodeResponse;
   late Result<ResetPasswordResponse> resetPasswordResponse;
+  late Result<ChangePasswordResponse> changePasswordResponse;
 
   setUpAll(() {
     authDataSource = MockAuthDataSourceImpl();
     email = "joe@example.com";
     resetCode = "112233";
     password = "Joe!@12345678";
+    newPassword = "Abd@1234";
     responseMessage = "success";
     errorMessageResponse = "error";
+    token = "token";
   });
 
   setUp(() {
@@ -102,6 +111,10 @@ void main() {
 
     provideDummy<Result<UserDto>>(Success<UserDto>(userDto));
     provideDummy<Result<UserEntity>>(Success<UserEntity>(userEntity));
+    changePasswordRequest = ChangePasswordRequest(
+      password: password,
+      newPassword: newPassword,
+    );
   });
 
   group("Testing sendResetPasswordCode cases", () {
@@ -303,6 +316,61 @@ void main() {
         (result as Failure<ResetPasswordResponse>).errorMessage,
         errorMessageResponse,
       );
+    });
+  });
+
+  group('Change Password test cases', () {
+    test("When i call changePassword it should return Success", () async {
+      //arrange
+      changePasswordResponse = Success<ChangePasswordResponse>(
+        ChangePasswordResponse(message: responseMessage, token: token),
+      );
+      provideDummy<Result<ChangePasswordResponse>>((changePasswordResponse));
+      when(
+        authDataSource.changePassword(
+          changePasswordRequest: changePasswordRequest,
+        ),
+      ).thenAnswer((_) async => changePasswordResponse);
+
+      //act
+      var result = await authRepo.changePassword(
+        changePasswordRequest: changePasswordRequest,
+      );
+      //assert
+      verify(
+        authDataSource.changePassword(
+          changePasswordRequest: changePasswordRequest,
+        ),
+      ).called(1);
+      verifyNoMoreInteractions(authDataSource);
+      expect(result, isA<Success<ChangePasswordResponse>>());
+    });
+
+    test("When i call changePassword it should return Failure", () async {
+      //arrange
+
+      changePasswordResponse = Failure<ChangePasswordResponse>(
+        errorMessageResponse,
+      );
+      provideDummy<Result<ChangePasswordResponse>>((changePasswordResponse));
+      when(
+        authDataSource.changePassword(
+          changePasswordRequest: changePasswordRequest,
+        ),
+      ).thenAnswer((_) async => changePasswordResponse);
+
+      //act
+      var result = await authRepo.changePassword(
+        changePasswordRequest: changePasswordRequest,
+      );
+      //assert
+      verify(
+        authDataSource.changePassword(
+          changePasswordRequest: changePasswordRequest,
+        ),
+      ).called(1);
+      verifyNoMoreInteractions(authDataSource);
+      expect(result, isA<Failure<ChangePasswordResponse>>());
     });
   });
 }
