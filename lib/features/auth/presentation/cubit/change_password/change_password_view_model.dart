@@ -35,8 +35,7 @@ class ChangePasswordViewModel extends Cubit<ChangePasswordState> {
           ),
         );
       case NavigateToEditProfileEvent():
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        _uiEventsController.add(NavigateToEditProfileEvent());
     }
   }
 
@@ -58,16 +57,14 @@ class ChangePasswordViewModel extends Cubit<ChangePasswordState> {
     switch (result) {
       case Success<ChangePasswordResponse>():
         await AppLocalStorage.clearSecuredData(key: LocalKeys.authToken);
-        final newToken = result.data.token;
-        if (newToken != null && newToken.isNotEmpty) {
-          await AppLocalStorage.setSecuredString(
-            key: LocalKeys.authToken,
-            value: newToken,
-          );
-        }
+
+        await AppLocalStorage.setSecuredString(
+          key: LocalKeys.authToken,
+          value: result.data.token.toString(),
+        );
 
         emit(state.copyWith(BaseState.loaded(result.data)));
-
+        _uiEventsController.add(NavigateToEditProfileEvent());
         _uiEventsController.add(
           ChangePasswordShowToastEvent(
             message: result.data.message.toString(),
