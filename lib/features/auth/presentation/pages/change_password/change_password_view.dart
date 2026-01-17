@@ -63,77 +63,80 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           onPressed: () {},
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            spacing: 20,
-            children: [
-              TextFormField(
-                controller: _oldPasswordController,
-                validator: (value) => AppValidator.validatePassword(value),
-                obscureText: true,
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecoration(
-                  labelText: "oldPassword".tr(),
-                  hintText: 'oldPassword'.tr(),
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintStyle: context.appTheme.regular14,
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 20,
+              children: [
+                TextFormField(
+                  controller: _oldPasswordController,
+                  validator: (value) => AppValidator.validatePassword(value),
+                  obscureText: true,
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecoration(
+                    labelText: "oldPassword".tr(),
+                    hintText: 'oldPassword'.tr(),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    hintStyle: context.appTheme.regular14,
+                  ),
                 ),
-              ),
-              TextFormField(
-                controller: _newPasswordController,
-                validator: (value) => AppValidator.validatePassword(value),
-                obscureText: true,
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecoration(
-                  labelText: "newPassword".tr(),
-                  hintText: 'newPassword'.tr(),
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintStyle: context.appTheme.regular14,
+                TextFormField(
+                  controller: _newPasswordController,
+                  validator: (value) => AppValidator.validatePassword(value),
+                  obscureText: true,
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecoration(
+                    labelText: "newPassword".tr(),
+                    hintText: 'newPassword'.tr(),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    hintStyle: context.appTheme.regular14,
+                  ),
                 ),
-              ),
-              TextFormField(
-                controller: _newPasswordConfirmationController,
-                validator: (value) => AppValidator.validateConfirmPassword(
-                  value,
-                  _newPasswordController.text,
+                TextFormField(
+                  controller: _newPasswordConfirmationController,
+                  validator: (value) => AppValidator.validateConfirmPassword(
+                    value,
+                    _newPasswordController.text,
+                  ),
+                  obscureText: true,
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecoration(
+                    labelText: "confirmPassword".tr(),
+                    hintText: 'confirmPassword'.tr(),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    hintStyle: context.appTheme.regular14,
+                  ),
                 ),
-                obscureText: true,
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecoration(
-                  labelText: "confirmPassword".tr(),
-                  hintText: 'confirmPassword'.tr(),
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  hintStyle: context.appTheme.regular14,
-                ),
-              ),
-              BlocBuilder<ChangePasswordViewModel, ChangePasswordState>(
-                builder: (context, state) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        context.read<ChangePasswordViewModel>().doEvent(
-                          ChangePasswordIntent(
-                            changePasswordRequest: ChangePasswordRequest(
-                              password: _oldPasswordController.text,
-                              newPassword: _newPasswordController.text,
+                BlocBuilder<ChangePasswordViewModel, ChangePasswordState>(
+                  builder: (context, state) {
+                    return ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          context.read<ChangePasswordViewModel>().doEvent(
+                            ChangePasswordIntent(
+                              changePasswordRequest: ChangePasswordRequest(
+                                password: _oldPasswordController.text,
+                                newPassword: _newPasswordController.text,
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                    },
-                    child: state.changePasswordState.isLoading
-                        ? CircularProgressIndicator(
-                            color: context.appTheme.secondary,
-                          )
-                        : Text("update".tr()),
-                  );
-                },
-              ),
-            ],
+                          );
+                        }
+                      },
+                      child: state.changePasswordState.isLoading
+                          ? CircularProgressIndicator(
+                              color: context.appTheme.secondary,
+                            )
+                          : Text("update".tr()),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
