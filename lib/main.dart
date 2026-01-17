@@ -21,9 +21,13 @@ void main() async {
 
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en')],
-      path: 'assets/translations', // <-- change the path of the translation files
-      fallbackLocale: const Locale('en'),
+      saveLocale: true,
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('ar', 'EG'),
+      ],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en', 'US'),
       child: const FlowerApp(),
     ),
   );

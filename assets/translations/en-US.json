@@ -99,10 +99,14 @@
   "bouquetInclude": "Bouquet include",
   "whiteWrap": "White wrap",
   "quantity": "Quantity",
-  "search": "Search",
   "no_products_found": "Unfortunately no product available now",
   "Occasion": "Occasion",
   "untitled": "untitled",
   "There is no products yet": "There is no products yet",
-  "resendIn": "Resend in"
+  "resendIn": "Resend in",
+  "Change Language": "Change Language",
+  "Arabic": "Arabic ",
+  "English": "English",
+  "Language": "Language",
+  "Flower App": "Flower App"
 }
