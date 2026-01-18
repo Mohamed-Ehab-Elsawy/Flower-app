@@ -1,0 +1,108 @@
+name: PR Title & Branch Name Validation
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  validate-pr-and-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show PR & Branch Info
+        run: |
+          echo "🔎 PR title   : ${{ github.event.pull_request.title }}"
+          echo "🌿 Branch name: ${{ github.head_ref }}"
+
+      # ────────────────────────────────────────────────
+      # PR TITLE VALIDATION
+      # Format:
+      #   type(scope): TICKET-description
+      # Example:
+      #   feat(ECOM-27): ECOM-27 Add product listing screen
+      # ────────────────────────────────────────────────
+      - name: Validate PR Title
+        run: |
+          set -e
+
+          TITLE="${{ github.event.pull_request.title }}"
+
+          # Allowed PR types
+          TYPES="fix|feat|hotfix|release|build|test"
+
+          # Allowed ticket / scope formats
+          SCOPE="(ECOM|APP|POS|MOB|PROJ|[A-Z]{3,10})-[0-9]{1,5}|JIRA-[0-9]+"
+
+          # Full regex
+          REGEX="^(${TYPES})\(((${SCOPE}))\):[[:space:]]+\2-[A-Za-z0-9][A-Za-z0-9._ -]*[A-Za-z0-9]$"
+
+          if [[ ! "$TITLE" =~ $REGEX ]]; then
+            echo ""
+            echo "❌ Invalid PR title format"
+            echo "----------------------------------------"
+            echo "Current : $TITLE"
+            echo ""
+            echo "Expected:"
+            echo "  type(scope): TICKET-description"
+            echo ""
+            echo "Allowed types:"
+            echo "  $TYPES"
+            echo ""
+            echo "Allowed scopes:"
+            echo "  ECOM-123, APP-45, JIRA-999, PROJ-8, XXX-9999"
+            echo ""
+            echo "Valid examples:"
+            echo "  feat(ECOM-27): ECOM-27 Add product listing screen"
+            echo "  fix(APP-145): APP-145 Handle null user profile"
+            echo "  hotfix(JIRA-918): JIRA-918 Fix iOS 18 keyboard overlap"
+            echo "  test(UNIT-45): UNIT-45 Add widget tests for LoginPage"
+            echo ""
+            exit 1
+          fi
+
+          echo "✅ PR title format is valid"
+
+      # ────────────────────────────────────────────────
+      # BRANCH NAME VALIDATION
+      # Format:
+      #   type/TICKET-kebab-case-description
+      # Example:
+      #   feat/ECOM-27-add-product-listing-screen
+      # ────────────────────────────────────────────────
+      - name: Validate Branch Name
+        run: |
+          set -e
+
+          BRANCH="${{ github.head_ref }}"
+
+          # Allowed branch types
+          BRANCH_TYPES="feat|feature|fix|hotfix|release|build|test"
+
+          # Same ticket rules as PR title
+          SCOPE="(ECOM|APP|POS|MOB|PROJ|[A-Z]{3,10})-[0-9]{1,5}|JIRA-[0-9]+"
+
+          # Enforce kebab-case description
+          REGEX="^(${BRANCH_TYPES})\/(${SCOPE})-[a-z0-9]+(-[a-z0-9]+)*$"
+
+          if [[ ! "$BRANCH" =~ $REGEX ]]; then
+            echo ""
+            echo "❌ Invalid branch name format"
+            echo "----------------------------------------"
+            echo "Current : $BRANCH"
+            echo ""
+            echo "Expected:"
+            echo "  type/TICKET-kebab-case-description"
+            echo ""
+            echo "Allowed types:"
+            echo "  $BRANCH_TYPES"
+            echo ""
+            echo "Valid examples:"
+            echo "  feat/ECOM-27-add-product-listing-screen"
+            echo "  fix/APP-145-null-user-profile"
+            echo "  hotfix/JIRA-918-ios-18-keyboard-fix"
+            echo "  feature/POS-88-dark-mode-support"
+            echo ""
+            exit 1
+          fi
+
+          echo "✅ Branch name format is valid"
