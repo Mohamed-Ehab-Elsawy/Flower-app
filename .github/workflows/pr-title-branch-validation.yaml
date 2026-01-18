@@ -14,27 +14,24 @@ jobs:
           echo "🔎 PR title   : ${{ github.event.pull_request.title }}"
           echo "🌿 Branch name: ${{ github.head_ref }}"
 
-      # ────────────────────────────────────────────────
+      # ────────────────────────────────
       # PR TITLE VALIDATION
-      # Format:
-      #   type(scope): TICKET-description
-      # Example:
-      #   feat(ECOM-27): ECOM-27 Add product listing screen
-      # ────────────────────────────────────────────────
+      # Format: type(TICKET): task name
+      # Example: feat(FA-17): Validate PR title action
+      # ────────────────────────────────
       - name: Validate PR Title
         run: |
           set -e
-
           TITLE="${{ github.event.pull_request.title }}"
 
-          # Allowed PR types
+          # Allowed types
           TYPES="fix|feat|hotfix|release|build|test"
 
-          # Allowed ticket / scope formats
-          SCOPE="(ECOM|APP|POS|MOB|PROJ|[A-Z]{3,10})-[0-9]{1,5}|JIRA-[0-9]+"
+          # Ticket pattern
+          TICKET="(ECOM|APP|POS|MOB|PROJ|[A-Z]{3,10}-[0-9]{1,5}|JIRA-[0-9]+|FA-[0-9]+)"
 
-          # Full regex
-          REGEX="^(${TYPES})\(((${SCOPE}))\):[[:space:]]+\2-[A-Za-z0-9][A-Za-z0-9._ -]*[A-Za-z0-9]$"
+          # Regex: type(TICKET): task name
+          REGEX="^(${TYPES})\(${TICKET}\):[[:space:]]+[A-Za-z0-9].*$"
 
           if [[ ! "$TITLE" =~ $REGEX ]]; then
             echo ""
@@ -42,68 +39,45 @@ jobs:
             echo "----------------------------------------"
             echo "Current : $TITLE"
             echo ""
-            echo "Expected:"
-            echo "  type(scope): TICKET-description"
+            echo "Expected format:"
+            echo "  type(TICKET): task name"
             echo ""
-            echo "Allowed types:"
-            echo "  $TYPES"
-            echo ""
-            echo "Allowed scopes:"
-            echo "  ECOM-123, APP-45, JIRA-999, PROJ-8, XXX-9999"
+            echo "Allowed types: $TYPES"
+            echo "Allowed tickets: ECOM-123, APP-45, JIRA-999, PROJ-8, FA-17"
             echo ""
             echo "Valid examples:"
-            echo "  feat(ECOM-27): ECOM-27 Add product listing screen"
-            echo "  fix(APP-145): APP-145 Handle null user profile"
-            echo "  hotfix(JIRA-918): JIRA-918 Fix iOS 18 keyboard overlap"
-            echo "  test(UNIT-45): UNIT-45 Add widget tests for LoginPage"
-            echo ""
+            echo "  feat(FA-17): Validate PR title action"
+            echo "  fix(APP-145): Handle null user profile"
+            echo "  hotfix(JIRA-918): Fix iOS keyboard overlap"
             exit 1
           fi
 
           echo "✅ PR title format is valid"
 
-      # ────────────────────────────────────────────────
+      # ────────────────────────────────
       # BRANCH NAME VALIDATION
-      # Format:
-      #   type/TICKET-kebab-case-description
-      # Example:
-      #   feat/ECOM-27-add-product-listing-screen
-      # ────────────────────────────────────────────────
-      - name: Validate PR Title
+      # Format: feature/TICKET-task-name
+      # Example: feature/FA-17-validate-pr-title-action
+      # ────────────────────────────────
+      - name: Validate Branch Name
         run: |
-          TITLE="${{ github.event.pull_request.title }}"
+          BRANCH="${{ github.head_ref }}"
+          TYPES="feature|fix|hotfix|release|build|test"
+          TICKET="(ECOM|APP|POS|MOB|PROJ|[A-Z]{3,10}-[0-9]{1,5}|JIRA-[0-9]+|FA-[0-9]+)"
 
-          if [[ -z "$TITLE" ]]; then
-            echo "❌ PR title is empty!"
-            exit 1
-          fi
+          # Regex: feature/TICKET-task-name
+          REGEX="^(${TYPES})/${TICKET}-[a-z0-9-]+$"
 
-          # Allowed types
-          TYPES="feat|fix|hotfix|release|build|test"
-
-          # Allowed ticket patterns
-          TICKET="(ECOM|APP|POS|MOB|PROJ|[A-Z]{3,10}-[0-9]{1,5}|JIRA-[0-9]+)"
-
-          # Regex: type(scope): TICKET[- :]? description (description starts with letter or digit)
-          REGEX="^(${TYPES})\(${TICKET}\):[[:space:]]*${TICKET}([ :-])?[[:space:]]*[A-Za-z0-9].*$"
-
-          if [[ ! "$TITLE" =~ $REGEX ]]; then
-            echo "❌ Invalid PR title format"
+          if [[ ! "$BRANCH" =~ $REGEX ]]; then
+            echo "❌ Invalid branch name format"
             echo "----------------------------------------"
-            echo "Current title : $TITLE"
+            echo "Current branch : $BRANCH"
             echo ""
             echo "Expected format:"
-            echo "  type(scope): TICKET[-:]? description"
+            echo "  feature/TICKET-task-name"
             echo ""
-            echo "Allowed types     : feat fix hotfix release build test"
-            echo "Allowed tickets   : ECOM-123  APP-45  JIRA-999  XXX-12345"
-            echo ""
-            echo "Valid examples:"
-            echo "  feat(ECOM-27): ECOM-27 Add product listing screen"
-            echo "  fix(APP-145): APP-145: Handle null user profile"
-            echo "  hotfix(JIRA-918): JIRA-918 Fix iOS 18 keyboard overlap"
-            echo "  feat(ECOM-27): ECOM-27-add-product-listing"
+            echo "Valid example: feature/FA-17-validate-pr-title-action"
             exit 1
           fi
 
-          echo "✅ PR title format is valid"
+          echo "✅ Branch name format is valid"
