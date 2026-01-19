@@ -21,11 +21,9 @@ class CartAppBar extends StatelessWidget {
       scrolledUnderElevation: 0,
       pinned: true,
       title: BlocBuilder<OrderViewModel, OrderState>(
-
         builder: (context, state) {
-          final items=state.ordes?.data?.length ??0;
+          final items = state.orders?.data?.length ?? 0;
           return RichText(
-
             text: TextSpan(
               children: [
                 TextSpan(text: "cart.cart".tr(), style: theme.medium20),
@@ -34,10 +32,9 @@ class CartAppBar extends StatelessWidget {
                   style: theme.medium20.copyWith(color: theme.grey),
                 ),
               ],
-            ));
-
-
-        }
+            ),
+          );
+        },
       ),
     );
   }

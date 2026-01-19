@@ -48,7 +48,7 @@ class ProductsEntity extends Equatable {
   double get totalPrice => (price ?? 0.0) * (quantity ?? 1);
 
   double get totalPriceAfterDiscount =>
-      (priceAfterDiscount ?? price ?? 0.0) * totalPrice;
+      (priceAfterDiscount ?? price ?? 0.0) * (quantity ?? 1);
 
   bool get hasDiscount =>
       (discount != null && price != null) ? discount! < price! : false;

@@ -16,8 +16,7 @@ class FullBill extends StatelessWidget {
       children: [
         BlocBuilder<OrderViewModel, OrderState>(
           builder: (context, state) {
-
-            final cartMap = state.ordes?.data ?? {};
+            final cartMap = state.orders?.data ?? {};
             if (cartMap.isEmpty) {
               return const SizedBox.shrink();
             }

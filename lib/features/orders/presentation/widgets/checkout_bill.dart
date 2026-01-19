@@ -13,7 +13,7 @@ class CheckoutBill extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<OrderViewModel, OrderState>(
       builder: (context, state) {
-        if ((state.ordes?.data ?? {}).isNotEmpty) {
+        if ((state.orders?.data ?? {}).isNotEmpty) {
           return Column(
             children: [
               const FullBill(),

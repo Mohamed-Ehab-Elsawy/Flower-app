@@ -74,7 +74,7 @@ void main() {
       },
       act: (bloc) => bloc.doIntent(GetOrders()),
       expect: () {
-        var state = OrderState(ordes: BaseState.init());
+        var state = OrderState(orders: BaseState.init());
         final Map<String, CartItemEntity> ordersMap = {
           'product_1': testCartItem,
         };
@@ -109,7 +109,7 @@ void main() {
       },
       act: (bloc) => bloc.doIntent(GetOrders()),
       expect: () {
-        var state = OrderState(ordes: BaseState.init());
+        var state = OrderState(orders: BaseState.init());
         return [
           state.copyWith(
             ordes: const BaseState<Map<String, CartItemEntity>>(
@@ -132,7 +132,7 @@ void main() {
       'emits [loaded] when RemoveProductFromCart is triggered successfully',
       build: () => orderViewModel,
       seed: () =>
-          OrderState(ordes: BaseState.loaded({'product_1': testCartItem})),
+          OrderState(orders: BaseState.loaded({'product_1': testCartItem})),
       setUp: () {
         provideDummy<Result<CartResponseEntity>>(successCartResponse);
         when(
@@ -143,7 +143,7 @@ void main() {
           bloc.doIntent(RemoveProductFromCart(productId: 'product_1')),
       expect: () {
         var state = OrderState(
-          ordes: BaseState.loaded({'product_1': testCartItem}),
+          orders: BaseState.loaded({'product_1': testCartItem}),
         );
         final Map<String, CartItemEntity> emptyMap = {};
         return [
@@ -161,7 +161,7 @@ void main() {
       'emits [loaded, error] when RemoveProductFromCart fails',
       build: () => orderViewModel,
       seed: () =>
-          OrderState(ordes: BaseState.loaded({'product_1': testCartItem})),
+          OrderState(orders: BaseState.loaded({'product_1': testCartItem})),
       setUp: () {
         provideDummy<Result<CartResponseEntity>>(failureCartResponse);
         when(
@@ -172,7 +172,7 @@ void main() {
           bloc.doIntent(RemoveProductFromCart(productId: 'product_1')),
       expect: () {
         var state = OrderState(
-          ordes: BaseState.loaded({'product_1': testCartItem}),
+          orders: BaseState.loaded({'product_1': testCartItem}),
         );
         final Map<String, CartItemEntity> emptyMap = {};
         return [
@@ -198,7 +198,7 @@ void main() {
       'emits [loading, loaded] when ClearCart is triggered successfully',
       build: () => orderViewModel,
       seed: () =>
-          OrderState(ordes: BaseState.loaded({'product_1': testCartItem})),
+          OrderState(orders: BaseState.loaded({'product_1': testCartItem})),
       setUp: () {
         provideDummy<Result<SuccessResponseDto>>(successClearResponse);
         when(
@@ -208,7 +208,7 @@ void main() {
       act: (bloc) => bloc.doIntent(ClearCart()),
       expect: () {
         var state = OrderState(
-          ordes: BaseState.loaded({'product_1': testCartItem}),
+          orders: BaseState.loaded({'product_1': testCartItem}),
         );
         final Map<String, CartItemEntity> emptyMap = {};
         return [
@@ -238,7 +238,7 @@ void main() {
       },
       act: (bloc) => bloc.doIntent(ClearCart()),
       expect: () {
-        var state = OrderState(ordes: BaseState.init());
+        var state = OrderState(orders: BaseState.init());
         return [
           state.copyWith(
             ordes: const BaseState<Map<String, CartItemEntity>>(
@@ -261,7 +261,7 @@ void main() {
       'calls updateCartProductQuantity when UpdateProductQuantity is triggered',
       build: () => orderViewModel,
       seed: () =>
-          OrderState(ordes: BaseState.loaded({'product_1': testCartItem})),
+          OrderState(orders: BaseState.loaded({'product_1': testCartItem})),
       setUp: () {
         provideDummy<Result<CartResponseEntity>>(successCartResponse);
         when(
@@ -282,7 +282,7 @@ void main() {
       'emits [error] when UpdateProductQuantity fails',
       build: () => orderViewModel,
       seed: () =>
-          OrderState(ordes: BaseState.loaded({'product_1': testCartItem})),
+          OrderState(orders: BaseState.loaded({'product_1': testCartItem})),
       setUp: () {
         provideDummy<Result<CartResponseEntity>>(failureCartResponse);
         when(
@@ -295,7 +295,7 @@ void main() {
       wait: const Duration(milliseconds: 700),
       expect: () {
         var state = OrderState(
-          ordes: BaseState.loaded({'product_1': testCartItem}),
+          orders: BaseState.loaded({'product_1': testCartItem}),
         );
         return [
           state.copyWith(

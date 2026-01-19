@@ -85,8 +85,6 @@ class CartItemEntity extends Equatable {
   // Format price with currency symbol
   String get formattedTotalPrice => 'EGP ${totalPrice.toStringAsFixed(2)}';
 
-  String get formattedUnitPrice => 'EGP ${unitPrice.toStringAsFixed(2)}';
-
   // Helper methods for quantity operations
   CartItemEntity increment() => copyWith(quantity: (quantity ?? 0) + 1);
 

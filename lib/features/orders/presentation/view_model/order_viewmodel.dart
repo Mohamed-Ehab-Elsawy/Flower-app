@@ -19,7 +19,8 @@ class OrderViewModel extends Cubit<OrderState> {
   Timer? _timer;
   final _uiEventsController = StreamController<UiEvents>.broadcast();
   Stream<UiEvents> get uiEventsStream => _uiEventsController.stream;
-  OrderViewModel(this._orderRepo) : super(OrderState(ordes: BaseState.init()));
+
+  OrderViewModel(this._orderRepo) : super(OrderState(orders: BaseState.init()));
 
   void _addItemToCart(ProductsEntity product) async {
     if (product.outOfStock) {
@@ -28,7 +29,7 @@ class OrderViewModel extends Cubit<OrderState> {
     }
 
     final currentMap = Map<String, CartItemEntity>.from(
-      state.ordes?.data ?? {},
+      state.orders?.data ?? {},
     );
 
     final cartItem = CartItemEntity(
@@ -62,7 +63,7 @@ class OrderViewModel extends Cubit<OrderState> {
 
   void _removeProductFromCart(String productId) async {
     final currentMap = Map<String, CartItemEntity>.from(
-      state.ordes?.data ?? {},
+      state.orders?.data ?? {},
     );
 
     currentMap.remove(productId);
@@ -94,7 +95,7 @@ class OrderViewModel extends Cubit<OrderState> {
 
       // Get current item
       final currentMap = Map<String, CartItemEntity>.from(
-        state.ordes?.data ?? {},
+        state.orders?.data ?? {},
       );
       final item = currentMap[productId];
 
@@ -128,7 +129,7 @@ class OrderViewModel extends Cubit<OrderState> {
     switch (response) {
       case Success<SuccessResponseDto>():
         Map<String, CartItemEntity> ordersMap = Map.from(
-          state.ordes?.data ?? {},
+          state.orders?.data ?? {},
         );
         ordersMap.clear();
         emit(state.copyWith(ordes: BaseState.loaded(ordersMap)));
@@ -210,7 +211,6 @@ class OrderViewModel extends Cubit<OrderState> {
   Future<void> close() {
     _timer?.cancel();
     _uiEventsController.close();
-    uiEventsStream.listen((event) {}).cancel();
     return super.close();
   }
 }

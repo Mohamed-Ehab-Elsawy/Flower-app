@@ -18,7 +18,7 @@ class CartItem extends StatelessWidget {
     return BlocBuilder<OrderViewModel, OrderState>(
       builder: (context, state) {
         // Get current item from state
-        final cartMap = state.ordes?.data ?? {};
+        final cartMap = state.orders?.data ?? {};
         final currentItem = cartMap[itemEntity.product!.id!] ?? itemEntity;
 
         return Card.outlined(

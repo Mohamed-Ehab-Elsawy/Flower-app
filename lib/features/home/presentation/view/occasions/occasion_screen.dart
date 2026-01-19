@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 import 'package:flower_app/core/app/presentation/widget/custom_card.dart';
@@ -23,9 +25,8 @@ class OccasionScreen extends StatefulWidget {
 
 class _OccasionScreenState extends State<OccasionScreen> {
   final occasionsCubit = getIt.get<OccasionsCubit>();
-
   late List<ProductTypeEntity> occasions;
-
+  late StreamSubscription _uiEventSubscription;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -52,7 +53,10 @@ class _OccasionScreenState extends State<OccasionScreen> {
           }
       }
     });
-    context.read<OrderViewModel>().uiEventsStream.listen((event) {
+    _uiEventSubscription = context
+        .read<OrderViewModel>()
+        .uiEventsStream
+        .listen((event) {
       switch (event) {
         case AddToCartEvent():
           //show toast
@@ -64,6 +68,13 @@ class _OccasionScreenState extends State<OccasionScreen> {
       }
     });
   }
+
+  @override
+  dispose() {
+    _uiEventSubscription.cancel();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {

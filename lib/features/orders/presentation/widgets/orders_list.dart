@@ -15,12 +15,12 @@ class OrdersList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<OrderViewModel, OrderState>(
       builder: (context, state) {
-        switch (state.ordes!.requestState) {
+        switch (state.orders!.requestState) {
           case RequestState.init:
             return _emptyCart();
 
           case RequestState.loading:
-            final orders = state.ordes?.data?.values.toList() ?? [];
+            final orders = state.orders?.data?.values.toList() ?? [];
             if (orders.isEmpty) {
               return _emptyCart();
             }
@@ -31,19 +31,19 @@ class OrdersList extends StatelessWidget {
               ),
             );
           case RequestState.loaded:
-            final orders = state.ordes!.data?.values.toList();
+            final orders = state.orders!.data?.values.toList();
             if (orders!.isEmpty) {
               return _emptyCart();
             }
             return SliverList(
               delegate: SliverChildBuilderDelegate(
-                childCount: state.ordes!.data!.length,
+                childCount: state.orders!.data!.length,
                 (context, index) => CartItem(itemEntity: orders[index]),
               ),
             );
           case RequestState.error:
             return Center(
-              child: Text(state.ordes?.errorMessage ?? " "),
+              child: Text(state.orders?.errorMessage ?? " "),
             ).toSliverBoxAdapter;
         }
       },

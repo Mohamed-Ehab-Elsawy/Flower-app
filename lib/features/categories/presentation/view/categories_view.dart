@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
@@ -29,7 +31,7 @@ class CategoriesView extends StatefulWidget {
 class _CategoriesViewState extends State<CategoriesView> {
   final ScrollController _scrollController = ScrollController();
   bool _showFilterButton = true;
-
+  late StreamSubscription _orderSubscription;
   @override
   void initState() {
     super.initState();
@@ -38,11 +40,15 @@ class _CategoriesViewState extends State<CategoriesView> {
     );
     _scrollListener();
     _eventsListener();
+    _orderStreamListener();
   }
 
-  @override
-  void didChangeDependencies() {
-    context.read<OrderViewModel>().uiEventsStream.listen((event) {
+
+  void _orderStreamListener() {
+    _orderSubscription = context
+        .read<OrderViewModel>()
+        .uiEventsStream
+        .listen((event) {
       switch (event) {
         case AddToCartEvent():
           //show toast
@@ -54,12 +60,13 @@ class _CategoriesViewState extends State<CategoriesView> {
           Toast.showAppDialog(context: context, title: event.errorMessage);
       }
     });
-    super.didChangeDependencies();
+
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _orderSubscription.cancel();
     super.dispose();
   }
 
