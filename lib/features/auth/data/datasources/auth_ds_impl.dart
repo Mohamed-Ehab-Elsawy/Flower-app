@@ -13,6 +13,7 @@ import 'package:flower_app/features/auth/data/models/response/send_reset_passwor
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
+import 'package:flower_app/features/auth/data/models_dto/logout/logout_response_dto.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: AuthDataSource)
@@ -67,4 +68,11 @@ class AuthDataSourceImpl implements AuthDataSource {
     );
     return response;
   });
+
+  @override
+  Future<Result<LogoutResponseDto>> logout() async {
+    return executeApi(() async {
+      return await _apiClient.logout();
+    });
+  }
 }

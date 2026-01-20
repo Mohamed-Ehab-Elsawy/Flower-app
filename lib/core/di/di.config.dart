@@ -25,11 +25,14 @@ import '../../features/auth/domain/use_cases/forget_password/send_reset_password
 import '../../features/auth/domain/use_cases/forget_password/verify_reset_password_code_use_case.dart'
     as _i1073;
 import '../../features/auth/domain/use_cases/login_use_case.dart' as _i1038;
+import '../../features/auth/domain/use_cases/logout_use_case.dart' as _i698;
 import '../../features/auth/domain/use_cases/signup_use_case.dart' as _i571;
 import '../../features/auth/presentation/cubit/forget_password/forget_password_cubit.dart'
     as _i817;
 import '../../features/auth/presentation/cubit/login_view_model/login_view_model.dart'
     as _i869;
+import '../../features/auth/presentation/cubit/logout/logout_cubit.dart'
+    as _i401;
 import '../../features/auth/presentation/cubit/signup_viewmodel.dart' as _i68;
 import '../../features/categories/data/datasources/category_data_source.dart'
     as _i842;
@@ -72,10 +75,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i752.AppSectionViewModel>(() => _i752.AppSectionViewModel());
     gh.lazySingleton<_i361.BaseOptions>(() => apiModule.providerOption());
     gh.lazySingleton<_i52.TalkerDioLogger>(() => apiModule.prvoideLogger());
+    gh.lazySingleton<_i0.AuthInterceptor>(() => _i0.AuthInterceptor());
     gh.lazySingleton<_i361.Dio>(
       () => apiModule.provideDio(
         gh<_i361.BaseOptions>(),
         gh<_i52.TalkerDioLogger>(),
+        gh<_i0.AuthInterceptor>(),
       ),
     );
     gh.lazySingleton<_i277.ApiClient>(
@@ -105,17 +110,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i51.CategoryRepo>(
       () => _i782.CategoryRepoImpl(gh<_i842.CategoryDataSource>()),
     );
-    gh.factory<_i1073.VerifyResetPasswordCodeUseCase>(
-      () => _i1073.VerifyResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
+    gh.factory<_i437.ResetPasswordUseCase>(
+      () => _i437.ResetPasswordUseCase(gh<_i723.AuthRepo>()),
     );
     gh.factory<_i876.SendResetPasswordCodeUseCase>(
       () => _i876.SendResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
     );
-    gh.factory<_i437.ResetPasswordUseCase>(
-      () => _i437.ResetPasswordUseCase(gh<_i723.AuthRepo>()),
+    gh.factory<_i1073.VerifyResetPasswordCodeUseCase>(
+      () => _i1073.VerifyResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
     );
     gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i723.AuthRepo>()),
+    );
+    gh.lazySingleton<_i698.LogoutUseCase>(
+      () => _i698.LogoutUseCase(gh<_i723.AuthRepo>()),
     );
     gh.factory<_i308.GetCategoriesUseCase>(
       () => _i308.GetCategoriesUseCase(gh<_i51.CategoryRepo>()),
@@ -150,6 +158,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i77.HomeViewModel>(
       () => _i77.HomeViewModel(gh<_i798.FetchHomeDataUsecase>()),
+    );
+    gh.factory<_i401.LogoutCubit>(
+      () => _i401.LogoutCubit(gh<_i698.LogoutUseCase>()),
     );
     gh.factory<_i645.BestSellerViewModel>(
       () => _i645.BestSellerViewModel(gh<_i92.GetBestSellerUseCase>()),

@@ -5,19 +5,20 @@ import 'package:flower_app/core/api/models/response/signup_response.dart';
 import 'package:flower_app/core/api/models/response/user_dto.dart';
 import 'package:flower_app/core/error_handling/handle_exception%20.dart';
 import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
+import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart';
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/send_reset_password_code_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/verify_reset_code_request.dart';
 import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart';
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
+import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
+import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
+import 'package:flower_app/features/auth/data/models_dto/logout/logout_response_dto.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
 import 'auth_ds_impl_test.mocks.dart';
 
@@ -128,7 +129,7 @@ void main() {
 
   test(
     "should return Success<LoginResponse> with correct token when login succeeds",
-    () async {
+        () async {
       // Arrange
       when(
         mockApiClient.login(loginRequest: loginRequest),
@@ -198,9 +199,9 @@ void main() {
   group("Testing sendResetPasswordCode cases", () {
     test(
       "When i call sendResetPasswordCode it calls sendResetPasswordCode from "
-      "api client and return Success result from api client "
-      "and didn't call any other functions",
-      () async {
+          "api client and return Success result from api client "
+          "and didn't call any other functions",
+          () async {
         // arrange
         when(
           apiClient.sendResetPasswordCode(
@@ -209,10 +210,10 @@ void main() {
         ).thenAnswer((_) async => sendResetPasswordCodeResponse);
         // act
         var result =
-            await authDataSource.sendResetPasswordCode(
-                  sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
-                )
-                as Success<SendResetPasswordCodeResponse>;
+        await authDataSource.sendResetPasswordCode(
+          sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
+        )
+        as Success<SendResetPasswordCodeResponse>;
         // assert
         verify(
           apiClient.sendResetPasswordCode(
@@ -227,9 +228,9 @@ void main() {
 
     test(
       "When i call sendResetPasswordCode it calls sendResetPasswordCode from "
-      "api client and return failure result if there is an dio exception"
-      "and didn't call any other functions",
-      () async {
+          "api client and return failure result if there is an dio exception"
+          "and didn't call any other functions",
+          () async {
         // arrange
         when(
           apiClient.sendResetPasswordCode(
@@ -259,9 +260,9 @@ void main() {
   group("Testing verifyResetPasswordCode cases", () {
     test(
       "When i call verifyResetPasswordCode it calls verifyResetPasswordCode from "
-      "api client and return Success result from api client "
-      "and didn't call any other functions",
-      () async {
+          "api client and return Success result from api client "
+          "and didn't call any other functions",
+          () async {
         // arrange
         when(
           apiClient.verifyResetPasswordCode(
@@ -287,9 +288,9 @@ void main() {
     );
     test(
       "When i call verifyResetPasswordCode it calls verifyResetPasswordCode from "
-      "api client and return failure result if there is an dio exception"
-      "and didn't call any other functions",
-      () async {
+          "api client and return failure result if there is an dio exception"
+          "and didn't call any other functions",
+          () async {
         // arrange
         when(
           apiClient.verifyResetPasswordCode(
@@ -360,6 +361,30 @@ void main() {
         (result as Failure<ResetPasswordResponse>).errorMessage,
         "errors.connectionError",
       );
+    });
+  });
+
+
+  group("Testing Logout", () {
+    test(
+        "should return Success<LogoutResponseDto> with correct message when logout succeeds", () async {
+      when(apiClient.logout()).thenAnswer((_) async =>
+          LogoutResponseDto(message: "message"));
+      var result = await authDataSource.logout();
+      expect(result, isA<Success<LogoutResponseDto>>());
+      expect(result as Success<LogoutResponseDto>, isNotNull);
+      verify(apiClient.logout()).called(1);
+    });
+    test(
+        "should return Failure<LogoutResponseDto> when API throws Exception", () async {
+      provideDummy<Result<LogoutResponseDto>>(
+          Failure<LogoutResponseDto>(e.toString()));
+      when(apiClient.logout()).thenThrow(e);
+      var result = await authDataSource.logout();
+      expect(result, isA<Failure<LogoutResponseDto>>());
+      expect(result as Failure<LogoutResponseDto>, isNotNull);
+      expect(result.errorMessage, equals(e.toString()));
+      verify(apiClient.logout()).called(1);
     });
   });
 }

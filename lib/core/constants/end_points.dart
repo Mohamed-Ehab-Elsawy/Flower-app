@@ -8,4 +8,5 @@ class EndPoints {
   static const String home = "home";
   static const String products ="products/";
   static const String categories ="categories";
+  static const String logout = "auth/logout";
 }

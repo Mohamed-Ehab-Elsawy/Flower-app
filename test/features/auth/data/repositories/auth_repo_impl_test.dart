@@ -1,33 +1,33 @@
+import 'package:flower_app/core/api/models/requests/user_request.dart';
+import 'package:flower_app/core/api/models/response/user_dto.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart';
-import 'package:flower_app/features/auth/data/repositories/auth_repo_impl.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/send_reset_password_code_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/verify_reset_code_request.dart';
 import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart';
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:flower_app/core/api/models/requests/user_request.dart';
-import 'package:flower_app/core/api/models/response/user_dto.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
+import 'package:flower_app/features/auth/data/models_dto/logout/logout_response_dto.dart';
+import 'package:flower_app/features/auth/data/repositories/auth_repo_impl.dart';
+import 'package:flower_app/features/auth/domain/models/logout_response_entity.dart';
 import 'package:flower_app/features/auth/domain/models/user_entity.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
 import 'auth_repo_impl_test.mocks.dart';
 
 @GenerateMocks([AuthDataSourceImpl])
 void main() {
-
   late MockAuthDataSourceImpl mockAuthDataSource;
   late AuthRepoImpl authRepo;
   late LoginRequest loginRequest;
   late LoginResponseDto loginResponse;
   late Result<LoginResponseDto> response;
-  late AuthRepoImpl mockRepo;
   late UserSignupRequest userRequest;
   late UserDto userDto;
   late UserEntity userEntity;
@@ -48,6 +48,8 @@ void main() {
   late Result<SendResetPasswordCodeResponse> sendResetPasswordCodeResponse;
   late Result<VerifyResetCodeResponse> verifyResetCodeResponse;
   late Result<ResetPasswordResponse> resetPasswordResponse;
+  LogoutResponseDto logoutResponseDto;
+  LogoutResponseEntity logoutResponseEntit;
 
   setUpAll(() {
     authDataSource = MockAuthDataSourceImpl();
@@ -114,7 +116,11 @@ void main() {
       gender: "male",
       photo: "ddd",
     );
-
+    logoutResponseDto = LogoutResponseDto(message: "success");
+    provideDummy<Result<LogoutResponseDto>>(
+      Success<LogoutResponseDto>(logoutResponseDto),
+    );
+    logoutResponseEntit = LogoutResponseEntity(message: "success");
     provideDummy<Result<UserDto>>(Success<UserDto>(userDto));
     provideDummy<Result<UserEntity>>(Success<UserEntity>(userEntity));
   });
@@ -318,6 +324,80 @@ void main() {
         (result as Failure<ResetPasswordResponse>).errorMessage,
         errorMessageResponse,
       );
+    });
+  });
+
+  group("Testing signup", () {
+    test("when signUp with Success it should return UserEntity", () async {
+      when(
+        mockAuthDataSource.signUp(userRequest),
+      ).thenAnswer((_) async => Success<UserDto>(userDto));
+      final result = await authRepo.signUp(userRequest);
+
+      expect(result, isA<Success<UserEntity>>());
+      expect(
+        (result as Success<UserEntity>).data.firstName,
+        equals(userEntity.firstName),
+      );
+      expect(result.data.lastName, equals(userEntity.lastName));
+      expect(result.data.email, equals(userEntity.email));
+      expect(result.data.photo, equals(userEntity.photo));
+      expect(result.data.phone, equals(userEntity.phone));
+      expect(
+        result.data.addresses?.length,
+        equals(userEntity.addresses?.length),
+      );
+      expect(result.data.id, equals(userEntity.id));
+      expect(result.data.gender, equals(userEntity.gender));
+      expect(result.data.role, equals(userEntity.role));
+      verify(authRepo.signUp(userRequest)).called(1);
+    });
+    test("when signUp with Failure it should return message", () async {
+      when(
+        mockAuthDataSource.signUp(userRequest),
+      ).thenAnswer((_) async => Failure<UserDto>(message));
+      final result = await authRepo.signUp(userRequest);
+
+      expect(result, isA<Failure<UserEntity>>());
+      expect(
+        (result as Failure<UserEntity>).errorMessage.toString(),
+        equals(message),
+      );
+      verify(authRepo.signUp(userRequest)).called(1);
+    });
+  });
+
+  group("Testing logout", () {
+    test("when logout with Success it should return Success message", () async {
+      logoutResponseDto = LogoutResponseDto(message: "success");
+      when(
+        mockAuthDataSource.logout(),
+      ).thenAnswer((_) async => Success<LogoutResponseDto>(logoutResponseDto));
+      final result = await authRepo.logout();
+      logoutResponseEntit = LogoutResponseEntity(message: "success");
+      expect(result, isA<Success<LogoutResponseEntity>>());
+      expect(
+        (result as Success<LogoutResponseEntity>).data.message,
+        equals(logoutResponseEntit.message),
+      );
+      expect(result.data.message, equals(logoutResponseDto.message));
+      verify(authRepo.logout()).called(1);
+    });
+    test("when signUp with Failure it should return message", () async {
+      provideDummy<Result<LogoutResponseDto>>(
+        Failure<LogoutResponseDto>(errorMessageResponse.toString()),
+      );
+      when(
+        mockAuthDataSource.logout(),
+      ).thenAnswer((_) async => Failure<LogoutResponseDto>(message));
+      final result = await authRepo.logout();
+
+      expect(result, isA<Failure<LogoutResponseEntity>>());
+      expect(
+        (result as Failure<LogoutResponseEntity>).errorMessage.toString(),
+        equals(message),
+      );
+      verify(authRepo.logout()).called(1);
     });
   });
 }
