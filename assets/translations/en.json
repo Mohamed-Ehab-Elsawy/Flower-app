@@ -12,8 +12,8 @@
   "Phone number": "Phone number",
   "Enter Phone number": "Enter Phone number",
   "Gender": "Gender",
-  "male": "male",
-  "female": "female",
+  "male": "Male",
+  "female": "Female",
   "account Created Successfully": "account Created Successfully",
   "don't Have Acc": "don't Have Acc",
   "Creating an account, you agree to our ": "Creating an account, you agree to our ",
@@ -104,5 +104,11 @@
   "Occasion": "Occasion",
   "untitled": "untitled",
   "There is no products yet": "There is no products yet",
-  "resendIn": "Resend in"
+  "resendIn": "Resend in",
+  "edit_profile" : "Edit profile",
+  "update" : "Update",
+  "error_loading_profile" : "Error Loading Profile",
+  "retry" : "Retry",
+  "gallery" : "Gallery",
+  "camera" : "Camera"
 }

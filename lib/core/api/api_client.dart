@@ -6,6 +6,9 @@ import 'package:flower_app/features/home/data/models/best_seller_response.dart';
 import 'package:flower_app/core/app/data/models/product_response.dart';
 import 'package:flower_app/features/categories/data/models/categories_response.dart';
 import 'package:flower_app/features/home/data/models/home_response_dto.dart';
+import 'package:flower_app/features/profile/data/models/edit_profile_request.dart';
+import 'package:flower_app/features/profile/data/models/get_user_data_response.dart';
+import 'package:flower_app/features/profile/data/models/upload_photo_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/send_reset_password_code_request.dart';
@@ -60,4 +63,14 @@ abstract class ApiClient {
 
   @GET(EndPoints.home)
   Future<HomeResponseDto> fetchHomeData();
+
+  @GET(EndPoints.profileData)
+  Future<GetUserDataResponse> getProfileData ();
+
+  @PUT(EndPoints.editProfile)
+  Future<GetUserDataResponse> editProfile ({@Body() required EditProfileRequest editProfileRequest});
+
+  @PUT(EndPoints.uploadPhoto)
+  @MultiPart()
+  Future<UploadPhotoResponse> uploadPhoto(@Part(name: 'photo') MultipartFile photo);
 }
