@@ -8,7 +8,10 @@ class AppTextStyles {
     fontSize: 24,
     fontWeight: FontWeight.w600,
   );
-
+  static const TextStyle medium13 = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w500,
+  );
   static const TextStyle medium20 = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,

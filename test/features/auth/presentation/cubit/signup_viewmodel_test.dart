@@ -67,8 +67,8 @@ void main() {
         ),
         state.copyWith(
           signUpState: BaseState<UserEntity>(
-            data: dummyUser,
             requestState: RequestState.loaded,
+            data: dummyUser,
           ),
         ),
       ];

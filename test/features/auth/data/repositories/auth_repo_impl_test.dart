@@ -21,6 +21,7 @@ import 'auth_repo_impl_test.mocks.dart';
 
 @GenerateMocks([AuthDataSourceImpl])
 void main() {
+
   late MockAuthDataSourceImpl mockAuthDataSource;
   late AuthRepoImpl authRepo;
   late LoginRequest loginRequest;
@@ -63,7 +64,10 @@ void main() {
     // Ensure tests stub/verify the same mock instance
     authDataSource = mockAuthDataSource;
 
-    loginRequest =  const LoginRequest(email: "test@test.com", password: "123456");
+    loginRequest = const LoginRequest(
+      email: "test@test.com",
+      password: "123456",
+    );
     loginResponse = LoginResponseDto(
       userDto: UserDto(id: "1"),
       token: "abc123",
@@ -142,7 +146,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authDataSource);
-      expect((result as Success<SendResetPasswordCodeResponse>).data.message, responseMessage);
+      expect(
+        (result as Success<SendResetPasswordCodeResponse>).data.message,
+        responseMessage,
+      );
     });
 
     test("When i call sendResetPasswordCode it calls "
@@ -171,7 +178,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authDataSource);
-      expect((result as Failure<SendResetPasswordCodeResponse>).errorMessage, errorMessageResponse);
+      expect(
+        (result as Failure<SendResetPasswordCodeResponse>).errorMessage,
+        errorMessageResponse,
+      );
     });
   });
 
@@ -200,7 +210,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authDataSource);
-      expect((result as Success<VerifyResetCodeResponse>).data.message, responseMessage);
+      expect(
+        (result as Success<VerifyResetCodeResponse>).data.message,
+        responseMessage,
+      );
     });
 
     test("When i call verifyResetPasswordCode it calls "
@@ -227,7 +240,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authDataSource);
-      expect((result as Failure<VerifyResetCodeResponse>).errorMessage, errorMessageResponse);
+      expect(
+        (result as Failure<VerifyResetCodeResponse>).errorMessage,
+        errorMessageResponse,
+      );
     });
   });
 
@@ -262,7 +278,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authDataSource);
-      expect((result as Success<ResetPasswordResponse>).data.message, responseMessage);
+      expect(
+        (result as Success<ResetPasswordResponse>).data.message,
+        responseMessage,
+      );
     });
 
     test("When i call resetPassword it calls "
@@ -295,7 +314,10 @@ void main() {
         ),
       ).called(1);
       verifyNoMoreInteractions(authDataSource);
-      expect((result as Failure<ResetPasswordResponse>).errorMessage, errorMessageResponse);
+      expect(
+        (result as Failure<ResetPasswordResponse>).errorMessage,
+        errorMessageResponse,
+      );
     });
   });
 }
