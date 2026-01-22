@@ -129,7 +129,7 @@ void main() {
 
   test(
     "should return Success<LoginResponse> with correct token when login succeeds",
-        () async {
+    () async {
       // Arrange
       when(
         mockApiClient.login(loginRequest: loginRequest),
@@ -199,9 +199,9 @@ void main() {
   group("Testing sendResetPasswordCode cases", () {
     test(
       "When i call sendResetPasswordCode it calls sendResetPasswordCode from "
-          "api client and return Success result from api client "
-          "and didn't call any other functions",
-          () async {
+      "api client and return Success result from api client "
+      "and didn't call any other functions",
+      () async {
         // arrange
         when(
           apiClient.sendResetPasswordCode(
@@ -210,10 +210,10 @@ void main() {
         ).thenAnswer((_) async => sendResetPasswordCodeResponse);
         // act
         var result =
-        await authDataSource.sendResetPasswordCode(
-          sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
-        )
-        as Success<SendResetPasswordCodeResponse>;
+            await authDataSource.sendResetPasswordCode(
+                  sendResetPasswordCodeRequest: sendResetPasswordCodeRequest,
+                )
+                as Success<SendResetPasswordCodeResponse>;
         // assert
         verify(
           apiClient.sendResetPasswordCode(
@@ -228,9 +228,9 @@ void main() {
 
     test(
       "When i call sendResetPasswordCode it calls sendResetPasswordCode from "
-          "api client and return failure result if there is an dio exception"
-          "and didn't call any other functions",
-          () async {
+      "api client and return failure result if there is an dio exception"
+      "and didn't call any other functions",
+      () async {
         // arrange
         when(
           apiClient.sendResetPasswordCode(
@@ -260,9 +260,9 @@ void main() {
   group("Testing verifyResetPasswordCode cases", () {
     test(
       "When i call verifyResetPasswordCode it calls verifyResetPasswordCode from "
-          "api client and return Success result from api client "
-          "and didn't call any other functions",
-          () async {
+      "api client and return Success result from api client "
+      "and didn't call any other functions",
+      () async {
         // arrange
         when(
           apiClient.verifyResetPasswordCode(
@@ -288,9 +288,9 @@ void main() {
     );
     test(
       "When i call verifyResetPasswordCode it calls verifyResetPasswordCode from "
-          "api client and return failure result if there is an dio exception"
-          "and didn't call any other functions",
-          () async {
+      "api client and return failure result if there is an dio exception"
+      "and didn't call any other functions",
+      () async {
         // arrange
         when(
           apiClient.verifyResetPasswordCode(
@@ -364,27 +364,32 @@ void main() {
     });
   });
 
-
   group("Testing Logout", () {
     test(
-        "should return Success<LogoutResponseDto> with correct message when logout succeeds", () async {
-      when(apiClient.logout()).thenAnswer((_) async =>
-          LogoutResponseDto(message: "message"));
-      var result = await authDataSource.logout();
-      expect(result, isA<Success<LogoutResponseDto>>());
-      expect(result as Success<LogoutResponseDto>, isNotNull);
-      verify(apiClient.logout()).called(1);
-    });
+      "should return Success<LogoutResponseDto> with correct message when logout succeeds",
+      () async {
+        when(
+          apiClient.logout(),
+        ).thenAnswer((_) async => LogoutResponseDto(message: "message"));
+        var result = await authDataSource.logout();
+        expect(result, isA<Success<LogoutResponseDto>>());
+        expect(result as Success<LogoutResponseDto>, isNotNull);
+        verify(apiClient.logout()).called(1);
+      },
+    );
     test(
-        "should return Failure<LogoutResponseDto> when API throws Exception", () async {
-      provideDummy<Result<LogoutResponseDto>>(
-          Failure<LogoutResponseDto>(e.toString()));
-      when(apiClient.logout()).thenThrow(e);
-      var result = await authDataSource.logout();
-      expect(result, isA<Failure<LogoutResponseDto>>());
-      expect(result as Failure<LogoutResponseDto>, isNotNull);
-      expect(result.errorMessage, equals(e.toString()));
-      verify(apiClient.logout()).called(1);
-    });
+      "should return Failure<LogoutResponseDto> when API throws Exception",
+      () async {
+        provideDummy<Result<LogoutResponseDto>>(
+          Failure<LogoutResponseDto>(e.toString()),
+        );
+        when(apiClient.logout()).thenThrow(e);
+        var result = await authDataSource.logout();
+        expect(result, isA<Failure<LogoutResponseDto>>());
+        expect(result as Failure<LogoutResponseDto>, isNotNull);
+        expect(result.errorMessage, equals(e.toString()));
+        verify(apiClient.logout()).called(1);
+      },
+    );
   });
 }

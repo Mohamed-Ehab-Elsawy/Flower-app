@@ -19,9 +19,11 @@ class _ProfileViewState extends State<ProfileView> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ElevatedButton(
-              onPressed: () => showLogoutDialog(context),
-              child: Text("data"))
-        ],),
+            onPressed: () => showLogoutDialog(context),
+            child: Text("data"),
+          ),
+        ],
+      ),
     );
   }
 
@@ -31,13 +33,12 @@ class _ProfileViewState extends State<ProfileView> {
       barrierDismissible: false,
       builder: (context) {
         return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: const LogOuDialog()
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: const LogOuDialog(),
         );
       },
     );
   }
-
 }
