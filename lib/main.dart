@@ -8,17 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 bool isLoggedInUser = false;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await EasyLocalization.ensureInitialized();
   Bloc.observer = MyBlocObserver();
-
   isLoggedInUser = await getInitialAppRoute();
 
   configureDependencies();
-
   runApp(
     EasyLocalization(
       saveLocale: true,
@@ -26,7 +23,8 @@ void main() async {
         Locale('en'),
         Locale('ar'),
       ],
-      path: 'assets/translations',
+      path:
+          'assets/translations',
       fallbackLocale: const Locale('en'),
       child: const FlowerApp(),
     ),

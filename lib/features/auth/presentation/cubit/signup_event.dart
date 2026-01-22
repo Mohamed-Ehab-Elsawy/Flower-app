@@ -5,19 +5,19 @@ sealed class SignupEvents {}
 sealed class SignupUiEvent {}
 
 class SignUpEvent extends SignupEvents {
-  UserSignupRequest userRequest;
+  final UserSignupRequest userRequest;
   SignUpEvent({required this.userRequest});
 }
 
 class SelectGender extends SignupEvents {
-  String selectGender;
+  final String selectGender;
   SelectGender({required this.selectGender});
 }
 
 class ShowToast extends SignupUiEvent {
-  String message;
-  bool isError;
-  ShowToast({required this.message,required this.isError });
+  final String message;
+  final bool isError;
+  ShowToast({required this.message, required this.isError});
 }
 
 class NavigateToLogin extends SignupUiEvent {}

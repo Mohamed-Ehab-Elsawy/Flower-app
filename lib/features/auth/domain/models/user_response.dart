@@ -1,3 +1,1 @@
-class UserResponse {
-
-}
+class UserResponse {}

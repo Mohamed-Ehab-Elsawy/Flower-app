@@ -30,19 +30,21 @@ void main() {
       expect(result.role, isNull);
       expect(result.photo, isNull);
       expect(result.addresses, isNull);
-
     },
   );
-  test('test toEntity with true value it should return UserEntity with true value', () {
-    final result = userDto.toEntity();
-    expect(result.id, equals(userDto.id));
-    expect(result.gender, equals(userDto.gender));
-    expect(result.firstName, equals(userDto.firstName));
-    expect(result.lastName, equals(userDto.lastName));
-    expect(result.email, equals(userDto.email));
-    expect(result.phone, equals(userDto.phone));
-    expect(result.role, equals(userDto.role));
-    expect(result.addresses, equals(userDto.addresses));
-    expect(result.photo, equals(userDto.photo));
-  });
+  test(
+    'test toEntity with true value it should return UserEntity with true value',
+    () {
+      final result = userDto.toEntity();
+      expect(result.id, equals(userDto.id));
+      expect(result.gender, equals(userDto.gender));
+      expect(result.firstName, equals(userDto.firstName));
+      expect(result.lastName, equals(userDto.lastName));
+      expect(result.email, equals(userDto.email));
+      expect(result.phone, equals(userDto.phone));
+      expect(result.role, equals(userDto.role));
+      expect(result.addresses, equals(userDto.addresses));
+      expect(result.photo, equals(userDto.photo));
+    },
+  );
 }

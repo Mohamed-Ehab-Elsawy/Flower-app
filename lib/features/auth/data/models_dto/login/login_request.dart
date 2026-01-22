@@ -8,13 +8,13 @@ class LoginRequest with EquatableMixin {
   final String email;
   final String password;
 
-  const LoginRequest({required this.email,required this.password});
+  const LoginRequest({required this.email, required this.password});
 
-  factory LoginRequest.fromJson(Map<String, dynamic> json) => _$LoginRequestFromJson(json);
+  factory LoginRequest.fromJson(Map<String, dynamic> json) =>
+      _$LoginRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$LoginRequestToJson(this);
 
   @override
   List<Object?> get props => [email, password];
-
 }
