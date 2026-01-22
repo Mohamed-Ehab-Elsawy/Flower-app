@@ -56,11 +56,12 @@ Route? onGenerateRoute(RouteSettings settings) {
             BlocProvider(create: (_) => categoriesViewModel),
           ],
           child: Builder(
-              builder: (context) {
-                return KeyedSubtree(
-                    key: ValueKey(context.locale.toString()),
-                    child: const AppSection());
-              }
+            builder: (context) {
+              return KeyedSubtree(
+                key: ValueKey(context.locale.toString()),
+                child: const AppSection(),
+              );
+            },
           ),
         ),
       );
