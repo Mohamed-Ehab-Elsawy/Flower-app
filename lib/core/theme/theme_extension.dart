@@ -42,7 +42,6 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     required this.lightPink,
     required this.kDefaultRainbowColors,
   });
-
   @override
   ThemeExtension<AppThemeExtension> copyWith({
     TextStyle? semiBold2,
