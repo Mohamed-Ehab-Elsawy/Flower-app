@@ -1,3 +1,1 @@
-abstract interface class ProfileRepo {
-
-}
+abstract interface class ProfileRepo {}

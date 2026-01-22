@@ -13,12 +13,14 @@ class NavToMyOrdersEvent extends MainProfileViewUIEvents with EquatableMixin {
   List<Object?> get props => [];
 }
 
-class NavToSavedAddressesEvent extends MainProfileViewUIEvents with EquatableMixin {
+class NavToSavedAddressesEvent extends MainProfileViewUIEvents
+    with EquatableMixin {
   @override
   List<Object?> get props => [];
 }
 
-class NavToNotificationEvent extends MainProfileViewUIEvents with EquatableMixin {
+class NavToNotificationEvent extends MainProfileViewUIEvents
+    with EquatableMixin {
   @override
   List<Object?> get props => [];
 }
@@ -38,7 +40,8 @@ class NavToAboutUsEvent extends MainProfileViewUIEvents with EquatableMixin {
   List<Object?> get props => [];
 }
 
-class OpenLanguageBottomSheetEvent extends MainProfileViewUIEvents with EquatableMixin {
+class OpenLanguageBottomSheetEvent extends MainProfileViewUIEvents
+    with EquatableMixin {
   @override
   List<Object?> get props => [];
 }

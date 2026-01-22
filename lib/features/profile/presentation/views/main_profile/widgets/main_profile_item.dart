@@ -1,7 +1,6 @@
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flutter/material.dart';
 
-
 class MainProfileItem extends StatelessWidget {
   final Widget? prefix;
   final Widget? suffix;
