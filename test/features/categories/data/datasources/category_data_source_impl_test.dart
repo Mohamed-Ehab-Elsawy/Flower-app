@@ -40,35 +40,43 @@ void main() {
     );
   });
 
-  test("When i call getCategories from categoryDataSource it calls getCategories from apiClient"
-      "and returns a list of categories after mapping them to entities and Success result", () async {
-    // arrange
-    when(apiClient.getCategories()).thenAnswer((_) async => categoriesResponse);
+  test(
+    "When i call getCategories from categoryDataSource it calls getCategories from apiClient"
+    "and returns a list of categories after mapping them to entities and Success result",
+    () async {
+      // arrange
+      when(
+        apiClient.getCategories(),
+      ).thenAnswer((_) async => categoriesResponse);
 
-    // act
-    var result =
-        await categoryDataSource.getCategories()
-            as Success<List<ProductTypeDto>>;
+      // act
+      var result =
+          await categoryDataSource.getCategories()
+              as Success<List<ProductTypeDto>>;
 
-    // assert
-    expect(result.data.length, categoriesDto.length);
-    verify(apiClient.getCategories()).called(1);
-    verifyNoMoreInteractions(apiClient);
-  });
+      // assert
+      expect(result.data.length, categoriesDto.length);
+      verify(apiClient.getCategories()).called(1);
+      verifyNoMoreInteractions(apiClient);
+    },
+  );
 
-  test("When i call getCategories from categoryDataSource it calls getCategories from apiClient"
-      "and returns Failure result with error message if there is an error", () async {
-    // arrange
-    when(apiClient.getCategories()).thenThrow(exception);
+  test(
+    "When i call getCategories from categoryDataSource it calls getCategories from apiClient"
+    "and returns Failure result with error message if there is an error",
+    () async {
+      // arrange
+      when(apiClient.getCategories()).thenThrow(exception);
 
-    // act
-    var result =
-    await categoryDataSource.getCategories()
-    as Failure<List<ProductTypeDto>>;
+      // act
+      var result =
+          await categoryDataSource.getCategories()
+              as Failure<List<ProductTypeDto>>;
 
-    // assert
-    expect(result.errorMessage, "errors.connectionError");
-    verify(apiClient.getCategories()).called(1);
-    verifyNoMoreInteractions(apiClient);
-  });
+      // assert
+      expect(result.errorMessage, "errors.connectionError");
+      verify(apiClient.getCategories()).called(1);
+      verifyNoMoreInteractions(apiClient);
+    },
+  );
 }

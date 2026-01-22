@@ -24,16 +24,20 @@ class _HomeViewState extends State<HomeView> {
     context.read<HomeViewModel>().uiEventsStream.listen((event) {
       switch (event) {
         case ViewAllOccasionsEvent():
+          if (!mounted) return;
           Navigator.of(
             context,
           ).pushNamed(AppRoutes.occasion, arguments: event.occasions ?? []);
         case ItemBestSellerSelectedEvent():
+          if (!mounted) return;
           Navigator.of(
             context,
           ).pushNamed(AppRoutes.productDetails, arguments: event.product);
         case ViewAllBestSellerEvent():
+          if (!mounted) return;
           Navigator.of(context).pushNamed(AppRoutes.mostSelling);
         case ViewAllCategoriesEvent():
+          if (!mounted) return;
           context.read<AppSectionViewModel>().doIntent(
             ViewCategoryIntent(event.index),
           );

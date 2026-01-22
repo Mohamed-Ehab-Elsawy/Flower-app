@@ -1,6 +1,5 @@
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/home/domain/entities/best_seller_entity.dart';
 import 'package:flower_app/features/home/domain/repo/home_repo.dart';
 import 'package:flower_app/features/home/domain/usecases/get_best_seller_use_case.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -18,7 +17,7 @@ void main() {
     getBestSellerUseCase = GetBestSellerUseCase(mockHomeRepo);
   });
   group('getBestSeller use case test cases', () {
-    final productsList = [ProductsEntity(id: '1'), ProductsEntity(id: '2')];
+    const productsList = [ProductsEntity(id: '1'), ProductsEntity(id: '2')];
     const tErrorMessage = 'Network error';
     test(
       'when call getBestSeller use case then return success result ',
@@ -32,7 +31,6 @@ void main() {
         // assert
         expect(result, tResponse);
         expect((result as Success<List<ProductsEntity>>).data, productsList);
-        expect((result as Success<List<ProductsEntity>>).data, hasLength(2));
       },
     );
     test(

@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
@@ -135,7 +134,7 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   void _eventsListener() {
     context.read<CategoriesViewCubit>().uiEvents.listen((event) {
-      if (event is CategoriesViewShowErrorEvent) {
+      if (event is CategoriesViewShowErrorEvent && mounted) {
         Toast.showToast(context, event.errorMessage);
       }
     });

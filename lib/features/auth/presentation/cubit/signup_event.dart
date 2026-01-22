@@ -17,7 +17,7 @@ class SelectGender extends SignupEvents {
 class ShowToast extends SignupUiEvent {
   String message;
   bool isError;
-  ShowToast({required this.message,required this.isError });
+  ShowToast({required this.message, required this.isError});
 }
 
 class NavigateToLogin extends SignupUiEvent {}

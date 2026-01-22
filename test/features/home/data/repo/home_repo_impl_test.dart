@@ -1,7 +1,7 @@
 import 'package:flower_app/core/app/data/models/products_dto.dart';
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/error_handling/failures.dart';
-import 'package:flower_app/core/error_handling/handle_exception%20.dart';
+import 'package:flower_app/core/error_handling/handle_exception.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/home/data/datasources/home_data_source.dart';
 import 'package:flower_app/features/home/data/models/best_seller_response.dart';
@@ -124,7 +124,7 @@ void main() {
     test("FetchData should return HomeResponseDto when Pass", () async {
       //arrange
       final tHomeResponseDto = Success<HomeResponseDto>(
-        HomeResponseDto(message: "success"),
+        const HomeResponseDto(message: "success"),
       );
       final tHomeResponseEntity = tHomeResponseDto.data.toEntity();
       provideDummy<Result<HomeResponseDto>>(tHomeResponseDto);

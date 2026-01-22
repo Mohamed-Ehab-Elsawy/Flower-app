@@ -12,17 +12,10 @@ class LoginResponseDto {
   @JsonKey(name: "token")
   final String? token;
 
-  LoginResponseDto ({
-    this.message,
-    this.userDto,
-    this.token,
-  });
+  LoginResponseDto({this.message, this.userDto, this.token});
 
-  factory LoginResponseDto.fromJson(Map<String, dynamic> json) => _$LoginResponseDtoFromJson(json);
+  factory LoginResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$LoginResponseDtoToJson(this);
 }
-
-
-
-

@@ -56,7 +56,9 @@ class ResentEmail extends StatelessWidget {
                     child: Text(
                       'resend'.tr(),
                       style: TextStyle(
-                        color: isLoading ? Colors.grey : context.appTheme.primary,
+                        color: isLoading
+                            ? Colors.grey
+                            : context.appTheme.primary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
