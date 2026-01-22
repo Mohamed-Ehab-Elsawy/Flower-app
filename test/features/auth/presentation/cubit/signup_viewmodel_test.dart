@@ -26,7 +26,7 @@ void main() {
     dummyRequest = UserSignupRequest(
       gender: "male",
       firstName: "abdo",
-      lastName: "abdoa",
+      lastName: "abdo",
       email: "abdo@d.com",
       password: "dd",
       rePassword: "dd",
