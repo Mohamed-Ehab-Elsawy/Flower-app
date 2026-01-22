@@ -9,6 +9,3 @@ class Failure<T> extends Result<T> {
   final String errorMessage;
   Failure(this.errorMessage);
 }
-
-
-

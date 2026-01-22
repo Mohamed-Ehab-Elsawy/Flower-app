@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,7 +29,9 @@ class AppLocalStorage {
     } else if (value is double) {
       await prefs.setDouble(key, value);
     } else {
-      debugPrint("SharedPrefHelper ERROR → Unsupported type: ${value.runtimeType}");
+      debugPrint(
+        "SharedPrefHelper ERROR → Unsupported type: ${value.runtimeType}",
+      );
     }
   }
 
@@ -70,7 +71,10 @@ class AppLocalStorage {
 
   static const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
-  static Future<void> setSecuredString({required String key,required String value}) async {
+  static Future<void> setSecuredString({
+    required String key,
+    required String value,
+  }) async {
     debugPrint("SecureStorage → set: key=$key");
     await _secureStorage.write(key: key, value: value);
   }
@@ -84,12 +88,9 @@ class AppLocalStorage {
     debugPrint("SecureStorage → all encrypted data cleared");
     await _secureStorage.deleteAll();
   }
+
   static Future<void> clearSecuredData({required String key}) async {
     debugPrint("SecureStorage → all encrypted data cleared");
     await _secureStorage.delete(key: key);
   }
 }
-
-
-
-

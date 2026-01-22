@@ -38,10 +38,7 @@ class CustomTextFromField extends StatelessWidget {
       controller: controller,
       validator: validator,
       decoration: InputDecoration(
-        suffix: InkWell(
-          onTap: onTap,
-          child: Text(suffixTest ?? '', ),
-        ),
+        suffix: InkWell(onTap: onTap, child: Text(suffixTest ?? '')),
         isDense: true,
         contentPadding: const EdgeInsets.all(16),
         hintText: hintText,
@@ -63,31 +60,36 @@ class CustomTextFromField extends StatelessWidget {
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 4),
               borderSide:
-                  borderSide ?? const BorderSide(color: Color(0xFF535353), width: 1),
+                  borderSide ??
+                  const BorderSide(color: Color(0xFF535353), width: 1),
             ),
         focusedBorder:
             outlineInputBorder ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 4),
               borderSide:
-                  borderSide ?? const BorderSide(color: Color(0xFF535353), width: 1),
+                  borderSide ??
+                  const BorderSide(color: Color(0xFF535353), width: 1),
             ),
         disabledBorder:
             outlineInputBorder ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 4),
               borderSide:
-                  borderSide ?? const BorderSide(color: Color(0xFF535353), width: 1),
+                  borderSide ??
+                  const BorderSide(color: Color(0xFF535353), width: 1),
             ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 4),
           borderSide:
-              borderSide ?? const BorderSide(color: Color(0xFFCC1010), width: 1),
+              borderSide ??
+              const BorderSide(color: Color(0xFFCC1010), width: 1),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 4),
           borderSide:
-              borderSide ?? const BorderSide(color: Color(0xFFCC1010), width: 1),
+              borderSide ??
+              const BorderSide(color: Color(0xFFCC1010), width: 1),
         ),
 
         suffixIcon: suffixIcon,
