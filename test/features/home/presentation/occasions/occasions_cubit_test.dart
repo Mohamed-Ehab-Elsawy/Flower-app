@@ -1,4 +1,3 @@
-
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:equatable/equatable.dart';
 import 'package:flower_app/core/api/models/requests/user_request.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';
@@ -14,17 +13,13 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 // ignore: must_be_immutable
-class SignUpViewModel extends Cubit<SignupStates> with EquatableMixin {
+class SignUpViewModel extends Cubit<SignupStates> {
   final SignUpUseCase _signUpUseCase;
   SignUpViewModel(this._signUpUseCase) : super(const SignupStates());
 
   final StreamController<SignupUiEvent> _signupUiEvent =
       StreamController.broadcast();
   Stream<SignupUiEvent> get signupUiEvent => _signupUiEvent.stream;
-  @override
-  List<Object> get props {
-    return [state];
-  }
 
   void doIntent(SignupEvents event) {
     switch (event) {
@@ -38,7 +33,9 @@ class SignUpViewModel extends Cubit<SignupStates> with EquatableMixin {
   void doEvent(SignupUiEvent event) {
     switch (event) {
       case ShowToast():
-        _signupUiEvent.add(ShowToast(message: event.message,isError: event.isError));
+        _signupUiEvent.add(
+          ShowToast(message: event.message, isError: event.isError),
+        );
       case NavigateToLogin():
         _signupUiEvent.add(NavigateToLogin());
       case NavigateToTermsConditions():

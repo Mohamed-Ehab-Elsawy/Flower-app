@@ -11,7 +11,6 @@ import 'package:flower_app/features/auth/data/models/response/send_reset_passwor
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:flower_app/core/api/models/requests/user_request.dart';
 import 'package:flower_app/core/api/models/response/user_dto.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
@@ -21,17 +20,13 @@ import 'auth_repo_impl_test.mocks.dart';
 
 @GenerateMocks([AuthDataSourceImpl])
 void main() {
-
   late MockAuthDataSourceImpl mockAuthDataSource;
   late AuthRepoImpl authRepo;
   late LoginRequest loginRequest;
   late LoginResponseDto loginResponse;
   late Result<LoginResponseDto> response;
-  late UserSignupRequest userRequest;
-
   late UserDto userDto;
   late UserEntity userEntity;
-  late String message;
 
   late AuthDataSource authDataSource;
   // filling data
@@ -80,16 +75,6 @@ void main() {
     when(
       mockAuthDataSource.login(loginRequest: loginRequest),
     ).thenAnswer((_) async => response);
-    message = "error message";
-    userRequest = UserSignupRequest(
-      gender: "male",
-      firstName: "abdo",
-      lastName: "abdoa",
-      email: "abdo@d.com",
-      password: "dd",
-      rePassword: "dd",
-      phone: "12345",
-    );
     userDto = UserDto(
       id: "d",
       firstName: "abdo",

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+
 class AppValidator {
   static const _userNamePattern = r'^[\p{L}\p{N}_]+$';
   static const _namePattern = r'^[\p{L}\s]+$';

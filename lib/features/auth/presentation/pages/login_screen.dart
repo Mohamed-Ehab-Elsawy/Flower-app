@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 validator: AppValidator.validatePassword,
                 label: IAppText.password,
                 hintText: IAppText.enterYouPassword,
-               
+
                 isObscureText: true,
                 onFieldSubmitted: (_) => _validateLogin(context),
                 textInputAction: TextInputAction.done,

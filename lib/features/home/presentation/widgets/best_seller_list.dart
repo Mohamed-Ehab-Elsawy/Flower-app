@@ -67,7 +67,7 @@ class BestSellerList extends StatelessWidget {
 Widget _buildDummyBestSellerList(HomeState state) {
   final bestSeller = List.generate(
     5,
-    (index) => ProductsEntity(
+    (index) => const ProductsEntity(
       title: "XXXXXXX",
       imageCover: 'https://picsum.photos/600',
     ),

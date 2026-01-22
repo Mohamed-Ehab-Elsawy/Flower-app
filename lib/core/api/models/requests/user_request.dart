@@ -19,7 +19,7 @@ class UserSignupRequest {
   @JsonKey(name: "gender")
   final String? gender;
 
-  UserSignupRequest ({
+  UserSignupRequest({
     this.firstName,
     this.lastName,
     this.email,
@@ -29,9 +29,8 @@ class UserSignupRequest {
     this.gender,
   });
 
-  factory UserSignupRequest.fromJson(Map<String, dynamic> json) =>_$UserSignupRequestFromJson(json);
+  factory UserSignupRequest.fromJson(Map<String, dynamic> json) =>
+      _$UserSignupRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserSignupRequestToJson(this);
 }
-
-

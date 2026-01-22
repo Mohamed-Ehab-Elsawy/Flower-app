@@ -22,7 +22,6 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   final Color lightPink;
   final List<Color> kDefaultRainbowColors;
 
-
   AppThemeExtension({
     required this.semiBold24,
     required this.medium20,
@@ -41,7 +40,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     required this.success,
     required this.grey,
     required this.lightPink,
-    required this.kDefaultRainbowColors
+    required this.kDefaultRainbowColors,
   });
 
   @override
@@ -84,8 +83,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       success: success ?? this.success,
       grey: grey ?? this.grey,
       lightPink: lightPink ?? this.lightPink,
-      kDefaultRainbowColors: kDefaultRainbowColors ?? this.kDefaultRainbowColors,
-
+      kDefaultRainbowColors:
+          kDefaultRainbowColors ?? this.kDefaultRainbowColors,
     );
   }
 
@@ -114,7 +113,6 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       grey: const Color.fromARGB(255, 145, 143, 143),
       lightPink: Color.lerp(lightPink, other.lightPink, t)!,
       kDefaultRainbowColors: <Color>[],
-
     );
   }
 }
@@ -150,7 +148,8 @@ MaterialColor materialColorWithStandardShades(MaterialColor src) {
 
 // Interpolate two MaterialColor instances in a concise way and avoid nulls.
 MaterialColor _lerpMaterialColor(MaterialColor a, MaterialColor b, double t) {
-  final primary = Color.lerp(Color(a.toARGB32()), Color(b.toARGB32()), t) ?? Color(a.toARGB32());
+  final primary = Color.lerp(Color(a.toARGB32()), Color(b.toARGB32()), t) ??
+      Color(a.toARGB32());
   final keys = {...a.keys, ...b.keys}.toList()..sort();
   final map = {for (final k in keys) k: (Color.lerp(a[k], b[k], t) ?? a[k] ?? b[k] ?? primary)};
   return MaterialColor(primary.toARGB32(), map);

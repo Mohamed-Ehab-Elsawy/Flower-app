@@ -23,5 +23,4 @@ abstract interface class AuthRepo {
     required String email,
     password,
   });
-
 }

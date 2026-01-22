@@ -3,7 +3,7 @@ import 'package:flower_app/core/app/data/models/product_response.dart';
 import 'package:flower_app/core/app/data/models/products_dto.dart'
     show ProductsDto;
 import 'package:flower_app/core/error_handling/failures.dart';
-import 'package:flower_app/core/error_handling/handle_exception%20.dart';
+import 'package:flower_app/core/error_handling/handle_exception.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/home/data/datasources/home_data_source_impl.dart';
 import 'package:flower_app/features/home/data/models/home_response_dto.dart';
@@ -42,7 +42,7 @@ void main() {
   group("TEST HomeDataSourceImpl  FetchData", () {
     test("FetchData should return HomeResponseDto when Pass", () async {
       //arrange
-      final tHomeResponseDto = HomeResponseDto(message: "success");
+      const tHomeResponseDto = HomeResponseDto(message: "success");
 
       when(api.fetchHomeData()).thenAnswer((_) async => tHomeResponseDto);
       //act

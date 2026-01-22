@@ -1,18 +1,13 @@
-name: Unit Testing Check
+name: Dart Linting Check
 
 on:
   pull_request:
-    types:
-      - opened
-      - reopened
-      - edited
-      - synchronize
+    types: [opened, reopened, edited, synchronize]
 
 jobs:
-  test:
-    name: Run Flutter Unit Tests
+  lint:
+    name: Code Analysis & Formatting
     runs-on: ubuntu-latest
-
 
     steps:
       - name: Checkout code
@@ -28,15 +23,11 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-
       - name: Run build_runner
         run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Run unit tests
-        run: flutter test --coverage
+      - name: Check Formatting
+        run: dart format --output=none --set-exit-if-changed .
 
-      - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: coverage/
+      - name: Static Analysis (Lints)
+        run: flutter analyze

@@ -28,9 +28,7 @@ class HomeViewModel extends Cubit<HomeState> {
   void doEvent(HomeUIEvents event) {
     switch (event) {
       case ViewAllCategoriesEvent():
-        _uiEventsController.add(
-          ViewAllCategoriesEvent(index: event.index),
-        );
+        _uiEventsController.add(ViewAllCategoriesEvent(index: event.index));
 
       case ViewAllOccasionsEvent():
         _uiEventsController.add(
