@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app/presentation/view/app_section.dart';
 import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
@@ -14,6 +15,7 @@ import 'package:flower_app/features/home/presentation/view_model/home_view_model
 import 'package:flower_app/features/product_details/presentation/views/product_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../di/di.dart';
 
 class AppRoutes {
@@ -53,7 +55,14 @@ Route? onGenerateRoute(RouteSettings settings) {
             ),
             BlocProvider(create: (_) => categoriesViewModel),
           ],
-          child: const AppSection(),
+          child: Builder(
+            builder: (context) {
+              return KeyedSubtree(
+                key: ValueKey(context.locale.toString()),
+                child: const AppSection(),
+              );
+            },
+          ),
         ),
       );
 
