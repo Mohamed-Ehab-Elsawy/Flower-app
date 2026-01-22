@@ -86,6 +86,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
           kDefaultRainbowColors ?? this.kDefaultRainbowColors,
     );
   }
+
   @override
   ThemeExtension<AppThemeExtension> lerp(
     covariant ThemeExtension<AppThemeExtension>? other,
@@ -146,9 +147,13 @@ MaterialColor materialColorWithStandardShades(MaterialColor src) {
 
 // Interpolate two MaterialColor instances in a concise way and avoid nulls.
 MaterialColor _lerpMaterialColor(MaterialColor a, MaterialColor b, double t) {
-  final primary = Color.lerp(Color(a.toARGB32()), Color(b.toARGB32()), t) ??
+  final primary =
+      Color.lerp(Color(a.toARGB32()), Color(b.toARGB32()), t) ??
       Color(a.toARGB32());
   final keys = {...a.keys, ...b.keys}.toList()..sort();
-  final map = {for (final k in keys) k: (Color.lerp(a[k], b[k], t) ?? a[k] ?? b[k] ?? primary)};
+  final map = {
+    for (final k in keys)
+      k: (Color.lerp(a[k], b[k], t) ?? a[k] ?? b[k] ?? primary),
+  };
   return MaterialColor(primary.toARGB32(), map);
 }
