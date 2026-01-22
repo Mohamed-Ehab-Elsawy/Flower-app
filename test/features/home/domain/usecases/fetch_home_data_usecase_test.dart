@@ -21,7 +21,7 @@ void main() {
     test("FetchData should return HomeResponseDto when Pass", () async {
       //arrange
       final tHomeResponseEntity = Success<HomeResponseEntity>(
-        HomeResponseEntity(message: "success"),
+        const HomeResponseEntity(message: "success"),
       );
 
       provideDummy<Result<HomeResponseEntity>>(tHomeResponseEntity);

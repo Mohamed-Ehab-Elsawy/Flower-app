@@ -18,7 +18,7 @@ void main() {
     fetchHomeDataUseCase = MockFetchHomeDataUsecase();
     homeViewModel = HomeViewModel(fetchHomeDataUseCase);
   });
-  final successResponse = Success(HomeResponseEntity(message: "success"));
+  final successResponse = Success(const HomeResponseEntity(message: "success"));
   final failureResponse = Failure<HomeResponseEntity>("error");
   group("TEST HomeViewModel", () {
     blocTest<HomeViewModel, HomeState>(

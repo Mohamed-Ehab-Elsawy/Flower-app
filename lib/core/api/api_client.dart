@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
 import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
-import 'package:flower_app/features/home/data/models/best_seller_dto.dart';
 import 'package:flower_app/features/home/data/models/best_seller_response.dart';
 import 'package:flower_app/core/app/data/models/product_response.dart';
 import 'package:flower_app/features/categories/data/models/categories_response.dart';

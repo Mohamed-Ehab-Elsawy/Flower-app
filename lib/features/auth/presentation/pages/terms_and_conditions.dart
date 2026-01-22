@@ -5,8 +5,6 @@ class TermsAndConditions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-appBar:AppBar(title: const Text("Terms&Conditions")),
-    );
+    return Scaffold(appBar: AppBar(title: const Text("Terms&Conditions")));
   }
 }
