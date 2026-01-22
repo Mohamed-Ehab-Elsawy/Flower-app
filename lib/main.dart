@@ -23,11 +23,11 @@ void main() async {
     EasyLocalization(
       saveLocale: true,
       supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('ar', 'EG'),
+        Locale('en'),
+        Locale('ar'),
       ],
       path: 'assets/translations',
-      fallbackLocale: const Locale('en', 'US'),
+      fallbackLocale: const Locale('en'),
       child: const FlowerApp(),
     ),
   );

@@ -60,9 +60,9 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                       );
 
                       if (value == "English") {
-                        context.setLocale(const Locale('en', 'US'));
+                        context.setLocale(const Locale('en'));
                       } else if (value == "Arabic") {
-                        context.setLocale(const Locale('ar', 'EG'));
+                        context.setLocale(const Locale('ar'));
                       }
                       Navigator.pop(context);
                     },

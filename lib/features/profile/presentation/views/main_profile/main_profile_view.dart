@@ -11,9 +11,22 @@ class MainProfileView extends StatefulWidget {
 
 class _MainProfileViewState extends State<MainProfileView> {
   @override
+  // Widget build(BuildContext context) {
+  //   return const Placeholder();
+  // }
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () => showLanguageBottomSheet(),
+                child: const Text("data"),)
+            ]));
   }
+
+
 
   showLanguageBottomSheet() {
     showModalBottomSheet(
