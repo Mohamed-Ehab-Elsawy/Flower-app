@@ -1,10 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'app_section_contracts.dart';
-// ignore: must_be_immutable
-class AppSectionViewModel extends Cubit<int> with EquatableMixin {
-  AppSectionViewModel() : super(0);
 
+import 'app_section_contracts.dart';
 
 @injectable
 class AppSectionViewModel extends Cubit<AppSectionState> {
