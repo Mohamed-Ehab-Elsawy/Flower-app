@@ -23,6 +23,7 @@ class _LogOuDialogState extends State<LogOuDialog> {
   void initState() {
     super.initState();
     logoutCubit.logoutUiEvent.listen((event) {
+      if (!mounted) return;
       switch (event) {
         case ShowToast():
           {
