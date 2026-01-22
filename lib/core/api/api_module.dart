@@ -34,7 +34,7 @@ abstract class ApiModule {
   }
 
   @lazySingleton
-  TalkerDioLogger prvoideLogger() {
+  TalkerDioLogger provideLogger() {
     return TalkerDioLogger(
       settings: const TalkerDioLoggerSettings(
         printRequestHeaders: true,
