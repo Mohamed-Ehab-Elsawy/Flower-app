@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
+// ignore: must_be_immutable
 class LogoutCubit extends Cubit<LogoutStates> with EquatableMixin {
   final LogoutUseCase _logoutUseCase;
 

@@ -20,7 +20,7 @@ class _ProfileViewState extends State<ProfileView> {
         children: [
           ElevatedButton(
             onPressed: () => showLogoutDialog(context),
-            child: Text("data"),
+            child: const Text("data"),
           ),
         ],
       ),
