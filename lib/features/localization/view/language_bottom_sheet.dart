@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/di/di.dart';
+import 'package:flower_app/features/localization/model/app_language.dart';
 import 'package:flower_app/features/localization/view_model/language_cubit.dart';
 import 'package:flower_app/features/localization/view_model/language_events.dart';
 import 'package:flower_app/features/localization/view_model/language_states.dart';
@@ -22,11 +23,12 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
     super.didChangeDependencies();
     languageCubit = getIt<LanguageCubit>();
     final currentLocale = context.locale;
-    if (currentLocale.languageCode == 'en') {
-      languageCubit.doIntent(SelectLanguage(selectedLanguage: "English"));
-    } else if (currentLocale.languageCode == 'ar') {
-      languageCubit.doIntent(SelectLanguage(selectedLanguage: "Arabic"));
-    }
+    final currentLanguage = AppLanguage.values.firstWhere(
+      (lang) => lang.locale.languageCode == currentLocale.languageCode,
+      orElse: () => AppLanguage.english,
+    );
+
+    languageCubit.doIntent(SelectLanguage(selectedLanguage: currentLanguage));
   }
 
   @override
@@ -40,8 +42,6 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Change Language".tr(),
@@ -50,53 +50,49 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  RadioGroup<String>(
+
+                  RadioGroup<AppLanguage>(
                     groupValue: state.selectedLanguage,
-                    onChanged: (value) {
-                      if (value == null) return;
-
+                    onChanged: (AppLanguage? newValue) {
+                      if (newValue == null) return;
                       languageCubit.doIntent(
-                        SelectLanguage(selectedLanguage: value),
+                        SelectLanguage(selectedLanguage: newValue),
                       );
-
-                      if (value == "English") {
-                        context.setLocale(const Locale('en'));
-                      } else if (value == "Arabic") {
-                        context.setLocale(const Locale('ar'));
-                      }
+                      context.setLocale(newValue.locale);
+                      //////////////////////////////////////////////////////////////////////
                       Navigator.pop(context);
                     },
                     child: Column(
-                      children: [
-                        Container(
-                          decoration: const BoxDecoration(
+                      children: AppLanguage.values.map((language) {
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.05),
+                                blurRadius: 10,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
-                          child: RadioListTile<String>(
+                          child: RadioListTile<AppLanguage>(
+                            value: language,
                             title: Text(
-                              "English".tr(),
-                              style: context.appTheme.medium16,
+                              language.displayName.tr(),
+                              style: context.appTheme.medium16.copyWith(
+                                color: Colors.black87,
+                              ),
                             ),
-                            value: "English",
-                          ),
-                        ),
-
-                        const SizedBox(height: 10),
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          child: RadioListTile<String>(
-                            title: Text(
-                              "Arabic".tr(),
-                              style: context.appTheme.medium16,
+                            activeColor: context.appTheme.primary,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 4,
                             ),
-                            value: "Arabic",
                           ),
-                        ),
-                      ],
+                        );
+                      }).toList(),
                     ),
                   ),
                 ],
