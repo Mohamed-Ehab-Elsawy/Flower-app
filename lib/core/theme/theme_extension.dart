@@ -42,7 +42,6 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     required this.lightPink,
     required this.kDefaultRainbowColors,
   });
-
   @override
   ThemeExtension<AppThemeExtension> copyWith({
     TextStyle? semiBold2,
@@ -87,7 +86,6 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
           kDefaultRainbowColors ?? this.kDefaultRainbowColors,
     );
   }
-
   @override
   ThemeExtension<AppThemeExtension> lerp(
     covariant ThemeExtension<AppThemeExtension>? other,
