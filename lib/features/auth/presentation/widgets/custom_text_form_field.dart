@@ -26,7 +26,9 @@ class CustomTextFromField extends StatelessWidget {
     this.isObscureText,
     required this.label,
     this.controller,
-    this.validator, this.textInputAction, this.onFieldSubmitted,
+    this.validator,
+    this.textInputAction,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -43,7 +45,7 @@ class CustomTextFromField extends StatelessWidget {
         suffixIcon: suffixIcon,
         labelText: label,
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        hintText:hintText,
+        hintText: hintText,
         hintStyle: hintStyle ?? context.appTheme.regular14,
       ),
     );

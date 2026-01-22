@@ -7,6 +7,6 @@ class EndPoints {
   static const String profileData = "auth/profile-data";
   static const String bestSeller = 'best-seller';
   static const String home = "home";
-  static const String products ="products/";
-  static const String categories ="categories";
+  static const String products = "products/";
+  static const String categories = "categories";
 }
