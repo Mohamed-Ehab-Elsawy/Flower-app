@@ -1,8 +1,8 @@
+import 'package:flower_app/features/profile/data/data_source/profile_remote_data_source.dart';
 import 'package:dio/dio.dart';
 import 'package:flower_app/core/api/api_client.dart';
 import 'package:flower_app/core/error_handling/execute_api.dart';
 import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/profile/data/data_source/profile_remote_data_source.dart';
 import 'package:flower_app/features/profile/data/models/edit_profile_request.dart';
 import 'package:flower_app/features/profile/data/models/get_user_data_response.dart';
 import 'package:injectable/injectable.dart';
@@ -10,9 +10,9 @@ import 'package:flower_app/features/profile/data/models/upload_photo_response.da
 
 @Injectable(as: ProfileRemoteDataSource)
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
-  final ApiClient _apiClient;
-
-  ProfileRemoteDataSourceImpl(this._apiClient);
+  // final ApiClient _apiClient;
+  //
+  // ProfileRemoteDataSourceImpl(this._apiClient);
 
   @override
   Future<Result<GetUserDataResponse>> getProfileData() {

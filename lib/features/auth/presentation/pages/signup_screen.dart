@@ -36,16 +36,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
       switch (event) {
         case ShowToast():
           {
+            if (!mounted) return;
             Toast.showToast(context, event.message, isError: event.isError);
           }
 
         case NavigateToLogin():
           {
+            if (!mounted) return;
             Navigator.pop(context);
           }
 
         case NavigateToTermsConditions():
           {
+            if (!mounted) return;
             Navigator.pushNamed(context, AppRoutes.terms);
           }
       }
@@ -58,7 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       create: (context) => signUpViewModel,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Sign Up", style: context.appTheme.medium20).tr(),
+          title: Text("Sign Up".tr(), style: context.appTheme.medium20).tr(),
         ),
         body: SafeArea(
           child: Padding(
@@ -163,12 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     style: context.appTheme.medium16,
                                   ),
                                   Expanded(
-                                    child: RadioListTile<String>(
-                                      title: Text(
-                                        "male".tr(),
-                                        style: context.appTheme.regular14,
-                                      ).tr(),
-                                      value: "male",
+                                    child: RadioGroup<String>(
                                       groupValue: state.selectedGender ?? '',
                                       onChanged: (value) {
                                         if (value != null) {
@@ -181,27 +179,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               );
                                         }
                                       },
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: RadioListTile<String>(
-                                      title: Text(
-                                        "female".tr(),
-                                        style: context.appTheme.regular14,
-                                      ).tr(),
-                                      value: "female",
-                                      groupValue: state.selectedGender ?? '',
-                                      onChanged: (value) {
-                                        if (value != null) {
-                                          context
-                                              .read<SignUpViewModel>()
-                                              .doIntent(
-                                                SelectGender(
-                                                  selectGender: value,
-                                                ),
-                                              );
-                                        }
-                                      },
+
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 100,
+                                            child: RadioListTile<String>(
+                                              contentPadding: EdgeInsets.zero,
+
+                                              dense: true,
+                                              toggleable: true,
+                                              activeColor:
+                                                  context.appTheme.primary,
+                                              value: "male",
+                                              title: Text(
+                                                "male".tr(),
+                                                style:
+                                                    context.appTheme.regular14,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 100,
+                                            child: RadioListTile<String>(
+                                              contentPadding: EdgeInsets.zero,
+                                              dense: true,
+                                              toggleable: true,
+                                              visualDensity:
+                                                  VisualDensity.compact,
+                                              activeColor:
+                                                  context.appTheme.primary,
+                                              value: "female",
+
+                                              title: Text(
+                                                "female".tr(),
+                                                style:
+                                                    context.appTheme.regular14,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -212,27 +230,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Text(
-                          "Creating an account, you agree to our ".tr(),
-                          style: context.appTheme.regular12,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            signUpViewModel.doEvent(
-                              NavigateToTermsConditions(),
-                            );
-                          },
-                          child: Text(
-                            "Terms&Conditions".tr(),
-
-                            style: context.appTheme.semiBold12.copyWith(
-                              decoration: TextDecoration.underline,
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Creating an account, you agree to our ".tr(),
+                            style: context.appTheme.regular12,
+                          ),
+                          WidgetSpan(
+                            child: InkWell(
+                              onTap: () {
+                                signUpViewModel.doEvent(
+                                  NavigateToTermsConditions(),
+                                );
+                              },
+                              child: Text(
+                                "Terms&Conditions".tr(),
+                                style: context.appTheme.semiBold12.copyWith(
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 30),
                     BlocListener<SignUpViewModel, SignupStates>(

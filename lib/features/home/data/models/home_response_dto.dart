@@ -9,16 +9,16 @@ part 'home_response_dto.g.dart';
 @JsonSerializable()
 class HomeResponseDto extends Equatable {
   @JsonKey(name: 'message')
-  String? message;
+  final String? message;
   @JsonKey(name: 'products')
-  List<ProductsDto>? products;
+  final List<ProductsDto>? products;
   @JsonKey(name: 'categories')
-  List<ProductTypeDto>? categories;
+  final List<ProductTypeDto>? categories;
   @JsonKey(name: 'bestSeller')
-  List<ProductsDto>? bestSeller;
+  final List<ProductsDto>? bestSeller;
   @JsonKey(name: 'occasions')
-  List<ProductTypeDto>? occasions;
-  HomeResponseDto({
+  final List<ProductTypeDto>? occasions;
+  const HomeResponseDto({
     this.message,
     this.products,
     this.categories,

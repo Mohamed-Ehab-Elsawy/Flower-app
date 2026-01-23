@@ -51,6 +51,7 @@ dependencies:
   cached_network_image: ^3.4.1
   flutter_svg: ^2.2.3
   skeletonizer: ^2.1.2
+  package_info_plus: ^9.0.0
   image_picker: ^1.0.7
   badges: ^3.1.2
 
@@ -89,3 +90,18 @@ flutter:
         - asset: assets/fonts/Inter_SemiBold.ttf
           weight: 600
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+dependency_overrides:
+  rive_native: null

@@ -37,7 +37,7 @@ class LoginViewModel extends Cubit<LoginState> {
     }
   }
 
-  _login({required String email, required String password}) async {
+  void _login({required String email, required String password}) async {
     emit(state.copyWith(isLoading: true));
     final request = LoginRequest(email: email, password: password);
     var response = await _loginUseCase.login(loginRequest: request);
@@ -66,10 +66,16 @@ class LoginViewModel extends Cubit<LoginState> {
     }
   }
 
-  _guestLogin() => _uiEventsController.add(NavigateToHome());
+  void _guestLogin() => _uiEventsController.add(NavigateToHome());
 
-  _navigateToSignup() => _uiEventsController.add(NavigateToSignup());
+  void _navigateToSignup() => _uiEventsController.add(NavigateToSignup());
 
-  _navigateToForgetPassword() =>
+  void _navigateToForgetPassword() =>
       _uiEventsController.add(NavigateToForgetPassword());
+
+  @override
+  Future<void> close() {
+    _uiEventsController.close();
+    return super.close();
+  }
 }

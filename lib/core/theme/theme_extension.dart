@@ -42,7 +42,6 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     required this.lightPink,
     required this.kDefaultRainbowColors,
   });
-
   @override
   ThemeExtension<AppThemeExtension> copyWith({
     TextStyle? semiBold2,
@@ -124,12 +123,12 @@ MaterialColor materialColorWithStandardShades(MaterialColor src) {
   final keys = src.keys.toList()..sort();
 
   Color sampleAt(double percent) {
-    if (keys.isEmpty) return Color(src.value);
+    if (keys.isEmpty) return Color(src.toARGB32());
     final lower = keys.lastWhere((k) => k <= percent, orElse: () => keys.first);
     final upper = keys.firstWhere((k) => k >= percent, orElse: () => keys.last);
     final a = src[lower];
     final b = src[upper];
-    if (a == null) return b ?? Color(src.value);
+    if (a == null) return b ?? Color(src.toARGB32());
     if (b == null) return a;
     if (lower == upper) return a;
     final t = (percent - lower) / (upper - lower);
@@ -143,17 +142,18 @@ MaterialColor materialColorWithStandardShades(MaterialColor src) {
     map.putIfAbsent(s, () => sampleAt(percent));
   }
 
-  return MaterialColor(src.value, map);
+  return MaterialColor(src.toARGB32(), map);
 }
 
 // Interpolate two MaterialColor instances in a concise way and avoid nulls.
 MaterialColor _lerpMaterialColor(MaterialColor a, MaterialColor b, double t) {
   final primary =
-      Color.lerp(Color(a.value), Color(b.value), t) ?? Color(a.value);
+      Color.lerp(Color(a.toARGB32()), Color(b.toARGB32()), t) ??
+      Color(a.toARGB32());
   final keys = {...a.keys, ...b.keys}.toList()..sort();
   final map = {
     for (final k in keys)
       k: (Color.lerp(a[k], b[k], t) ?? a[k] ?? b[k] ?? primary),
   };
-  return MaterialColor(primary.value, map);
+  return MaterialColor(primary.toARGB32(), map);
 }

@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app/presentation/view/app_section.dart';
+import 'package:flower_app/core/app/presentation/view_model/app_section_contracts.dart';
 import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:flower_app/features/auth/presentation/cubit/login_view_model/login_view_model.dart';
@@ -16,6 +18,7 @@ import 'package:flower_app/features/profile/presentation/views/edit_profile/edit
 import 'package:flower_app/features/profile/presentation/views/edit_profile/view_model/edit_profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../di/di.dart';
 
 class AppRoutes {
@@ -30,6 +33,11 @@ class AppRoutes {
   static const String editProfile = '/editProfile';
   static const String resetPassword = '/resetPassword';
   static const String testScreen = '/TestScreen';
+  static const String editProfile = '/editProfile';
+  static const String orders = '/orders';
+  static const String addresses = '/addresses';
+  static const String notifications = '/notifications';
+  static const String aboutUs = '/aboutUs';
 }
 
 Route? onGenerateRoute(RouteSettings settings) {
@@ -44,20 +52,29 @@ Route? onGenerateRoute(RouteSettings settings) {
       var appSectionsViewModel = getIt.get<AppSectionViewModel>();
       var homeViewModel = getIt.get<HomeViewModel>();
       var categoriesViewModel = getIt.get<CategoriesViewCubit>();
-
+      var mainProfileViewModel = getIt.get<MainProfileViewModel>();
       return MaterialPageRoute(
         settings: settings,
         builder: (_) => MultiBlocProvider(
           providers: [
             BlocProvider<AppSectionViewModel>(
-              create: (_) => appSectionsViewModel,
+              create: (_) =>
+                  appSectionsViewModel..doIntent(AppSectionInitIntent()),
             ),
             BlocProvider(
               create: (_) => homeViewModel..doIntent(FetchHomeData()),
             ),
             BlocProvider(create: (_) => categoriesViewModel),
+            BlocProvider(create: (_) => mainProfileViewModel),
           ],
-          child: const AppSection(),
+          child: Builder(
+            builder: (context) {
+              return KeyedSubtree(
+                key: ValueKey(context.locale.toString()),
+                child: const AppSection(),
+              );
+            },
+          ),
         ),
       );
 
