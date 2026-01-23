@@ -1,5 +1,7 @@
 import 'package:flower_app/core/api/models/requests/user_request.dart';
 import 'package:flower_app/core/error_handling/result.dart';
+import 'package:flower_app/features/auth/data/models/requests/change_password_request.dart';
+import 'package:flower_app/features/auth/data/models/response/change_password_response.dart';
 import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart';
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
@@ -26,4 +28,8 @@ abstract interface class AuthRepo {
   });
 
   Future<Result<LogoutResponseEntity>> logout();
+
+  Future<Result<ChangePasswordResponse>> changePassword({
+    required ChangePasswordRequest changePasswordRequest,
+  });
 }

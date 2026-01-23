@@ -7,18 +7,20 @@ import 'package:flower_app/core/error_handling/handle_exception.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart';
+import 'package:flower_app/features/auth/data/models/requests/change_password_request.dart';
+import 'package:flower_app/features/auth/data/models/response/change_password_response.dart';
+import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
+import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/send_reset_password_code_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/verify_reset_code_request.dart';
 import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart';
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
 import 'package:flower_app/features/auth/data/models_dto/logout/logout_response_dto.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 
 import 'auth_ds_impl_test.mocks.dart';
 
@@ -49,6 +51,8 @@ void main() {
   late SendResetPasswordCodeResponse sendResetPasswordCodeResponse;
   late VerifyResetCodeResponse verifyResetCodeResponse;
   late ResetPasswordResponse resetPasswordResponse;
+  late ChangePasswordRequest changePasswordRequest;
+  late ChangePasswordResponse changePasswordResponse;
 
   Exception e = Exception('Exception');
 
@@ -124,6 +128,14 @@ void main() {
     resetPasswordResponse = ResetPasswordResponse(
       message: responseMessage,
       token: token,
+    );
+    changePasswordResponse = ChangePasswordResponse(
+      message: "message",
+      token: '123',
+    );
+    changePasswordRequest = ChangePasswordRequest(
+      password: "Ab@12345",
+      newPassword: "AaBb@123",
     );
   });
 
@@ -389,6 +401,54 @@ void main() {
         expect(result as Failure<LogoutResponseDto>, isNotNull);
         expect(result.errorMessage, equals(e.toString()));
         verify(apiClient.logout()).called(1);
+      },
+    );
+  });
+
+  group("Change Password test cases", () {
+    test(
+      "When i call changePassword should return success response when password change is successful",
+
+      () async {
+        //arrange
+
+        when(
+          mockApiClient.changePassword(changePasswordRequest),
+        ).thenAnswer((_) async => changePasswordResponse);
+
+        //act
+        var response = await dataSource.changePassword(
+          changePasswordRequest: changePasswordRequest,
+        );
+
+        //assert
+        expect(response, isA<Success<ChangePasswordResponse>>());
+        final success = response as Success<ChangePasswordResponse>;
+        expect(success.data.message, changePasswordResponse.message);
+        expect(success.data.token, changePasswordResponse.token);
+        verify(mockApiClient.changePassword(changePasswordRequest)).called(1);
+      },
+    );
+
+    test(
+      "When i call changePassword and there is an connection error should return failure response",
+      () async {
+        //arrange
+        when(
+          mockApiClient.changePassword(changePasswordRequest),
+        ).thenAnswer((_) async => throw dioException);
+
+        //act
+        var response =
+            await dataSource.changePassword(
+                  changePasswordRequest: changePasswordRequest,
+                )
+                as Failure<ChangePasswordResponse>;
+
+        //assert
+        expect(response, isA<Failure<ChangePasswordResponse>>());
+        expect(response.errorMessage, "errors.connectionError");
+        verify(mockApiClient.changePassword(changePasswordRequest)).called(1);
       },
     );
   });

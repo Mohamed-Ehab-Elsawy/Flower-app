@@ -11,6 +11,7 @@ class EndPoints {
   static const String home = "home";
   static const String products = "products/";
   static const String categories = "categories";
+  static const String changePassword = "auth/change-password";
   static const String logout = "auth/logout";
   static const String cart = "cart";
   static const String deleteProductFromCard = "cart/{id}";

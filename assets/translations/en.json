@@ -21,7 +21,6 @@
   "Already have an account? ": "Already have an account? ",
   "login": "Login",
   "cancel": "Cancel",
-
   "account_created_success": "account_created_success",
   "continue": "Continue",
   "errors": {
@@ -45,7 +44,6 @@
     "defaultError": "Server error. Please try again.",
     "unAuthorized": "Please login to continue",
     "outOfStock": "product isOut of stock"
-
   },
   "navigation": {
     "home": "Home",
@@ -80,7 +78,6 @@
     "best_seller": "Best seller",
     "occasion": "Occasion"
   },
-
   "cart": {
     "cart": "Cart",
     "items": "items",
@@ -90,11 +87,6 @@
     "sub_total": "Sub Total",
     "total": "Total"
   },
-
-
-
-
-
   "addToCart": "Add to cart",
   "EGP": "EGP",
   "mostSelling": "Most selling",
@@ -124,5 +116,9 @@
   "Occasion": "Occasion",
   "untitled": "untitled",
   "There is no products yet": "There is no products yet",
-  "resendIn": "Resend in"
+  "resendIn": "Resend in",
+  "update": "Update",
+  "oldPassword": "Old password",
+  "changePassword": "Change password",
+  "success": "Success"
 }

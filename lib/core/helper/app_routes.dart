@@ -1,8 +1,10 @@
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app/presentation/view/app_section.dart';
 import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
+import 'package:flower_app/features/auth/presentation/cubit/change_password/change_password_view_model.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:flower_app/features/auth/presentation/cubit/login_view_model/login_view_model.dart';
+import 'package:flower_app/features/auth/presentation/pages/change_password/change_password_view.dart';
 import 'package:flower_app/features/auth/presentation/pages/forget_password/forget_password_view.dart';
 import 'package:flower_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/signup_screen.dart';
@@ -28,6 +30,7 @@ class AppRoutes {
   static const String productDetails = '/productDetails';
   static const String occasion = '/occasion';
   static const String testScreen = '/TestScreen';
+  static const String changePassword = '/changePassword';
 }
 
 Route? onGenerateRoute(RouteSettings settings) {
@@ -102,6 +105,13 @@ Route? onGenerateRoute(RouteSettings settings) {
         builder: (_) => BlocProvider(
           create: (context) => getIt.get<ForgetPasswordCubit>(),
           child: const ForgetPasswordView(),
+        ),
+      );
+    case AppRoutes.changePassword:
+      return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (context) => getIt.get<ChangePasswordViewModel>(),
+          child: const ChangePasswordView(),
         ),
       );
     default:

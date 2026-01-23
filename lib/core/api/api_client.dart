@@ -1,4 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flower_app/features/auth/data/models/requests/change_password_request.dart';
+import 'package:flower_app/features/auth/data/models/response/change_password_response.dart';
+import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
+import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
+import 'package:flower_app/features/home/data/models/best_seller_response.dart';
 import 'package:flower_app/core/app/data/models/product_response.dart';
 import 'package:flower_app/core/error_handling/base_response_result_dto.dart';
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart';
@@ -7,17 +12,13 @@ import 'package:flower_app/features/auth/data/models/requests/verify_reset_code_
 import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart';
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
 import 'package:flower_app/features/auth/data/models_dto/logout/logout_response_dto.dart';
 import 'package:flower_app/features/categories/data/models/categories_response.dart';
-import 'package:flower_app/features/home/data/models/best_seller_response.dart';
 import 'package:flower_app/features/home/data/models/home_response_dto.dart';
 import 'package:flower_app/features/orders/data/models/cart_request_dto.dart';
 import 'package:flower_app/features/orders/data/models/order_response_dto.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
-
 import '../constants/end_points.dart';
 import 'models/requests/user_request.dart';
 import 'models/response/signup_response.dart';
@@ -87,5 +88,10 @@ abstract class ApiClient {
   Future<CartResponseDto> updateProductQuantity(
     @Path() String id,
     @Body() Map<String, int> quantity,
+  );
+
+  @PATCH(EndPoints.changePassword)
+  Future<ChangePasswordResponse> changePassword(
+    @Body() ChangePasswordRequest changePasswordRequest,
   );
 }
