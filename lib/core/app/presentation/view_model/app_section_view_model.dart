@@ -64,4 +64,10 @@ class AppSectionViewModel extends Cubit<AppSectionState> {
         _uiStreamController.add(AppSectionLogoutEvent(result.errorMessage));
     }
   }
+
+  @override
+  Future<void> close() {
+    _uiStreamController.close();
+    return super.close();
+  }
 }

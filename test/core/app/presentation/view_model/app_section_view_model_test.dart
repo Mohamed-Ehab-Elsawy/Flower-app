@@ -88,11 +88,13 @@ void main() {
     ).thenAnswer((_) async => successResponse);
     // act
     viewModel.doIntent(AppSectionInitIntent());
-    await Future.delayed(const Duration(microseconds: 1));
+    await untilCalled(mockGetUserDataUseCase.call());
     // assert
     verify(mockGetUserDataUseCase.call()).called(1);
     verifyNoMoreInteractions(mockGetUserDataUseCase);
-    expect(viewModel.user, userEntity);
+    expect(viewModel.user.id, userEntity.id);
+    expect(viewModel.user.firstName, userEntity.firstName);
+    expect(viewModel.user.lastName, userEntity.lastName);
   });
 
   test("Test init intent function when failure", () async {

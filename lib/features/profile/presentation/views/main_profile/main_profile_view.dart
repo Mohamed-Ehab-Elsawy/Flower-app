@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
@@ -5,6 +7,7 @@ import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
 import 'package:flower_app/core/constants/app_dimensions.dart';
 import 'package:flower_app/core/helper/app_routes.dart';
 import 'package:flower_app/core/widgets/custom_image_view.dart';
+import 'package:flower_app/features/localization/model/app_language.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/managers/main_profile_view_intents.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/managers/main_profile_view_ui_events.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/view_model/main_profile_view_model.dart';
@@ -23,43 +26,53 @@ class MainProfileView extends StatefulWidget {
 
 class _MainProfileViewState extends State<MainProfileView> {
   String _appVersion = '0.0.0';
+  late StreamSubscription _uiEventsSubscription;
 
   @override
   void initState() {
     super.initState();
     _loadVersion();
-    context.read<MainProfileViewModel>().uiEvents.listen((event) {
-      if (!mounted) return;
-      switch (event) {
-        case NavToEditProfileEvent():
-          Navigator.pushNamed(context, AppRoutes.editProfile);
+    _uiEventsSubscription = context
+        .read<MainProfileViewModel>()
+        .uiEvents
+        .listen((event) {
+          if (!mounted) return;
+          switch (event) {
+            case NavToEditProfileEvent():
+              Navigator.pushNamed(context, AppRoutes.editProfile);
 
-        case NavToMyOrdersEvent():
-          Navigator.pushNamed(context, AppRoutes.orders);
+            case NavToMyOrdersEvent():
+              Navigator.pushNamed(context, AppRoutes.orders);
 
-        case NavToSavedAddressesEvent():
-          Navigator.pushNamed(context, AppRoutes.addresses);
+            case NavToSavedAddressesEvent():
+              Navigator.pushNamed(context, AppRoutes.addresses);
 
-        case NavToNotificationEvent():
-          Navigator.pushNamed(context, AppRoutes.notifications);
+            case NavToNotificationEvent():
+              Navigator.pushNamed(context, AppRoutes.notifications);
 
-        case OpenLanguageBottomSheetEvent():
-        // TODO: Handle this case.
+            case OpenLanguageBottomSheetEvent():
+              showLanguageBottomSheet();
 
-        case NavToTermsEvent():
-          Navigator.pushNamed(context, AppRoutes.terms);
+            case NavToTermsEvent():
+              Navigator.pushNamed(context, AppRoutes.terms);
 
-        case LogoutEvent():
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            AppRoutes.login,
-            (_) => false,
-          );
+            case LogoutEvent():
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.login,
+                (_) => false,
+              );
 
-        case NavToAboutUsEvent():
-          Navigator.pushNamed(context, AppRoutes.aboutUs);
-      }
-    });
+            case NavToAboutUsEvent():
+              Navigator.pushNamed(context, AppRoutes.aboutUs);
+          }
+        });
+  }
+
+  @override
+  void dispose() {
+    _uiEventsSubscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -113,7 +126,7 @@ class _MainProfileViewState extends State<MainProfileView> {
             const Divider(),
             MainProfileItem(
               title: 'notification'.tr(),
-              prefix: Switch(value: true, onChanged: (value) {}),
+              prefix: const Switch(value: true, onChanged: null),
               onTap: () => vm.doIntent(OnNotificationClickIntent()),
             ),
             const Divider(),
@@ -124,13 +137,16 @@ class _MainProfileViewState extends State<MainProfileView> {
                 style: TextButton.styleFrom(),
                 onPressed: () => vm.doIntent(OnLanguageClickIntent()),
                 child: Text(
-                  'English',
+                  context.locale.languageCode ==
+                          AppLanguage.values.first.locale.languageCode
+                      ? AppLanguage.values.first.displayName.tr()
+                      : AppLanguage.values.last.displayName.tr(),
                   style: context.appTheme.regular12.copyWith(
                     color: context.appTheme.primary,
                   ),
                 ),
               ),
-              onTap: null,
+              onTap: () => vm.doIntent(OnLanguageClickIntent()),
             ),
             MainProfileItem(
               title: 'about_us'.tr(),
