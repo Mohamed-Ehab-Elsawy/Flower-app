@@ -82,7 +82,7 @@ void main() {
       },
     );
     blocTest<ChangePasswordViewModel, ChangePasswordState>(
-      'should emit [Loading, Error] when change password succeeds',
+      'should emit [Loading, Error] when change password fails',
       build: () {
         changePasswordResponse = Failure<ChangePasswordResponse>(tErrorMessage);
         provideDummy<Result<ChangePasswordResponse>>(changePasswordResponse);

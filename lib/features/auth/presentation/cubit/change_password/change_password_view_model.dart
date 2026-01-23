@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/core/helper/app_local_storage.dart';
@@ -67,7 +68,7 @@ class ChangePasswordViewModel extends Cubit<ChangePasswordState> {
         _uiEventsController.add(NavigateToEditProfileEvent());
         _uiEventsController.add(
           ChangePasswordShowToastEvent(
-            message: result.data.message.toString(),
+            message: result.data.message ?? 'success'.tr(),
             isError: false,
           ),
         );

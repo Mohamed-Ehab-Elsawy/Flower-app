@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class ChangePasswordUseCase {
-  AuthRepo authRepo;
+  final AuthRepo authRepo;
 
   ChangePasswordUseCase(this.authRepo);
 
