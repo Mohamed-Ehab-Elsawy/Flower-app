@@ -31,15 +31,15 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
       switch (event) {
         case ChangePasswordShowToastEvent():
           if (!mounted) return;
-          Toast.showToast(context, event.message, isError: event.isError!);
+          Toast.showToast(context, event.message, isError: event.isError);
         case ChangePasswordIntent():
           ChangePasswordIntent(
             changePasswordRequest: event.changePasswordRequest,
           );
 
         case NavigateToEditProfileEvent():
-          // TODO: Handle this case.
-          throw UnimplementedError();
+          if (!mounted) return;
+          Navigator.pop(context);
       }
     });
     super.initState();
@@ -57,10 +57,12 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("resetPassword".tr(), style: context.appTheme.medium20),
+        title: Text("changePassword".tr(), style: context.appTheme.medium20),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () {},
+          onPressed: () => context.read<ChangePasswordViewModel>().doEvent(
+            NavigateToEditProfileEvent(),
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -124,6 +126,9 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                                 newPassword: _newPasswordController.text,
                               ),
                             ),
+                          );
+                          context.read<ChangePasswordViewModel>().doEvent(
+                            NavigateToEditProfileEvent(),
                           );
                         }
                       },

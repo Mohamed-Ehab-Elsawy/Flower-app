@@ -9,8 +9,8 @@ class ChangePasswordIntent extends ChangePasswordEvents {
 
 class ChangePasswordShowToastEvent extends ChangePasswordEvents {
   final String message;
-  bool? isError;
-  ChangePasswordShowToastEvent({required this.message, this.isError});
+  bool isError;
+  ChangePasswordShowToastEvent({required this.message, required this.isError});
 }
 
 class NavigateToEditProfileEvent extends ChangePasswordEvents {}
