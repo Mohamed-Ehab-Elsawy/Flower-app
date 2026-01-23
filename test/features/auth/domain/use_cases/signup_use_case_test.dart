@@ -9,15 +9,13 @@ import 'package:mockito/mockito.dart';
 
 import 'signup_use_case_test.mocks.dart';
 
-
-
 @GenerateMocks([AuthRepo])
 void main() {
   test('tests calling SignU in use_cases.dart', () async {
     UserEntity userEntity = UserEntity(
       addresses: ["abdo"],
       firstName: "abdo",
-      lastName: "abdoa",
+      lastName: "abdo",
       email: "abdo@d.com",
       phone: "12345",
       role: "role",
@@ -33,9 +31,7 @@ void main() {
       rePassword: "dd",
       phone: "12345",
     );
-    provideDummy<Result<UserEntity>>(
-      Success<UserEntity>(userEntity),
-    );
+    provideDummy<Result<UserEntity>>(Success<UserEntity>(userEntity));
     MockAuthRepo mockRepo = MockAuthRepo();
     SignUpUseCase useCase = SignUpUseCase(mockRepo);
 

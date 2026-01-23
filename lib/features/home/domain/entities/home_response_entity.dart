@@ -4,12 +4,12 @@ import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 
 class HomeResponseEntity extends Equatable {
-  String? message;
-  List<ProductsEntity>? products;
-  List<ProductTypeEntity>? categories;
-  List<ProductsEntity>? bestSeller;
-  List<ProductTypeEntity>? occasions;
-  HomeResponseEntity({
+  final String? message;
+  final List<ProductsEntity>? products;
+  final List<ProductTypeEntity>? categories;
+  final List<ProductsEntity>? bestSeller;
+  final List<ProductTypeEntity>? occasions;
+  const HomeResponseEntity({
     this.message,
     this.products,
     this.categories,

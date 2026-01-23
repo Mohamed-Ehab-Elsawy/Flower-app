@@ -12,27 +12,29 @@ import 'login_use_case_test.mocks.dart';
 
 @GenerateMocks([AuthRepo])
 void main() {
-  test("when call Login it should call repo with correct params ", ()  {
-
+  test("when call Login it should call repo with correct params ", () {
     // Arrange
-    final  loginResponse = LoginResponseDto(
-        userDto: UserDto(id: "1"),
-        token: "abc123",
-        message: "success"
+    final loginResponse = LoginResponseDto(
+      userDto: UserDto(id: "1"),
+      token: "abc123",
+      message: "success",
     );
     var response = Success(loginResponse);
     provideDummy<Result<LoginResponseDto>>(response);
-    const LoginRequest loginRequest = LoginRequest(email: "test@test.com", password: "123456");
+    const LoginRequest loginRequest = LoginRequest(
+      email: "test@test.com",
+      password: "123456",
+    );
     var authRepo = MockAuthRepo();
-    when(authRepo.login(loginRequest: loginRequest)).thenAnswer(
-          (realInvocation) => Future.value(response));
+    when(
+      authRepo.login(loginRequest: loginRequest),
+    ).thenAnswer((realInvocation) => Future.value(response));
     var useCase = LoginUseCase(authRepo);
 
     // Act
-     useCase.login(loginRequest: loginRequest);
+    useCase.login(loginRequest: loginRequest);
 
     // Assertion and Verification
     verify(authRepo.login(loginRequest: loginRequest));
-
   });
 }

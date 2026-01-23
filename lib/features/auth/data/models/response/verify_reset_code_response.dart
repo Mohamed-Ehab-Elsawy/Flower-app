@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 part 'verify_reset_code_response.g.dart';
+
 // TODO : rename to DTO
 @JsonSerializable()
 class VerifyResetCodeResponse {

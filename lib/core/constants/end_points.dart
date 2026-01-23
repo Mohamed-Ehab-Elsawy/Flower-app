@@ -11,11 +11,10 @@ class EndPoints {
   static const String login = "auth/signin";
   static const String bestSeller = 'best-seller';
   static const String home = "home";
-  static const String products ="products/";
-  static const String categories ="categories";
+  static const String products = "products/";
+  static const String categories = "categories";
+  static const String logout = "auth/logout";
   static const String cart = "cart";
   static const String deleteProductFromCard = "cart/{id}";
   static const String updateProductQuantity = "cart/{id}";
-
-
 }

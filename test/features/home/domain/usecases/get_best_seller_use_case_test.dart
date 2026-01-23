@@ -17,7 +17,7 @@ void main() {
     getBestSellerUseCase = GetBestSellerUseCase(mockHomeRepo);
   });
   group('getBestSeller use case test cases', () {
-    final productsList = [
+    const productsList = [
       const ProductsEntity(id: '1'),
       const ProductsEntity(id: '2')
     ];

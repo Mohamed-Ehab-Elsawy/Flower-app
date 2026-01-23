@@ -57,12 +57,14 @@ class _BestSellerViewState extends State<BestSellerView> {
           case GetBestSellerIntent():
             GetBestSellerIntent();
           case NavigateToProductDetailsIntent():
+            if (!mounted) return;
             Navigator.pushNamed(
               context,
               AppRoutes.productDetails,
               arguments: event.productId,
             );
           case NavigateToHomeIntent():
+            if (!mounted) return;
             Navigator.pop(context);
           case AddToCartIntent():
         }

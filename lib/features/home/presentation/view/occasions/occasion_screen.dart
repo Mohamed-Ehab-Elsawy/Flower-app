@@ -45,6 +45,7 @@ class _OccasionScreenState extends State<OccasionScreen> {
       switch (event) {
         case NavigateToProductDetails():
           {
+            if (!mounted) return;
             Navigator.pushNamed(
               context,
               "/productDetails",

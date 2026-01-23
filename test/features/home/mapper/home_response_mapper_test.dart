@@ -5,8 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('home response mapper ...', () {
-    var dto = HomeResponseDto(message: "success");
+    var dto = const HomeResponseDto(message: "success");
     var entity = dto.toEntity();
-    expect(entity, HomeResponseEntity(message: "success"));
+    expect(entity, const HomeResponseEntity(message: "success"));
   });
 }

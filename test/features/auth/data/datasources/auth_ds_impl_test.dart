@@ -3,21 +3,22 @@ import 'package:flower_app/core/api/api_client.dart';
 import 'package:flower_app/core/api/models/requests/user_request.dart';
 import 'package:flower_app/core/api/models/response/signup_response.dart';
 import 'package:flower_app/core/api/models/response/user_dto.dart';
-import 'package:flower_app/core/error_handling/handle_exception%20.dart';
+import 'package:flower_app/core/error_handling/handle_exception.dart';
 import 'package:flower_app/core/error_handling/result.dart';
-import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
-import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:flower_app/features/auth/data/datasources/auth_ds.dart';
+import 'package:flower_app/features/auth/data/datasources/auth_ds_impl.dart';
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/send_reset_password_code_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/verify_reset_code_request.dart';
 import 'package:flower_app/features/auth/data/models/response/reset_password_response.dart';
 import 'package:flower_app/features/auth/data/models/response/send_reset_password_code_response.dart';
 import 'package:flower_app/features/auth/data/models/response/verify_reset_code_response.dart';
+import 'package:flower_app/features/auth/data/models_dto/login/login_request.dart';
+import 'package:flower_app/features/auth/data/models_dto/login/login_response_dto.dart';
+import 'package:flower_app/features/auth/data/models_dto/logout/logout_response_dto.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
 import 'auth_ds_impl_test.mocks.dart';
 
@@ -361,5 +362,34 @@ void main() {
         "errors.connectionError",
       );
     });
+  });
+
+  group("Testing Logout", () {
+    test(
+      "should return Success<LogoutResponseDto> with correct message when logout succeeds",
+      () async {
+        when(
+          apiClient.logout(),
+        ).thenAnswer((_) async => LogoutResponseDto(message: "message"));
+        var result = await authDataSource.logout();
+        expect(result, isA<Success<LogoutResponseDto>>());
+        expect(result as Success<LogoutResponseDto>, isNotNull);
+        verify(apiClient.logout()).called(1);
+      },
+    );
+    test(
+      "should return Failure<LogoutResponseDto> when API throws Exception",
+      () async {
+        provideDummy<Result<LogoutResponseDto>>(
+          Failure<LogoutResponseDto>(e.toString()),
+        );
+        when(apiClient.logout()).thenThrow(e);
+        var result = await authDataSource.logout();
+        expect(result, isA<Failure<LogoutResponseDto>>());
+        expect(result as Failure<LogoutResponseDto>, isNotNull);
+        expect(result.errorMessage, equals(e.toString()));
+        verify(apiClient.logout()).called(1);
+      },
+    );
   });
 }

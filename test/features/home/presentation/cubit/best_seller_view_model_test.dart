@@ -24,7 +24,7 @@ void main() {
   });
 
   group('BestSellerViewModel Unit Tests', () {
-    final tBestSellerEntity = [
+    const tBestSellerEntity = [
       const ProductsEntity(id: '1'),
       const ProductsEntity(id: '1'),
     ]; // Mock Data

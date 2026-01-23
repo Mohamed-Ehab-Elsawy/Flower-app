@@ -160,7 +160,7 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   void _eventsListener() {
     context.read<CategoriesViewCubit>().uiEvents.listen((event) {
-      if (event is CategoriesViewShowErrorEvent) {
+      if (event is CategoriesViewShowErrorEvent && mounted) {
         Toast.showToast(context, event.errorMessage);
       }
     });

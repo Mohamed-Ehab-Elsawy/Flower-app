@@ -58,7 +58,7 @@ class OccasionList extends StatelessWidget {
     );
   }
 
- Widget _buildDummyOccasionList(HomeState state) {
+  Widget _buildDummyOccasionList(HomeState state) {
     final occasions = List.generate(
       5,
       (index) => const ProductTypeEntity(

@@ -17,6 +17,3 @@ class Failure<T> extends Result<T> {
   @override
   List<Object?> get props => [errorMessage];
 }
-
-
-
