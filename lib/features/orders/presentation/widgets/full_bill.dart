@@ -52,8 +52,8 @@ class FullBill extends StatelessWidget {
         ),
       ],
     );
-
   }
+
   double _calculateSubtotal(Map<String, CartItemEntity> cartMap) {
     double total = 0.0;
 
@@ -65,7 +65,6 @@ class FullBill extends StatelessWidget {
 
     return total;
   }
-
 
   Widget _textSection({
     required BuildContext context,

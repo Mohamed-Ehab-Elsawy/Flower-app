@@ -43,12 +43,10 @@ class _CategoriesViewState extends State<CategoriesView> {
     _orderStreamListener();
   }
 
-
   void _orderStreamListener() {
-    _orderSubscription = context
-        .read<OrderViewModel>()
-        .uiEventsStream
-        .listen((event) {
+    _orderSubscription = context.read<OrderViewModel>().uiEventsStream.listen((
+      event,
+    ) {
       switch (event) {
         case AddToCartEvent():
           //show toast
@@ -60,7 +58,6 @@ class _CategoriesViewState extends State<CategoriesView> {
           Toast.showAppDialog(context: context, title: event.errorMessage);
       }
     });
-
   }
 
   @override

@@ -54,20 +54,19 @@ class _OccasionScreenState extends State<OccasionScreen> {
           }
       }
     });
-    _uiEventSubscription = context
-        .read<OrderViewModel>()
-        .uiEventsStream
-        .listen((event) {
-      switch (event) {
-        case AddToCartEvent():
-          //show toast
-          if (!mounted) return;
-          Toast.showToast(context, "Product added to cart");
-        case UnAuthorizedEvent():
-          if (!mounted) return;
-          Toast.showAppDialog(context: context, title: event.errorMessage);
-      }
-    });
+    _uiEventSubscription = context.read<OrderViewModel>().uiEventsStream.listen(
+      (event) {
+        switch (event) {
+          case AddToCartEvent():
+            //show toast
+            if (!mounted) return;
+            Toast.showToast(context, "Product added to cart");
+          case UnAuthorizedEvent():
+            if (!mounted) return;
+            Toast.showAppDialog(context: context, title: event.errorMessage);
+        }
+      },
+    );
   }
 
   @override
@@ -75,7 +74,6 @@ class _OccasionScreenState extends State<OccasionScreen> {
     _uiEventSubscription.cancel();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {

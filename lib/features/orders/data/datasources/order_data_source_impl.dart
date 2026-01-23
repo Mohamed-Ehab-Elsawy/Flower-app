@@ -20,31 +20,34 @@ class OrderDataSourceImpl implements OrderDataSource {
       productId: cartItem.id!,
       quantity: cartItem.quantity!,
     );
-    return executeApi(() async => await _apiClient.addProductToCart(cartRequestDto));
+    return executeApi(
+      () async => await _apiClient.addProductToCart(cartRequestDto),
+    );
   }
 
   @override
   Future<Result<SuccessResponseDto>> clearCart() {
-    return executeApi(()async=>await _apiClient.clearCart());
+    return executeApi(() async => await _apiClient.clearCart());
   }
 
   @override
   Future<Result<CartResponseDto>> getOrders() {
-    return executeApi(()async=>await _apiClient.getLoggedUserCart());
-
+    return executeApi(() async => await _apiClient.getLoggedUserCart());
   }
-
 
   @override
   Future<Result<CartResponseDto>> removeSpecificProductFromCart(String id) {
-    return executeApi(()async=>await _apiClient.removeProductFromCart(id));
+    return executeApi(() async => await _apiClient.removeProductFromCart(id));
   }
 
   @override
-  Future<Result<CartResponseDto>> updateCartProductQuantity(String id, int quantity) {
+  Future<Result<CartResponseDto>> updateCartProductQuantity(
+    String id,
+    int quantity,
+  ) {
     final Map<String, int> quantityMap = {EndPoints.quantity: quantity};
-    return executeApi(()async=>await _apiClient.updateProductQuantity(id, quantityMap));
+    return executeApi(
+      () async => await _apiClient.updateProductQuantity(id, quantityMap),
+    );
   }
-
 }
-

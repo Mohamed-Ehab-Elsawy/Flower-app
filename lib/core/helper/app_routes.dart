@@ -31,7 +31,6 @@ class AppRoutes {
 }
 
 Route? onGenerateRoute(RouteSettings settings) {
-
   switch (settings.name) {
     case AppRoutes.mostSelling:
       return MaterialPageRoute(
@@ -54,7 +53,8 @@ Route? onGenerateRoute(RouteSettings settings) {
         builder: (_) => MultiBlocProvider(
           providers: [
             BlocProvider<OrderViewModel>(
-                create: (context) => getIt.get<OrderViewModel>()),
+              create: (context) => getIt.get<OrderViewModel>(),
+            ),
             BlocProvider<AppSectionViewModel>(
               create: (_) => appSectionsViewModel,
             ),

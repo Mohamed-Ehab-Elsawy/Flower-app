@@ -1,8 +1,6 @@
 class EndPoints {
   //>>>>>>>>>keys for api<<<<<<<<<<
-  static const String quantity='quantity';
-
-
+  static const String quantity = 'quantity';
 
   static const String signUpEndpoint = "auth/signup";
   static const String forgetPassword = 'auth/forgotPassword';

@@ -17,10 +17,7 @@ void main() {
     getBestSellerUseCase = GetBestSellerUseCase(mockHomeRepo);
   });
   group('getBestSeller use case test cases', () {
-    const productsList = [
-      const ProductsEntity(id: '1'),
-      const ProductsEntity(id: '2')
-    ];
+    const productsList = [ProductsEntity(id: '1'), ProductsEntity(id: '2')];
     const tErrorMessage = 'Network error';
     test(
       'when call getBestSeller use case then return success result ',

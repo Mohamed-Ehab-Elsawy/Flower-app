@@ -9,7 +9,7 @@ class CustomCard extends StatelessWidget {
   final ProductsEntity product;
   final VoidCallback? onTap;
 
-  const CustomCard({super.key, required this.product,required this.onTap});
+  const CustomCard({super.key, required this.product, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +95,7 @@ class CustomCard extends StatelessWidget {
                   width: double.infinity,
                   height: 35,
                   child: ElevatedButton.icon(
-                    onPressed:onTap,
+                    onPressed: onTap,
                     icon: const Icon(Icons.shopping_cart_outlined),
                     label: Text(
                       'addToCart'.tr(),

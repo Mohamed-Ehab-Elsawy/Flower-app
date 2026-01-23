@@ -24,7 +24,6 @@ extension ProductModelX on ProductsDto {
   );
 }
 
-
 extension ProductEntityX on ProductsEntity {
   ProductsDto toDto() => ProductsDto(
     id: id,

@@ -23,19 +23,16 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
 
   @override
   void initState() {
-    context
-        .read<OrderViewModel>()
-        .uiEventsStream
-        .listen((event) {
+    context.read<OrderViewModel>().uiEventsStream.listen((event) {
       switch (event) {
         case AddToCartEvent():
-        //show toast
+          //show toast
           if (!mounted) return;
           Toast.showToast(context, "Product added to cart");
         case UnAuthorizedEvent():
-        //show toast
+          //show toast
           if (!mounted) return;
-          Toast.showAppDialog(context: context, title: event.errorMessage,);
+          Toast.showAppDialog(context: context, title: event.errorMessage);
       }
     });
     super.initState();

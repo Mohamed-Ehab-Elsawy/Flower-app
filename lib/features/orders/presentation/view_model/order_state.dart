@@ -13,7 +13,7 @@ class OrderState extends Equatable {
     BaseState<CartResponseEntity>? cartOrders,
   }) {
     return OrderState(
-      orders: ordes ?? this.orders,
+      orders: ordes ?? orders,
       cartOrders: cartOrders ?? this.cartOrders,
     );
   }
@@ -47,7 +47,6 @@ class RemoveProductFromCart extends Intent {
 sealed class UiEvents {}
 
 class AddToCartEvent extends UiEvents {
-
   AddToCartEvent();
 }
 

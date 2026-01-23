@@ -32,12 +32,12 @@ class _BestSellerViewState extends State<BestSellerView> {
     _orderSubscription.cancel();
     super.dispose();
   }
+
   @override
   void initState() {
-    _orderSubscription = context
-        .read<OrderViewModel>()
-        .uiEventsStream
-        .listen((event) {
+    _orderSubscription = context.read<OrderViewModel>().uiEventsStream.listen((
+      event,
+    ) {
       switch (event) {
         case AddToCartEvent():
           //show toast
@@ -72,7 +72,6 @@ class _BestSellerViewState extends State<BestSellerView> {
 
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {

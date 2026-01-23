@@ -15,12 +15,11 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   isLoggedInUser = await getInitialAppRoute();
 
- await configureDependencies();
+  await configureDependencies();
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en')],
-      path:
-          'assets/translations',
+      path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       child: const FlowerApp(),
     ),

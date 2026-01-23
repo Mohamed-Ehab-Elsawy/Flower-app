@@ -11,4 +11,3 @@ final class CategoriesViewShowErrorEvent extends CategoriesViewUIEvents
   @override
   List<Object?> get props => [errorMessage];
 }
-

@@ -39,7 +39,7 @@ class ProductsEntity extends Equatable {
     this.ratingAverage,
     this.ratingCount,
     this.discount,
-  })  : quantity = quantity ?? 1,
+  }) : quantity = quantity ?? 1,
        price = price ?? 0.0,
        priceAfterDiscount = priceAfterDiscount ?? price ?? 0.0;
 
