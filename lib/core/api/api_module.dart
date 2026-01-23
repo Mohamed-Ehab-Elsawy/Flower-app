@@ -15,10 +15,7 @@ abstract class ApiModule {
 
   @preResolve
   @lazySingleton
-  Future<Dio> provideDio(
-    BaseOptions option,
-    TalkerDioLogger logger,
-    AuthInterceptor authInterceptor,) async {
+  Future<Dio> provideDio(BaseOptions option, TalkerDioLogger logger) async {
     var dio = Dio(option);
     dio.interceptors.add(logger);
 
@@ -58,24 +55,5 @@ abstract class ApiModule {
         printResponseData: true,
       ),
     );
-  }
-}
-
-@lazySingleton
-class AuthInterceptor extends Interceptor {
-  @override
-  void onRequest(
-    RequestOptions options,
-    RequestInterceptorHandler handler,
-  ) async {
-    final token = await AppLocalStorage.getSecuredString(
-      key: LocalKeys.authToken,
-    );
-
-    if (token.isNotEmpty) {
-      options.headers['Authorization'] = 'Bearer $token';
-    }
-
-    super.onRequest(options, handler);
   }
 }
