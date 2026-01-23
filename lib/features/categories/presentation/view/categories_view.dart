@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
@@ -9,10 +11,12 @@ import 'package:flower_app/features/categories/presentation/view/manager/categor
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_intents.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_states.dart';
 import 'package:flower_app/features/categories/presentation/view/widgets/categories_search_and_filter_widget.dart';
+import 'package:flower_app/features/orders/presentation/view_model/order_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../orders/presentation/view_model/order_viewmodel.dart';
 import 'manager/categories_view_events.dart';
 
 class CategoriesView extends StatefulWidget {
@@ -27,7 +31,7 @@ class CategoriesView extends StatefulWidget {
 class _CategoriesViewState extends State<CategoriesView> {
   final ScrollController _scrollController = ScrollController();
   bool _showFilterButton = true;
-
+  late StreamSubscription _orderSubscription;
   @override
   void initState() {
     super.initState();
@@ -36,11 +40,30 @@ class _CategoriesViewState extends State<CategoriesView> {
     );
     _scrollListener();
     _eventsListener();
+    _orderStreamListener();
+  }
+
+  void _orderStreamListener() {
+    _orderSubscription = context.read<OrderViewModel>().uiEventsStream.listen((
+      event,
+    ) {
+      switch (event) {
+        case AddToCartEvent():
+          //show toast
+          if (!mounted) return;
+          Toast.showToast(context, "Product added to cart");
+        case UnAuthorizedEvent():
+          //show toast
+          if (!mounted) return;
+          Toast.showAppDialog(context: context, title: event.errorMessage);
+      }
+    });
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _orderSubscription.cancel();
     super.dispose();
   }
 

@@ -1,11 +1,16 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 import 'package:flower_app/core/app/presentation/widget/custom_card.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/di/di.dart';
+import 'package:flower_app/core/helper/show_toast.dart';
 import 'package:flower_app/features/home/presentation/occasions/occasions_cubit.dart';
 import 'package:flower_app/features/home/presentation/occasions/occasions_events.dart';
 import 'package:flower_app/features/home/presentation/occasions/occasions_states.dart';
+import 'package:flower_app/features/orders/presentation/view_model/order_state.dart';
+import 'package:flower_app/features/orders/presentation/view_model/order_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart'
@@ -21,7 +26,7 @@ class OccasionScreen extends StatefulWidget {
 class _OccasionScreenState extends State<OccasionScreen> {
   final occasionsCubit = getIt.get<OccasionsCubit>();
   late List<ProductTypeEntity> occasions;
-
+  late StreamSubscription _uiEventSubscription;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -49,6 +54,25 @@ class _OccasionScreenState extends State<OccasionScreen> {
           }
       }
     });
+    _uiEventSubscription = context.read<OrderViewModel>().uiEventsStream.listen(
+      (event) {
+        switch (event) {
+          case AddToCartEvent():
+            //show toast
+            if (!mounted) return;
+            Toast.showToast(context, "Product added to cart");
+          case UnAuthorizedEvent():
+            if (!mounted) return;
+            Toast.showAppDialog(context: context, title: event.errorMessage);
+        }
+      },
+    );
+  }
+
+  @override
+  dispose() {
+    _uiEventSubscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -159,7 +183,16 @@ class _OccasionScreenState extends State<OccasionScreen> {
                               NavigateToProductDetails(product: product),
                             );
                           },
-                          child: CustomCard(product: product),
+                          child: CustomCard(
+                            product: product,
+                            onTap: product.outOfStock
+                                ? null
+                                : () {
+                                    context.read<OrderViewModel>().doIntent(
+                                      AddItemToCart(product: product),
+                                    );
+                                  },
+                          ),
                         );
                       },
                       itemCount: state.productsState!.data!.length,
