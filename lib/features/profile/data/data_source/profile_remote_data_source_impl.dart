@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 
 @Injectable(as: ProfileRemoteDataSource)
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
-
-  ProfileRemoteDataSourceImpl();
+  // final ApiClient _apiClient;
+  //
+  // ProfileRemoteDataSourceImpl(this._apiClient);
 }

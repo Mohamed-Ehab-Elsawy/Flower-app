@@ -58,3 +58,4 @@ class MainProfileViewModel extends Cubit<MainProfileViewState> {
     return super.close();
   }
 }
+

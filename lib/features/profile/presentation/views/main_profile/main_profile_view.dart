@@ -9,6 +9,7 @@ import 'package:flower_app/features/profile/presentation/views/main_profile/mana
 import 'package:flower_app/features/profile/presentation/views/main_profile/managers/main_profile_view_ui_events.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/view_model/main_profile_view_model.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/widgets/main_profile_item.dart';
+import 'package:flower_app/features/localization/view/language_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -158,5 +159,34 @@ class _MainProfileViewState extends State<MainProfileView> {
     final info = await PackageInfo.fromPlatform();
     debugPrint("Version: ${info.version}");
     setState(() => _appVersion = info.version);
+  }
+
+  showLanguageBottomSheet() {
+    showModalBottomSheet(
+      backgroundColor: const Color(0xFFF9F9F9),
+      isScrollControlled: true,
+      clipBehavior: Clip.antiAlias,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      context: context,
+      showDragHandle: true,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.3,
+        decoration: BoxDecoration(
+          color: context.appTheme.backgroundColor,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        child: const LanguageBottomSheet(),
+      ),
+    );
+
+    setState(() {});
   }
 }
