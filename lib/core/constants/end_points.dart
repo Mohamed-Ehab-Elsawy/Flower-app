@@ -9,4 +9,6 @@ class EndPoints {
   static const String home = "home";
   static const String products = "products/";
   static const String categories = "categories";
+  static const String uploadPhoto = "auth/upload-photo";
+  static const String editProfile = "auth/editProfile";
 }

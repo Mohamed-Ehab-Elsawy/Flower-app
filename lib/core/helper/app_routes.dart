@@ -14,6 +14,8 @@ import 'package:flower_app/features/home/presentation/view/best_seller_view.dart
 import 'package:flower_app/features/home/presentation/view/occasions/occasion_screen.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
 import 'package:flower_app/features/product_details/presentation/views/product_details_view.dart';
+import 'package:flower_app/features/profile/presentation/views/edit_profile/edit_profile_view.dart';
+import 'package:flower_app/features/profile/presentation/views/edit_profile/view_model/edit_profile_view_model.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/view_model/main_profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,8 +31,9 @@ class AppRoutes {
   static const String mostSelling = '/mostSelling';
   static const String productDetails = '/productDetails';
   static const String occasion = '/occasion';
-  static const String testScreen = '/TestScreen';
   static const String editProfile = '/editProfile';
+  static const String resetPassword = '/resetPassword';
+  static const String testScreen = '/TestScreen';
   static const String orders = '/orders';
   static const String addresses = '/addresses';
   static const String notifications = '/notifications';
@@ -104,6 +107,15 @@ Route? onGenerateRoute(RouteSettings settings) {
         builder: (_) => BlocProvider(
           create: (context) => getIt.get<ForgetPasswordCubit>(),
           child: const ForgetPasswordView(),
+        ),
+      );
+    case AppRoutes.editProfile:
+      final EditProfileViewModel editProfileViewModel =
+          getIt<EditProfileViewModel>();
+      return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (context) => editProfileViewModel,
+          child: const EditProfileView(),
         ),
       );
     default:
