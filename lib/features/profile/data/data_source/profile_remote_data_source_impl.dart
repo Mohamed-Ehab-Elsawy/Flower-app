@@ -8,7 +8,6 @@ import 'package:flower_app/features/profile/data/models/get_user_data_response.d
 import 'package:injectable/injectable.dart';
 import 'package:flower_app/features/profile/data/models/upload_photo_response.dart';
 
-
 @Injectable(as: ProfileRemoteDataSource)
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   final ApiClient _apiClient;
@@ -17,16 +16,22 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
 
   @override
   Future<Result<GetUserDataResponse>> getProfileData() {
-  return executeApi(() => _apiClient.getProfileData());
+    return executeApi(() => _apiClient.getProfileData());
   }
 
   @override
-  Future<Result<GetUserDataResponse>> editProfile({required EditProfileRequest editProfileRequest}) {
-    return executeApi(() => _apiClient.editProfile(editProfileRequest: editProfileRequest));
+  Future<Result<GetUserDataResponse>> editProfile({
+    required EditProfileRequest editProfileRequest,
+  }) {
+    return executeApi(
+      () => _apiClient.editProfile(editProfileRequest: editProfileRequest),
+    );
   }
 
   @override
-  Future<Result<UploadPhotoResponse>> uploadPhoto({required MultipartFile photo}) {
+  Future<Result<UploadPhotoResponse>> uploadPhoto({
+    required MultipartFile photo,
+  }) {
     return executeApi(() => _apiClient.uploadPhoto(photo));
   }
 }

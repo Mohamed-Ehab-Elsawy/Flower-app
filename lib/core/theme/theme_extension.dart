@@ -22,7 +22,6 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   final Color lightPink;
   final List<Color> kDefaultRainbowColors;
 
-
   AppThemeExtension({
     required this.semiBold24,
     required this.medium20,
@@ -41,7 +40,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     required this.success,
     required this.grey,
     required this.lightPink,
-    required this.kDefaultRainbowColors
+    required this.kDefaultRainbowColors,
   });
 
   @override
@@ -84,8 +83,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       success: success ?? this.success,
       grey: grey ?? this.grey,
       lightPink: lightPink ?? this.lightPink,
-      kDefaultRainbowColors: kDefaultRainbowColors ?? this.kDefaultRainbowColors,
-
+      kDefaultRainbowColors:
+          kDefaultRainbowColors ?? this.kDefaultRainbowColors,
     );
   }
 
@@ -114,7 +113,6 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       grey: const Color.fromARGB(255, 145, 143, 143),
       lightPink: Color.lerp(lightPink, other.lightPink, t)!,
       kDefaultRainbowColors: <Color>[],
-
     );
   }
 }

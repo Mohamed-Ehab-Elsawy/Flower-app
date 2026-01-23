@@ -22,8 +22,18 @@ void main() {
   setUp(() {
     mockApiClient = MockApiClient();
     profileRemoteDataSourceImpl = ProfileRemoteDataSourceImpl(mockApiClient);
-    dioException = DioException(requestOptions: RequestOptions(),type: DioExceptionType.connectionError);
-    userDto = UserDto(id: "123",firstName: "Mohamed",lastName: "Kamal",email: "test@test.com",phone: "+201000000000",photo: null);
+    dioException = DioException(
+      requestOptions: RequestOptions(),
+      type: DioExceptionType.connectionError,
+    );
+    userDto = UserDto(
+      id: "123",
+      firstName: "Mohamed",
+      lastName: "Kamal",
+      email: "test@test.com",
+      phone: "+201000000000",
+      photo: null,
+    );
   });
 
   group("Get Profile Data Tests", () {
@@ -38,13 +48,18 @@ void main() {
 
     test("Should return Success when API call succeeds", () async {
       // Arrange
-      when(mockApiClient.getProfileData()).thenAnswer((_) async => getUserDataResponse);
+      when(
+        mockApiClient.getProfileData(),
+      ).thenAnswer((_) async => getUserDataResponse);
 
       // Act
       final result = await profileRemoteDataSourceImpl.getProfileData();
 
       // Assert
-      expect((result as Success).data.user.firstName, equals(userDto.firstName));
+      expect(
+        (result as Success).data.user.firstName,
+        equals(userDto.firstName),
+      );
       // expect((result as SuccessResponse<ResponseLoginDto>).data.token, equals(responseLoginDto.token));
 
       verify(mockApiClient.getProfileData()).called(1);
@@ -76,41 +91,62 @@ void main() {
         email: "updated@test.com",
         phone: "+201000000001",
       );
-      editProfileResponse = GetUserDataResponse(message: "success",user: UserDto(
-        id: "123",
-        firstName: editProfileRequest.firstName,
-        lastName: editProfileRequest.lastName,
-        email: editProfileRequest.email,
-        phone: editProfileRequest.phone,
-        photo: null,
-      ));
+      editProfileResponse = GetUserDataResponse(
+        message: "success",
+        user: UserDto(
+          id: "123",
+          firstName: editProfileRequest.firstName,
+          lastName: editProfileRequest.lastName,
+          email: editProfileRequest.email,
+          phone: editProfileRequest.phone,
+          photo: null,
+        ),
+      );
     });
 
     test("Should return Success when editProfile API call succeeds", () async {
       // Arrange
-      when(mockApiClient.editProfile(editProfileRequest: editProfileRequest)).thenAnswer((_) async => editProfileResponse);
+      when(
+        mockApiClient.editProfile(editProfileRequest: editProfileRequest),
+      ).thenAnswer((_) async => editProfileResponse);
 
       // Act
-      final result = await profileRemoteDataSourceImpl.editProfile(editProfileRequest: editProfileRequest);
+      final result = await profileRemoteDataSourceImpl.editProfile(
+        editProfileRequest: editProfileRequest,
+      );
 
       // Assert
-      expect((result as Success).data.user.firstName, equals(editProfileRequest.firstName));
-      verify(mockApiClient.editProfile(editProfileRequest: editProfileRequest)).called(1);
+      expect(
+        (result as Success).data.user.firstName,
+        equals(editProfileRequest.firstName),
+      );
+      verify(
+        mockApiClient.editProfile(editProfileRequest: editProfileRequest),
+      ).called(1);
       verifyNoMoreInteractions(mockApiClient);
     });
 
-    test("Should return Failure when editProfile API call throws exception", () async {
-      // Arrange
-      when(mockApiClient.editProfile(editProfileRequest: editProfileRequest)).thenThrow(dioException);
+    test(
+      "Should return Failure when editProfile API call throws exception",
+      () async {
+        // Arrange
+        when(
+          mockApiClient.editProfile(editProfileRequest: editProfileRequest),
+        ).thenThrow(dioException);
 
-      // Act
-      final result = await profileRemoteDataSourceImpl.editProfile(editProfileRequest: editProfileRequest);
+        // Act
+        final result = await profileRemoteDataSourceImpl.editProfile(
+          editProfileRequest: editProfileRequest,
+        );
 
-      // Assert
-      expect(result, isA<Failure<GetUserDataResponse>>());
-      verify(mockApiClient.editProfile(editProfileRequest: editProfileRequest)).called(1);
-      verifyNoMoreInteractions(mockApiClient);
-    });
+        // Assert
+        expect(result, isA<Failure<GetUserDataResponse>>());
+        verify(
+          mockApiClient.editProfile(editProfileRequest: editProfileRequest),
+        ).called(1);
+        verifyNoMoreInteractions(mockApiClient);
+      },
+    );
   });
 
   group("Upload Photo Tests", () {
@@ -118,16 +154,20 @@ void main() {
     late UploadPhotoResponse uploadPhotoResponse;
 
     setUp(() {
-      photo = MultipartFile.fromBytes([0, 1, 2],filename: "photo.jpg");
+      photo = MultipartFile.fromBytes([0, 1, 2], filename: "photo.jpg");
       uploadPhotoResponse = const UploadPhotoResponse(message: "success");
     });
 
     test("Should return Success when uploadPhoto API call succeeds", () async {
       // Arrange
-      when(mockApiClient.uploadPhoto(any)).thenAnswer((_) async => uploadPhotoResponse);
+      when(
+        mockApiClient.uploadPhoto(any),
+      ).thenAnswer((_) async => uploadPhotoResponse);
 
       // Act
-      final result = await profileRemoteDataSourceImpl.uploadPhoto(photo: photo);
+      final result = await profileRemoteDataSourceImpl.uploadPhoto(
+        photo: photo,
+      );
 
       // Assert
       expect((result as Success).data.message, equals("success"));
@@ -135,17 +175,22 @@ void main() {
       verifyNoMoreInteractions(mockApiClient);
     });
 
-    test("Should return Failure when uploadPhoto API call throws exception", () async {
-      // Arrange
-      when(mockApiClient.uploadPhoto(photo)).thenThrow(dioException);
+    test(
+      "Should return Failure when uploadPhoto API call throws exception",
+      () async {
+        // Arrange
+        when(mockApiClient.uploadPhoto(photo)).thenThrow(dioException);
 
-      // Act
-      final result = await profileRemoteDataSourceImpl.uploadPhoto(photo: photo);
+        // Act
+        final result = await profileRemoteDataSourceImpl.uploadPhoto(
+          photo: photo,
+        );
 
-      // Assert
-      expect(result, isA<Failure<UploadPhotoResponse>>());
-      verify(mockApiClient.uploadPhoto(photo)).called(1);
-      verifyNoMoreInteractions(mockApiClient);
-    });
+        // Assert
+        expect(result, isA<Failure<UploadPhotoResponse>>());
+        verify(mockApiClient.uploadPhoto(photo)).called(1);
+        verifyNoMoreInteractions(mockApiClient);
+      },
+    );
   });
 }

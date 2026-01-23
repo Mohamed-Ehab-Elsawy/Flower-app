@@ -70,5 +70,6 @@ class LoginViewModel extends Cubit<LoginState> {
 
   _navigateToSignup() => _uiEventsController.add(NavigateToSignup());
 
-  _navigateToForgetPassword() => _uiEventsController.add(NavigateToForgetPassword());
+  _navigateToForgetPassword() =>
+      _uiEventsController.add(NavigateToForgetPassword());
 }

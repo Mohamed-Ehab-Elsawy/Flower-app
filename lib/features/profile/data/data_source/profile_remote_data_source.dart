@@ -6,7 +6,10 @@ import 'package:flower_app/features/profile/data/models/upload_photo_response.da
 
 abstract interface class ProfileRemoteDataSource {
   Future<Result<GetUserDataResponse>> getProfileData();
-  Future<Result<GetUserDataResponse>> editProfile({required EditProfileRequest editProfileRequest});
-  Future<Result<UploadPhotoResponse>> uploadPhoto({required MultipartFile photo});
-  
+  Future<Result<GetUserDataResponse>> editProfile({
+    required EditProfileRequest editProfileRequest,
+  });
+  Future<Result<UploadPhotoResponse>> uploadPhoto({
+    required MultipartFile photo,
+  });
 }

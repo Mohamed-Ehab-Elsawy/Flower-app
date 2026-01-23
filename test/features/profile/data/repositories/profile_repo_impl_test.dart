@@ -42,13 +42,17 @@ void main() {
       userEntity = userDto.toEntity();
       getUserDataResponse = GetUserDataResponse(user: userDto);
       successResponse = Success<GetUserDataResponse>(getUserDataResponse);
-      failureResponse = Failure<GetUserDataResponse>("Failed to get profile data");
+      failureResponse = Failure<GetUserDataResponse>(
+        "Failed to get profile data",
+      );
     });
 
     test("when call getProfileData Success Case", () async {
       // Arrange
       provideDummy<Result<GetUserDataResponse>>(successResponse);
-      when(mockProfileDataSource.getProfileData(),).thenAnswer((_) async => successResponse);
+      when(
+        mockProfileDataSource.getProfileData(),
+      ).thenAnswer((_) async => successResponse);
 
       // Act
       final result = await profileRepoImpl.getProfileData();
@@ -62,7 +66,8 @@ void main() {
     });
 
     test(
-      "when getProfileData throws exception it should return Failure", () async {
+      "when getProfileData throws exception it should return Failure",
+      () async {
         // Arrange
         provideDummy<Result<GetUserDataResponse>>(failureResponse);
         when(
@@ -74,7 +79,10 @@ void main() {
 
         // Assertion And Verification
         expect(result, isA<Failure<UserEntity>>());
-        expect((result as Failure<UserEntity>).errorMessage, "Failed to get profile data",);
+        expect(
+          (result as Failure<UserEntity>).errorMessage,
+          "Failed to get profile data",
+        );
         verify(mockProfileDataSource.getProfileData()).called(1);
         verifyNoMoreInteractions(mockProfileDataSource);
       },
@@ -109,31 +117,56 @@ void main() {
     test("when call editProfile Success Case", () async {
       // Arrange
       provideDummy<Result<GetUserDataResponse>>(successResponse);
-      when(mockProfileDataSource.editProfile(editProfileRequest: editProfileRequest)).thenAnswer((_) async => successResponse);
+      when(
+        mockProfileDataSource.editProfile(
+          editProfileRequest: editProfileRequest,
+        ),
+      ).thenAnswer((_) async => successResponse);
 
       // Act
-      final result = await profileRepoImpl.editProfile(editProfileRequest: editProfileRequest);
+      final result = await profileRepoImpl.editProfile(
+        editProfileRequest: editProfileRequest,
+      );
 
       // Assertion And Verification
       expect(result, isA<Success<UserEntity>>());
       expect((result as Success<UserEntity>).data.firstName, "Updated Name");
       expect(result.data.email, "updated@test.com");
-      verify(mockProfileDataSource.editProfile(editProfileRequest: editProfileRequest)).called(1);
+      verify(
+        mockProfileDataSource.editProfile(
+          editProfileRequest: editProfileRequest,
+        ),
+      ).called(1);
       verifyNoMoreInteractions(mockProfileDataSource);
     });
 
-    test("when editProfile throws exception it should return Failure",() async {
+    test(
+      "when editProfile throws exception it should return Failure",
+      () async {
         // Arrange
         provideDummy<Result<GetUserDataResponse>>(failureResponse);
-        when(mockProfileDataSource.editProfile(editProfileRequest: editProfileRequest)).thenAnswer((_) async => failureResponse);
+        when(
+          mockProfileDataSource.editProfile(
+            editProfileRequest: editProfileRequest,
+          ),
+        ).thenAnswer((_) async => failureResponse);
 
         // Act
-        final result = await profileRepoImpl.editProfile(editProfileRequest: editProfileRequest);
+        final result = await profileRepoImpl.editProfile(
+          editProfileRequest: editProfileRequest,
+        );
 
         // Assertion And Verification
         expect(result, isA<Failure<UserEntity>>());
-        expect((result as Failure<UserEntity>).errorMessage, "Failed to edit profile");
-        verify(mockProfileDataSource.editProfile(editProfileRequest: editProfileRequest)).called(1);
+        expect(
+          (result as Failure<UserEntity>).errorMessage,
+          "Failed to edit profile",
+        );
+        verify(
+          mockProfileDataSource.editProfile(
+            editProfileRequest: editProfileRequest,
+          ),
+        ).called(1);
         verifyNoMoreInteractions(mockProfileDataSource);
       },
     );
@@ -172,35 +205,57 @@ void main() {
     });
 
     tearDownAll(() {
-      if (testImageFile.existsSync()) {testImageFile.deleteSync();
+      if (testImageFile.existsSync()) {
+        testImageFile.deleteSync();
       }
     });
 
     test("when call uploadPhoto Success Case", () async {
       // Arrange
       provideDummy<Result<UploadPhotoResponse>>(successResponse);
-      when(mockProfileDataSource.uploadPhoto(photo: anyNamed('photo'))).thenAnswer((_) async => successResponse);
+      when(
+        mockProfileDataSource.uploadPhoto(photo: anyNamed('photo')),
+      ).thenAnswer((_) async => successResponse);
 
       // Act
-      final result = await profileRepoImpl.uploadPhoto(imageFile: testImageFile);
+      final result = await profileRepoImpl.uploadPhoto(
+        imageFile: testImageFile,
+      );
 
       // Assertion And Verification
-      expect((result as Success<UploadPhotoResponse>).data.message,"Photo uploaded successfully");
-      verify(mockProfileDataSource.uploadPhoto(photo: anyNamed('photo'))).called(1);verifyNoMoreInteractions(mockProfileDataSource);
+      expect(
+        (result as Success<UploadPhotoResponse>).data.message,
+        "Photo uploaded successfully",
+      );
+      verify(
+        mockProfileDataSource.uploadPhoto(photo: anyNamed('photo')),
+      ).called(1);
+      verifyNoMoreInteractions(mockProfileDataSource);
     });
 
-    test("when uploadPhoto throws exception it should return Failure", () async {
+    test(
+      "when uploadPhoto throws exception it should return Failure",
+      () async {
         // Arrange
         provideDummy<Result<UploadPhotoResponse>>(failureResponse);
-        when(mockProfileDataSource.uploadPhoto(photo: anyNamed('photo'))).thenAnswer((_) async => failureResponse);
+        when(
+          mockProfileDataSource.uploadPhoto(photo: anyNamed('photo')),
+        ).thenAnswer((_) async => failureResponse);
 
         // Act
-        final result = await profileRepoImpl.uploadPhoto(imageFile: testImageFile);
+        final result = await profileRepoImpl.uploadPhoto(
+          imageFile: testImageFile,
+        );
 
         // Assertion And Verification
         expect(result, isA<Failure<UploadPhotoResponse>>());
-        expect((result as Failure<UploadPhotoResponse>).errorMessage,"Failed to upload photo");
-        verify(mockProfileDataSource.uploadPhoto(photo: anyNamed('photo'))).called(1);
+        expect(
+          (result as Failure<UploadPhotoResponse>).errorMessage,
+          "Failed to upload photo",
+        );
+        verify(
+          mockProfileDataSource.uploadPhoto(photo: anyNamed('photo')),
+        ).called(1);
         verifyNoMoreInteractions(mockProfileDataSource);
       },
     );

@@ -9,7 +9,6 @@ import 'package:flower_app/features/profile/domain/repositories/profile_repo.dar
 
 import 'get_profile_data_use_case_test.mocks.dart';
 
-
 @GenerateMocks([ProfileRepo])
 void main() {
   late File imageFile;
@@ -35,14 +34,19 @@ void main() {
     () async {
       // Arrange
       provideDummy<Result<UploadPhotoResponse>>(successResponse);
-      when(mockProfileRepo.uploadPhoto(imageFile: imageFile),).thenAnswer((_) async => successResponse);
+      when(
+        mockProfileRepo.uploadPhoto(imageFile: imageFile),
+      ).thenAnswer((_) async => successResponse);
 
       // Act
       final result = await uploadPhotoUseCase.call(imageFile: imageFile);
 
       // Assertion And Verifications
       expect(result, isA<Success<UploadPhotoResponse>>());
-      expect((result as Success<UploadPhotoResponse>).data.message,equals("Photo uploaded successfully"));
+      expect(
+        (result as Success<UploadPhotoResponse>).data.message,
+        equals("Photo uploaded successfully"),
+      );
       verify(mockProfileRepo.uploadPhoto(imageFile: imageFile)).called(1);
       verifyNoMoreInteractions(mockProfileRepo);
     },

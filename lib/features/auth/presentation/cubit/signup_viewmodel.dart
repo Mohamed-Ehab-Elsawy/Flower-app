@@ -36,7 +36,9 @@ class SignUpViewModel extends Cubit<SignupStates> with EquatableMixin {
   void doEvent(SignupUiEvent event) {
     switch (event) {
       case ShowToast():
-        _signupUiEvent.add(ShowToast(message: event.message,isError: event.isError));
+        _signupUiEvent.add(
+          ShowToast(message: event.message, isError: event.isError),
+        );
       case NavigateToLogin():
         _signupUiEvent.add(NavigateToLogin());
       case NavigateToTermsConditions():

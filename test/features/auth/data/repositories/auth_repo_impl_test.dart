@@ -21,7 +21,6 @@ import 'auth_repo_impl_test.mocks.dart';
 
 @GenerateMocks([AuthDataSourceImpl])
 void main() {
-
   late MockAuthDataSourceImpl mockAuthDataSource;
   late AuthRepoImpl authRepo;
   late LoginRequest loginRequest;

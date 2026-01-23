@@ -17,8 +17,9 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   // Provide mock implementations for platform plugins used in production
   SharedPreferences.setMockInitialValues({});
-  const MethodChannel('plugins.it_nomads.com/flutter_secure_storage')
-      .setMockMethodCallHandler((call) async {
+  const MethodChannel(
+    'plugins.it_nomads.com/flutter_secure_storage',
+  ).setMockMethodCallHandler((call) async {
     // Handle write/read/delete calls trivially in tests
     return null;
   });

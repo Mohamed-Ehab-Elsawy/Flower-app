@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flower_app/core/app/data/models/products_dto.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-
 import 'package:flower_app/core/app/data/models/product_type_dto.dart';
 
 part 'home_response_dto.g.dart';

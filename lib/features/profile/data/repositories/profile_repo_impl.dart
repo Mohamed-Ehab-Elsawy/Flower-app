@@ -16,28 +16,10 @@ class ProfileRepoImpl implements ProfileRepo {
   final ProfileRemoteDataSource _profileRemoteDataSource;
   ProfileRepoImpl(this._profileRemoteDataSource);
 
-
   @override
   Future<Result<UserEntity>> getProfileData() async {
     var response = await _profileRemoteDataSource.getProfileData();
-    switch(response) {
-      case Success<GetUserDataResponse>():
-        {
-          UserDto userDto = response.data.user ?? UserDto();
-          UserEntity userEntity = userDto.toEntity();
-          return Success(userEntity);
-        }
-      case Failure<GetUserDataResponse>():
-      {
-        return Failure(response.errorMessage);
-      }
-    }
-  }
-
-  @override
-  Future<Result<UserEntity>> editProfile ({required EditProfileRequest editProfileRequest}) async {
-    var response = await _profileRemoteDataSource.editProfile(editProfileRequest: editProfileRequest);
-    switch(response) {
+    switch (response) {
       case Success<GetUserDataResponse>():
         {
           UserDto userDto = response.data.user ?? UserDto();
@@ -52,12 +34,40 @@ class ProfileRepoImpl implements ProfileRepo {
   }
 
   @override
-  Future<Result<UploadPhotoResponse>> uploadPhoto({required File imageFile}) async {
-    final multipart = await MultipartFile.fromFile(imageFile.path, filename: imageFile.path.split('/').last);
-    final response = await _profileRemoteDataSource.uploadPhoto(photo: multipart);
+  Future<Result<UserEntity>> editProfile({
+    required EditProfileRequest editProfileRequest,
+  }) async {
+    var response = await _profileRemoteDataSource.editProfile(
+      editProfileRequest: editProfileRequest,
+    );
+    switch (response) {
+      case Success<GetUserDataResponse>():
+        {
+          UserDto userDto = response.data.user ?? UserDto();
+          UserEntity userEntity = userDto.toEntity();
+          return Success(userEntity);
+        }
+      case Failure<GetUserDataResponse>():
+        {
+          return Failure(response.errorMessage);
+        }
+    }
+  }
+
+  @override
+  Future<Result<UploadPhotoResponse>> uploadPhoto({
+    required File imageFile,
+  }) async {
+    final multipart = await MultipartFile.fromFile(
+      imageFile.path,
+      filename: imageFile.path.split('/').last,
+    );
+    final response = await _profileRemoteDataSource.uploadPhoto(
+      photo: multipart,
+    );
     switch (response) {
       case Success<UploadPhotoResponse>():
-       return Success(response.data);
+        return Success(response.data);
       case Failure<UploadPhotoResponse>():
         return Failure(response.errorMessage);
     }

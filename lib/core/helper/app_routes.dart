@@ -93,10 +93,14 @@ Route? onGenerateRoute(RouteSettings settings) {
         ),
       );
     case AppRoutes.editProfile:
-      final EditProfileViewModel editProfileViewModel = getIt<EditProfileViewModel>();
-      return MaterialPageRoute(builder: (_) => BlocProvider(
-        create: (context) => editProfileViewModel,
-          child: const EditProfileView()));
+      final EditProfileViewModel editProfileViewModel =
+          getIt<EditProfileViewModel>();
+      return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (context) => editProfileViewModel,
+          child: const EditProfileView(),
+        ),
+      );
     default:
       return null;
   }

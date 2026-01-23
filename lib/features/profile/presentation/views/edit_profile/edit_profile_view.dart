@@ -28,15 +28,13 @@ class EditProfileView extends StatefulWidget {
 }
 
 class _EditProfileViewState extends State<EditProfileView> {
-
   final _formKey = GlobalKey<FormState>();
 
   final _firstNameController = TextEditingController();
-  final _lastNameController  = TextEditingController();
-  final _emailController     = TextEditingController();
-  final _phoneController     = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   StreamSubscription<EditProfileUIEvents>? _uiEventsSubscription;
-
 
   final EditProfileViewModel _viewModel = getIt<EditProfileViewModel>();
 
@@ -46,7 +44,6 @@ class _EditProfileViewState extends State<EditProfileView> {
     _viewModel.doIntent(GetProfileData());
     _listenToUIEvents();
   }
-
 
   void _listenToUIEvents() {
     _uiEventsSubscription = _viewModel.uiEventsStream.listen((event) {
@@ -68,9 +65,9 @@ class _EditProfileViewState extends State<EditProfileView> {
 
   void _fillForm(UserEntity user) {
     _firstNameController.text = user.firstName ?? '';
-    _lastNameController.text  = user.lastName ?? '';
-    _emailController.text     = user.email ?? '';
-    _phoneController.text     = user.phone ?? '';
+    _lastNameController.text = user.lastName ?? '';
+    _emailController.text = user.email ?? '';
+    _phoneController.text = user.phone ?? '';
   }
 
   Future<void> _pickImageAndUpload() async {
@@ -79,10 +76,7 @@ class _EditProfileViewState extends State<EditProfileView> {
     final source = await _showImageSourceBottomSheet(context);
     if (source == null) return;
 
-    final pickedFile = await picker.pickImage(
-      source: source,
-      imageQuality: 85,
-    );
+    final pickedFile = await picker.pickImage(source: source, imageQuality: 85);
     if (pickedFile == null) return;
 
     final file = File(pickedFile.path);
@@ -123,7 +117,6 @@ class _EditProfileViewState extends State<EditProfileView> {
   }
 
   ImageProvider? _getAvatarImage(EditProfileViewState state) {
-
     // 1️⃣ local preview
     if (state.localImage != null) {
       return FileImage(state.localImage!);
@@ -135,153 +128,173 @@ class _EditProfileViewState extends State<EditProfileView> {
     }
     // 3️⃣ default image
     return const AssetImage(AssetsManager.defaultProfile);
-
   }
-
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => _viewModel,
-  child: Scaffold(
-      appBar: AppBar(title: Text('edit_profile'.tr())),
-      body: BlocConsumer<EditProfileViewModel, EditProfileViewState>(
-  listener: (context, state) {
-    if (state.getProfileDateStates.isLoaded) {
-      _fillForm(state.getProfileDateStates.data!);
-    }
-    },
-  builder: (context, state) {
-    if (state.getProfileDateStates.isLoading && !state.getProfileDateStates.isLoaded) {
-      return Center(child: CircularProgressIndicator(color: context.appTheme.primary));
-    }
-    if (state.getProfileDateStates.isError && !state.getProfileDateStates.isLoaded) {
-      return _isErrorGetProfileData(state);
-    }
-    return SingleChildScrollView(
-      child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Center(
-                  child: Stack(
+      child: Scaffold(
+        appBar: AppBar(title: Text('edit_profile'.tr())),
+        body: BlocConsumer<EditProfileViewModel, EditProfileViewState>(
+          listener: (context, state) {
+            if (state.getProfileDateStates.isLoaded) {
+              _fillForm(state.getProfileDateStates.data!);
+            }
+          },
+          builder: (context, state) {
+            if (state.getProfileDateStates.isLoading &&
+                !state.getProfileDateStates.isLoaded) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: context.appTheme.primary,
+                ),
+              );
+            }
+            if (state.getProfileDateStates.isError &&
+                !state.getProfileDateStates.isLoaded) {
+              return _isErrorGetProfileData(state);
+            }
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
                     children: [
-                      GestureDetector(
-                        onTap: state.uploadPhotoStates.isLoading ? null : _pickImageAndUpload,
-                        child: Badge(
-                          offset: const Offset(-15, -24),
-                          padding: const EdgeInsets.all(6),
-                          alignment: Alignment.bottomRight,
-                          label: Icon(Icons.camera_alt_outlined, size: 18,color: context.appTheme.secondary[90]),
-                          backgroundColor: state.uploadPhotoStates.isError
-                              ? context.appTheme.error
-                              : context.appTheme.lightPink,
-                          child: CircleAvatar(
-                            radius: 54,
-                            backgroundImage: _getAvatarImage(state),
-                            backgroundColor: context.appTheme.lightPink,
-                          ),
+                      Center(
+                        child: Stack(
+                          children: [
+                            GestureDetector(
+                              onTap: state.uploadPhotoStates.isLoading
+                                  ? null
+                                  : _pickImageAndUpload,
+                              child: Badge(
+                                offset: const Offset(-15, -24),
+                                padding: const EdgeInsets.all(6),
+                                alignment: Alignment.bottomRight,
+                                label: Icon(
+                                  Icons.camera_alt_outlined,
+                                  size: 18,
+                                  color: context.appTheme.secondary[90],
+                                ),
+                                backgroundColor: state.uploadPhotoStates.isError
+                                    ? context.appTheme.error
+                                    : context.appTheme.lightPink,
+                                child: CircleAvatar(
+                                  radius: 54,
+                                  backgroundImage: _getAvatarImage(state),
+                                  backgroundColor: context.appTheme.lightPink,
+                                ),
+                              ),
+                            ),
+                            if (state.getProfileDateStates.isLoading ||
+                                state.uploadPhotoStates.isLoading) ...[
+                              _isLoadingUploadPhoto(),
+                            ],
+                          ],
                         ),
                       ),
-                      if (state.getProfileDateStates.isLoading ||state.uploadPhotoStates.isLoading)...[
-                        _isLoadingUploadPhoto(),
-                      ]
+                      context.h(24),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: _firstNameController,
+                              validator: AppValidator.validateFirstName,
+                              decoration: InputDecoration(
+                                labelText: 'first_name'.tr(),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 18),
+                          Expanded(
+                            child: TextFormField(
+                              controller: _lastNameController,
+                              validator: AppValidator.validateLastName,
+                              decoration: InputDecoration(
+                                labelText: 'Last name'.tr(),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      context.h(24),
+                      TextFormField(
+                        controller: _emailController,
+                        validator: AppValidator.validateEmail,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          labelText: 'Email'.tr(),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                        ),
+                      ),
+                      context.h(24),
+                      TextFormField(
+                        controller: _phoneController,
+                        validator: AppValidator.validatePhone,
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          labelText: 'Phone number'.tr(),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                        ),
+                      ),
+                      context.h(24),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Password'.tr(),
+                          hintText: '••••••••',
+                          suffixIcon: TextButton(
+                            onPressed: () => _viewModel.doUIEvent(
+                              NavigateToResetPasswordEvent(),
+                            ),
+                            child: Text(
+                              'Change',
+                              style: context.appTheme.semiBold12.copyWith(
+                                color: context.appTheme.primary,
+                              ),
+                            ),
+                          ),
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                        ),
+                      ),
+                      context.h(40),
+                      ElevatedButton(
+                        onPressed: state.editProfileStates.isLoading
+                            ? null
+                            : _submitProfile,
+                        child: _showLoadingOrText(
+                          state.editProfileStates.isLoading,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                context.h(24),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _firstNameController,
-                        validator: AppValidator.validateFirstName,
-                        decoration: InputDecoration(
-                          labelText: 'first_name'.tr(),
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-      
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 18),
-                    Expanded(
-                      child: TextFormField(
-                        controller: _lastNameController,
-                        validator: AppValidator.validateLastName,
-                        decoration: InputDecoration(
-                          labelText: 'Last name'.tr(),
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                context.h(24),
-                TextFormField(
-                  controller: _emailController,
-                  validator: AppValidator.validateEmail,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: 'Email'.tr(),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                  ),
-                ),
-                context.h(24),
-                TextFormField(
-                  controller: _phoneController,
-                  validator: AppValidator.validatePhone,
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    labelText: 'Phone number'.tr(),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                  ),
-                ),
-                context.h(24),
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Password'.tr(),
-                    hintText: '••••••••',
-                    suffixIcon: TextButton(
-                      onPressed: () => _viewModel.doUIEvent(NavigateToResetPasswordEvent()),
-                      child: Text('Change', style: context.appTheme.semiBold12.copyWith(
-                          color: context.appTheme.primary,
-                        ),
-                      ),
-                    ),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                  ),
-                ),
-                context.h(40),
-                ElevatedButton(
-                  onPressed: state.editProfileStates.isLoading ? null : _submitProfile,
-                  child: _showLoadingOrText (state.editProfileStates.isLoading),
-                ),
-              ],
-            ),
-          )),
+              ),
+            );
+          },
+        ),
+      ),
     );
-  },
-),
-    ),
-);
-
   }
 
   void _submitProfile() {
     if (!_formKey.currentState!.validate()) return;
     final request = EditProfileRequest(
-      firstName:_firstNameController.text.trim(),
-      lastName:_lastNameController.text.trim(),
-      email:_emailController.text.trim(),
-      phone:_phoneController.text.trim(),
+      firstName: _firstNameController.text.trim(),
+      lastName: _lastNameController.text.trim(),
+      email: _emailController.text.trim(),
+      phone: _phoneController.text.trim(),
     );
     _viewModel.doIntent(EditProfile(request));
   }
 
   Widget _showLoadingOrText(bool isLoading) {
-    return  isLoading
+    return isLoading
         ? CircularProgressIndicator(color: context.appTheme.secondary)
         : Text('update'.tr());
   }
@@ -294,10 +307,15 @@ class _EditProfileViewState extends State<EditProfileView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.error_outline,size: 64, color: context.appTheme.error),
+              Icon(
+                Icons.error_outline,
+                size: 64,
+                color: context.appTheme.error,
+              ),
               context.h(20),
               Text(
-                state.getProfileDateStates.errorMessage ?? 'error_loading_profile'.tr(),
+                state.getProfileDateStates.errorMessage ??
+                    'error_loading_profile'.tr(),
                 style: context.appTheme.medium16,
                 textAlign: TextAlign.center,
               ),
@@ -313,7 +331,6 @@ class _EditProfileViewState extends State<EditProfileView> {
       ),
     );
   }
-
 
   @override
   void dispose() {
@@ -333,10 +350,7 @@ class _EditProfileViewState extends State<EditProfileView> {
           color: Colors.black54,
         ),
         child: const Center(
-          child: CircularProgressIndicator(
-            color: Colors.white,
-            strokeWidth: 3,
-          ),
+          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 3),
         ),
       ),
     );

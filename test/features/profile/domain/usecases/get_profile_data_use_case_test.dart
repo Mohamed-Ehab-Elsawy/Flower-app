@@ -29,33 +29,43 @@ void main() {
     getProfileDataUseCase = GetProfileDataUseCase(mockProfileRepo);
   });
 
-  test('should return Success with UserEntity when getProfileData succeeds', () async {
-        // Arrange
-        provideDummy<Result<UserEntity>>(successResponse);
-        when(mockProfileRepo.getProfileData()).thenAnswer((_) async => successResponse);
+  test(
+    'should return Success with UserEntity when getProfileData succeeds',
+    () async {
+      // Arrange
+      provideDummy<Result<UserEntity>>(successResponse);
+      when(
+        mockProfileRepo.getProfileData(),
+      ).thenAnswer((_) async => successResponse);
 
-        // Act
-        final result = await getProfileDataUseCase.call();
+      // Act
+      final result = await getProfileDataUseCase.call();
 
-        // Assertion And Verifications
-        expect(result, isA<Success<UserEntity>>());
-        expect((result as Success<UserEntity>).data.id, equals(userEntity.id));
-        expect(result.data.firstName, equals(userEntity.firstName));
-        verify(mockProfileRepo.getProfileData()).called(1);
-        verifyNoMoreInteractions(mockProfileRepo);
-      });
+      // Assertion And Verifications
+      expect(result, isA<Success<UserEntity>>());
+      expect((result as Success<UserEntity>).data.id, equals(userEntity.id));
+      expect(result.data.firstName, equals(userEntity.firstName));
+      verify(mockProfileRepo.getProfileData()).called(1);
+      verifyNoMoreInteractions(mockProfileRepo);
+    },
+  );
 
   test('should return Failure when getProfileData fails', () async {
     // Arrange
     provideDummy<Result<UserEntity>>(failureResponse);
-    when(mockProfileRepo.getProfileData()).thenAnswer((_) async => failureResponse);
+    when(
+      mockProfileRepo.getProfileData(),
+    ).thenAnswer((_) async => failureResponse);
 
     // Act
     final result = await getProfileDataUseCase.call();
 
     // Assertion And Verifications
     expect(result, isA<Failure<UserEntity>>());
-    expect((result as Failure<UserEntity>).errorMessage, equals("Failed to get profile data"));
+    expect(
+      (result as Failure<UserEntity>).errorMessage,
+      equals("Failed to get profile data"),
+    );
     verify(mockProfileRepo.getProfileData()).called(1);
     verifyNoMoreInteractions(mockProfileRepo);
   });

@@ -35,7 +35,9 @@ void main() {
       verifyResetPasswordCodeResponse = Success<VerifyResetCodeResponse>(
         VerifyResetCodeResponse(message: responseMessage),
       );
-      provideDummy<Result<VerifyResetCodeResponse>>(verifyResetPasswordCodeResponse);
+      provideDummy<Result<VerifyResetCodeResponse>>(
+        verifyResetPasswordCodeResponse,
+      );
       when(
         authRepo.verifyResetPasswordCode(resetCode: resetCode),
       ).thenAnswer((_) async => verifyResetPasswordCodeResponse);
@@ -48,7 +50,10 @@ void main() {
       // assert
       verify(authRepo.verifyResetPasswordCode(resetCode: resetCode)).called(1);
       verifyNoMoreInteractions(authRepo);
-      expect((result as Success<VerifyResetCodeResponse>).data.message, responseMessage);
+      expect(
+        (result as Success<VerifyResetCodeResponse>).data.message,
+        responseMessage,
+      );
     },
   );
 
@@ -58,8 +63,12 @@ void main() {
     "and return error message",
     () async {
       // arrange
-      verifyResetPasswordCodeResponse = Failure<VerifyResetCodeResponse>(errorMessageResponse);
-      provideDummy<Result<VerifyResetCodeResponse>>(verifyResetPasswordCodeResponse);
+      verifyResetPasswordCodeResponse = Failure<VerifyResetCodeResponse>(
+        errorMessageResponse,
+      );
+      provideDummy<Result<VerifyResetCodeResponse>>(
+        verifyResetPasswordCodeResponse,
+      );
       when(
         authRepo.verifyResetPasswordCode(resetCode: resetCode),
       ).thenAnswer((_) async => verifyResetPasswordCodeResponse);
@@ -72,7 +81,10 @@ void main() {
       // assert
       verify(authRepo.verifyResetPasswordCode(resetCode: resetCode)).called(1);
       verifyNoMoreInteractions(authRepo);
-      expect((result as Failure<VerifyResetCodeResponse>).errorMessage, errorMessageResponse);
+      expect(
+        (result as Failure<VerifyResetCodeResponse>).errorMessage,
+        errorMessageResponse,
+      );
     },
   );
 }

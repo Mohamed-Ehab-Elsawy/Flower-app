@@ -38,36 +38,55 @@ void main() {
     editProfileUseCase = EditProfileUseCase(mockProfileRepo);
   });
 
-  test('should return Success with updated UserEntity when editProfile succeeds', () async {
-        // Arrange
-        provideDummy<Result<UserEntity>>(successResponse);
-        when(mockProfileRepo.editProfile(editProfileRequest: editProfileRequest)).thenAnswer((_) async => successResponse);
+  test(
+    'should return Success with updated UserEntity when editProfile succeeds',
+    () async {
+      // Arrange
+      provideDummy<Result<UserEntity>>(successResponse);
+      when(
+        mockProfileRepo.editProfile(editProfileRequest: editProfileRequest),
+      ).thenAnswer((_) async => successResponse);
 
-        // Act
-        final result =
-        await editProfileUseCase.call(editProfileRequest: editProfileRequest);
+      // Act
+      final result = await editProfileUseCase.call(
+        editProfileRequest: editProfileRequest,
+      );
 
-        // Assertion And Verifications
-        expect(result, isA<Success<UserEntity>>());
-        expect((result as Success<UserEntity>).data.firstName, equals(userEntity.firstName));
-        expect(result.data.email, equals(userEntity.email));
-        verify(mockProfileRepo.editProfile(editProfileRequest: editProfileRequest)).called(1);
-        verifyNoMoreInteractions(mockProfileRepo);
-      });
+      // Assertion And Verifications
+      expect(result, isA<Success<UserEntity>>());
+      expect(
+        (result as Success<UserEntity>).data.firstName,
+        equals(userEntity.firstName),
+      );
+      expect(result.data.email, equals(userEntity.email));
+      verify(
+        mockProfileRepo.editProfile(editProfileRequest: editProfileRequest),
+      ).called(1);
+      verifyNoMoreInteractions(mockProfileRepo);
+    },
+  );
 
   test('should return Failure when editProfile fails', () async {
     // Arrange
     provideDummy<Result<UserEntity>>(failureResponse);
-    when(mockProfileRepo.editProfile(editProfileRequest: editProfileRequest)).thenAnswer((_) async => failureResponse);
+    when(
+      mockProfileRepo.editProfile(editProfileRequest: editProfileRequest),
+    ).thenAnswer((_) async => failureResponse);
 
     // Act
-    final result =
-    await editProfileUseCase.call(editProfileRequest: editProfileRequest);
+    final result = await editProfileUseCase.call(
+      editProfileRequest: editProfileRequest,
+    );
 
     // Assertion And Verifications
     expect(result, isA<Failure<UserEntity>>());
-    expect((result as Failure<UserEntity>).errorMessage, equals("Failed to edit profile"));
-    verify(mockProfileRepo.editProfile(editProfileRequest: editProfileRequest)).called(1);
+    expect(
+      (result as Failure<UserEntity>).errorMessage,
+      equals("Failed to edit profile"),
+    );
+    verify(
+      mockProfileRepo.editProfile(editProfileRequest: editProfileRequest),
+    ).called(1);
     verifyNoMoreInteractions(mockProfileRepo);
   });
 }

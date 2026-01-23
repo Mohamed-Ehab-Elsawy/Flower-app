@@ -4,7 +4,7 @@ import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/features/auth/domain/models/user_entity.dart';
 import 'package:flower_app/features/profile/data/models/upload_photo_response.dart';
 
-class EditProfileViewState extends Equatable{
+class EditProfileViewState extends Equatable {
   final BaseState<UserEntity> getProfileDateStates;
   final BaseState<UserEntity> editProfileStates;
   final BaseState<UploadPhotoResponse> uploadPhotoStates;
@@ -39,5 +39,10 @@ class EditProfileViewState extends Equatable{
   }
 
   @override
-  List<Object?> get props => [getProfileDateStates,editProfileStates,uploadPhotoStates,localImage];
+  List<Object?> get props => [
+    getProfileDateStates,
+    editProfileStates,
+    uploadPhotoStates,
+    localImage,
+  ];
 }

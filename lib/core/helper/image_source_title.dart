@@ -6,7 +6,8 @@ class ImageSourceTile extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
 
-  const ImageSourceTile({super.key,
+  const ImageSourceTile({
+    super.key,
     required this.icon,
     required this.title,
     required this.onTap,
@@ -20,10 +21,7 @@ class ImageSourceTile extends StatelessWidget {
         backgroundColor: context.appTheme.lightPink,
         child: Icon(icon, color: context.appTheme.primary),
       ),
-      title: Text(
-        title,
-        style: context.appTheme.medium16,
-      ),
+      title: Text(title, style: context.appTheme.medium16),
       onTap: onTap,
     );
   }

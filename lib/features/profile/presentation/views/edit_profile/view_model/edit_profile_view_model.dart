@@ -21,9 +21,11 @@ class EditProfileViewModel extends Cubit<EditProfileViewState> {
   final UploadPhotoUseCase _uploadPhotoUseCase;
   final _uiEventsController = StreamController<EditProfileUIEvents>.broadcast();
   Stream<EditProfileUIEvents> get uiEventsStream => _uiEventsController.stream;
-  EditProfileViewModel(this._getProfileDataUseCase, this._editProfileUseCase,this._uploadPhotoUseCase)
-    : super(EditProfileViewState.initial());
-
+  EditProfileViewModel(
+    this._getProfileDataUseCase,
+    this._editProfileUseCase,
+    this._uploadPhotoUseCase,
+  ) : super(EditProfileViewState.initial());
 
   void doIntent(Intent intent) {
     switch (intent) {
@@ -39,19 +41,17 @@ class EditProfileViewModel extends Cubit<EditProfileViewState> {
         _uiEventsController.add(PopWithImageSource(ImageSource.camera));
       case SelectLocalPhoto():
         emit(state.copyWith(localImage: intent.file));
-
     }
   }
 
-
-  void doUIEvent (EditProfileUIEvents event){
-    switch(event) {
+  void doUIEvent(EditProfileUIEvents event) {
+    switch (event) {
       case NavigateToResetPasswordEvent():
         _uiEventsController.add(NavigateToResetPasswordEvent());
       case EditProfileViewShowToast():
         _uiEventsController.add(EditProfileViewShowToast());
       case UploadPhotoViewShowToast():
-       _uiEventsController.add(UploadPhotoViewShowToast());
+        _uiEventsController.add(UploadPhotoViewShowToast());
       case PopWithImageSource():
         _uiEventsController.add(event);
       case PopScreenEvent():
@@ -60,63 +60,98 @@ class EditProfileViewModel extends Cubit<EditProfileViewState> {
   }
 
   void _getProfileData() async {
-    emit(state.copyWith(getProfileDateStates: state.getProfileDateStates.loading));
+    emit(
+      state.copyWith(getProfileDateStates: state.getProfileDateStates.loading),
+    );
     var response = await _getProfileDataUseCase.call();
     switch (response) {
       case Success<UserEntity>():
         emit(
-          state.copyWith(getProfileDateStates: state.getProfileDateStates.loaded(response.data)));
+          state.copyWith(
+            getProfileDateStates: state.getProfileDateStates.loaded(
+              response.data,
+            ),
+          ),
+        );
       case Failure<UserEntity>():
-        emit(state.copyWith(getProfileDateStates: state.getProfileDateStates.error(response.errorMessage)));
+        emit(
+          state.copyWith(
+            getProfileDateStates: state.getProfileDateStates.error(
+              response.errorMessage,
+            ),
+          ),
+        );
     }
   }
-
 
   void _editProfile({required EditProfileRequest editProfileRequest}) async {
     emit(state.copyWith(editProfileStates: state.editProfileStates.loading));
-    final response = await _editProfileUseCase.call(editProfileRequest: editProfileRequest);
+    final response = await _editProfileUseCase.call(
+      editProfileRequest: editProfileRequest,
+    );
 
     switch (response) {
       case Success<UserEntity>():
-        emit(state.copyWith(editProfileStates: state.editProfileStates.loaded(response.data)));
-        _uiEventsController.add(EditProfileViewShowToast(message: 'Profile updated successfully'));
+        emit(
+          state.copyWith(
+            editProfileStates: state.editProfileStates.loaded(response.data),
+          ),
+        );
+        _uiEventsController.add(
+          EditProfileViewShowToast(message: 'Profile updated successfully'),
+        );
         _uiEventsController.add(PopScreenEvent());
       case Failure<UserEntity>():
-        emit(state.copyWith(editProfileStates: state.editProfileStates.error(response.errorMessage,),),);
-        _uiEventsController.add(EditProfileViewShowToast(message: response.errorMessage, isError: true));
+        emit(
+          state.copyWith(
+            editProfileStates: state.editProfileStates.error(
+              response.errorMessage,
+            ),
+          ),
+        );
+        _uiEventsController.add(
+          EditProfileViewShowToast(
+            message: response.errorMessage,
+            isError: true,
+          ),
+        );
     }
   }
 
+  Future<void> _uploadPhoto({required File imageFile}) async {
+    emit(state.copyWith(uploadPhotoStates: state.uploadPhotoStates.loading));
 
-  Future<void> _uploadPhoto({
-    required File imageFile,
-  }) async {
-    emit(
-      state.copyWith(
-        uploadPhotoStates:
-        state.uploadPhotoStates.loading,
-      ),
-    );
-
-    final response =
-    await _uploadPhotoUseCase.call(imageFile: imageFile);
+    final response = await _uploadPhotoUseCase.call(imageFile: imageFile);
 
     switch (response) {
       case Success<UploadPhotoResponse>():
-        emit(state.copyWith(uploadPhotoStates: state.uploadPhotoStates.loaded(response.data),
-          localImage: null,
+        emit(
+          state.copyWith(
+            uploadPhotoStates: state.uploadPhotoStates.loaded(response.data),
+            localImage: null,
           ),
         );
-        _uiEventsController.add(UploadPhotoViewShowToast(message: 'Photo uploaded successfully'));
+        _uiEventsController.add(
+          UploadPhotoViewShowToast(message: 'Photo uploaded successfully'),
+        );
 
         _getProfileData();
       case Failure<UploadPhotoResponse>():
-        emit(state.copyWith(uploadPhotoStates:state.uploadPhotoStates.error(response.errorMessage),
+        emit(
+          state.copyWith(
+            uploadPhotoStates: state.uploadPhotoStates.error(
+              response.errorMessage,
+            ),
             localImage: null,
           ),
         );
 
-        _uiEventsController.add(UploadPhotoViewShowToast(message: response.errorMessage,isError: true));
+        _uiEventsController.add(
+          UploadPhotoViewShowToast(
+            message: response.errorMessage,
+            isError: true,
+          ),
+        );
     }
   }
 
@@ -126,5 +161,3 @@ class EditProfileViewModel extends Cubit<EditProfileViewState> {
     return super.close();
   }
 }
-
-

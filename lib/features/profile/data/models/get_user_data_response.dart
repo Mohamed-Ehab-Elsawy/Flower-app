@@ -10,12 +10,10 @@ class GetUserDataResponse {
   @JsonKey(name: "user")
   final UserDto? user;
 
+  const GetUserDataResponse({this.message, this.user});
 
-  const GetUserDataResponse ({this.message,this.user});
+  factory GetUserDataResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetUserDataResponseFromJson(json);
 
-  factory GetUserDataResponse.fromJson(Map<String, dynamic> json) => _$GetUserDataResponseFromJson(json);
-
-  Map<String, dynamic> toJson() =>_$GetUserDataResponseToJson(this);
+  Map<String, dynamic> toJson() => _$GetUserDataResponseToJson(this);
 }
-
-

@@ -10,7 +10,6 @@ class UploadPhotoUseCase {
   final ProfileRepo _profileRepo;
   const UploadPhotoUseCase(this._profileRepo);
 
-  Future<Result<UploadPhotoResponse>> call({required File imageFile}) => _profileRepo.uploadPhoto(imageFile: imageFile);
-
-
+  Future<Result<UploadPhotoResponse>> call({required File imageFile}) =>
+      _profileRepo.uploadPhoto(imageFile: imageFile);
 }

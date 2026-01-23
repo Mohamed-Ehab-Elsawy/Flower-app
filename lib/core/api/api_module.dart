@@ -14,9 +14,11 @@ abstract class ApiModule {
   }
 
   @lazySingleton
-  Dio provideDio(BaseOptions option,
-      TalkerDioLogger logger,
-      AuthInterceptor authInterceptor) {
+  Dio provideDio(
+    BaseOptions option,
+    TalkerDioLogger logger,
+    AuthInterceptor authInterceptor,
+  ) {
     var dio = Dio(option);
     dio.interceptors.add(authInterceptor);
     dio.interceptors.add(logger);
@@ -51,8 +53,10 @@ abstract class ApiModule {
 @lazySingleton
 class AuthInterceptor extends Interceptor {
   @override
-  void onRequest(RequestOptions options,
-      RequestInterceptorHandler handler,) async {
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final token = await AppLocalStorage.getSecuredString(
       key: LocalKeys.authToken,
     );

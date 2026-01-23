@@ -12,11 +12,15 @@ class EditProfileRequest {
   final String firstName;
   @JsonKey(name: "lastName")
   final String lastName;
-  const EditProfileRequest ({required this.email, required this.phone, required this.firstName, required this.lastName});
+  const EditProfileRequest({
+    required this.email,
+    required this.phone,
+    required this.firstName,
+    required this.lastName,
+  });
 
-  factory EditProfileRequest.fromJson(Map<String, dynamic> json) => _$EditProfileRequestFromJson(json);
+  factory EditProfileRequest.fromJson(Map<String, dynamic> json) =>
+      _$EditProfileRequestFromJson(json);
 
-  Map<String, dynamic> toJson() =>_$EditProfileRequestToJson(this);
+  Map<String, dynamic> toJson() => _$EditProfileRequestToJson(this);
 }
-
-
