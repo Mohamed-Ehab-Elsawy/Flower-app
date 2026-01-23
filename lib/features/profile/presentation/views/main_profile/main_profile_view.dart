@@ -1,6 +1,21 @@
+import 'dart:async';
+
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
+import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
+import 'package:flower_app/core/constants/app_dimensions.dart';
+import 'package:flower_app/core/helper/app_routes.dart';
+import 'package:flower_app/core/widgets/custom_image_view.dart';
+import 'package:flower_app/features/localization/model/app_language.dart';
+import 'package:flower_app/features/profile/presentation/views/main_profile/managers/main_profile_view_intents.dart';
+import 'package:flower_app/features/profile/presentation/views/main_profile/managers/main_profile_view_ui_events.dart';
+import 'package:flower_app/features/profile/presentation/views/main_profile/view_model/main_profile_view_model.dart';
+import 'package:flower_app/features/profile/presentation/views/main_profile/widgets/main_profile_item.dart';
 import 'package:flower_app/features/localization/view/language_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class MainProfileView extends StatefulWidget {
   const MainProfileView({super.key});
@@ -10,9 +25,156 @@ class MainProfileView extends StatefulWidget {
 }
 
 class _MainProfileViewState extends State<MainProfileView> {
+  String _appVersion = '0.0.0';
+  late StreamSubscription _uiEventsSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+    _uiEventsSubscription = context
+        .read<MainProfileViewModel>()
+        .uiEvents
+        .listen((event) {
+          if (!mounted) return;
+          switch (event) {
+            case NavToEditProfileEvent():
+              Navigator.pushNamed(context, AppRoutes.editProfile);
+
+            case NavToMyOrdersEvent():
+              Navigator.pushNamed(context, AppRoutes.orders);
+
+            case NavToSavedAddressesEvent():
+              Navigator.pushNamed(context, AppRoutes.addresses);
+
+            case NavToNotificationEvent():
+              Navigator.pushNamed(context, AppRoutes.notifications);
+
+            case OpenLanguageBottomSheetEvent():
+              showLanguageBottomSheet();
+
+            case NavToTermsEvent():
+              Navigator.pushNamed(context, AppRoutes.terms);
+
+            case LogoutEvent():
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.login,
+                (_) => false,
+              );
+
+            case NavToAboutUsEvent():
+              Navigator.pushNamed(context, AppRoutes.aboutUs);
+          }
+        });
+  }
+
+  @override
+  void dispose() {
+    _uiEventsSubscription.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    var vm = context.read<MainProfileViewModel>();
+    var user = context.read<AppSectionViewModel>().user;
+    return SafeArea(
+      child: Padding(
+        padding: AppDimensions.pagePadding,
+        child: Column(
+          children: [
+            CustomImageView(
+              imagePath: user.photo ?? "assets/image/splash_android_12.png",
+              width: 80,
+              height: 80,
+              radius: const BorderRadius.all(Radius.circular(40)),
+            ),
+            context.h(16),
+            InkWell(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    user.firstName ?? "user".tr(),
+                    style: context.appTheme.semiBold18,
+                  ),
+                  context.w(4),
+                  const Icon(Icons.edit, size: 20),
+                ],
+              ),
+              onTap: () => vm.doIntent(OnEditProfileClickIntent()),
+            ),
+            context.h(4),
+            Text(
+              user.email ?? "example_email".tr(),
+              style: context.appTheme.semiBold18.copyWith(
+                color: context.appTheme.grey,
+              ),
+            ),
+            context.h(16),
+            MainProfileItem(
+              prefix: const Icon(Icons.list_alt, size: 18),
+              title: 'my_orders'.tr(),
+              onTap: () => vm.doIntent(OnMyOrdersClickIntent()),
+            ),
+            MainProfileItem(
+              prefix: const Icon(Icons.location_on_outlined, size: 18),
+              title: 'saved_address'.tr(),
+              onTap: () => vm.doIntent(OnSavedAddressesClickIntent()),
+            ),
+            const Divider(),
+            MainProfileItem(
+              title: 'notification'.tr(),
+              prefix: const Switch(value: true, onChanged: null),
+              onTap: () => vm.doIntent(OnNotificationClickIntent()),
+            ),
+            const Divider(),
+            MainProfileItem(
+              prefix: const Icon(Icons.translate_rounded, size: 18),
+              title: 'language'.tr(),
+              suffix: TextButton(
+                style: TextButton.styleFrom(),
+                onPressed: () => vm.doIntent(OnLanguageClickIntent()),
+                child: Text(
+                  context.locale.languageCode ==
+                          AppLanguage.values.first.locale.languageCode
+                      ? AppLanguage.values.first.displayName.tr()
+                      : AppLanguage.values.last.displayName.tr(),
+                  style: context.appTheme.regular12.copyWith(
+                    color: context.appTheme.primary,
+                  ),
+                ),
+              ),
+              onTap: () => vm.doIntent(OnLanguageClickIntent()),
+            ),
+            MainProfileItem(
+              title: 'about_us'.tr(),
+              onTap: () => vm.doIntent(OnAboutUsClickIntent()),
+            ),
+            MainProfileItem(
+              title: 'terms_and_conditions'.tr(),
+              onTap: () => vm.doIntent(OnTermsClickIntent()),
+            ),
+            const Divider(),
+            MainProfileItem(
+              title: 'logout'.tr(),
+              onTap: () => vm.doIntent(OnLogoutClickIntent()),
+              prefix: const Icon(Icons.logout, size: 16),
+              suffix: const Icon(Icons.logout, size: 24),
+            ),
+            const Spacer(),
+            Text('${"v".tr()} $_appVersion', style: context.appTheme.regular14),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _loadVersion() async {
+    final info = await PackageInfo.fromPlatform();
+    debugPrint("Version: ${info.version}");
+    setState(() => _appVersion = info.version);
   }
 
   showLanguageBottomSheet() {
