@@ -1,26 +1,26 @@
 import 'package:equatable/equatable.dart';
 
 class ProductsEntity extends Equatable {
-  finalString? id;
-  finalString? title;
-  finalString? slug;
-  finalString? description;
-  finalString? imageCover;
-  finalList<String>? images;
-  finaldouble? price;
-  finaldouble? priceAfterDiscount;
-  finalint? quantity;
-  finalString? categoryId;
-  finalString? occasionId;
-  finalDateTime? createdAt;
-  finalDateTime? updatedAt;
-  finalbool? isSuperAdmin;
-  finalint? sold;
-  finaldouble? ratingAverage;
-  finalint? ratingCount;
+  final String? id;
+  final String? title;
+  final String? slug;
+  final String? description;
+  final String? imageCover;
+  final List<String>? images;
+  final double? price;
+  final double? priceAfterDiscount;
+  final int? quantity;
+  final String? categoryId;
+  final String? occasionId;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final bool? isSuperAdmin;
+  final int? sold;
+  final double? ratingAverage;
+  final int? ratingCount;
   final double? discount;
 
-  constProductsEntity({
+  const ProductsEntity({
     this.id,
     this.title,
     this.slug,

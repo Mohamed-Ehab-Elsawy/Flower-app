@@ -10,9 +10,9 @@ import 'package:flower_app/features/profile/data/models/upload_photo_response.da
 
 @Injectable(as: ProfileRemoteDataSource)
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
-  // final ApiClient _apiClient;
-  //
-  // ProfileRemoteDataSourceImpl(this._apiClient);
+  final ApiClient _apiClient;
+
+  ProfileRemoteDataSourceImpl(this._apiClient);
 
   @override
   Future<Result<GetUserDataResponse>> getProfileData() {
