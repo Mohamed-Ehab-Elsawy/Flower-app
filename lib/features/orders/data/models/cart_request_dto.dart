@@ -12,6 +12,8 @@ class CartRequestDto extends Equatable {
 
   const CartRequestDto({required this.productId, required this.quantity});
 
+  factory CartRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$CartRequestDtoFromJson(json);
   Map<String, dynamic> toJson() => _$CartRequestDtoToJson(this);
 
   @override

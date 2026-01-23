@@ -13,6 +13,8 @@ class SuccessResponseDto extends Equatable {
   factory SuccessResponseDto.fromJson(Map<String, dynamic> json) =>
       _$SuccessResponseDtoFromJson(json);
 
+  Map<String, dynamic> toJson() => _$SuccessResponseDtoToJson(this);
+
   @override
   List<Object?> get props => [message];
 }
@@ -26,6 +28,8 @@ class FailureResponseDto extends Equatable {
 
   factory FailureResponseDto.fromJson(Map<String, dynamic> json) =>
       _$FailureResponseDtoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FailureResponseDtoToJson(this);
 
   @override
   List<Object?> get props => [error];
