@@ -57,6 +57,21 @@ import '../../features/home/presentation/occasions/occasions_cubit.dart'
     as _i240;
 import '../../features/home/presentation/view_model/home_view_model.dart'
     as _i77;
+import '../../features/profile/data/data_source/profile_remote_data_source.dart'
+    as _i998;
+import '../../features/profile/data/data_source/profile_remote_data_source_impl.dart'
+    as _i531;
+import '../../features/profile/data/repositories/profile_repo_impl.dart'
+    as _i988;
+import '../../features/profile/domain/repositories/profile_repo.dart' as _i790;
+import '../../features/profile/domain/usecases/edit_profile_use_case.dart'
+    as _i562;
+import '../../features/profile/domain/usecases/get_profile_data_use_case.dart'
+    as _i1016;
+import '../../features/profile/domain/usecases/upload_photo_use_case.dart'
+    as _i988;
+import '../../features/profile/presentation/views/edit_profile/view_model/edit_profile_view_model.dart'
+    as _i273;
 import '../api/api_client.dart' as _i277;
 import '../api/api_module.dart' as _i0;
 import '../app/presentation/view_model/app_section_view_model.dart' as _i752;
@@ -72,10 +87,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i752.AppSectionViewModel>(() => _i752.AppSectionViewModel());
     gh.lazySingleton<_i361.BaseOptions>(() => apiModule.providerOption());
     gh.lazySingleton<_i52.TalkerDioLogger>(() => apiModule.prvoideLogger());
+    gh.lazySingleton<_i0.AuthInterceptor>(() => _i0.AuthInterceptor());
     gh.lazySingleton<_i361.Dio>(
       () => apiModule.provideDio(
         gh<_i361.BaseOptions>(),
         gh<_i52.TalkerDioLogger>(),
+        gh<_i0.AuthInterceptor>(),
       ),
     );
     gh.lazySingleton<_i277.ApiClient>(
@@ -87,8 +104,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i842.CategoryDataSource>(
       () => _i236.CategoryDataSourceImpl(gh<_i277.ApiClient>()),
     );
+    gh.factory<_i998.ProfileRemoteDataSource>(
+      () => _i531.ProfileRemoteDataSourceImpl(gh<_i277.ApiClient>()),
+    );
     gh.lazySingleton<_i426.HomeDataSource>(
       () => _i375.HomeDataSourceImpl(gh<_i277.ApiClient>()),
+    );
+    gh.factory<_i790.ProfileRepo>(
+      () => _i988.ProfileRepoImpl(gh<_i998.ProfileRemoteDataSource>()),
     );
     gh.lazySingleton<_i280.HomeRepo>(
       () => _i1024.HomeRepoImpl(gh<_i426.HomeDataSource>()),
@@ -105,14 +128,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i51.CategoryRepo>(
       () => _i782.CategoryRepoImpl(gh<_i842.CategoryDataSource>()),
     );
-    gh.factory<_i1073.VerifyResetPasswordCodeUseCase>(
-      () => _i1073.VerifyResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
+    gh.factory<_i437.ResetPasswordUseCase>(
+      () => _i437.ResetPasswordUseCase(gh<_i723.AuthRepo>()),
     );
     gh.factory<_i876.SendResetPasswordCodeUseCase>(
       () => _i876.SendResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
     );
-    gh.factory<_i437.ResetPasswordUseCase>(
-      () => _i437.ResetPasswordUseCase(gh<_i723.AuthRepo>()),
+    gh.factory<_i1073.VerifyResetPasswordCodeUseCase>(
+      () => _i1073.VerifyResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
     );
     gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i723.AuthRepo>()),
@@ -125,6 +148,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i92.GetBestSellerUseCase>(
       () => _i92.GetBestSellerUseCase(gh<_i280.HomeRepo>()),
+    );
+    gh.factory<_i562.EditProfileUseCase>(
+      () => _i562.EditProfileUseCase(gh<_i790.ProfileRepo>()),
+    );
+    gh.factory<_i1016.GetProfileDataUseCase>(
+      () => _i1016.GetProfileDataUseCase(gh<_i790.ProfileRepo>()),
+    );
+    gh.factory<_i988.UploadPhotoUseCase>(
+      () => _i988.UploadPhotoUseCase(gh<_i790.ProfileRepo>()),
     );
     gh.factory<_i571.SignUpUseCase>(
       () => _i571.SignUpUseCase(gh<_i723.AuthRepo>()),
@@ -153,6 +185,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i645.BestSellerViewModel>(
       () => _i645.BestSellerViewModel(gh<_i92.GetBestSellerUseCase>()),
+    );
+    gh.factory<_i273.EditProfileViewModel>(
+      () => _i273.EditProfileViewModel(
+        gh<_i1016.GetProfileDataUseCase>(),
+        gh<_i562.EditProfileUseCase>(),
+        gh<_i988.UploadPhotoUseCase>(),
+      ),
     );
     return this;
   }

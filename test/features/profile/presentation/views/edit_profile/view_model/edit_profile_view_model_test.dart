@@ -19,11 +19,7 @@ import 'package:image_picker/image_picker.dart';
 
 import 'edit_profile_view_model_test.mocks.dart';
 
-@GenerateMocks([
-  GetProfileDataUseCase,
-  EditProfileUseCase,
-  UploadPhotoUseCase,
-])
+@GenerateMocks([GetProfileDataUseCase, EditProfileUseCase, UploadPhotoUseCase])
 void main() {
   late EditProfileViewModel viewModel;
   late MockGetProfileDataUseCase mockGetProfileDataUseCase;
@@ -60,8 +56,9 @@ void main() {
       build: () => viewModel,
       setUp: () {
         provideDummy<Result<UserEntity>>(successResponse);
-        when(mockGetProfileDataUseCase.call())
-            .thenAnswer((_) async => successResponse);
+        when(
+          mockGetProfileDataUseCase.call(),
+        ).thenAnswer((_) async => successResponse);
       },
       act: (bloc) => bloc.doIntent(GetProfileData()),
       expect: () => [
@@ -82,8 +79,9 @@ void main() {
       build: () => viewModel,
       setUp: () {
         provideDummy<Result<UserEntity>>(failureResponse);
-        when(mockGetProfileDataUseCase.call())
-            .thenAnswer((_) async => failureResponse);
+        when(
+          mockGetProfileDataUseCase.call(),
+        ).thenAnswer((_) async => failureResponse);
       },
       act: (bloc) => bloc.doIntent(GetProfileData()),
       expect: () => [
@@ -91,8 +89,9 @@ void main() {
           getProfileDateStates: BaseState<UserEntity>.loading(),
         ),
         EditProfileViewState.initial().copyWith(
-          getProfileDateStates:
-          BaseState<UserEntity>.error("Failed to get profile data"),
+          getProfileDateStates: BaseState<UserEntity>.error(
+            "Failed to get profile data",
+          ),
         ),
       ],
       verify: (_) {
@@ -123,9 +122,9 @@ void main() {
       build: () => viewModel,
       setUp: () {
         provideDummy<Result<UserEntity>>(successResponse);
-        when(mockEditProfileUseCase.call(
-            editProfileRequest: editProfileRequest))
-            .thenAnswer((_) async => successResponse);
+        when(
+          mockEditProfileUseCase.call(editProfileRequest: editProfileRequest),
+        ).thenAnswer((_) async => successResponse);
       },
       act: (bloc) => bloc.doIntent(EditProfile(editProfileRequest)),
       expect: () => [
@@ -137,9 +136,9 @@ void main() {
         ),
       ],
       verify: (_) {
-        verify(mockEditProfileUseCase.call(
-            editProfileRequest: editProfileRequest))
-            .called(1);
+        verify(
+          mockEditProfileUseCase.call(editProfileRequest: editProfileRequest),
+        ).called(1);
       },
     );
 
@@ -148,9 +147,9 @@ void main() {
       build: () => viewModel,
       setUp: () {
         provideDummy<Result<UserEntity>>(failureResponse);
-        when(mockEditProfileUseCase.call(
-            editProfileRequest: editProfileRequest))
-            .thenAnswer((_) async => failureResponse);
+        when(
+          mockEditProfileUseCase.call(editProfileRequest: editProfileRequest),
+        ).thenAnswer((_) async => failureResponse);
       },
       act: (bloc) => bloc.doIntent(EditProfile(editProfileRequest)),
       expect: () => [
@@ -158,25 +157,28 @@ void main() {
           editProfileStates: BaseState<UserEntity>.loading(),
         ),
         EditProfileViewState.initial().copyWith(
-          editProfileStates:
-          BaseState<UserEntity>.error("Failed to edit profile"),
+          editProfileStates: BaseState<UserEntity>.error(
+            "Failed to edit profile",
+          ),
         ),
       ],
       verify: (_) {
-        verify(mockEditProfileUseCase.call(
-            editProfileRequest: editProfileRequest))
-            .called(1);
+        verify(
+          mockEditProfileUseCase.call(editProfileRequest: editProfileRequest),
+        ).called(1);
       },
     );
   });
 
   group('UploadPhoto Intent Tests', () {
     late File testImageFile;
-    const uploadPhotoResponse =
-    UploadPhotoResponse(message: "Photo uploaded successfully");
+    const uploadPhotoResponse = UploadPhotoResponse(
+      message: "Photo uploaded successfully",
+    );
     final successResponse = Success<UploadPhotoResponse>(uploadPhotoResponse);
-    final failureResponse =
-    Failure<UploadPhotoResponse>("Failed to upload photo");
+    final failureResponse = Failure<UploadPhotoResponse>(
+      "Failed to upload photo",
+    );
     final userEntity = UserEntity(
       id: "1",
       firstName: "Test User",
@@ -203,10 +205,12 @@ void main() {
       setUp: () {
         provideDummy<Result<UploadPhotoResponse>>(successResponse);
         provideDummy<Result<UserEntity>>(getUserSuccessResponse);
-        when(mockUploadPhotoUseCase.call(imageFile: testImageFile))
-            .thenAnswer((_) async => successResponse);
-        when(mockGetProfileDataUseCase.call())
-            .thenAnswer((_) async => getUserSuccessResponse);
+        when(
+          mockUploadPhotoUseCase.call(imageFile: testImageFile),
+        ).thenAnswer((_) async => successResponse);
+        when(
+          mockGetProfileDataUseCase.call(),
+        ).thenAnswer((_) async => getUserSuccessResponse);
       },
       act: (bloc) => bloc.doIntent(UploadPhoto(testImageFile)),
       expect: () => [
@@ -214,19 +218,22 @@ void main() {
           uploadPhotoStates: BaseState<UploadPhotoResponse>.loading(),
         ),
         EditProfileViewState.initial().copyWith(
-          uploadPhotoStates:
-          BaseState<UploadPhotoResponse>.loaded(uploadPhotoResponse),
+          uploadPhotoStates: BaseState<UploadPhotoResponse>.loaded(
+            uploadPhotoResponse,
+          ),
           localImage: null,
         ),
         EditProfileViewState.initial().copyWith(
-          uploadPhotoStates:
-          BaseState<UploadPhotoResponse>.loaded(uploadPhotoResponse),
+          uploadPhotoStates: BaseState<UploadPhotoResponse>.loaded(
+            uploadPhotoResponse,
+          ),
           localImage: null,
           getProfileDateStates: BaseState<UserEntity>.loading(),
         ),
         EditProfileViewState.initial().copyWith(
-          uploadPhotoStates:
-          BaseState<UploadPhotoResponse>.loaded(uploadPhotoResponse),
+          uploadPhotoStates: BaseState<UploadPhotoResponse>.loaded(
+            uploadPhotoResponse,
+          ),
           localImage: null,
           getProfileDateStates: BaseState<UserEntity>.loaded(userEntity),
         ),
@@ -242,8 +249,9 @@ void main() {
       build: () => viewModel,
       setUp: () {
         provideDummy<Result<UploadPhotoResponse>>(failureResponse);
-        when(mockUploadPhotoUseCase.call(imageFile: testImageFile))
-            .thenAnswer((_) async => failureResponse);
+        when(
+          mockUploadPhotoUseCase.call(imageFile: testImageFile),
+        ).thenAnswer((_) async => failureResponse);
       },
       act: (bloc) => bloc.doIntent(UploadPhoto(testImageFile)),
       expect: () => [
@@ -251,8 +259,9 @@ void main() {
           uploadPhotoStates: BaseState<UploadPhotoResponse>.loading(),
         ),
         EditProfileViewState.initial().copyWith(
-          uploadPhotoStates:
-          BaseState<UploadPhotoResponse>.error("Failed to upload photo"),
+          uploadPhotoStates: BaseState<UploadPhotoResponse>.error(
+            "Failed to upload photo",
+          ),
           localImage: null,
         ),
       ],
@@ -283,9 +292,7 @@ void main() {
       build: () => viewModel,
       act: (bloc) => bloc.doIntent(SelectLocalPhoto(testImageFile)),
       expect: () => [
-        EditProfileViewState.initial().copyWith(
-          localImage: testImageFile,
-        ),
+        EditProfileViewState.initial().copyWith(localImage: testImageFile),
       ],
     );
   });
@@ -299,7 +306,7 @@ void main() {
           viewModel.uiEventsStream,
           emits(
             predicate<PopWithImageSource>(
-                  (event) => event.source == ImageSource.gallery,
+              (event) => event.source == ImageSource.gallery,
             ),
           ),
         );
@@ -318,7 +325,7 @@ void main() {
           viewModel.uiEventsStream,
           emits(
             predicate<PopWithImageSource>(
-                  (event) => event.source == ImageSource.camera,
+              (event) => event.source == ImageSource.camera,
             ),
           ),
         );
@@ -329,22 +336,20 @@ void main() {
   });
 
   group('UI Events Tests', () {
-    test('should emit NavigateToResetPasswordEvent when doUIEvent is called',
-            () async {
-          expectLater(
-            viewModel.uiEventsStream,
-            emits(isA<NavigateToResetPasswordEvent>()),
-          );
-          viewModel.doUIEvent(NavigateToResetPasswordEvent());
-        });
+    test(
+      'should emit NavigateToResetPasswordEvent when doUIEvent is called',
+      () async {
+        expectLater(
+          viewModel.uiEventsStream,
+          emits(isA<NavigateToResetPasswordEvent>()),
+        );
+        viewModel.doUIEvent(NavigateToResetPasswordEvent());
+      },
+    );
 
     test('should emit PopScreenEvent when doUIEvent is called', () async {
-      expectLater(
-        viewModel.uiEventsStream,
-        emits(isA<PopScreenEvent>()),
-      );
+      expectLater(viewModel.uiEventsStream, emits(isA<PopScreenEvent>()));
       viewModel.doUIEvent(PopScreenEvent());
     });
-
   });
 }

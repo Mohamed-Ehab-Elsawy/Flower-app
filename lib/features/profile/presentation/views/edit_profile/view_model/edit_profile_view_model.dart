@@ -104,16 +104,15 @@ class EditProfileViewModel extends Cubit<EditProfileViewState> {
     switch (response) {
       case Success<UploadPhotoResponse>():
         emit(state.copyWith(uploadPhotoStates: state.uploadPhotoStates.loaded(response.data),
-          localImage: null, // نفضي local بعد success
+          localImage: null,
           ),
         );
         _uiEventsController.add(UploadPhotoViewShowToast(message: 'Photo uploaded successfully'));
 
-        // ✅ refetch هنا منطقي
         _getProfileData();
       case Failure<UploadPhotoResponse>():
         emit(state.copyWith(uploadPhotoStates:state.uploadPhotoStates.error(response.errorMessage),
-            localImage: null, // rollback
+            localImage: null,
           ),
         );
 

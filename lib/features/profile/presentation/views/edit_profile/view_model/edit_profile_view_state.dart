@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:equatable/equatable.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/features/auth/domain/models/user_entity.dart';
@@ -9,7 +8,7 @@ class EditProfileViewState extends Equatable{
   final BaseState<UserEntity> getProfileDateStates;
   final BaseState<UserEntity> editProfileStates;
   final BaseState<UploadPhotoResponse> uploadPhotoStates;
-  final File? localImage;        // الصورة المؤقتة (preview)
+  final File? localImage;
 
   const EditProfileViewState({
     required this.getProfileDateStates,
@@ -35,11 +34,10 @@ class EditProfileViewState extends Equatable{
       getProfileDateStates: getProfileDateStates ?? this.getProfileDateStates,
       editProfileStates: editProfileStates ?? this.editProfileStates,
       uploadPhotoStates: uploadPhotoStates ?? this.uploadPhotoStates,
-      localImage: localImage,
+      localImage: localImage ?? this.localImage,
     );
   }
 
   @override
-  // TODO: implement props
   List<Object?> get props => [getProfileDateStates,editProfileStates,uploadPhotoStates,localImage];
 }

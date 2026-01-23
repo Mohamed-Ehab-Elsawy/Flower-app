@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
@@ -34,6 +35,7 @@ class _EditProfileViewState extends State<EditProfileView> {
   final _lastNameController  = TextEditingController();
   final _emailController     = TextEditingController();
   final _phoneController     = TextEditingController();
+  StreamSubscription<EditProfileUIEvents>? _uiEventsSubscription;
 
 
   final EditProfileViewModel _viewModel = getIt<EditProfileViewModel>();
@@ -45,9 +47,10 @@ class _EditProfileViewState extends State<EditProfileView> {
     _listenToUIEvents();
   }
 
+
   void _listenToUIEvents() {
-    _viewModel.uiEventsStream.listen((event) {
-      if (!mounted) return;  // memory leaks
+    _uiEventsSubscription = _viewModel.uiEventsStream.listen((event) {
+      if (!mounted) return;
       switch (event) {
         case NavigateToResetPasswordEvent():
           context.pushName(AppRoutes.resetPassword);
@@ -311,8 +314,10 @@ class _EditProfileViewState extends State<EditProfileView> {
     );
   }
 
+
   @override
   void dispose() {
+    _uiEventsSubscription?.cancel();
     _firstNameController.dispose();
     _lastNameController.dispose();
     _emailController.dispose();
