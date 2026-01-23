@@ -20,8 +20,7 @@ void main() async {
     EasyLocalization(
       saveLocale: true,
       supportedLocales: const [Locale('en'), Locale('ar')],
-      path:
-          'assets/translations',
+      path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       child: const FlowerApp(),
     ),
