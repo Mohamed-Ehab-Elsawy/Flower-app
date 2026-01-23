@@ -15,7 +15,7 @@ void main() {
     UserEntity userEntity = UserEntity(
       addresses: ["abdo"],
       firstName: "abdo",
-      lastName: "abdoa",
+      lastName: "abdo",
       email: "abdo@d.com",
       phone: "12345",
       role: "role",

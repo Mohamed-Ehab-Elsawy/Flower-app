@@ -13,9 +13,11 @@ import 'package:flower_app/features/categories/presentation/view/manager/categor
 import 'package:flower_app/features/home/presentation/view/best_seller_view.dart';
 import 'package:flower_app/features/home/presentation/view/occasions/occasion_screen.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
+import 'package:flower_app/features/orders/presentation/view_model/order_viewmodel.dart';
 import 'package:flower_app/features/product_details/presentation/views/product_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../di/di.dart';
 
 class AppRoutes {
@@ -34,7 +36,12 @@ class AppRoutes {
 Route? onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
     case AppRoutes.mostSelling:
-      return MaterialPageRoute(builder: (_) => const BestSellerView());
+      return MaterialPageRoute(
+        builder: (_) => BlocProvider<OrderViewModel>.value(
+          value: getIt.get<OrderViewModel>(),
+          child: const BestSellerView(),
+        ),
+      );
 
     case AppRoutes.signup:
       return MaterialPageRoute(builder: (_) => const SignUpScreen());
@@ -48,6 +55,9 @@ Route? onGenerateRoute(RouteSettings settings) {
         settings: settings,
         builder: (_) => MultiBlocProvider(
           providers: [
+            BlocProvider<OrderViewModel>(
+              create: (context) => getIt.get<OrderViewModel>(),
+            ),
             BlocProvider<AppSectionViewModel>(
               create: (_) => appSectionsViewModel,
             ),
@@ -74,14 +84,20 @@ Route? onGenerateRoute(RouteSettings settings) {
 
     case AppRoutes.occasion:
       return MaterialPageRoute(
-        builder: (_) => const OccasionScreen(),
+        builder: (_) => BlocProvider<OrderViewModel>.value(
+          value: getIt.get<OrderViewModel>(),
+          child: const OccasionScreen(),
+        ),
         settings: settings,
       );
 
     case AppRoutes.productDetails:
       final args = settings.arguments as ProductsEntity;
       return MaterialPageRoute(
-        builder: (_) => ProductDetailsView(product: args),
+        builder: (_) => BlocProvider<OrderViewModel>.value(
+          value: getIt.get<OrderViewModel>(),
+          child: ProductDetailsView(product: args),
+        ),
       );
 
     case AppRoutes.forgetPassword:

@@ -23,6 +23,7 @@ class LoadingList extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             return const CustomCard(
+              onTap: null,
               product: ProductsEntity(
                 title: "Loading Name",
                 imageCover: IAppText.placeHolderImage,

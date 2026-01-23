@@ -5,6 +5,7 @@ class AppValidator {
   static const _namePattern = r'^[\p{L}\s]+$';
   static const _emailPattern =
       r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+
   static String? validateUsername(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'validation.enterUsername'.tr();
