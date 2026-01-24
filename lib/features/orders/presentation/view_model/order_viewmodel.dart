@@ -208,9 +208,9 @@ class OrderViewModel extends Cubit<OrderState> {
   }
 
   @override
-  Future<void> close() {
+  Future<void> close() async {
     _timer?.cancel();
-    _uiEventsController.close();
+    await _uiEventsController.close();
     return super.close();
   }
 }
