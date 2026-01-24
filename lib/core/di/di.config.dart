@@ -18,6 +18,8 @@ import '../../features/auth/data/datasources/auth_ds.dart' as _i586;
 import '../../features/auth/data/datasources/auth_ds_impl.dart' as _i775;
 import '../../features/auth/data/repositories/auth_repo_impl.dart' as _i662;
 import '../../features/auth/domain/repositories/auth_repo.dart' as _i723;
+import '../../features/auth/domain/use_cases/change_password_use_case.dart'
+    as _i273;
 import '../../features/auth/domain/use_cases/forget_password/reset_password_use_case.dart'
     as _i437;
 import '../../features/auth/domain/use_cases/forget_password/send_reset_password_code_use_case.dart'
@@ -25,11 +27,16 @@ import '../../features/auth/domain/use_cases/forget_password/send_reset_password
 import '../../features/auth/domain/use_cases/forget_password/verify_reset_password_code_use_case.dart'
     as _i1073;
 import '../../features/auth/domain/use_cases/login_use_case.dart' as _i1038;
+import '../../features/auth/domain/use_cases/logout_use_case.dart' as _i698;
 import '../../features/auth/domain/use_cases/signup_use_case.dart' as _i571;
+import '../../features/auth/presentation/cubit/change_password/change_password_view_model.dart'
+    as _i796;
 import '../../features/auth/presentation/cubit/forget_password/forget_password_cubit.dart'
     as _i817;
 import '../../features/auth/presentation/cubit/login_view_model/login_view_model.dart'
     as _i869;
+import '../../features/auth/presentation/cubit/logout/logout_cubit.dart'
+    as _i401;
 import '../../features/auth/presentation/cubit/signup_viewmodel.dart' as _i68;
 import '../../features/categories/data/datasources/category_data_source.dart'
     as _i842;
@@ -58,6 +65,13 @@ import '../../features/home/presentation/occasions/occasions_cubit.dart'
 import '../../features/home/presentation/view_model/home_view_model.dart'
     as _i77;
 import '../../features/localization/view_model/language_cubit.dart' as _i403;
+import '../../features/orders/data/datasources/order_data_source.dart' as _i812;
+import '../../features/orders/data/datasources/order_data_source_impl.dart'
+    as _i589;
+import '../../features/orders/data/repositories/order_repo_impl.dart' as _i977;
+import '../../features/orders/domain/repositories/order_repo.dart' as _i93;
+import '../../features/orders/presentation/view_model/order_viewmodel.dart'
+    as _i20;
 import '../../features/profile/data/data_source/profile_remote_data_source.dart'
     as _i998;
 import '../../features/profile/data/data_source/profile_remote_data_source_impl.dart'
@@ -86,29 +100,33 @@ import '../app/presentation/view_model/app_section_view_model.dart' as _i752;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
-  _i174.GetIt init({
+  Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
-  }) {
+  }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final apiModule = _$ApiModule();
     gh.factory<_i403.LanguageCubit>(() => _i403.LanguageCubit());
     gh.factory<_i593.MainProfileViewModel>(() => _i593.MainProfileViewModel());
     gh.lazySingleton<_i361.BaseOptions>(() => apiModule.providerOption());
-    gh.lazySingleton<_i52.TalkerDioLogger>(() => apiModule.prvoideLogger());
+    gh.lazySingleton<_i52.TalkerDioLogger>(() => apiModule.provideLogger());
     gh.lazySingleton<_i0.AuthInterceptor>(() => _i0.AuthInterceptor());
-    gh.lazySingleton<_i361.Dio>(
+    await gh.lazySingletonAsync<_i361.Dio>(
       () => apiModule.provideDio(
         gh<_i361.BaseOptions>(),
         gh<_i52.TalkerDioLogger>(),
         gh<_i0.AuthInterceptor>(),
       ),
+      preResolve: true,
     );
     gh.lazySingleton<_i277.ApiClient>(
       () => apiModule.provideApiClient(gh<_i361.Dio>()),
     );
     gh.factory<_i778.AppSectionsDataSource>(
       () => _i772.AppSectionsDataSourceImpl(gh<_i277.ApiClient>()),
+    );
+    gh.lazySingleton<_i812.OrderDataSource>(
+      () => _i589.OrderDataSourceImpl(gh<_i277.ApiClient>()),
     );
     gh.factory<_i586.AuthDataSource>(
       () => _i775.AuthDataSourceImpl(gh<_i277.ApiClient>()),
@@ -121,6 +139,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i426.HomeDataSource>(
       () => _i375.HomeDataSourceImpl(gh<_i277.ApiClient>()),
+    );
+    gh.lazySingleton<_i93.OrderRepo>(
+      () => _i977.OrderRepoImpl(gh<_i812.OrderDataSource>()),
     );
     gh.factory<_i578.AppSectionsRepo>(
       () => _i522.AppSectionsRepoImpl(gh<_i778.AppSectionsDataSource>()),
@@ -140,6 +161,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i240.OccasionsCubit>(
       () => _i240.OccasionsCubit(gh<_i491.GetProductsUseCase>()),
     );
+    gh.lazySingleton<_i20.OrderViewModel>(
+      () => _i20.OrderViewModel(gh<_i93.OrderRepo>()),
+    );
     gh.lazySingleton<_i51.CategoryRepo>(
       () => _i782.CategoryRepoImpl(gh<_i842.CategoryDataSource>()),
     );
@@ -155,8 +179,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1038.LoginUseCase>(
       () => _i1038.LoginUseCase(gh<_i723.AuthRepo>()),
     );
+    gh.lazySingleton<_i698.LogoutUseCase>(
+      () => _i698.LogoutUseCase(gh<_i723.AuthRepo>()),
+    );
     gh.factory<_i308.GetCategoriesUseCase>(
       () => _i308.GetCategoriesUseCase(gh<_i51.CategoryRepo>()),
+    );
+    gh.factory<_i273.ChangePasswordUseCase>(
+      () => _i273.ChangePasswordUseCase(gh<_i723.AuthRepo>()),
     );
     gh.lazySingleton<_i798.FetchHomeDataUsecase>(
       () => _i798.FetchHomeDataUsecase(gh<_i280.HomeRepo>()),
@@ -201,8 +231,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i869.LoginViewModel>(
       () => _i869.LoginViewModel(gh<_i1038.LoginUseCase>()),
     );
+    gh.factory<_i796.ChangePasswordViewModel>(
+      () => _i796.ChangePasswordViewModel(gh<_i273.ChangePasswordUseCase>()),
+    );
     gh.factory<_i77.HomeViewModel>(
       () => _i77.HomeViewModel(gh<_i798.FetchHomeDataUsecase>()),
+    );
+    gh.factory<_i401.LogoutCubit>(
+      () => _i401.LogoutCubit(gh<_i698.LogoutUseCase>()),
     );
     gh.factory<_i645.BestSellerViewModel>(
       () => _i645.BestSellerViewModel(gh<_i92.GetBestSellerUseCase>()),

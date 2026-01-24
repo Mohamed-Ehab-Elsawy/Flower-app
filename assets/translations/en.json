@@ -138,8 +138,6 @@
   "retry" : "Retry",
   "gallery" : "Gallery",
   "camera" : "Camera",
-  "resendIn": "Resend in",
-  "update": "Update",
   "oldPassword": "Old password",
   "changePassword": "Change password",
   "success": "Success"

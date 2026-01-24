@@ -7,12 +7,13 @@ import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
 import 'package:flower_app/core/constants/app_dimensions.dart';
 import 'package:flower_app/core/helper/app_routes.dart';
 import 'package:flower_app/core/widgets/custom_image_view.dart';
+import 'package:flower_app/features/auth/presentation/pages/logout/logout_dialog.dart';
 import 'package:flower_app/features/localization/model/app_language.dart';
+import 'package:flower_app/features/localization/view/language_bottom_sheet.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/managers/main_profile_view_intents.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/managers/main_profile_view_ui_events.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/view_model/main_profile_view_model.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/widgets/main_profile_item.dart';
-import 'package:flower_app/features/localization/view/language_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -57,11 +58,7 @@ class _MainProfileViewState extends State<MainProfileView> {
               Navigator.pushNamed(context, AppRoutes.terms);
 
             case LogoutEvent():
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                AppRoutes.login,
-                (_) => false,
-              );
+              showLogoutDialog(context);
 
             case NavToAboutUsEvent():
               Navigator.pushNamed(context, AppRoutes.aboutUs);
@@ -202,7 +199,20 @@ class _MainProfileViewState extends State<MainProfileView> {
         child: const LanguageBottomSheet(),
       ),
     );
+  }
 
-    setState(() {});
+  void showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: const LogOuDialog(),
+        );
+      },
+    );
   }
 }
