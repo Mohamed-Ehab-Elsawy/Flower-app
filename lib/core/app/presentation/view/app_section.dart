@@ -3,7 +3,7 @@ import 'package:flower_app/core/app/presentation/view_model/app_section_contract
 import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
 import 'package:flower_app/core/app/presentation/widget/bottom_nav_bar.dart';
 import 'package:flower_app/core/helper/show_toast.dart';
-import 'package:flower_app/features/cart/presentation/view/cart_view.dart';
+import 'package:flower_app/features/orders/presentation/view/order_view.dart';
 import 'package:flower_app/features/categories/presentation/view/categories_view.dart';
 import 'package:flower_app/features/home/presentation/view/home_view.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/main_profile_view.dart';
@@ -39,7 +39,7 @@ class _AppSectionState extends State<AppSection> {
       builder: (context, state) =>
           CategoriesView(index: state.selectedCategoryIndex),
     ),
-    const CartView(),
+    const OrderView(),
     const MainProfileView(),
   ];
 

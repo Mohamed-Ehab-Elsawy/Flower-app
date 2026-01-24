@@ -35,7 +35,7 @@ class OccasionList extends StatelessWidget {
                 return _buildDummyOccasionList(state);
               case RequestState.loaded:
                 occasions = state.homeState.data!.occasions;
-                return _buildOccasionList(occasions?.take(5).toList());
+                return _buildOccasionList(occasions);
               case RequestState.error:
                 return const SizedBox.shrink();
             }

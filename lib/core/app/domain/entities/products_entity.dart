@@ -27,9 +27,9 @@ class ProductsEntity extends Equatable {
     this.description,
     this.imageCover,
     this.images,
-    this.price,
-    this.priceAfterDiscount,
-    this.quantity,
+    int? quantity,
+    double? price,
+    double? priceAfterDiscount,
     this.categoryId,
     this.occasionId,
     this.createdAt,
@@ -39,7 +39,22 @@ class ProductsEntity extends Equatable {
     this.ratingAverage,
     this.ratingCount,
     this.discount,
-  });
+  }) : quantity = quantity ?? 1,
+       price = price ?? 0.0,
+       priceAfterDiscount = priceAfterDiscount ?? price ?? 0.0;
+
+  bool get outOfStock => (quantity ?? 0) <= 0;
+
+  double get totalPrice => (price ?? 0.0) * (quantity ?? 1);
+
+  double get totalPriceAfterDiscount =>
+      (priceAfterDiscount ?? price ?? 0.0) * (quantity ?? 1);
+
+  bool get hasDiscount =>
+      (discount != null && price != null) ? discount! < price! : false;
+
+  double get priceHasDiscount =>
+      hasDiscount ? (priceAfterDiscount ?? price ?? 0.0) : (price ?? 0.0);
 
   @override
   List<Object?> get props => [

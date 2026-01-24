@@ -1,8 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
+import 'package:flower_app/core/helper/show_toast.dart';
 import 'package:flower_app/core/widgets/custom_image_view.dart';
+import 'package:flower_app/features/orders/presentation/view_model/order_state.dart';
+import 'package:flower_app/features/orders/presentation/view_model/order_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductDetailsView extends StatefulWidget {
   final ProductsEntity product;
@@ -16,6 +20,23 @@ class ProductDetailsView extends StatefulWidget {
 class _ProductDetailsViewState extends State<ProductDetailsView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+
+  @override
+  void initState() {
+    context.read<OrderViewModel>().uiEventsStream.listen((event) {
+      switch (event) {
+        case AddToCartEvent():
+          //show toast
+          if (!mounted) return;
+          Toast.showToast(context, "Product added to cart");
+        case UnAuthorizedEvent():
+          //show toast
+          if (!mounted) return;
+          Toast.showAppDialog(context: context, title: event.errorMessage);
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +162,13 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     ),
                     const SizedBox(height: 32),
                     ElevatedButton(
-                      onPressed: isInStock ? () {} : null,
+                      onPressed: isInStock
+                          ? () {
+                              context.read<OrderViewModel>().doIntent(
+                                AddItemToCart(product: widget.product),
+                              );
+                            }
+                          : null,
                       child: Text("addToCart".tr()),
                     ),
                   ],

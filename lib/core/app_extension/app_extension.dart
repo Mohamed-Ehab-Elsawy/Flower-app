@@ -6,6 +6,10 @@ extension AppNavigatorExtension on BuildContext {
 
   void pop() => Navigator.of(this).pop();
 
+  void pushNamedAndRemoveUntil(String routeName) {
+    Navigator.of(this).pushNamedAndRemoveUntil(routeName, (route) => false);
+  }
+
   void pushReplacement(String routeName, {Object? arguments}) =>
       Navigator.of(this).pushReplacementNamed(routeName, arguments: arguments);
 

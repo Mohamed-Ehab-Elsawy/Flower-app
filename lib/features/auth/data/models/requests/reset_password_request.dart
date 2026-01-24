@@ -6,10 +6,10 @@ part 'reset_password_request.g.dart';
 @JsonSerializable()
 class ResetPasswordRequest with EquatableMixin {
   @JsonKey(name: 'email')
-  final String email;
+  final String? email;
 
   @JsonKey(name: 'newPassword')
-  final String password;
+  final String? password;
 
   ResetPasswordRequest({required this.email, required this.password});
 

@@ -31,6 +31,7 @@ void main() {
         // assert
         expect(result, tResponse);
         expect((result as Success<List<ProductsEntity>>).data, productsList);
+        expect((result).data, hasLength(2));
       },
     );
     test(

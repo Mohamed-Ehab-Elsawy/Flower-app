@@ -13,15 +13,27 @@ abstract class ApiModule {
     return ApiClient(dio, baseUrl: Env.baseUrl);
   }
 
+  @preResolve
   @lazySingleton
-  Dio provideDio(
+  Future<Dio> provideDio(
     BaseOptions option,
     TalkerDioLogger logger,
     AuthInterceptor authInterceptor,
-  ) {
+  ) async {
     var dio = Dio(option);
     dio.interceptors.add(authInterceptor);
     dio.interceptors.add(logger);
+
+    final userToken = await AppLocalStorage.getSecuredString(
+      key: LocalKeys.authToken,
+    );
+
+    if (userToken.isNotEmpty) {
+      dio.options.headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $userToken',
+      };
+    }
 
     return dio;
   }
@@ -36,10 +48,11 @@ abstract class ApiModule {
   }
 
   @lazySingleton
-  TalkerDioLogger prvoideLogger() {
+  TalkerDioLogger provideLogger() {
     return TalkerDioLogger(
       settings: const TalkerDioLoggerSettings(
         printRequestHeaders: true,
+        printErrorHeaders: true,
         printResponseHeaders: true,
         printResponseMessage: true,
         printErrorMessage: true,
