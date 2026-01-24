@@ -116,6 +116,11 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                 ),
                 BlocBuilder<ChangePasswordViewModel, ChangePasswordState>(
                   builder: (context, state) {
+                    if (state.changePasswordState.isLoaded) {
+                      context.read<ChangePasswordViewModel>().doEvent(
+                        NavigateToEditProfileEvent(),
+                      );
+                    }
                     return ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
@@ -126,9 +131,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                                 newPassword: _newPasswordController.text,
                               ),
                             ),
-                          );
-                          context.read<ChangePasswordViewModel>().doEvent(
-                            NavigateToEditProfileEvent(),
                           );
                         }
                       },
