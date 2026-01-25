@@ -7,6 +7,7 @@ class EndPoints {
   static const String verifyResetCode = 'auth/verifyResetCode';
   static const String resetPassword = 'auth/resetPassword';
   static const String login = "auth/signin";
+  static const String profileData = "auth/profile-data";
   static const String bestSeller = 'best-seller';
   static const String home = "home";
   static const String products = "products/";
@@ -17,4 +18,6 @@ class EndPoints {
   static const String deleteProductFromCard = "cart/{id}";
   static const String updateProductQuantity = "cart/{id}";
   static const String checkout = "orders/checkout";
+  static const String uploadPhoto = "auth/upload-photo";
+  static const String editProfile = "auth/editProfile";
 }

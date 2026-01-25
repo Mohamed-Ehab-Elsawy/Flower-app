@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flower_app/core/app/data/models/product_response.dart';
+import 'package:flower_app/core/app/data/models/response/get_current_user_data_response_dto.dart';
 import 'package:flower_app/core/error_handling/base_response_result_dto.dart';
 import 'package:flower_app/features/auth/data/models/requests/change_password_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart';
@@ -16,9 +17,13 @@ import 'package:flower_app/features/categories/data/models/categories_response.d
 import 'package:flower_app/features/checkout/data/models/request/check_out_order_request.dart';
 import 'package:flower_app/features/checkout/data/models/response/check_out_order_response.dart';
 import 'package:flower_app/features/home/data/models/best_seller_response.dart';
+import 'package:flower_app/features/home/data/models/best_seller_response.dart';
 import 'package:flower_app/features/home/data/models/home_response_dto.dart';
 import 'package:flower_app/features/orders/data/models/cart_request_dto.dart';
 import 'package:flower_app/features/orders/data/models/order_response_dto.dart';
+import 'package:flower_app/features/profile/data/models/edit_profile_request.dart';
+import 'package:flower_app/features/profile/data/models/get_user_data_response.dart';
+import 'package:flower_app/features/profile/data/models/upload_photo_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -53,6 +58,9 @@ abstract class ApiClient {
   Future<ResetPasswordResponse> resetPassword({
     @Body() required ResetPasswordRequest resetPasswordRequest,
   });
+
+  @GET(EndPoints.profileData)
+  Future<GetCurrentUserDataResponseDto> getCurrentUserData();
 
   @GET(EndPoints.bestSeller)
   Future<BestSellerResponse> getBestSeller();
@@ -101,5 +109,19 @@ abstract class ApiClient {
   @POST(EndPoints.checkout)
   Future<CheckOutOrderResponseDto> checkout(
     @Body() CheckOutOrderRequest checkOutOrderRequest,
+  );
+
+  @GET(EndPoints.profileData)
+  Future<GetUserDataResponse> getProfileData();
+
+  @PUT(EndPoints.editProfile)
+  Future<GetUserDataResponse> editProfile({
+    @Body() required EditProfileRequest editProfileRequest,
+  });
+
+  @PUT(EndPoints.uploadPhoto)
+  @MultiPart()
+  Future<UploadPhotoResponse> uploadPhoto(
+    @Part(name: 'photo') MultipartFile photo,
   );
 }

@@ -61,7 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       create: (context) => signUpViewModel,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Sign Up", style: context.appTheme.medium20).tr(),
+          title: Text("Sign Up".tr(), style: context.appTheme.medium20).tr(),
         ),
         body: SafeArea(
           child: Padding(

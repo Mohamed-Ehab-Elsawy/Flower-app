@@ -18,7 +18,8 @@ void main() async {
   await configureDependencies();
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en')],
+      saveLocale: true,
+      supportedLocales: const [Locale('en'), Locale('ar')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       child: const FlowerApp(),
