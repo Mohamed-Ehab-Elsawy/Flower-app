@@ -10,6 +10,7 @@ import 'package:flower_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/signup_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/terms_and_conditions.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_cubit.dart';
+import 'package:flower_app/features/checkout/presentation/view/check_out_view.dart';
 import 'package:flower_app/features/home/presentation/view/best_seller_view.dart';
 import 'package:flower_app/features/home/presentation/view/occasions/occasion_screen.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
@@ -31,6 +32,7 @@ class AppRoutes {
   static const String occasion = '/occasion';
   static const String testScreen = '/TestScreen';
   static const String changePassword = '/changePassword';
+  static const String checkout = '/checkout';
 }
 
 Route? onGenerateRoute(RouteSettings settings) {
@@ -114,6 +116,8 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const ChangePasswordView(),
         ),
       );
+    case AppRoutes.checkout:
+      return MaterialPageRoute(builder: (_) => const CheckoutView());
     default:
       return null;
   }

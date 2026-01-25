@@ -6,6 +6,8 @@ import 'package:flower_app/features/orders/presentation/widgets/full_bill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/helper/app_routes.dart';
+
 class CheckoutBill extends StatelessWidget {
   const CheckoutBill({super.key});
 
@@ -21,7 +23,10 @@ class CheckoutBill extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: ElevatedButton(
                   style: _buildElevateStyle(context),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoutes.checkout);
+                    print("dddddddddddddddddddddddddddddddddddddd");
+                  },
                   child: Text("cart.checkout".tr()),
                 ),
               ),
