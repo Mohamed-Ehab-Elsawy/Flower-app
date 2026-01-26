@@ -1,6 +1,36 @@
 import 'package:flower_app/core/theme/theme_extension.dart';
 import 'package:flutter/material.dart';
 
+extension ServerDrivenUtils on String {
+  Color get toColor {
+    try {
+      final buffer = StringBuffer();
+      if (length == 6 || length == 7) {
+        buffer.write('ff');
+      }
+      buffer.write(replaceFirst('#', ''));
+      return Color(int.parse(buffer.toString(), radix: 16));
+    } catch (e) {
+      return Colors.black;
+    }
+  }
+
+  FontWeight get toFontWeight {
+    switch (toLowerCase()) {
+      case 'bold':
+        return FontWeight.bold;
+      case 'w500':
+      case 'medium':
+        return FontWeight.w500;
+      case 'w300':
+      case 'light':
+        return FontWeight.w300;
+      default:
+        return FontWeight.normal;
+    }
+  }
+}
+
 extension AppNavigatorExtension on BuildContext {
   void pushName(String routeName) => Navigator.of(this).pushNamed(routeName);
 
