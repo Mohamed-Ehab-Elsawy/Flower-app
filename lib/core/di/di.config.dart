@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
+import 'package:flutter/services.dart' as _i281;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:talker_dio_logger/talker_dio_logger.dart' as _i52;
@@ -89,6 +90,14 @@ import '../../features/profile/presentation/views/edit_profile/view_model/edit_p
     as _i273;
 import '../../features/profile/presentation/views/main_profile/view_model/main_profile_view_model.dart'
     as _i593;
+import '../../features/terms/data/data_source/terms_local_data_source.dart'
+    as _i741;
+import '../../features/terms/data/data_source/terms_local_data_source_impl.dart'
+    as _i542;
+import '../../features/terms/data/repository/terms_repo_impl.dart' as _i988;
+import '../../features/terms/domain/repository/terms_repo.dart' as _i207;
+import '../../features/terms/presentation/view_model/terms_view_model.dart'
+    as _i687;
 import '../api/api_client.dart' as _i277;
 import '../api/api_module.dart' as _i0;
 import '../app/data/data_source/app_sections_data_source.dart' as _i778;
@@ -97,6 +106,7 @@ import '../app/data/repositories/app_sections_repo_impl.dart' as _i522;
 import '../app/domain/repositories/app_sections_repo.dart' as _i578;
 import '../app/domain/use_case/get_user_data_use_case.dart' as _i369;
 import '../app/presentation/view_model/app_section_view_model.dart' as _i752;
+import '../helper/local_module.dart' as _i169;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -106,11 +116,13 @@ extension GetItInjectableX on _i174.GetIt {
   }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final apiModule = _$ApiModule();
-    gh.factory<_i403.LanguageCubit>(() => _i403.LanguageCubit());
+    final registerModule = _$RegisterModule();
     gh.factory<_i593.MainProfileViewModel>(() => _i593.MainProfileViewModel());
+    gh.factory<_i403.LanguageCubit>(() => _i403.LanguageCubit());
     gh.lazySingleton<_i361.BaseOptions>(() => apiModule.providerOption());
     gh.lazySingleton<_i52.TalkerDioLogger>(() => apiModule.provideLogger());
     gh.lazySingleton<_i0.AuthInterceptor>(() => _i0.AuthInterceptor());
+    gh.lazySingleton<_i281.AssetBundle>(() => registerModule.assetBundle);
     await gh.lazySingletonAsync<_i361.Dio>(
       () => apiModule.provideDio(
         gh<_i361.BaseOptions>(),
@@ -121,6 +133,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i277.ApiClient>(
       () => apiModule.provideApiClient(gh<_i361.Dio>()),
+    );
+    gh.factory<_i741.TermsLocalDataSource>(
+      () =>
+          _i542.TermsLocalDataSourceImpl(assetBundle: gh<_i281.AssetBundle>()),
     );
     gh.factory<_i778.AppSectionsDataSource>(
       () => _i772.AppSectionsDataSourceImpl(gh<_i277.ApiClient>()),
@@ -149,6 +165,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i790.ProfileRepo>(
       () => _i988.ProfileRepoImpl(gh<_i998.ProfileRemoteDataSource>()),
     );
+    gh.factory<_i207.TermsRepo>(
+      () => _i988.TermsRepoImpl(gh<_i741.TermsLocalDataSource>()),
+    );
     gh.lazySingleton<_i280.HomeRepo>(
       () => _i1024.HomeRepoImpl(gh<_i426.HomeDataSource>()),
     );
@@ -164,23 +183,26 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i20.OrderViewModel>(
       () => _i20.OrderViewModel(gh<_i93.OrderRepo>()),
     );
+    gh.factory<_i687.TermsViewModel>(
+      () => _i687.TermsViewModel(gh<_i207.TermsRepo>()),
+    );
     gh.lazySingleton<_i51.CategoryRepo>(
       () => _i782.CategoryRepoImpl(gh<_i842.CategoryDataSource>()),
-    );
-    gh.factory<_i437.ResetPasswordUseCase>(
-      () => _i437.ResetPasswordUseCase(gh<_i723.AuthRepo>()),
-    );
-    gh.factory<_i876.SendResetPasswordCodeUseCase>(
-      () => _i876.SendResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
     );
     gh.factory<_i1073.VerifyResetPasswordCodeUseCase>(
       () => _i1073.VerifyResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
     );
-    gh.lazySingleton<_i1038.LoginUseCase>(
-      () => _i1038.LoginUseCase(gh<_i723.AuthRepo>()),
+    gh.factory<_i876.SendResetPasswordCodeUseCase>(
+      () => _i876.SendResetPasswordCodeUseCase(gh<_i723.AuthRepo>()),
+    );
+    gh.factory<_i437.ResetPasswordUseCase>(
+      () => _i437.ResetPasswordUseCase(gh<_i723.AuthRepo>()),
     );
     gh.lazySingleton<_i698.LogoutUseCase>(
       () => _i698.LogoutUseCase(gh<_i723.AuthRepo>()),
+    );
+    gh.lazySingleton<_i1038.LoginUseCase>(
+      () => _i1038.LoginUseCase(gh<_i723.AuthRepo>()),
     );
     gh.factory<_i308.GetCategoriesUseCase>(
       () => _i308.GetCategoriesUseCase(gh<_i51.CategoryRepo>()),
@@ -197,14 +219,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i369.GetUserDataUseCase>(
       () => _i369.GetUserDataUseCase(gh<_i578.AppSectionsRepo>()),
     );
-    gh.factory<_i562.EditProfileUseCase>(
-      () => _i562.EditProfileUseCase(gh<_i790.ProfileRepo>()),
+    gh.factory<_i988.UploadPhotoUseCase>(
+      () => _i988.UploadPhotoUseCase(gh<_i790.ProfileRepo>()),
     );
     gh.factory<_i1016.GetProfileDataUseCase>(
       () => _i1016.GetProfileDataUseCase(gh<_i790.ProfileRepo>()),
     );
-    gh.factory<_i988.UploadPhotoUseCase>(
-      () => _i988.UploadPhotoUseCase(gh<_i790.ProfileRepo>()),
+    gh.factory<_i562.EditProfileUseCase>(
+      () => _i562.EditProfileUseCase(gh<_i790.ProfileRepo>()),
     );
     gh.factory<_i571.SignUpUseCase>(
       () => _i571.SignUpUseCase(gh<_i723.AuthRepo>()),
@@ -255,3 +277,5 @@ extension GetItInjectableX on _i174.GetIt {
 }
 
 class _$ApiModule extends _i0.ApiModule {}
+
+class _$RegisterModule extends _i169.RegisterModule {}
