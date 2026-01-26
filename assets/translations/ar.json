@@ -140,5 +140,19 @@
   "camera": "الكاميرا",
   "oldPassword": "كلمة المرور القديمة",
   "changePassword": "تغيير كلمة المرور",
-  "success": "تم بنجاح"
+  "success": "تم بنجاح",
+  "address": {
+    "address": "العنوان",
+    "city": "المحافظة",
+    "area": "المنطقة",
+    "recipient_name": "اسم المستلم",
+    "phone_number": "رقم الهاتف",
+    "save_address": "حفظ العنوان",
+    "enter_address": "أدخل العنوان بالتفصيل",
+    "enter_recipient_name": "أدخل اسم المستلم",
+    "enter_phone_number": "أدخل رقم الهاتف",
+    "select_city": "اختر المحافظة",
+    "select_area": "اختر المنطقة",
+    "loading": "جاري التحميل..."
+  }
 }

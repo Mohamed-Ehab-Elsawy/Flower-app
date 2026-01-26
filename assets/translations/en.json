@@ -140,5 +140,19 @@
   "camera" : "Camera",
   "oldPassword": "Old password",
   "changePassword": "Change password",
-  "success": "Success"
+  "success": "Success",
+  "address": {
+    "address": "Address",
+    "city": "City",
+    "area": "Area",
+    "recipient_name": "Recipient name",
+    "phone_number": "Phone number",
+    "save_address": "Save address",
+    "enter_address": "Enter the address",
+    "enter_recipient_name": "Enter the recipient name",
+    "enter_phone_number": "Enter the phone number",
+    "select_city": "Select city",
+    "select_area": "Select area",
+    "loading": "Loading ..."
+  }
 }

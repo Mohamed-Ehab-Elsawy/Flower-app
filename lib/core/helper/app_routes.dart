@@ -3,6 +3,8 @@ import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app/presentation/view/app_section.dart';
 import 'package:flower_app/core/app/presentation/view_model/app_section_contracts.dart';
 import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
+import 'package:flower_app/features/address/presentation/view/address_view.dart';
+import 'package:flower_app/features/address/presentation/view_model/address_view_model.dart';
 import 'package:flower_app/features/auth/presentation/cubit/change_password/change_password_view_model.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:flower_app/features/auth/presentation/cubit/login_view_model/login_view_model.dart';
@@ -141,6 +143,13 @@ Route? onGenerateRoute(RouteSettings settings) {
         builder: (_) => BlocProvider(
           create: (context) => getIt.get<ChangePasswordViewModel>(),
           child: const ChangePasswordView(),
+        ),
+      );
+    case AppRoutes.addresses:
+      return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (context) => getIt.get<AddressViewModel>(),
+          child: const AddressView(),
         ),
       );
     default:
