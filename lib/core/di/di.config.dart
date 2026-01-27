@@ -48,6 +48,15 @@ import '../../features/categories/domain/usecases/get_categories_use_case.dart'
     as _i308;
 import '../../features/categories/presentation/view/manager/categories_view_cubit.dart'
     as _i553;
+import '../../features/checkout/data/data_sources/check_out_data_source.dart'
+    as _i500;
+import '../../features/checkout/data/data_sources/check_out_data_source_impl.dart'
+    as _i9;
+import '../../features/checkout/data/repo/check_out_repo_impl.dart' as _i553;
+import '../../features/checkout/domain/repo/check_out_repo.dart' as _i196;
+import '../../features/checkout/domain/usecases/check_out.dart' as _i658;
+import '../../features/checkout/presentation/view_model/check_out_cupit.dart'
+    as _i444;
 import '../../features/home/data/datasources/home_data_source.dart' as _i426;
 import '../../features/home/data/datasources/home_data_source_impl.dart'
     as _i375;
@@ -134,6 +143,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i842.CategoryDataSource>(
       () => _i236.CategoryDataSourceImpl(gh<_i277.ApiClient>()),
     );
+    gh.factory<_i500.CheckOutDataSource>(
+      () => _i9.CheckOutDataSourceImpl(gh<_i277.ApiClient>()),
+    );
     gh.factory<_i998.ProfileRemoteDataSource>(
       () => _i531.ProfileRemoteDataSourceImpl(gh<_i277.ApiClient>()),
     );
@@ -161,6 +173,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i240.OccasionsCubit>(
       () => _i240.OccasionsCubit(gh<_i491.GetProductsUseCase>()),
     );
+    gh.factory<_i196.CheckOutRepo>(
+      () => _i553.CheckOutRepoImpl(gh<_i500.CheckOutDataSource>()),
+    );
     gh.lazySingleton<_i20.OrderViewModel>(
       () => _i20.OrderViewModel(gh<_i93.OrderRepo>()),
     );
@@ -185,6 +200,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i308.GetCategoriesUseCase>(
       () => _i308.GetCategoriesUseCase(gh<_i51.CategoryRepo>()),
     );
+    gh.factory<_i658.CheckOutUseCase>(
+      () => _i658.CheckOutUseCase(gh<_i196.CheckOutRepo>()),
+    );
     gh.factory<_i273.ChangePasswordUseCase>(
       () => _i273.ChangePasswordUseCase(gh<_i723.AuthRepo>()),
     );
@@ -205,6 +223,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i988.UploadPhotoUseCase>(
       () => _i988.UploadPhotoUseCase(gh<_i790.ProfileRepo>()),
+    );
+    gh.factory<_i444.CheckoutCubit>(
+      () => _i444.CheckoutCubit(gh<_i658.CheckOutUseCase>()),
     );
     gh.factory<_i571.SignUpUseCase>(
       () => _i571.SignUpUseCase(gh<_i723.AuthRepo>()),

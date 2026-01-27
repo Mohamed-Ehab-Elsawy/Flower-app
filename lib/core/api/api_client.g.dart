@@ -308,6 +308,201 @@ class _ApiClient implements ApiClient {
   }
 
   @override
+  Future<LogoutResponseDto> logout() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<LogoutResponseDto>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+        _dio.options,
+        'auth/logout',
+        queryParameters: queryParameters,
+        data: _data,
+      )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late LogoutResponseDto _value;
+    try {
+      _value = LogoutResponseDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CartResponseDto> addProductToCart(
+      CartRequestDto cartRequestDto,) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(cartRequestDto.toJson());
+    final _options = _setStreamType<CartResponseDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+        _dio.options,
+        'cart',
+        queryParameters: queryParameters,
+        data: _data,
+      )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CartResponseDto _value;
+    try {
+      _value = CartResponseDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CartResponseDto> removeProductFromCart(String id) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<CartResponseDto>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+        _dio.options,
+        'cart/${id}',
+        queryParameters: queryParameters,
+        data: _data,
+      )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CartResponseDto _value;
+    try {
+      _value = CartResponseDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<SuccessResponseDto> clearCart() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<SuccessResponseDto>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+        _dio.options,
+        'cart',
+        queryParameters: queryParameters,
+        data: _data,
+      )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late SuccessResponseDto _value;
+    try {
+      _value = SuccessResponseDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CartResponseDto> getLoggedUserCart() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<CartResponseDto>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+        _dio.options,
+        'cart',
+        queryParameters: queryParameters,
+        data: _data,
+      )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CartResponseDto _value;
+    try {
+      _value = CartResponseDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CartResponseDto> updateProductQuantity(String id,
+      Map<String, int> quantity,) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(quantity);
+    final _options = _setStreamType<CartResponseDto>(
+      Options(method: 'PUT', headers: _headers, extra: _extra)
+          .compose(
+        _dio.options,
+        'cart/${id}',
+        queryParameters: queryParameters,
+        data: _data,
+      )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CartResponseDto _value;
+    try {
+      _value = CartResponseDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<ChangePasswordResponse> changePassword(
+      ChangePasswordRequest changePasswordRequest,) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(changePasswordRequest.toJson());
+    final _options = _setStreamType<ChangePasswordResponse>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+        _dio.options,
+        'auth/change-password',
+        queryParameters: queryParameters,
+        data: _data,
+      )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ChangePasswordResponse _value;
+    try {
+      _value = ChangePasswordResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<GetUserDataResponse> getProfileData() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -390,6 +585,91 @@ class _ApiClient implements ApiClient {
     late UploadPhotoResponse _value;
     try {
       _value = UploadPhotoResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CheckOutCreditCardResponseDto> checkoutCreditCard(
+      CheckOutOrderRequest checkOutOrderRequest,) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(checkOutOrderRequest.toJson());
+    final _options = _setStreamType<CheckOutCreditCardResponseDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+        _dio.options,
+        'orders/checkout',
+        queryParameters: queryParameters,
+        data: _data,
+      )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CheckOutCreditCardResponseDto _value;
+    try {
+      _value = CheckOutCreditCardResponseDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<CheckOutCashResponseDto> checkoutCash(
+      CheckOutOrderRequest checkOutOrderRequest,) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(checkOutOrderRequest.toJson());
+    final _options = _setStreamType<CheckOutCashResponseDto>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+        _dio.options,
+        'orders',
+        queryParameters: queryParameters,
+        data: _data,
+      )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late CheckOutCashResponseDto _value;
+    try {
+      _value = CheckOutCashResponseDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<UserAddressesResponseDto> getUserAddresses() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<UserAddressesResponseDto>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+        _dio.options,
+        'addresses',
+        queryParameters: queryParameters,
+        data: _data,
+      )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late UserAddressesResponseDto _value;
+    try {
+      _value = UserAddressesResponseDto.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, _result);
       rethrow;

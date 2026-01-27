@@ -1,4 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flower_app/core/app_extension/app_extension.dart';
+import 'package:flower_app/core/di/di.dart';
+import 'package:flower_app/features/checkout/presentation/view/widgets/address_item.dart';
+import 'package:flower_app/features/checkout/presentation/view_model/check_out_cupit.dart';
+import 'package:flower_app/features/checkout/presentation/view_model/checkout_events.dart';
+import 'package:flower_app/features/checkout/presentation/view_model/checkout_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class CheckoutView extends StatefulWidget {
   const CheckoutView({super.key});
@@ -8,235 +17,178 @@ class CheckoutView extends StatefulWidget {
 }
 
 class _CheckoutViewState extends State<CheckoutView> {
-  bool isGift = false;
+  int? selectedIndex;
 
-  final _nameController = TextEditingController();
-  final _phoneController = TextEditingController();
+  final checkoutCubit = getIt.get<CheckoutCubit>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffF6F6F6),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text("Checkout", style: TextStyle(color: Colors.black)),
-        leading: const BackButton(color: Colors.black),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _sectionContainer(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
-                    "Delivery time",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    "Schedule",
-                    style: TextStyle(
-                      color: Colors.pink,
-                      fontWeight: FontWeight.w600,
+    return BlocProvider<CheckoutCubit>(
+      create: (context) {
+        final cubit = checkoutCubit;
+        cubit.doIntent(GetUserAddressesEvents());
+        return cubit;
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xffF6F6F6),
+        appBar: AppBar(
+          title: Text("Checkout".tr(), style: context.appTheme.medium20).tr(),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              _sectionContainer(
+                context: context,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Delivery time",
+                          style: context.appTheme.medium16.copyWith(
+                            fontSize: 18,
+                          ),
+                        ),
+                        Text(
+                          "Schedule",
+                          style: context.appTheme.medium16.copyWith(
+                            color: context.appTheme.primary[50],
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(right: 8),
+                          child: Icon(Icons.access_time),
+                        ),
+                        Text("Instant, ", style: context.appTheme.medium16),
+                        Expanded(
+                          child: Text(
+                            "Arrive by 03 Sep 2024, 11:00 AM",
+                            style: context.appTheme.medium16.copyWith(
+                              color: context.appTheme.success,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
+              const SizedBox(height: 16),
+              BlocConsumer<CheckoutCubit, CheckoutStates>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  // Error state
+                  if (state.addressState?.errorMessage != null &&
+                      state.addressState!.errorMessage!.isNotEmpty) {
+                    return const Text("NoDATA");
+                  }
 
-            const SizedBox(height: 16),
-
-            _sectionContainer(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Payment method",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 12),
-                  _radioTile("Cash on delivery", true),
-                  _radioTile("Credit card", false),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            _sectionContainer(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "It is a gift",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                  // Loading state
+                  if (state.addressState?.isLoading ?? true) {
+                    return Center(
+                      child: SizedBox(
+                        height: 50,
+                        width: 50,
+                        child: LoadingIndicator(
+                          indicatorType: Indicator.lineScale,
+                          colors: context.appTheme.kDefaultRainbowColors,
+                          strokeWidth: 1,
+                          backgroundColor: context.appTheme.backgroundColor,
+                          pathBackgroundColor: Colors.black,
                         ),
                       ),
-                      Switch(
-                        value: isGift,
-                        activeColor: Colors.pink,
-                        onChanged: (value) {
-                          setState(() {
-                            isGift = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
+                    );
+                  }
 
-                  const SizedBox(height: 12),
+                  // Empty state
+                  final addresses = state.addressState?.data ?? [];
+                  if (addresses.isEmpty) {
+                    return Center(
+                      child: Text(
+                        "There are no addresses yet",
+                        style: context.appTheme.medium20,
+                      ).tr(),
+                    );
+                  }
 
-                  _giftTextField(
-                    controller: _nameController,
-                    hint: "Enter the name",
-                    enabled: isGift,
-                  ),
-                  const SizedBox(height: 12),
-                  _giftTextField(
-                    controller: _phoneController,
-                    hint: "Enter the phone number",
-                    keyboardType: TextInputType.phone,
-                    enabled: isGift,
-                  ),
-                ],
+                  // Success state with data
+                  final selectedIndex = state.selectedAddress;
+
+                  return _sectionContainer(
+                    context: context,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Delivery address",
+                          style: context.appTheme.medium16.copyWith(
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        RadioGroup<String>(
+                          groupValue: selectedIndex?.toString(),
+                          onChanged: (value) {
+                            if (value != null) {
+                              final index = int.parse(value);
+
+                              context.read<CheckoutCubit>().doIntent(
+                                SelectAddressEvents(selectedAddresses: index),
+                              );
+                            }
+                          },
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: addresses.length,
+                            itemBuilder: (context, index) {
+                              final address = addresses[index];
+                              return AddressItem(
+                                address: address.city ?? "No city",
+                                title: address.street ?? "No street",
+                                isSelected: selectedIndex == index,
+                                value: index.toString(),
+                                onEdit: () {
+                                  // Handle edit
+                                },
+                                onTap: () {
+                                  context.read<CheckoutCubit>().doIntent(
+                                    SelectAddressEvents(
+                                      selectedAddresses: index,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
-            ),
-
-            const SizedBox(height: 24),
-
-            _sectionContainer(
-              child: Column(
-                children: const [
-                  _priceRow("Sub Total", "100\$"),
-                  _priceRow("Delivery Fee", "10\$"),
-                  Divider(),
-                  _priceRow(
-                    "Total",
-                    "110\$",
-                    isBold: true,
-                    color: Colors.black,
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 24),
-
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pink,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-                onPressed: () {},
-                child: const Text(
-                  "Place order",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _giftTextField({
-    required TextEditingController controller,
-    required String hint,
-    required bool enabled,
-    TextInputType keyboardType = TextInputType.text,
-  }) {
-    return Opacity(
-      opacity: enabled ? 1 : 0.5,
-      child: TextFormField(
-        controller: controller,
-        enabled: enabled,
-        keyboardType: keyboardType,
-        decoration: InputDecoration(
-          hintText: hint,
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _radioTile(String title, bool selected) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      title: Text(title),
-      trailing: Radio<bool>(
-        value: selected,
-        groupValue: true,
-        activeColor: Colors.pink,
-        onChanged: (_) {},
-      ),
-    );
-  }
-
-  Widget _sectionContainer({required Widget child}) {
+  Widget _sectionContainer({
+    required Widget child,
+    required BuildContext context,
+  }) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
+      decoration: const BoxDecoration(color: Colors.white),
       child: child,
-    );
-  }
-}
-
-class _priceRow extends StatelessWidget {
-  final String title;
-  final String value;
-  final bool isBold;
-  final Color color;
-
-  const _priceRow(
-    this.title,
-    this.value, {
-    this.isBold = false,
-    this.color = Colors.grey,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
-          Text(
-            value,
-            style: TextStyle(
-              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-              color: color,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

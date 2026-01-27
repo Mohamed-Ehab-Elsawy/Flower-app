@@ -17,7 +17,9 @@ class EndPoints {
   static const String cart = "cart";
   static const String deleteProductFromCard = "cart/{id}";
   static const String updateProductQuantity = "cart/{id}";
-  static const String checkout = "orders/checkout";
+  static const String checkoutCreditCard = "orders/checkout";
+  static const String checkoutCash = "orders";
   static const String uploadPhoto = "auth/upload-photo";
   static const String editProfile = "auth/editProfile";
+  static const String getUserAddresses = "addresses";
 }

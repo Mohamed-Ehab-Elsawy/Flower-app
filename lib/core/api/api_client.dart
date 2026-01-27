@@ -15,8 +15,9 @@ import 'package:flower_app/features/auth/data/models_dto/login/login_response_dt
 import 'package:flower_app/features/auth/data/models_dto/logout/logout_response_dto.dart';
 import 'package:flower_app/features/categories/data/models/categories_response.dart';
 import 'package:flower_app/features/checkout/data/models/request/check_out_order_request.dart';
+import 'package:flower_app/features/checkout/data/models/response/check-out-cash-response-dto.dart';
 import 'package:flower_app/features/checkout/data/models/response/check_out_order_response.dart';
-import 'package:flower_app/features/home/data/models/best_seller_response.dart';
+import 'package:flower_app/features/checkout/data/models/response/user_addresses_response_dto.dart';
 import 'package:flower_app/features/home/data/models/best_seller_response.dart';
 import 'package:flower_app/features/home/data/models/home_response_dto.dart';
 import 'package:flower_app/features/orders/data/models/cart_request_dto.dart';
@@ -106,11 +107,6 @@ abstract class ApiClient {
     @Body() ChangePasswordRequest changePasswordRequest,
   );
 
-  @POST(EndPoints.checkout)
-  Future<CheckOutOrderResponseDto> checkout(
-    @Body() CheckOutOrderRequest checkOutOrderRequest,
-  );
-
   @GET(EndPoints.profileData)
   Future<GetUserDataResponse> getProfileData();
 
@@ -124,4 +120,17 @@ abstract class ApiClient {
   Future<UploadPhotoResponse> uploadPhoto(
     @Part(name: 'photo') MultipartFile photo,
   );
+
+  @POST(EndPoints.checkoutCreditCard)
+  Future<CheckOutCreditCardResponseDto> checkoutCreditCard(
+    @Body() CheckOutOrderRequest checkOutOrderRequest,
+  );
+
+  @POST(EndPoints.checkoutCash)
+  Future<CheckOutCashResponseDto> checkoutCash(
+    @Body() CheckOutOrderRequest checkOutOrderRequest,
+  );
+
+  @GET(EndPoints.getUserAddresses)
+  Future<UserAddressesResponseDto> getUserAddresses();
 }

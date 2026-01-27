@@ -4,20 +4,20 @@ import 'package:json_annotation/json_annotation.dart';
 part 'check_out_order_response.g.dart';
 
 @JsonSerializable()
-class CheckOutOrderResponseDto {
+class CheckOutCreditCardResponseDto {
   @JsonKey(name: "message")
   final String? message;
   @JsonKey(name: "session")
   final SessionDto? session;
 
-  CheckOutOrderResponseDto({this.message, this.session});
+  CheckOutCreditCardResponseDto({this.message, this.session});
 
-  factory CheckOutOrderResponseDto.fromJson(Map<String, dynamic> json) {
-    return _$CheckOutOrderResponseDtoFromJson(json);
+  factory CheckOutCreditCardResponseDto.fromJson(Map<String, dynamic> json) {
+    return _$CheckOutCreditCardResponseDtoFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return _$CheckOutOrderResponseDtoToJson(this);
+    return _$CheckOutCreditCardResponseDtoToJson(this);
   }
 }
 

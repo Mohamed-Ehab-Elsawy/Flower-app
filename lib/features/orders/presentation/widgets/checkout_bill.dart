@@ -25,7 +25,6 @@ class CheckoutBill extends StatelessWidget {
                   style: _buildElevateStyle(context),
                   onPressed: () {
                     Navigator.pushNamed(context, AppRoutes.checkout);
-                    print("dddddddddddddddddddddddddddddddddddddd");
                   },
                   child: Text("cart.checkout".tr()),
                 ),
