@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flower_app/features/profile/data/data_source/profile_local_data_source_impl.dart';
+import 'package:flower_app/features/profile/data/models/about_us_dto.dart';
+import 'package:flower_app/features/profile/domain/entity/about_us_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -265,5 +267,54 @@ void main() {
         verifyNoMoreInteractions(mockProfileDataSource);
       },
     );
+  });
+  group("Get About Us Test Cases", () {
+    late AboutUsDto aboutUsDto;
+    late Success<AboutUsDto> successDtoResponse;
+    late Failure<AboutUsDto> failureDtoResponse;
+
+    setUp(() {
+      aboutUsDto = AboutUsDto(
+        aboutApp: [
+          AboutApp(
+            section: "About",
+            content: Content(en: "Us", ar: "نحن"),
+          ),
+        ],
+      );
+      successDtoResponse = Success<AboutUsDto>(aboutUsDto);
+      failureDtoResponse = Failure<AboutUsDto>("Local Data Error");
+    });
+
+    test("when call getAboutUs Success Case", () async {
+      provideDummy<Result<AboutUsDto>>(successDtoResponse);
+      when(
+        mockProfileLocalDataSource.getAboutUs(),
+      ).thenAnswer((_) async => successDtoResponse);
+
+      final result = await profileRepoImpl.getAboutUs();
+
+      expect(result, isA<Success<AboutUsEntity>>());
+
+      final successData = (result as Success<AboutUsEntity>).data;
+
+      expect(successData, isNotNull);
+      verify(mockProfileLocalDataSource.getAboutUs()).called(1);
+    });
+
+    test("when call getAboutUs Failure Case", () async {
+      provideDummy<Result<AboutUsDto>>(failureDtoResponse);
+      when(
+        mockProfileLocalDataSource.getAboutUs(),
+      ).thenAnswer((_) async => failureDtoResponse);
+
+      final result = await profileRepoImpl.getAboutUs();
+
+      expect(result, isA<Failure<AboutUsEntity>>());
+      expect(
+        (result as Failure<AboutUsEntity>).errorMessage,
+        "Local Data Error",
+      );
+    });
   });
 }

@@ -6,7 +6,6 @@ import 'package:flower_app/features/profile/domain/entity/about_us_entity.dart';
 import 'package:flower_app/features/profile/domain/usecases/about_us_use_case.dart';
 import 'package:flower_app/features/profile/presentation/cubit/about_us/about_us_intents.dart';
 import 'package:flower_app/features/profile/presentation/cubit/about_us/about_us_state.dart';
-import 'package:flower_app/features/profile/presentation/views/main_profile/managers/main_profile_view_ui_events.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -14,15 +13,16 @@ import 'package:injectable/injectable.dart';
 class AboutUsViewModel extends Cubit<AboutUsState> {
   final AboutUsUseCase _aboutUsUseCase;
   AboutUsViewModel(this._aboutUsUseCase) : super(AboutUsState.init());
-  final _uiControllerBroadcast =
-      StreamController<MainProfileViewUIEvents>.broadcast();
+  final _uiControllerBroadcast = StreamController<AboutUsIntent>.broadcast();
 
-  Stream<MainProfileViewUIEvents> get uiEvents => _uiControllerBroadcast.stream;
+  Stream<AboutUsIntent> get uiEvents => _uiControllerBroadcast.stream;
 
   doIntent(AboutUsIntent intent) {
     switch (intent) {
       case GetAboutUsIntent():
         _getAboutUsData();
+      case BackToProfileIntent():
+        _uiControllerBroadcast.add(BackToProfileIntent());
     }
   }
 

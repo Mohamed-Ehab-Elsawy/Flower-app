@@ -17,14 +17,32 @@ class _AboutUsViewState extends State<AboutUsView> {
   @override
   void initState() {
     super.initState();
-    context.read<AboutUsViewModel>().doIntent(GetAboutUsIntent());
+    context.read<AboutUsViewModel>().uiEvents.listen((event) {
+      switch (event) {
+        case GetAboutUsIntent():
+          if (!mounted) return;
+          context.read<AboutUsViewModel>().doIntent(event);
+        case BackToProfileIntent():
+          if (!mounted) return;
+          Navigator.pop(context);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('about_us'.tr()), scrolledUnderElevation: 0),
+      appBar: AppBar(
+        title: Text('about_us'.tr()),
+        scrolledUnderElevation: 0,
+        leading: IconButton(
+          onPressed: () =>
+              context.read<AboutUsViewModel>().doIntent(BackToProfileIntent()),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+        ),
+      ),
       body: BlocBuilder<AboutUsViewModel, AboutUsState>(
+        bloc: context.read<AboutUsViewModel>()..doIntent(GetAboutUsIntent()),
         builder: (context, state) {
           if (state.aboutStates.isLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -42,6 +60,7 @@ class _AboutUsViewState extends State<AboutUsView> {
           final aboutUsEntity = state.aboutStates.data;
 
           if (state.aboutStates.isLoaded && aboutUsEntity != null) {
+            context.read<AboutUsViewModel>().doIntent(GetAboutUsIntent());
             return ListView.builder(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
