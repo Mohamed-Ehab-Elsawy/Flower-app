@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flower_app/features/profile/data/data_source/profile_local_data_source_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -14,15 +15,20 @@ import 'package:flower_app/features/profile/data/repositories/profile_repo_impl.
 
 import 'profile_repo_impl_test.mocks.dart';
 
-@GenerateMocks([ProfileRemoteDataSourceImpl])
+@GenerateMocks([ProfileRemoteDataSourceImpl, ProfileLocalDataSourceImpl])
 void main() {
   // Arrange
   late MockProfileRemoteDataSourceImpl mockProfileDataSource;
+  late MockProfileLocalDataSourceImpl mockProfileLocalDataSource;
   late ProfileRepoImpl profileRepoImpl;
 
   setUp(() {
     mockProfileDataSource = MockProfileRemoteDataSourceImpl();
-    profileRepoImpl = ProfileRepoImpl(mockProfileDataSource);
+    mockProfileLocalDataSource = MockProfileLocalDataSourceImpl();
+    profileRepoImpl = ProfileRepoImpl(
+      mockProfileDataSource,
+      mockProfileLocalDataSource,
+    );
   });
 
   group("Get Profile Data Test Cases", () {

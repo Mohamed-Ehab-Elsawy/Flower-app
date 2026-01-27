@@ -72,6 +72,10 @@ import '../../features/orders/data/repositories/order_repo_impl.dart' as _i977;
 import '../../features/orders/domain/repositories/order_repo.dart' as _i93;
 import '../../features/orders/presentation/view_model/order_viewmodel.dart'
     as _i20;
+import '../../features/profile/data/data_source/profile_local_data_source.dart'
+    as _i693;
+import '../../features/profile/data/data_source/profile_local_data_source_impl.dart'
+    as _i613;
 import '../../features/profile/data/data_source/profile_remote_data_source.dart'
     as _i998;
 import '../../features/profile/data/data_source/profile_remote_data_source_impl.dart'
@@ -79,12 +83,15 @@ import '../../features/profile/data/data_source/profile_remote_data_source_impl.
 import '../../features/profile/data/repositories/profile_repo_impl.dart'
     as _i988;
 import '../../features/profile/domain/repositories/profile_repo.dart' as _i790;
+import '../../features/profile/domain/usecases/about_us_use_case.dart' as _i833;
 import '../../features/profile/domain/usecases/edit_profile_use_case.dart'
     as _i562;
 import '../../features/profile/domain/usecases/get_profile_data_use_case.dart'
     as _i1016;
 import '../../features/profile/domain/usecases/upload_photo_use_case.dart'
     as _i988;
+import '../../features/profile/presentation/cubit/about_us/about_us_view_model.dart'
+    as _i677;
 import '../../features/profile/presentation/views/edit_profile/view_model/edit_profile_view_model.dart'
     as _i273;
 import '../../features/profile/presentation/views/main_profile/view_model/main_profile_view_model.dart'
@@ -119,6 +126,9 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       preResolve: true,
     );
+    gh.factory<_i693.ProfileLocalDataSource>(
+      () => _i613.ProfileLocalDataSourceImpl(),
+    );
     gh.lazySingleton<_i277.ApiClient>(
       () => apiModule.provideApiClient(gh<_i361.Dio>()),
     );
@@ -143,11 +153,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i93.OrderRepo>(
       () => _i977.OrderRepoImpl(gh<_i812.OrderDataSource>()),
     );
+    gh.factory<_i790.ProfileRepo>(
+      () => _i988.ProfileRepoImpl(
+        gh<_i998.ProfileRemoteDataSource>(),
+        gh<_i693.ProfileLocalDataSource>(),
+      ),
+    );
     gh.factory<_i578.AppSectionsRepo>(
       () => _i522.AppSectionsRepoImpl(gh<_i778.AppSectionsDataSource>()),
-    );
-    gh.factory<_i790.ProfileRepo>(
-      () => _i988.ProfileRepoImpl(gh<_i998.ProfileRemoteDataSource>()),
     );
     gh.lazySingleton<_i280.HomeRepo>(
       () => _i1024.HomeRepoImpl(gh<_i426.HomeDataSource>()),
@@ -196,6 +209,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i369.GetUserDataUseCase>(
       () => _i369.GetUserDataUseCase(gh<_i578.AppSectionsRepo>()),
+    );
+    gh.factory<_i833.AboutUsUseCase>(
+      () => _i833.AboutUsUseCase(gh<_i790.ProfileRepo>()),
     );
     gh.factory<_i562.EditProfileUseCase>(
       () => _i562.EditProfileUseCase(gh<_i790.ProfileRepo>()),
@@ -249,6 +265,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i562.EditProfileUseCase>(),
         gh<_i988.UploadPhotoUseCase>(),
       ),
+    );
+    gh.factory<_i677.AboutUsViewModel>(
+      () => _i677.AboutUsViewModel(gh<_i833.AboutUsUseCase>()),
     );
     return this;
   }

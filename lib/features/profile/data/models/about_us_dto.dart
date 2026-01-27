@@ -7,9 +7,7 @@ class AboutUsDto {
   @JsonKey(name: "about_app")
   final List<AboutApp>? aboutApp;
 
-  AboutUsDto ({
-    this.aboutApp,
-  });
+  AboutUsDto({this.aboutApp});
 
   factory AboutUsDto.fromJson(Map<String, dynamic> json) {
     return _$AboutUsDtoFromJson(json);
@@ -29,11 +27,7 @@ class AboutApp {
   @JsonKey(name: "style")
   final Style? style;
 
-  AboutApp ({
-    this.section,
-    this.content,
-    this.style,
-  });
+  AboutApp({this.section, this.content, this.style});
 
   factory AboutApp.fromJson(Map<String, dynamic> json) {
     return _$AboutAppFromJson(json);
@@ -47,14 +41,11 @@ class AboutApp {
 @JsonSerializable()
 class Content {
   @JsonKey(name: "en")
-  final String? en;
+  final dynamic en;
   @JsonKey(name: "ar")
-  final String? ar;
+  final dynamic ar;
 
-  Content ({
-    this.en,
-    this.ar,
-  });
+  Content({this.en, this.ar});
 
   factory Content.fromJson(Map<String, dynamic> json) {
     return _$ContentFromJson(json);
@@ -78,7 +69,7 @@ class Style {
   @JsonKey(name: "backgroundColor")
   final String? backgroundColor;
 
-  Style ({
+  Style({
     this.fontSize,
     this.fontWeight,
     this.color,
@@ -102,10 +93,7 @@ class TextAlign {
   @JsonKey(name: "ar")
   final String? ar;
 
-  TextAlign ({
-    this.en,
-    this.ar,
-  });
+  TextAlign({this.en, this.ar});
 
   factory TextAlign.fromJson(Map<String, dynamic> json) {
     return _$TextAlignFromJson(json);
@@ -115,5 +103,3 @@ class TextAlign {
     return _$TextAlignToJson(this);
   }
 }
-
-
