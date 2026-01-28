@@ -12,7 +12,10 @@ class GetProductsUseCase {
   Future<Result<List<ProductsEntity>>> call({
     String? occasionId,
     String? categoryId,
-  }) {
-    return repo.getProducts(occasionId: occasionId, categoryId: categoryId);
-  }
+    String? sort,
+  }) => repo.getProducts(
+    occasionId: occasionId,
+    categoryId: categoryId,
+    sort: sort,
+  );
 }

@@ -9,5 +9,6 @@ abstract interface class HomeRepo {
   Future<Result<List<ProductsEntity>>> getProducts({
     String? occasionId,
     String? categoryId,
+    String? sort,
   });
 }

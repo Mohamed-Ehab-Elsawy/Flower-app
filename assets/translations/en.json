@@ -72,7 +72,6 @@
     "validPhoneNumber": "Please enter a valid phone number (10-15 digits)"
   },
   "home": {
-    "search": "Search",
     "view_all": "View All",
     "categories": "Categories",
     "best_seller": "Best seller",
@@ -132,13 +131,20 @@
   "English": "English",
   "Language": "Language",
   "Flower App": "Flower App",
-  "edit_profile" : "Edit profile",
-  "update" : "Update",
-  "error_loading_profile" : "Error Loading Profile",
-  "retry" : "Retry",
-  "gallery" : "Gallery",
-  "camera" : "Camera",
+  "edit_profile": "Edit profile",
+  "update": "Update",
+  "error_loading_profile": "Error Loading Profile",
+  "retry": "Retry",
+  "gallery": "Gallery",
+  "camera": "Camera",
   "oldPassword": "Old password",
   "changePassword": "Change password",
-  "success": "Success"
+  "success": "Success",
+  "search": "Search",
+  "sort_by" : "Sort by",
+  "price_low_to_high" : "Price low to high",
+  "price_high_to_low" : "Price high to low",
+  "newest_first" : "Newest first",
+  "oldest_first" : "Oldest first",
+  "discount_first" : "Discount first"
 }
