@@ -11,7 +11,7 @@ import 'package:flower_app/features/auth/presentation/pages/forget_password/forg
 import 'package:flower_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/signup_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/terms_and_conditions.dart';
-import 'package:flower_app/features/categories/presentation/view/manager/categories_view_cubit.dart';
+import 'package:flower_app/features/categories/presentation/view/manager/categories_view_model.dart';
 import 'package:flower_app/features/home/presentation/view/best_seller_view.dart';
 import 'package:flower_app/features/home/presentation/view/occasions/occasion_screen.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
@@ -42,6 +42,7 @@ class AppRoutes {
   static const String addresses = '/addresses';
   static const String notifications = '/notifications';
   static const String aboutUs = '/aboutUs';
+  static const String search = '/search';
 }
 
 Route? onGenerateRoute(RouteSettings settings) {
@@ -60,7 +61,7 @@ Route? onGenerateRoute(RouteSettings settings) {
     case AppRoutes.appSection:
       var appSectionsViewModel = getIt.get<AppSectionViewModel>();
       var homeViewModel = getIt.get<HomeViewModel>();
-      var categoriesViewModel = getIt.get<CategoriesViewCubit>();
+      var categoriesViewModel = getIt.get<CategoriesViewModel>();
       var mainProfileViewModel = getIt.get<MainProfileViewModel>();
       return MaterialPageRoute(
         settings: settings,
@@ -143,6 +144,12 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const ChangePasswordView(),
         ),
       );
+
+    case AppRoutes.search:
+      return MaterialPageRoute(
+        builder: (_) => const Scaffold(body: SafeArea(child: Text('search'))),
+      );
+
     default:
       return null;
   }

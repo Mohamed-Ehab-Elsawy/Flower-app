@@ -66,6 +66,7 @@ abstract class ApiClient {
   Future<ProductResponse> getProducts({
     @Query("occasion") String? occasionId,
     @Query("category") String? categoryId,
+    @Query("sort") String? sort,
   });
 
   @GET(EndPoints.categories)
