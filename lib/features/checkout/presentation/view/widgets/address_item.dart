@@ -24,8 +24,8 @@ class AddressItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -34,7 +34,7 @@ class AddressItem extends StatelessWidget {
               : Border.all(color: Colors.grey.shade300, width: 1),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -42,37 +42,26 @@ class AddressItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Radio button - بدون onChanged
-            Radio<String>(
-              value: value,
-              // ✅ إزالة onChanged - RadioGroup هيتحكم فيه
-            ),
+            Radio<String>(value: value, activeColor: context.appTheme.primary),
             const SizedBox(width: 12),
-            // Address info
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  Text(title, style: context.appTheme.medium16),
                   const SizedBox(height: 4),
                   Text(
                     address,
-                    style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
+                    style: context.appTheme.regular14.copyWith(
+                      color: Colors.grey.shade600,
+                    ),
                   ),
                 ],
               ),
             ),
-            // Edit button
             IconButton(
               icon: const Icon(Icons.edit_outlined),
               onPressed: onEdit,
-              color: Colors.grey.shade600,
             ),
           ],
         ),

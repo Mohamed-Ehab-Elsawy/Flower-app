@@ -6,10 +6,10 @@ import 'package:flower_app/features/checkout/data/models/response/session_dto.da
 
 abstract class CheckOutDataSource {
   Future<Result<SessionDto>> checkoutCreditCard(
-      CheckOutOrderRequest checkoutRequest);
+    CheckOutOrderRequest checkoutRequest,
+  );
 
   Future<Result<OrderDto>> checkoutCash(CheckOutOrderRequest checkoutRequest);
 
-  Future<Result<List <AddressesDto>>> getUserAddresses();
-
+  Future<Result<List<AddressesDto>>> getUserAddresses();
 }

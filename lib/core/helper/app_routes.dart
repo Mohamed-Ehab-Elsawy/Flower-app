@@ -146,7 +146,10 @@ Route? onGenerateRoute(RouteSettings settings) {
         ),
       );
     case AppRoutes.checkout:
-      return MaterialPageRoute(builder: (_) => const CheckoutView());
+      return MaterialPageRoute(
+        builder: (_) => const CheckoutView(),
+        settings: settings,
+      );
     default:
       return null;
   }

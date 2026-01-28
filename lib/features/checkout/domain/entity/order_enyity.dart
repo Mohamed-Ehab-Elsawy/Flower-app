@@ -8,7 +8,7 @@ class OrderEntity {
   final bool? isPaid;
   final bool? isDelivered;
   final String? state;
-  final String? Id;
+  final String? id;
   final String? createdAt;
   final String? updatedAt;
   final String? orderNumber;
@@ -22,7 +22,7 @@ class OrderEntity {
     this.isPaid,
     this.isDelivered,
     this.state,
-    this.Id,
+    this.id,
     this.createdAt,
     this.updatedAt,
     this.orderNumber,

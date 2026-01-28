@@ -140,5 +140,23 @@
   "camera" : "Camera",
   "oldPassword": "Old password",
   "changePassword": "Change password",
-  "success": "Success"
+  "success": "Success",
+  "Cash on delivery": "Cash on delivery",
+  "Credit card": "Credit card",
+  "Checkout": "Checkout",
+  "Delivery time": "Delivery time",
+  "Schedule": "Schedule",
+  "Instant, ": "Instant, ",
+  "No Address": "No Address",
+  "Add new": "Add new",
+  "Payment method": "Payment method",
+  "Sub Total": "Sub Total",
+  "Delivery Fee": "Delivery Fee",
+  "Total": "Total",
+  "Complete the payment information": "Complete the payment information",
+  "Order confirmed": "Order confirmed",
+  "Place order": "Place order",
+  "Delivery address": "Delivery address"
+
+
 }

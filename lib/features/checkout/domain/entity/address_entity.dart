@@ -9,7 +9,7 @@ class AddressesEntity extends Equatable {
   final String? username;
   final String? id;
 
-  AddressesEntity({
+  const AddressesEntity({
     this.street,
     this.phone,
     this.city,

@@ -20,7 +20,7 @@ class OrderDto {
   @JsonKey(name: "state")
   final String? state;
   @JsonKey(name: "_id")
-  final String? Id;
+  final String? id;
   @JsonKey(name: "createdAt")
   final String? createdAt;
   @JsonKey(name: "updatedAt")
@@ -38,7 +38,7 @@ class OrderDto {
     this.isPaid,
     this.isDelivered,
     this.state,
-    this.Id,
+    this.id,
     this.createdAt,
     this.updatedAt,
     this.orderNumber,
@@ -63,7 +63,7 @@ class OrderDto {
       isDelivered: isDelivered,
       state: state,
 
-      Id: Id,
+      id: id,
       createdAt: createdAt,
       updatedAt: updatedAt,
       orderNumber: orderNumber,
@@ -81,9 +81,9 @@ class OrderItems {
   @JsonKey(name: "quantity")
   final int? quantity;
   @JsonKey(name: "_id")
-  final String? Id;
+  final String? id;
 
-  OrderItems({this.product, this.price, this.quantity, this.Id});
+  OrderItems({this.product, this.price, this.quantity, this.id});
 
   factory OrderItems.fromJson(Map<String, dynamic> json) {
     return _$OrderItemsFromJson(json);
@@ -97,7 +97,7 @@ class OrderItems {
 @JsonSerializable()
 class Product {
   @JsonKey(name: "_id")
-  final String? Id;
+  final String? id2;
   @JsonKey(name: "title")
   final String? title;
   @JsonKey(name: "slug")
@@ -136,7 +136,7 @@ class Product {
   final String? id;
 
   Product({
-    this.Id,
+    this.id2,
     this.title,
     this.slug,
     this.description,

@@ -6,7 +6,7 @@ import 'package:flower_app/features/checkout/data/models/response/order_dto.dart
 import 'package:flower_app/features/checkout/data/models/response/session_dto.dart';
 import 'package:flower_app/features/checkout/domain/entity/address_entity.dart';
 import 'package:flower_app/features/checkout/domain/entity/order_enyity.dart';
-import 'package:flower_app/features/checkout/domain/entity/sessionEntity.dart';
+import 'package:flower_app/features/checkout/domain/entity/session_entity.dart';
 import 'package:flower_app/features/checkout/domain/repo/check_out_repo.dart';
 import 'package:injectable/injectable.dart';
 
@@ -21,9 +21,7 @@ class CheckOutRepoImpl implements CheckOutRepo {
     CheckOutOrderRequest checkoutRequest,
   ) async {
     Result<SessionDto> sessionDtoResponse = await checkOutDataSource
-        .checkoutCreditCard(
-      checkoutRequest,
-    );
+        .checkoutCreditCard(checkoutRequest);
     switch (sessionDtoResponse) {
       case Success<SessionDto>():
         {
@@ -41,7 +39,8 @@ class CheckOutRepoImpl implements CheckOutRepo {
 
   @override
   Future<Result<OrderEntity>> checkoutCash(
-      CheckOutOrderRequest checkoutRequest,) async {
+    CheckOutOrderRequest checkoutRequest,
+  ) async {
     Result<OrderDto> orderDtoResponse = await checkOutDataSource.checkoutCash(
       checkoutRequest,
     );
@@ -61,7 +60,7 @@ class CheckOutRepoImpl implements CheckOutRepo {
   }
 
   @override
-  Future<Result<List <AddressesEntity>>> getUserAddresses() async {
+  Future<Result<List<AddressesEntity>>> getUserAddresses() async {
     Result<List<AddressesDto>> addressDto = await checkOutDataSource
         .getUserAddresses();
     switch (addressDto) {

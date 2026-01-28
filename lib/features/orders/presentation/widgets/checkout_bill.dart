@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
+import 'package:flower_app/features/orders/domain/entities/order_entity.dart';
 import 'package:flower_app/features/orders/presentation/view_model/order_state.dart';
 import 'package:flower_app/features/orders/presentation/view_model/order_viewmodel.dart';
 import 'package:flower_app/features/orders/presentation/widgets/full_bill.dart';
@@ -24,7 +25,11 @@ class CheckoutBill extends StatelessWidget {
                 child: ElevatedButton(
                   style: _buildElevateStyle(context),
                   onPressed: () {
-                    Navigator.pushNamed(context, AppRoutes.checkout);
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.checkout,
+                      arguments: state.cartOrders?.data?.cart as CartEntity,
+                    );
                   },
                   child: Text("cart.checkout".tr()),
                 ),

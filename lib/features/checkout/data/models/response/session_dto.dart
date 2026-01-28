@@ -1,5 +1,5 @@
 import 'package:flower_app/features/checkout/data/models/response/check_out_order_response.dart';
-import 'package:flower_app/features/checkout/domain/entity/sessionEntity.dart';
+import 'package:flower_app/features/checkout/domain/entity/session_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'session_dto.g.dart';

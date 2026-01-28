@@ -19,10 +19,11 @@ class CheckOutDataSourceImpl implements CheckOutDataSource {
 
   @override
   Future<Result<SessionDto>> checkoutCreditCard(
-      CheckOutOrderRequest checkoutRequest) {
+    CheckOutOrderRequest checkoutRequest,
+  ) {
     return executeApi<SessionDto>(() async {
-      final CheckOutCreditCardResponseDto checkOutOrderResponse = await _apiClient
-          .checkoutCreditCard(checkoutRequest);
+      final CheckOutCreditCardResponseDto checkOutOrderResponse =
+          await _apiClient.checkoutCreditCard(checkoutRequest);
       return checkOutOrderResponse.session ?? SessionDto();
     });
   }
@@ -44,5 +45,4 @@ class CheckOutDataSourceImpl implements CheckOutDataSource {
       return userAddressesResponse.addresses ?? [];
     });
   }
-
 }

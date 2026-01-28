@@ -140,5 +140,20 @@
   "camera": "الكاميرا",
   "oldPassword": "كلمة المرور القديمة",
   "changePassword": "تغيير كلمة المرور",
-  "success": "تم بنجاح"
+  "success": "تم بنجاح",
+  "Cash on delivery": "الدفع عند الاستلام",
+  "Credit card": "بطاقة ائتمان",
+  "Checkout": "إتمام الطلب",
+  "Delivery time": "وقت التوصيل",
+  "Schedule": "جدولة",
+  "Instant, ": "فوري، ",
+  "No Address": "لا يوجد عنوان",
+  "Add new": "إضافة جديد",
+  "Payment method": "طريقة الدفع",
+  "Sub Total": "المجموع الفرعي",
+  "Delivery Fee": "رسوم التوصيل",
+  "Total": "الإجمالي",
+  "Complete the payment information": "أكمل معلومات الدفع",
+  "Order confirmed": "تم تأكيد الطلب",
+  "Place order": "تقديم الطلب"
 }
