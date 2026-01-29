@@ -12,7 +12,7 @@ import 'package:injectable/injectable.dart';
 
 @Injectable(as: CheckOutRepo)
 class CheckOutRepoImpl implements CheckOutRepo {
-  CheckOutDataSource checkOutDataSource;
+  final CheckOutDataSource checkOutDataSource;
 
   CheckOutRepoImpl(this.checkOutDataSource);
 
