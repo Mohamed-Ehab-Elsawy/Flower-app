@@ -22,9 +22,9 @@ class AddressRepositoryImpl implements AddressRepository {
   Future<Result<List<CityEntity>>> getCities() async {
     final response = await _localDataSource.getCities();
     switch (response) {
-      case Success<List<CityModel>>():
+      case Success<List<CityDto>>():
         return Success(response.data.map((e) => e.toEntity()).toList());
-      case Failure<List<CityModel>>():
+      case Failure<List<CityDto>>():
         return Failure(response.errorMessage);
     }
   }

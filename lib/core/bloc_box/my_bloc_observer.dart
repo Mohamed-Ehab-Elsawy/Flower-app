@@ -12,7 +12,6 @@ class MyBlocObserver extends BlocObserver {
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
 
-    // تقسيم اللوج لسهولة القراءة
     log('🔄 onChange -- ${bloc.runtimeType}');
     log('◀️ FROM: ${change.currentState}');
     log('▶️ TO:   ${change.nextState}');

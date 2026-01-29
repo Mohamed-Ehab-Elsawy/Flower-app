@@ -1,15 +1,15 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'address_response_dto.g.dart';
 
 @JsonSerializable()
 class AddressResponseDto extends Equatable {
-  final String ?message;
+  final String? message;
   @JsonKey(name: 'addresses')
-  final List<AddressDto> ? address;
+  final List<AddressDto>? address;
 
-  const AddressResponseDto({ this.message,  this.address});
+  const AddressResponseDto({this.message, this.address});
 
   factory AddressResponseDto.fromJson(Map<String, dynamic> json) =>
       _$AddressResponseDtoFromJson(json);
@@ -25,26 +25,26 @@ class AddressDto extends Equatable {
   @JsonKey(name: '_id')
   final String? id;
   @JsonKey(name: 'street')
-  final String ?street;
+  final String? street;
   @JsonKey(name: 'phone')
-  final String ?phone;
+  final String? phone;
   @JsonKey(name: 'city')
-  final String ?city;
+  final String? city;
   @JsonKey(name: 'lat')
-  final String ?lat;
+  final String? lat;
   @JsonKey(name: 'long')
-  final String ?long;
+  final String? long;
   @JsonKey(name: 'username')
-  final String ?username;
+  final String? username;
 
   const AddressDto({
     this.id,
-     this.street,
-     this.phone,
-     this.city,
-     this.lat,
-     this.long,
-     this.username,
+    this.street,
+    this.phone,
+    this.city,
+    this.lat,
+    this.long,
+    this.username,
   });
 
   factory AddressDto.fromJson(Map<String, dynamic> json) =>

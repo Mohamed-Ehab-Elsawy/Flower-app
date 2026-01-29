@@ -24,7 +24,7 @@ class AddressCard extends StatelessWidget {
             spacing: 2,
             children: [
               const Icon(Icons.location_on_outlined),
-              Text(address.street ?? "Street", style: theme.medium16),
+              Text(address.city ?? "Cairo", style: theme.medium16),
               const Spacer(),
               IconButton(
                 icon: const Icon(Icons.delete_outline),
@@ -41,7 +41,7 @@ class AddressCard extends StatelessWidget {
             ],
           ),
           Text(
-            address.city ?? "Cairo",
+            address.street ?? "Streat",
             style: theme.regular14.copyWith(fontSize: 13, color: theme.grey),
           ),
         ],

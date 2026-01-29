@@ -19,9 +19,7 @@ class EndPoints {
   static const String uploadPhoto = "auth/upload-photo";
   static const String editProfile = "auth/editProfile";
   static const String addAddress = "addresses";
-  static const String updateAddress="addresses/{id}";
-  static const String deleteAddress="addresses/{id}";
-  static const String getLoggedUserAddress="addresses";
-
-
+  static const String updateAddress = "addresses/{id}";
+  static const String deleteAddress = "addresses/{id}";
+  static const String getLoggedUserAddress = "addresses";
 }
