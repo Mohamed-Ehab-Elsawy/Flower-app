@@ -69,7 +69,9 @@
     "enterConfirmPassword": "Please confirm password",
     "confirmPasswordNotMatch": "Passwords do not match",
     "enterPhoneNumber": "Please enter your phone number",
-    "validPhoneNumber": "Please enter a valid phone number (10-15 digits)"
+    "validPhoneNumber": "Please enter a valid phone number (10-15 digits)",
+    "enterRecipientName": "Please enter recipient name",
+    "enterAddress": "Please enter address"
   },
   "home": {
     "search": "Search",
@@ -132,12 +134,12 @@
   "English": "English",
   "Language": "Language",
   "Flower App": "Flower App",
-  "edit_profile" : "Edit profile",
-  "update" : "Update",
-  "error_loading_profile" : "Error Loading Profile",
-  "retry" : "Retry",
-  "gallery" : "Gallery",
-  "camera" : "Camera",
+  "edit_profile": "Edit profile",
+  "update": "Update",
+  "error_loading_profile": "Error Loading Profile",
+  "retry": "Retry",
+  "gallery": "Gallery",
+  "camera": "Camera",
   "oldPassword": "Old password",
   "changePassword": "Change password",
   "success": "Success",
@@ -153,6 +155,9 @@
     "enter_phone_number": "Enter the phone number",
     "select_city": "Select city",
     "select_area": "Select area",
-    "loading": "Loading ..."
+    "loading": "Loading ...",
+    "address_added_success": "Address added successfully",
+    "fill_all_fields": "Please fill all required fields",
+    "select_location": "Please select a location on the map"
   }
 }

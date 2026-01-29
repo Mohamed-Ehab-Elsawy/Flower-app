@@ -14,6 +14,19 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:talker_dio_logger/talker_dio_logger.dart' as _i52;
 
+import '../../features/address/data/data_source/address_data_source.dart'
+    as _i690;
+import '../../features/address/data/data_source/local_address_data_source.dart'
+    as _i496;
+import '../../features/address/data/data_source/remote_address_data_source_impl.dart'
+    as _i471;
+import '../../features/address/data/data_source/remote_data_source.dart'
+    as _i595;
+import '../../features/address/data/repo/address_repository_impl.dart'
+    as _i1016;
+import '../../features/address/domain/repo/address_repository.dart' as _i262;
+import '../../features/address/presentation/view_model/address_view_model.dart'
+    as _i566;
 import '../../features/auth/data/datasources/auth_ds.dart' as _i586;
 import '../../features/auth/data/datasources/auth_ds_impl.dart' as _i775;
 import '../../features/auth/data/repositories/auth_repo_impl.dart' as _i662;
@@ -119,11 +132,17 @@ extension GetItInjectableX on _i174.GetIt {
       ),
       preResolve: true,
     );
+    gh.lazySingleton<_i690.AddressDataSource>(
+      () => _i496.LocalAddressDataSource(),
+    );
     gh.lazySingleton<_i277.ApiClient>(
       () => apiModule.provideApiClient(gh<_i361.Dio>()),
     );
     gh.factory<_i778.AppSectionsDataSource>(
       () => _i772.AppSectionsDataSourceImpl(gh<_i277.ApiClient>()),
+    );
+    gh.lazySingleton<_i595.RemoteDataSource>(
+      () => _i471.RemoteDataSourceImpl(gh<_i277.ApiClient>()),
     );
     gh.lazySingleton<_i812.OrderDataSource>(
       () => _i589.OrderDataSourceImpl(gh<_i277.ApiClient>()),
@@ -160,6 +179,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i240.OccasionsCubit>(
       () => _i240.OccasionsCubit(gh<_i491.GetProductsUseCase>()),
+    );
+    gh.lazySingleton<_i262.AddressRepository>(
+      () => _i1016.AddressRepositoryImpl(
+        gh<_i690.AddressDataSource>(),
+        gh<_i595.RemoteDataSource>(),
+      ),
     );
     gh.lazySingleton<_i20.OrderViewModel>(
       () => _i20.OrderViewModel(gh<_i93.OrderRepo>()),
@@ -233,6 +258,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i796.ChangePasswordViewModel>(
       () => _i796.ChangePasswordViewModel(gh<_i273.ChangePasswordUseCase>()),
+    );
+    gh.lazySingleton<_i566.AddressViewModel>(
+      () => _i566.AddressViewModel(gh<_i262.AddressRepository>()),
     );
     gh.factory<_i77.HomeViewModel>(
       () => _i77.HomeViewModel(gh<_i798.FetchHomeDataUsecase>()),

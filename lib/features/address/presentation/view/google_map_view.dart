@@ -1,20 +1,20 @@
 import 'dart:async';
 import 'package:flower_app/core/app_extension/app_extension.dart';
-import 'package:flower_app/core/helper/app_routes.dart';
 import 'package:flower_app/core/services/maps/location_manager.dart';
 import 'package:flower_app/features/address/presentation/view_model/address_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class GoogleMapService extends StatefulWidget {
-  const GoogleMapService({super.key});
+class GoogleMapView extends StatefulWidget {
+  const GoogleMapView({super.key});
+
 
   @override
-  State<GoogleMapService> createState() => GoogleMapServiceState();
+  State<GoogleMapView> createState() => GoogleMapViewState();
 }
 
-class GoogleMapServiceState extends State<GoogleMapService> {
+class GoogleMapViewState extends State<GoogleMapView> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
   late final LocationManager _locationManager = LocationManager();

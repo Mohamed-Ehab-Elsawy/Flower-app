@@ -69,7 +69,9 @@
     "enterConfirmPassword": "يرجى تأكيد كلمة المرور",
     "confirmPasswordNotMatch": "كلمتا المرور غير متطابقتين",
     "enterPhoneNumber": "يرجى إدخال رقم الهاتف",
-    "validPhoneNumber": "يرجى إدخال رقم هاتف صحيح (من 10 إلى 15 رقم)"
+    "validPhoneNumber": "يرجى إدخال رقم هاتف صحيح (من 10 إلى 15 رقم)",
+    "enterRecipientName": "يرجى إدخال اسم المستلم",
+    "enterAddress": "يرجى إدخال العنوان"
   },
   "home": {
     "search": "بحث",
@@ -153,6 +155,8 @@
     "enter_phone_number": "أدخل رقم الهاتف",
     "select_city": "اختر المحافظة",
     "select_area": "اختر المنطقة",
-    "loading": "جاري التحميل..."
+    "loading": "جاري التحميل...",
+    "fill_all_fields": "يرجى ملء جميع الحقول",
+    "select_location": "يرجى اختيار الموقع على الخريطة"
   }
 }

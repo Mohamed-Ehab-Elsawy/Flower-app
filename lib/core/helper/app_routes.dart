@@ -3,7 +3,9 @@ import 'package:flower_app/core/app/domain/entities/products_entity.dart';
 import 'package:flower_app/core/app/presentation/view/app_section.dart';
 import 'package:flower_app/core/app/presentation/view_model/app_section_contracts.dart';
 import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
-import 'package:flower_app/features/address/presentation/view/address_view.dart';
+import 'package:flower_app/features/address/presentation/view/google_map_view.dart';
+import 'package:flower_app/features/address/presentation/view/add_new_address_view.dart';
+import 'package:flower_app/features/address/presentation/view/save_address_view.dart';
 import 'package:flower_app/features/address/presentation/view_model/address_view_model.dart';
 import 'package:flower_app/features/auth/presentation/cubit/change_password/change_password_view_model.dart';
 import 'package:flower_app/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
@@ -41,12 +43,15 @@ class AppRoutes {
   static const String testScreen = '/TestScreen';
   static const String changePassword = '/changePassword';
   static const String orders = '/orders';
-  static const String addresses = '/addresses';
+  static const String addNewAddress = '/addNewAddress';
   static const String notifications = '/notifications';
   static const String aboutUs = '/aboutUs';
+  static const String googleMapService = '/googleMapService';
+  static const String saveAddress = '/saveAddress';
 }
 
 Route? onGenerateRoute(RouteSettings settings) {
+  var addressViewModel = getIt.get<AddressViewModel>();
   switch (settings.name) {
     case AppRoutes.mostSelling:
       return MaterialPageRoute(
@@ -64,6 +69,7 @@ Route? onGenerateRoute(RouteSettings settings) {
       var homeViewModel = getIt.get<HomeViewModel>();
       var categoriesViewModel = getIt.get<CategoriesViewCubit>();
       var mainProfileViewModel = getIt.get<MainProfileViewModel>();
+
       return MaterialPageRoute(
         settings: settings,
         builder: (_) => MultiBlocProvider(
@@ -145,13 +151,30 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const ChangePasswordView(),
         ),
       );
-    case AppRoutes.addresses:
+    case AppRoutes.saveAddress:
       return MaterialPageRoute(
-        builder: (_) => BlocProvider(
-          create: (context) => getIt.get<AddressViewModel>(),
-          child: const AddressView(),
+        settings: settings,
+        builder: (_) => BlocProvider.value(
+          value: addressViewModel,
+          child: const SaveAddressView(),
         ),
       );
+    case AppRoutes.addNewAddress:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (_) => BlocProvider<AddressViewModel>.value(
+          value: addressViewModel,
+          child: const AddNewAddressView(),
+        ),
+      );
+    case AppRoutes.googleMapService:
+      return MaterialPageRoute(
+        builder: (_) => BlocProvider.value(
+          value: addressViewModel,
+          child: const GoogleMapView(),
+        ),
+      );
+
     default:
       return null;
   }

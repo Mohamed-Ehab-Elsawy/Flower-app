@@ -1,23 +1,23 @@
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flower_app/core/helper/app_routes.dart';
-import 'package:flower_app/core/helper/assets_manager.dart';
+import 'package:flower_app/core/helper/app_validator.dart';
 import 'package:flower_app/core/helper/show_toast.dart';
 import 'package:flower_app/features/address/domain/entities/address_request_entity.dart';
 import 'package:flower_app/features/address/presentation/view_model/address_state.dart';
 import 'package:flower_app/features/address/presentation/view_model/address_view_model.dart';
 import 'package:flower_app/features/address/presentation/widgets/government_address.dart';
+import 'package:flower_app/features/address/presentation/widgets/map_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddressView extends StatefulWidget {
-  const AddressView({super.key});
+class AddNewAddressView extends StatefulWidget {
+  const AddNewAddressView({super.key});
 
   @override
-  State<AddressView> createState() => _AddressViewState();
+  State<AddNewAddressView> createState() => _AddNewAddressViewState();
 }
 
-class _AddressViewState extends State<AddressView> {
+class _AddNewAddressViewState extends State<AddNewAddressView> {
   late final TextEditingController _addressController = TextEditingController();
   late final TextEditingController _phoneController = TextEditingController();
   late final TextEditingController _recipientController =
@@ -25,6 +25,7 @@ class _AddressViewState extends State<AddressView> {
   late final TextEditingController _cityController = TextEditingController();
   late final TextEditingController _areaController = TextEditingController();
   late final StreamSubscription _addressSubscription;
+  late final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -34,10 +35,7 @@ class _AddressViewState extends State<AddressView> {
         .listen((event) {
           if (!mounted) return;
           if (event is AddAddressEvent) {
-            Toast.showToast(context, "Address added successfully");
-            Navigator.of(context).pop();
-          }
-          if (event is PopToSavedAddressView) {
+            Toast.showToast(context, "address.address_added_success".tr());
             Navigator.of(context).pop();
           }
         });
@@ -71,19 +69,22 @@ class _AddressViewState extends State<AddressView> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
-          child: Column(
-            spacing: 24,
-            children: [
-              _map(context),
-              _addressField(),
-              _phoneField(),
-              _recipientField(),
-              GovernmentAddress(
-                cityController: _cityController,
-                areaController: _areaController,
-              ),
-              _saveAddressBtn(),
-            ],
+          child: Form(
+            key: _formKey,
+            child: Column(
+              spacing: 24,
+              children: [
+               const MapPreview(),
+                _addressField(),
+                _phoneField(),
+                _recipientField(),
+                GovernmentAddress(
+                  cityController: _cityController,
+                  areaController: _areaController,
+                ),
+                _saveAddressBtn(),
+              ],
+            ),
           ),
         ),
       ),
@@ -92,7 +93,18 @@ class _AddressViewState extends State<AddressView> {
 
   _saveAddressBtn() => ElevatedButton(
     onPressed: () {
+      if (!_formKey.currentState!.validate()) {
+        Toast.showToast(context, "address.fill_all_fields".tr());
+        return;
+      }
+
       final location = context.read<AddressViewModel>().state.location;
+
+      if (location?.data == null) {
+        Toast.showToast(context, "address.select_location".tr());
+        return;
+      }
+
       AddressRequestEntity address = AddressRequestEntity(
         street: _addressController.value.text,
         phone: _phoneController.value.text,
@@ -101,9 +113,8 @@ class _AddressViewState extends State<AddressView> {
         lat: location?.data?.latitude.toString(),
         long: location?.data?.longitude.toString(),
       );
-      context.read<AddressViewModel>().doIntent(AddAddressEvent(address));
-      context.read<AddressViewModel>().doIntent(PopToSavedAddressView());
 
+      context.read<AddressViewModel>().doIntent(AddAddressEvent(address));
       _clearFields();
     },
     child: Text("address.save_address".tr()),
@@ -112,38 +123,37 @@ class _AddressViewState extends State<AddressView> {
     _addressController.clear();
     _phoneController.clear();
     _recipientController.clear();
+    _cityController.clear();
+    _areaController.clear();
   }
 
-  _map(context) => GestureDetector(
-    onTap: () => Navigator.of(context).pushNamed(AppRoutes.googleMapService),
-    child: Image.asset(
-      fit: BoxFit.cover,
-      AssetsManager.mapImage,
-      height: MediaQuery.sizeOf(context).height * 0.2,
-    ),
-  );
+  
 
-  _recipientField() => TextFormField(
+ Widget _recipientField() => TextFormField(
     controller: _recipientController,
     decoration: InputDecoration(
       hintText: "address.enter_recipient_name".tr(),
       label: Text("address.recipient_name".tr()),
     ),
+    validator: AppValidator.validateRecipientName,
   );
 
-  _phoneField() => TextFormField(
+  Widget _phoneField() => TextFormField(
     controller: _phoneController,
+    keyboardType: TextInputType.phone,
     decoration: InputDecoration(
       hintText: "address.enter_phone_number".tr(),
       label: Text("address.phone_number".tr()),
     ),
+    validator: AppValidator.validatePhone,
   );
 
-  _addressField() => TextFormField(
+ Widget _addressField() => TextFormField(
     controller: _addressController,
     decoration: InputDecoration(
       hintText: "address.enter_address".tr(),
       label: Text("address.address".tr()),
     ),
+    validator: AppValidator.validateAddress,
   );
 }

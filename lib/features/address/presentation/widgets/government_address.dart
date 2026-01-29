@@ -5,8 +5,14 @@ import 'package:flower_app/features/address/presentation/view_model/address_view
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddressDetails extends StatelessWidget {
-  const AddressDetails({super.key});
+class GovernmentAddress extends StatelessWidget {
+  const GovernmentAddress({
+    super.key,
+    required this.cityController,
+    required this.areaController,
+  });
+  final TextEditingController cityController;
+  final TextEditingController areaController;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +23,7 @@ class AddressDetails extends StatelessWidget {
           children: [
             Expanded(
               child: DropdownMenu<String>(
+                controller: cityController,
                 label: Text("address.city".tr()),
                 expandedInsets: EdgeInsets.zero,
                 initialSelection: state.selectedGov,
@@ -38,13 +45,15 @@ class AddressDetails extends StatelessWidget {
             ),
             Expanded(
               child: DropdownMenu<String>(
+                controller: areaController,
                 label: Text("address.area".tr()),
                 enabled: state.selectedGov != null,
                 dropdownMenuEntries: state.filteredCities!.isLoaded
-                    ? state.filteredCities!.data!.map((CityEntity city) {
-                        var name = city.getName(context);
-                        return DropdownMenuEntry(value: name, label: name);
-                      }).toList()
+                    ? state.filteredCities?.data?.map((CityEntity? city) {
+                            var name = city!.getName(context);
+                            return DropdownMenuEntry(value: name, label: name);
+                          }).toList() ??
+                          []
                     : state.filteredCities!.isLoading
                     ? [
                         DropdownMenuEntry<String>(

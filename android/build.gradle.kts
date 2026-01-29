@@ -22,3 +22,16 @@ subprojects {
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
+buildscript {
+    dependencies {
+        repositories {
+            google()
+            mavenCentral()
+        }
+        dependencies {
+            // ...
+            classpath("com.android.tools.build:gradle:8.1.0")
+            classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+        }
+    }
+}
