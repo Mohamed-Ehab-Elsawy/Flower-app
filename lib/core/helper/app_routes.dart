@@ -10,7 +10,6 @@ import 'package:flower_app/features/auth/presentation/pages/change_password/chan
 import 'package:flower_app/features/auth/presentation/pages/forget_password/forget_password_view.dart';
 import 'package:flower_app/features/auth/presentation/pages/login_screen.dart';
 import 'package:flower_app/features/auth/presentation/pages/signup_screen.dart';
-import 'package:flower_app/features/auth/presentation/pages/terms_and_conditions.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_cubit.dart';
 import 'package:flower_app/features/home/presentation/view/best_seller_view.dart';
 import 'package:flower_app/features/home/presentation/view/occasions/occasion_screen.dart';
@@ -20,6 +19,9 @@ import 'package:flower_app/features/product_details/presentation/views/product_d
 import 'package:flower_app/features/profile/presentation/views/edit_profile/edit_profile_view.dart';
 import 'package:flower_app/features/profile/presentation/views/edit_profile/view_model/edit_profile_view_model.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/view_model/main_profile_view_model.dart';
+import 'package:flower_app/features/terms/presentation/manager/terms_intent.dart';
+import 'package:flower_app/features/terms/presentation/terms_view.dart';
+import 'package:flower_app/features/terms/presentation/view_model/terms_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -100,8 +102,13 @@ Route? onGenerateRoute(RouteSettings settings) {
       );
 
     case AppRoutes.terms:
-      return MaterialPageRoute(builder: (_) => const TermsAndConditions());
-
+      var viewModel = getIt.get<TermsViewModel>();
+      return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (context) => viewModel..doIntent(FetchTermsIntent()),
+          child: const TermsView(),
+        ),
+      );
     case AppRoutes.occasion:
       return MaterialPageRoute(
         builder: (_) => BlocProvider<OrderViewModel>.value(
@@ -127,6 +134,7 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const ForgetPasswordView(),
         ),
       );
+
     case AppRoutes.editProfile:
       final EditProfileViewModel editProfileViewModel =
           getIt<EditProfileViewModel>();
@@ -136,6 +144,7 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const EditProfileView(),
         ),
       );
+
     case AppRoutes.changePassword:
       return MaterialPageRoute(
         builder: (_) => BlocProvider(
@@ -143,6 +152,7 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const ChangePasswordView(),
         ),
       );
+
     default:
       return null;
   }
