@@ -57,6 +57,8 @@ import '../../features/checkout/domain/repo/check_out_repo.dart' as _i196;
 import '../../features/checkout/domain/usecases/check_out.dart' as _i658;
 import '../../features/checkout/presentation/view_model/check_out_cubit.dart'
     as _i656;
+import '../../features/checkout/presentation/view_model/check_out_cupit.dart'
+    as _i444;
 import '../../features/home/data/datasources/home_data_source.dart' as _i426;
 import '../../features/home/data/datasources/home_data_source_impl.dart'
     as _i375;
@@ -226,6 +228,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i656.CheckoutCubit>(
       () => _i656.CheckoutCubit(gh<_i658.CheckOutUseCase>()),
+    );
+    gh.factory<_i444.CheckoutCubit>(
+      () => _i444.CheckoutCubit(gh<_i658.CheckOutUseCase>()),
     );
     gh.factory<_i571.SignUpUseCase>(
       () => _i571.SignUpUseCase(gh<_i723.AuthRepo>()),

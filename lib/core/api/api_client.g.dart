@@ -316,11 +316,11 @@ class _ApiClient implements ApiClient {
     final _options = _setStreamType<LogoutResponseDto>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        'auth/logout',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            'auth/logout',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -336,7 +336,8 @@ class _ApiClient implements ApiClient {
 
   @override
   Future<CartResponseDto> addProductToCart(
-      CartRequestDto cartRequestDto,) async {
+    CartRequestDto cartRequestDto,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -345,11 +346,11 @@ class _ApiClient implements ApiClient {
     final _options = _setStreamType<CartResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        'cart',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            'cart',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -372,11 +373,11 @@ class _ApiClient implements ApiClient {
     final _options = _setStreamType<CartResponseDto>(
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        'cart/${id}',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            'cart/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -399,11 +400,11 @@ class _ApiClient implements ApiClient {
     final _options = _setStreamType<SuccessResponseDto>(
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        'cart',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            'cart',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -426,11 +427,11 @@ class _ApiClient implements ApiClient {
     final _options = _setStreamType<CartResponseDto>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        'cart',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            'cart',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -445,8 +446,10 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<CartResponseDto> updateProductQuantity(String id,
-      Map<String, int> quantity,) async {
+  Future<CartResponseDto> updateProductQuantity(
+    String id,
+    Map<String, int> quantity,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -455,11 +458,11 @@ class _ApiClient implements ApiClient {
     final _options = _setStreamType<CartResponseDto>(
       Options(method: 'PUT', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        'cart/${id}',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            'cart/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -475,7 +478,8 @@ class _ApiClient implements ApiClient {
 
   @override
   Future<ChangePasswordResponse> changePassword(
-      ChangePasswordRequest changePasswordRequest,) async {
+    ChangePasswordRequest changePasswordRequest,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -484,11 +488,11 @@ class _ApiClient implements ApiClient {
     final _options = _setStreamType<ChangePasswordResponse>(
       Options(method: 'PATCH', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        'auth/change-password',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            'auth/change-password',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -594,7 +598,8 @@ class _ApiClient implements ApiClient {
 
   @override
   Future<CheckOutCreditCardResponseDto> checkoutCreditCard(
-      CheckOutOrderRequest checkOutOrderRequest,) async {
+    CheckOutOrderRequest checkOutOrderRequest,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -603,11 +608,11 @@ class _ApiClient implements ApiClient {
     final _options = _setStreamType<CheckOutCreditCardResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        'orders/checkout',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            'orders/checkout',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -623,7 +628,8 @@ class _ApiClient implements ApiClient {
 
   @override
   Future<CheckOutCashResponseDto> checkoutCash(
-      CheckOutOrderRequest checkOutOrderRequest,) async {
+    CheckOutOrderRequest checkOutOrderRequest,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -632,11 +638,11 @@ class _ApiClient implements ApiClient {
     final _options = _setStreamType<CheckOutCashResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        'orders',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            'orders',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -659,11 +665,11 @@ class _ApiClient implements ApiClient {
     final _options = _setStreamType<UserAddressesResponseDto>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        'addresses',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            'addresses',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);

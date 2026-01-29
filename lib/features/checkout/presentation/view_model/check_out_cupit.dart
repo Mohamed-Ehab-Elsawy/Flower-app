@@ -13,7 +13,7 @@ class CheckoutCubit extends Cubit<CheckoutStates> {
 
   CheckoutCubit(this._checkoutUseCase) : super(const CheckoutStates());
 
-  void doIntent(AddressEvents event) {
+  void doIntent(event) {
     switch (event) {
       case GetUserAddressesEvents():
         _getUserAddresses();

@@ -45,7 +45,11 @@ class _CheckoutViewState extends State<CheckoutView> {
         case NavigateToPayment():
           {
             if (!mounted) return;
-            Navigator.pushNamed(context, AppRoutes.appSection);
+            Navigator.pushNamed(
+              context,
+              AppRoutes.payment,
+              arguments: checkoutCubit.state.checkoutCreditCardState?.data,
+            );
           }
         case NavigateToAddress():
           {
@@ -83,6 +87,7 @@ class _CheckoutViewState extends State<CheckoutView> {
           title: Text("Checkout", style: context.appTheme.medium20).tr(),
         ),
         body: SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 16),
           child: Column(
             children: [
               _sectionContainer(
