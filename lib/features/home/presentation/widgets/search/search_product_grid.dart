@@ -27,7 +27,7 @@ class SearchProductsGrid extends StatelessWidget {
         final product = products[index];
         return CustomCard(
           product: product,
-          onTap: product.outOfStock ? null: () => onProductTap(product),
+          onTap: product.outOfStock ? null : () => onProductTap(product),
         );
       },
     );

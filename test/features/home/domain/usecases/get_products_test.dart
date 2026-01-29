@@ -100,9 +100,9 @@ void main() {
   );
   test(
     'test call getProductsUseCase to return productsEntityList for keyword products only',
-        () async {
+    () async {
       when(mockHomeRepo.getProducts(keyword: keyword)).thenAnswer(
-            (_) async => Success<List<ProductsEntity>>(productsEntityList),
+        (_) async => Success<List<ProductsEntity>>(productsEntityList),
       );
       await getProductsUseCase.call(keyword: keyword);
       verify(mockHomeRepo.getProducts(keyword: keyword)).called(1);

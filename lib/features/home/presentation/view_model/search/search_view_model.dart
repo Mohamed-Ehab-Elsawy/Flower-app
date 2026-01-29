@@ -59,9 +59,9 @@ class SearchViewModel extends Cubit<SearchState> {
         );
     }
   }
-  void _onProductTapped(ProductsEntity product) =>
-    _uiEventsController.add(OpenProductDetails(product: product));
 
+  void _onProductTapped(ProductsEntity product) =>
+      _uiEventsController.add(OpenProductDetails(product: product));
 
   void _onClear() {
     _debounce?.cancel();

@@ -49,7 +49,11 @@ class HomeRepoImpl implements HomeRepo {
     String? keyword,
   }) async {
     Result<List<ProductsDto>> productResponse = await _homeDataSource
-        .getProducts(occasionId: occasionId, categoryId: categoryId,keyword: keyword);
+        .getProducts(
+          occasionId: occasionId,
+          categoryId: categoryId,
+          keyword: keyword,
+        );
     switch (productResponse) {
       case Success<List<ProductsDto>>():
         {

@@ -14,6 +14,10 @@ class GetProductsUseCase {
     String? categoryId,
     String? keyword,
   }) {
-    return repo.getProducts(occasionId: occasionId, categoryId: categoryId,keyword: keyword);
+    return repo.getProducts(
+      occasionId: occasionId,
+      categoryId: categoryId,
+      keyword: keyword,
+    );
   }
 }

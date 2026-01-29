@@ -83,7 +83,7 @@ void main() {
       'emits [loading, loaded] when search succeeds with valid keyword',
       build: () {
         when(mockGetProductsUseCase(keyword: 'rose')).thenAnswer(
-              (_) async => Success<List<ProductsEntity>>(productsEntityList),
+          (_) async => Success<List<ProductsEntity>>(productsEntityList),
         );
         return searchViewModel;
       },
@@ -102,7 +102,7 @@ void main() {
       'emits [loading, error] when search fails',
       build: () {
         when(mockGetProductsUseCase(keyword: 'rose')).thenAnswer(
-              (_) async => Failure<List<ProductsEntity>>('Network error'),
+          (_) async => Failure<List<ProductsEntity>>('Network error'),
         );
         return searchViewModel;
       },
@@ -141,7 +141,7 @@ void main() {
       'trims keyword before searching',
       build: () {
         when(mockGetProductsUseCase(keyword: 'rose')).thenAnswer(
-              (_) async => Success<List<ProductsEntity>>(productsEntityList),
+          (_) async => Success<List<ProductsEntity>>(productsEntityList),
         );
         return searchViewModel;
       },
@@ -160,7 +160,7 @@ void main() {
       'debounces multiple keyword changes and only searches for last one',
       build: () {
         when(mockGetProductsUseCase(keyword: 'roses')).thenAnswer(
-              (_) async => Success<List<ProductsEntity>>(productsEntityList),
+          (_) async => Success<List<ProductsEntity>>(productsEntityList),
         );
         return searchViewModel;
       },
@@ -202,7 +202,7 @@ void main() {
       'cancels debounce timer when SearchCleared is called',
       build: () {
         when(mockGetProductsUseCase(keyword: 'rose')).thenAnswer(
-              (_) async => Success<List<ProductsEntity>>(productsEntityList),
+          (_) async => Success<List<ProductsEntity>>(productsEntityList),
         );
         return searchViewModel;
       },
@@ -225,11 +225,13 @@ void main() {
 
       expectLater(
         searchViewModel.uiEventsStream,
-        emits(isA<OpenProductDetails>().having(
-              (event) => event.product,
-          'product',
-          product,
-        )),
+        emits(
+          isA<OpenProductDetails>().having(
+            (event) => event.product,
+            'product',
+            product,
+          ),
+        ),
       );
 
       searchViewModel.doIntent(ProductTapped(product));
@@ -240,11 +242,13 @@ void main() {
 
       expectLater(
         searchViewModel.uiEventsStream,
-        emits(isA<OpenProductDetails>().having(
-              (event) => event.product.id,
-          'product id',
-          '2',
-        )),
+        emits(
+          isA<OpenProductDetails>().having(
+            (event) => event.product.id,
+            'product id',
+            '2',
+          ),
+        ),
       );
 
       searchViewModel.doIntent(ProductTapped(product));
@@ -260,7 +264,7 @@ void main() {
       await viewModel.close();
 
       expect(
-            () => viewModel.doIntent(ProductTapped(productsEntityList.first)),
+        () => viewModel.doIntent(ProductTapped(productsEntityList.first)),
         returnsNormally,
       );
     });

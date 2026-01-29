@@ -120,7 +120,11 @@ class _SearchViewState extends State<SearchView> {
                         return const InitSearchView();
                       }
                       if (state.searchState.isLoading) {
-                        return Center(child: CircularProgressIndicator(color: context.appTheme.primary));
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: context.appTheme.primary,
+                          ),
+                        );
                       }
                       if (state.searchState.isError) {
                         return AppErrorView(
@@ -144,7 +148,8 @@ class _SearchViewState extends State<SearchView> {
                       }
                       return CustomProductsGridListBuilder(
                         products: products,
-                        onProductTap: (product) =>  _searchViewModel.doIntent(ProductTapped(product)),
+                        onProductTap: (product) =>
+                            _searchViewModel.doIntent(ProductTapped(product)),
                       );
                     },
                   ),
