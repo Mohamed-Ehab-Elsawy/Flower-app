@@ -9,7 +9,7 @@ import 'package:injectable/injectable.dart';
 @LazySingleton(as: AddressDataSource)
 class LocalAddressDataSource implements AddressDataSource {
   @override
-  Future<Result<List<CityModel>>> getCities() async {
+  Future<Result<List<CityDto>>> getCities() async {
     return executeApi(() => LoadAsset.loadCitiesList(AssetsManager.citiesJson));
   }
 }

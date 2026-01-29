@@ -12,7 +12,9 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
   RemoteDataSourceImpl(this._apiClient);
   @override
-  Future<Result<AddressResponseDto>> addAddress(AddressRequestDto addressDetails) {
+  Future<Result<AddressResponseDto>> addAddress(
+    AddressRequestDto addressDetails,
+  ) {
     return executeApi(() => _apiClient.addAddress(addressDetails));
   }
 
@@ -27,7 +29,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<Result<AddressResponseDto>> updateAddress(AddressRequestDto addressDetails, String id) {
-    return executeApi(() => _apiClient.updateAddress(addressDetails,id));
+  Future<Result<AddressResponseDto>> updateAddress(
+    AddressRequestDto addressDetails,
+    String id,
+  ) {
+    return executeApi(() => _apiClient.updateAddress(addressDetails, id));
   }
 }

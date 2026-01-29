@@ -119,12 +119,14 @@ abstract class ApiClient {
     @Part(name: 'photo') MultipartFile photo,
   );
 
-
   //||||||||||||||||||||||||||||Address||||||||||||||||||||||||
   @PATCH(EndPoints.addAddress)
   Future<AddressResponseDto> addAddress(@Body() AddressRequestDto addressDto);
   @PATCH(EndPoints.updateAddress)
-  Future<AddressResponseDto> updateAddress(@Body() AddressRequestDto addressDto,@Path() String id);
+  Future<AddressResponseDto> updateAddress(
+    @Body() AddressRequestDto addressDto,
+    @Path() String id,
+  );
   @DELETE(EndPoints.deleteAddress)
   Future<AddressResponseDto> deleteAddress(@Path() String id);
   @GET(EndPoints.getLoggedUserAddress)

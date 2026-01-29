@@ -88,7 +88,8 @@ class LightTheme extends AppTheme {
           ),
         ),
       );
-//TODO: add this line floatingLabelBehavior: FloatingLabelBehavior.always,
+
+  //TODO: add this line floatingLabelBehavior: FloatingLabelBehavior.always,
   @override
   InputDecorationTheme get inputDecorationTheme => InputDecorationTheme(
     floatingLabelBehavior: FloatingLabelBehavior.always,

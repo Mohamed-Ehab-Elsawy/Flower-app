@@ -34,7 +34,7 @@ extension AddressResponseDtoMapper on AddressResponseDto {
   AddressResponseEntity toEntity() {
     return AddressResponseEntity(
       message: message,
-      address: address?.map((e)=>e.toEntity()).toList()??[],
+      address: address?.map((e) => e.toEntity()).toList() ?? [],
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/helper/app_validator.dart';
 import 'package:flower_app/core/helper/show_toast.dart';
@@ -9,6 +10,7 @@ import 'package:flower_app/features/address/presentation/widgets/government_addr
 import 'package:flower_app/features/address/presentation/widgets/map_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
 
 class AddNewAddressView extends StatefulWidget {
   const AddNewAddressView({super.key});
@@ -74,7 +76,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
             child: Column(
               spacing: 24,
               children: [
-               const MapPreview(),
+                const MapPreview(),
                 _addressField(),
                 _phoneField(),
                 _recipientField(),
@@ -92,7 +94,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
   }
 
   _saveAddressBtn() => ElevatedButton(
-    onPressed: () {
+    onPressed: () async {
       if (!_formKey.currentState!.validate()) {
         Toast.showToast(context, "address.fill_all_fields".tr());
         return;
@@ -105,17 +107,22 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
         return;
       }
 
+      double lat = location!.data!.latitude;
+      double long = location.data!.longitude;
+      List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
+
       AddressRequestEntity address = AddressRequestEntity(
-        street: _addressController.value.text,
+        street: placemarks[0].street.toString(),
         phone: _phoneController.value.text,
         city: _cityController.value.text,
         username: _recipientController.value.text,
-        lat: location?.data?.latitude.toString(),
-        long: location?.data?.longitude.toString(),
+        lat: lat.toString(),
+        long: long.toString(),
       );
-
-      context.read<AddressViewModel>().doIntent(AddAddressEvent(address));
-      _clearFields();
+      if (mounted) {
+        context.read<AddressViewModel>().doIntent(AddAddressEvent(address));
+        _clearFields();
+      }
     },
     child: Text("address.save_address".tr()),
   );
@@ -127,9 +134,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
     _areaController.clear();
   }
 
-  
-
- Widget _recipientField() => TextFormField(
+  Widget _recipientField() => TextFormField(
     controller: _recipientController,
     decoration: InputDecoration(
       hintText: "address.enter_recipient_name".tr(),
@@ -148,7 +153,7 @@ class _AddNewAddressViewState extends State<AddNewAddressView> {
     validator: AppValidator.validatePhone,
   );
 
- Widget _addressField() => TextFormField(
+  Widget _addressField() => TextFormField(
     controller: _addressController,
     decoration: InputDecoration(
       hintText: "address.enter_address".tr(),

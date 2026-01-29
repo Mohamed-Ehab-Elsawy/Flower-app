@@ -8,7 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class AddressState extends Equatable {
   final BaseState<Map<String, List<CityEntity>>>? allData;
   final String? selectedGov;
-  final BaseState<List<CityEntity?>>? filteredCities;
+  final BaseState<List<CityEntity>>? filteredCities;
   final BaseState<List<AddressEntity?>>? allAddress;
   final BaseState<List<AddressEntity?>>? loggedUserAddresses;
   final BaseState<LatLng>? location;
@@ -72,4 +72,5 @@ class AddAddressEvent extends UIAddressEvent {
 class GetLoggedUserAddress extends UIAddressEvent {}
 
 class NavigatorToAddressView extends UIAddressEvent {}
+
 class PopToSavedAddressView extends UIAddressEvent {}
