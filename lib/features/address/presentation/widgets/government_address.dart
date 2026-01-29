@@ -24,8 +24,8 @@ class AddressDetails extends StatelessWidget {
                   context.read<AddressViewModel>().onGovernorateChanged(value);
                 },
                 dropdownMenuEntries: [
-                  if (state.allData.isLoaded)
-                    ...state.allData.data!.keys.map((String key) {
+                  if (state.allData!.isLoaded)
+                    ...?state.allData?.data!.keys.map((String key) {
                       return DropdownMenuEntry<String>(value: key, label: key);
                     })
                   else
