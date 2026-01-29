@@ -292,4 +292,63 @@ void main() {
       },
     );
   });
+
+  group("when call getProducts with keyword parameter ", () {
+    late String keyword;
+
+    setUp(() {
+      keyword = "rose";
+    });
+
+    test(
+      'Testing getProducts with keyword parameter it should return Success with productsDto(keyword) ',
+          () async {
+        when(
+          dataSource.getProducts(
+            occasionId: null,
+            categoryId: null,
+            keyword: keyword,
+          ),
+        ).thenAnswer((_) async => Success<List<ProductsDto>>(productsDtoList));
+
+        final result = await repo.getProducts(
+          occasionId: null,
+          categoryId: null,
+          keyword: keyword,
+        );
+
+        expect(result, isA<Success<List<ProductsEntity>>>());
+        expect(result as Success<List<ProductsEntity>>, isNotNull);
+        expect(result.data.length, equals(2));
+
+        verify(
+          dataSource.getProducts(
+            occasionId: null,
+            categoryId: null,
+            keyword: keyword,
+          ),
+        ).called(1);
+        verifyNoMoreInteractions(dataSource);
+      },
+    );
+
+    test('Testing getProducts with keyword parameter it should return Failure with error message ',
+          () async {
+        when(dataSource.getProducts(occasionId: null,categoryId: null,keyword: keyword),
+        ).thenAnswer((_) async => Failure<List<ProductsDto>>(NetworkException.getMessageError(exception)),
+        );
+
+        final result = await repo.getProducts(occasionId: null,categoryId: null,keyword: keyword);
+
+        expect(result, isA<Failure<List<ProductsEntity>>>());
+
+        expect(result as Failure<List<ProductsEntity>>, isNotNull);
+
+        expect(result.errorMessage,equals(NetworkException.getMessageError(exception)));
+
+        verify(dataSource.getProducts(occasionId: null,categoryId: null,keyword: keyword)).called(1);
+        verifyNoMoreInteractions(dataSource);
+      },
+    );
+  });
 }

@@ -16,6 +16,8 @@ void main() {
   late List<ProductsEntity> productsEntityList;
   late String? categoryId;
   late String? occasionId;
+  late String? keyword;
+
   setUpAll(() {
     mockHomeRepo = MockHomeRepo();
     getProductsUseCase = GetProductsUseCase(mockHomeRepo);
@@ -64,6 +66,7 @@ void main() {
     );
     categoryId = "category_1";
     occasionId = "occasion_1";
+    keyword = "rose";
   });
   test(
     'test call getProductsUseCase to return  productsEntityList for all products',
@@ -93,6 +96,16 @@ void main() {
       );
       await getProductsUseCase.call(categoryId: categoryId);
       verify(mockHomeRepo.getProducts(categoryId: categoryId)).called(1);
+    },
+  );
+  test(
+    'test call getProductsUseCase to return productsEntityList for keyword products only',
+        () async {
+      when(mockHomeRepo.getProducts(keyword: keyword)).thenAnswer(
+            (_) async => Success<List<ProductsEntity>>(productsEntityList),
+      );
+      await getProductsUseCase.call(keyword: keyword);
+      verify(mockHomeRepo.getProducts(keyword: keyword)).called(1);
     },
   );
 }
