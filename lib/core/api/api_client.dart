@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flower_app/core/app/data/models/product_response.dart';
 import 'package:flower_app/core/app/data/models/response/get_current_user_data_response_dto.dart';
 import 'package:flower_app/core/error_handling/base_response_result_dto.dart';
+import 'package:flower_app/features/address/data/models/address_request_dto.dart';
+import 'package:flower_app/features/address/data/models/address_response_dto.dart';
 import 'package:flower_app/features/auth/data/models/requests/change_password_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/reset_password_request.dart';
 import 'package:flower_app/features/auth/data/models/requests/send_reset_password_code_request.dart';
@@ -134,4 +136,17 @@ abstract class ApiClient {
 
   @GET(EndPoints.getUserAddresses)
   Future<UserAddressesResponseDto> getUserAddresses();
+
+  //||||||||||||||||||||||||||||Address||||||||||||||||||||||||
+  @PATCH(EndPoints.addAddress)
+  Future<AddressResponseDto> addAddress(@Body() AddressRequestDto addressDto);
+  @PATCH(EndPoints.updateAddress)
+  Future<AddressResponseDto> updateAddress(
+    @Body() AddressRequestDto addressDto,
+    @Path() String id,
+  );
+  @DELETE(EndPoints.deleteAddress)
+  Future<AddressResponseDto> deleteAddress(@Path() String id);
+  @GET(EndPoints.getLoggedUserAddress)
+  Future<AddressResponseDto> getLoggedUserAddress();
 }

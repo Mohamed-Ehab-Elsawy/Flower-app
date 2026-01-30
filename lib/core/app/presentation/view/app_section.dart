@@ -21,6 +21,7 @@ class _AppSectionState extends State<AppSection> {
   @override
   void initState() {
     super.initState();
+
     context.read<AppSectionViewModel>().uiStream.listen((event) {
       if (event is AppSectionLogoutEvent && mounted) {
         Toast.showToast(context, "invalid_token".tr(), isError: true);

@@ -98,4 +98,18 @@ class AppValidator {
 
     return null;
   }
+
+  static String? validateRecipientName(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'validation.enterRecipientName'.tr();
+    }
+    return null;
+  }
+
+  static String? validateAddress(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'validation.enterAddress'.tr();
+    }
+    return null;
+  }
 }

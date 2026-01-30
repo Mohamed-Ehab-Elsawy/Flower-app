@@ -46,7 +46,7 @@ class _MainProfileViewState extends State<MainProfileView> {
               Navigator.pushNamed(context, AppRoutes.orders);
 
             case NavToSavedAddressesEvent():
-              Navigator.pushNamed(context, AppRoutes.addresses);
+              Navigator.of(context).pushNamed(AppRoutes.saveAddress);
 
             case NavToNotificationEvent():
               Navigator.pushNamed(context, AppRoutes.notifications);
