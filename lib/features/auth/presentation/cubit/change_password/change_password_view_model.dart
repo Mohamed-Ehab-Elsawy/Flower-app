@@ -65,13 +65,13 @@ class ChangePasswordViewModel extends Cubit<ChangePasswordState> {
         );
 
         emit(state.copyWith(BaseState.loaded(result.data)));
-        _uiEventsController.add(NavigateToEditProfileEvent());
         _uiEventsController.add(
           ChangePasswordShowToastEvent(
             message: result.data.message ?? 'success'.tr(),
             isError: false,
           ),
         );
+        _uiEventsController.add(NavigateToEditProfileEvent());
 
       case Failure<ChangePasswordResponse>():
         emit(state.copyWith(BaseState.error(result.errorMessage)));

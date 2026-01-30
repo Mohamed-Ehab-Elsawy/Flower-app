@@ -26,7 +26,7 @@ class BestSellerViewModel extends Cubit<BestSellerState> {
           NavigateToProductDetailsIntent(productId: event.productId),
         );
       case AddToCartIntent():
-      // TODO: Handle this case.
+        _uiEventsController.add(AddToCartIntent(productId: event.productId));
       case NavigateToHomeIntent():
         _uiEventsController.add(NavigateToHomeIntent());
     }
