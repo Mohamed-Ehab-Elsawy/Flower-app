@@ -9,7 +9,6 @@ import 'package:flower_app/features/categories/presentation/view/manager/categor
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_states.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/sort_enum.dart';
 import 'package:flower_app/features/home/domain/usecases/get_products.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 

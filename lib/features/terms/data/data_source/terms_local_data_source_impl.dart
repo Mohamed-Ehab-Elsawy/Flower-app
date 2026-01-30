@@ -9,10 +9,14 @@ import 'package:injectable/injectable.dart';
 
 @Injectable(as: TermsLocalDataSource)
 class TermsLocalDataSourceImpl implements TermsLocalDataSource {
+  final AssetBundle assetBundle = rootBundle;
+
+  TermsLocalDataSourceImpl();
+
   @override
   Future<Result<TermsResponseDTO>> getTerms() async {
     try {
-      final String response = await rootBundle.loadString(
+      final String response = await assetBundle.loadString(
         AssetsManager.termsJsonPath,
       );
       final data = await json.decode(response);

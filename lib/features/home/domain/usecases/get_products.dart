@@ -13,17 +13,11 @@ class GetProductsUseCase {
     String? occasionId,
     String? categoryId,
     String? keyword,
-  }) {
-    return repo.getProducts(
+    String? sort,
+  }) => repo.getProducts(
       occasionId: occasionId,
       categoryId: categoryId,
       keyword: keyword,
+      sort: sort,
     );
-  }
-    String? sort,
-  }) => repo.getProducts(
-    occasionId: occasionId,
-    categoryId: categoryId,
-    sort: sort,
-  );
 }

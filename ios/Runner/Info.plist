@@ -47,8 +47,14 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
-		NSLocationWhenInUseUsageDescription
-        NSLocationAlwaysUsageDescription
-        NSLocationAlwaysAndWhenInUseUsageDescription
+		<key>NSLocationWhenInUseUsageDescription</key>
+        <string>We need your location to show nearby flower shops and delivery options.</string>
+
+        <key>NSLocationAlwaysUsageDescription</key>
+        <string>Your location is used to improve delivery accuracy even when the app is in the background.</string>
+
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>Your location helps us provide accurate delivery services.</string>
+
 	</dict>
 </plist>

@@ -55,10 +55,6 @@ class HomeRepoImpl implements HomeRepo {
           occasionId: occasionId,
           categoryId: categoryId,
           keyword: keyword,
-        );
-        .getProducts(
-          occasionId: occasionId,
-          categoryId: categoryId,
           sort: sort,
         );
 
