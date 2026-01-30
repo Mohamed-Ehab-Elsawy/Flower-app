@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flower_app/core/helper/show_toast.dart';
 import 'package:flower_app/core/helper/app_routes.dart';
+import 'package:flower_app/core/helper/show_toast.dart';
 import 'package:flower_app/features/checkout/domain/entity/session_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -42,10 +42,11 @@ class _PaymentViewState extends State<PaymentView> {
                   isError: false,
                 );
 
-                Navigator.pushNamedAndRemoveUntil(
+                /// pushNamedAndRemoveUntil
+                Navigator.pushReplacementNamed(
                   context,
                   AppRoutes.appSection,
-                  (route) => false,
+                  // (route) => false,
                 );
               });
 
