@@ -12,12 +12,14 @@ class AboutSectionWidget extends StatelessWidget {
     final langCode = context.locale.languageCode;
     final isAr = langCode == 'ar';
 
-    final dynamic rawContent = section.content.getByLanguage(langCode);
-    final dynamic rawTitle = section.title?.getByLanguage(langCode);
+    final List<String> contentList = section.content.getByLanguage(langCode);
+    final List<String> titleList = section.title?.getByLanguage(langCode) ?? [];
 
-    final List<String> paragraphs = _normalizeToList(rawContent);
+    final String? rawTitle = titleList.isNotEmpty ? titleList.first : null;
+    final List<String> paragraphs = contentList;
 
     final styleMap = section.style;
+
     final contentStyle = styleMap['content'] is Map
         ? styleMap['content'] as Map
         : styleMap;
@@ -30,17 +32,20 @@ class AboutSectionWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (rawTitle != null && rawTitle is String)
+          if (rawTitle != null)
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: Text(
                 rawTitle,
-                textAlign: _parseTextAlign(titleStyle?['textAlign'], langCode),
+                textAlign: _parseTextAlign(
+                  titleStyle?['textAlign'] ?? styleMap['textAlign'],
+                  langCode,
+                ),
                 style: TextStyle(
                   fontSize: (titleStyle?['fontSize'] as num?)?.toDouble() ?? 20,
                   fontWeight: FontWeight.bold,
                   color:
-                      _parseColor(titleStyle?['color']) ??
+                      _parseColor(titleStyle?['color'] ?? styleMap['color']) ??
                       Theme.of(context).colorScheme.primary,
                   height: 1.3,
                 ),
@@ -68,7 +73,7 @@ class AboutSectionWidget extends StatelessWidget {
 
                   return Padding(
                     padding: EdgeInsets.only(bottom: isLast ? 0 : 12),
-                    child: _buildListItem(text, contentStyle, isAr),
+                    child: _buildListItem(text, contentStyle, isAr, langCode),
                   );
                 }).toList(),
               ),
@@ -90,7 +95,7 @@ class AboutSectionWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildListItem(String text, Map style, bool isAr) {
+  Widget _buildListItem(String text, Map style, bool isAr, String lang) {
     final double fontSize = (style['fontSize'] as num?)?.toDouble() ?? 16;
     final Color textColor = _parseColor(style['color']) ?? Colors.black87;
 
@@ -105,7 +110,7 @@ class AboutSectionWidget extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            textAlign: isAr ? TextAlign.right : TextAlign.left,
+            textAlign: _parseTextAlign(style['textAlign'], lang),
             style: TextStyle(fontSize: fontSize, color: textColor, height: 1.6),
           ),
         ),
@@ -119,19 +124,6 @@ class AboutSectionWidget extends StatelessWidget {
       height: 8,
       decoration: BoxDecoration(color: color, shape: BoxShape.circle),
     );
-  }
-
-  List<String> _normalizeToList(dynamic raw) {
-    if (raw == null) return [];
-    if (raw is String) return [raw.trim()];
-    if (raw is List) {
-      return raw
-          .map((e) => e.toString().trim())
-          .where((e) => e.isNotEmpty)
-          .toList();
-    }
-
-    return [];
   }
 
   Color? _parseColor(dynamic value) {

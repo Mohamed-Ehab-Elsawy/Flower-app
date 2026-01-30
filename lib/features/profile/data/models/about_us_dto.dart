@@ -22,12 +22,17 @@ class AboutUsDto {
 class AboutApp {
   @JsonKey(name: "section")
   final String? section;
+
+  @JsonKey(name: "title")
+  final Content? title;
+
   @JsonKey(name: "content")
   final Content? content;
+
   @JsonKey(name: "style")
   final Style? style;
 
-  AboutApp({this.section, this.content, this.style});
+  AboutApp({this.section, this.title, this.content, this.style});
 
   factory AboutApp.fromJson(Map<String, dynamic> json) {
     return _$AboutAppFromJson(json);
