@@ -20,6 +20,7 @@ import 'package:flower_app/features/home/presentation/view_model/home_view_model
 import 'package:flower_app/features/orders/presentation/view_model/order_viewmodel.dart';
 import 'package:flower_app/features/product_details/presentation/views/product_details_view.dart';
 import 'package:flower_app/features/profile/presentation/cubit/about_us/about_us_view_model.dart';
+import 'package:flower_app/features/home/presentation/view/search_view.dart';
 import 'package:flower_app/features/profile/presentation/views/edit_profile/edit_profile_view.dart';
 import 'package:flower_app/features/profile/presentation/views/edit_profile/view_model/edit_profile_view_model.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/about_us_view.dart';
@@ -46,6 +47,7 @@ class AppRoutes {
   static const String addresses = '/addresses';
   static const String notifications = '/notifications';
   static const String aboutUs = '/aboutUs';
+  static const String search = '/search';
   static const String checkout = '/checkout';
   static const String payment = '/payment';
 }
@@ -167,6 +169,13 @@ Route? onGenerateRoute(RouteSettings settings) {
         ),
       );
 
+    case AppRoutes.search:
+      return MaterialPageRoute(
+        builder: (_) => BlocProvider<OrderViewModel>.value(
+          value: getIt<OrderViewModel>(),
+          child: const SearchView(),
+        ),
+      );
     default:
       return null;
   }

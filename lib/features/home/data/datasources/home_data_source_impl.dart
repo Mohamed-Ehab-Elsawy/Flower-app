@@ -22,11 +22,13 @@ class HomeDataSourceImpl implements HomeDataSource {
   Future<Result<List<ProductsDto>>> getProducts({
     String? occasionId,
     String? categoryId,
+    String? keyword,
   }) {
     return executeApi<List<ProductsDto>>(() async {
       final ProductResponse productResponse = await _apiClient.getProducts(
         occasionId: occasionId,
         categoryId: categoryId,
+        keyword: keyword,
       );
       List<ProductsDto> productsDto = productResponse.productsDto ?? [];
       return productsDto;

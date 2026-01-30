@@ -46,9 +46,14 @@ class HomeRepoImpl implements HomeRepo {
   Future<Result<List<ProductsEntity>>> getProducts({
     String? occasionId,
     String? categoryId,
+    String? keyword,
   }) async {
     Result<List<ProductsDto>> productResponse = await _homeDataSource
-        .getProducts(occasionId: occasionId, categoryId: categoryId);
+        .getProducts(
+          occasionId: occasionId,
+          categoryId: categoryId,
+          keyword: keyword,
+        );
     switch (productResponse) {
       case Success<List<ProductsDto>>():
         {

@@ -100,6 +100,7 @@ void main() {
       },
     );
   });
+
   group("when call getProducts with categoryId parameters", () {
     test(
       'when call getProducts with categoryId parameter it should return Success with productsDto(category) ',
@@ -152,6 +153,7 @@ void main() {
       },
     );
   });
+
   group("when call getProducts with occasionId parameters", () {
     test(
       'when call getProducts with occasionId parameter it should return Success with productsDto(occasion) ',
@@ -199,6 +201,74 @@ void main() {
         );
         verify(
           api.getProducts(categoryId: null, occasionId: occasionId),
+        ).called(1);
+        verifyNoMoreInteractions(api);
+      },
+    );
+  });
+
+  group("when call getProducts with keyword parameter", () {
+    late String keyword;
+
+    setUp(() {
+      keyword = "rose";
+    });
+
+    test(
+      'when call getProducts with keyword parameter it should return Success with productsDto(keyword) ',
+      () async {
+        when(
+          api.getProducts(categoryId: null, occasionId: null, keyword: keyword),
+        ).thenAnswer((_) async => productResponse);
+
+        final result = await homeDataSourceImpl.getProducts(
+          categoryId: null,
+          occasionId: null,
+          keyword: keyword,
+        );
+
+        expect(result, isA<Success<List<ProductsDto>>>());
+        expect(result as Success<List<ProductsDto>>, isNotNull);
+        expect(result.data.length, equals(2));
+
+        for (var i = 0; i < result.data.length; i++) {
+          expect(result.data[i].id, equals(productsDtoList[i].id));
+          expect(
+            result.data[i].description,
+            equals(productsDtoList[i].description),
+          );
+          expect(result.data[i].title, equals(productsDtoList[i].title));
+        }
+
+        verify(
+          api.getProducts(categoryId: null, occasionId: null, keyword: keyword),
+        ).called(1);
+        verifyNoMoreInteractions(api);
+      },
+    );
+
+    test(
+      'when call getProducts with keyword parameter it should return Failure with error message ',
+      () async {
+        when(
+          api.getProducts(categoryId: null, occasionId: null, keyword: keyword),
+        ).thenThrow(exception);
+
+        final result = await homeDataSourceImpl.getProducts(
+          categoryId: null,
+          occasionId: null,
+          keyword: keyword,
+        );
+
+        expect(result, isA<Failure<List<ProductsDto>>>());
+        expect(result as Failure<List<ProductsDto>>, isNotNull);
+        expect(
+          result.errorMessage,
+          equals(NetworkException.getMessageError(exception)),
+        );
+
+        verify(
+          api.getProducts(categoryId: null, occasionId: null, keyword: keyword),
         ).called(1);
         verifyNoMoreInteractions(api);
       },

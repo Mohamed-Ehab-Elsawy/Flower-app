@@ -12,11 +12,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class CustomProductsGridListBuilder extends StatelessWidget {
   final ScrollController? scrollController;
   final List<ProductsEntity>? products;
+  final void Function(ProductsEntity)? onProductTap;
 
   const CustomProductsGridListBuilder({
     super.key,
     required this.products,
     this.scrollController,
+    this.onProductTap,
   });
 
   @override
@@ -32,15 +34,18 @@ class CustomProductsGridListBuilder extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           controller: scrollController,
           itemCount: products?.length ?? 0,
-          itemBuilder: (context, index) => CustomCard(
-            product: products![index],
-            onTap: products![index].outOfStock
-                ? null
-                : () {
-                    context.read<OrderViewModel>().doIntent(
-                      AddItemToCart(product: products![index]),
-                    );
-                  },
+          itemBuilder: (context, index) => GestureDetector(
+            onTap: () => onProductTap?.call(products![index]),
+            child: CustomCard(
+              product: products![index],
+              onTap: products![index].outOfStock
+                  ? null
+                  : () {
+                      context.read<OrderViewModel>().doIntent(
+                        AddItemToCart(product: products![index]),
+                      );
+                    },
+            ),
           ),
         )
       : const NoProductsView();

@@ -141,6 +141,10 @@
   "oldPassword": "Old password",
   "changePassword": "Change password",
   "success": "Success",
+  "retry": "Retry",
+  "no_result_found": "No Result Found",
+  "productAddedToCart": "Product added to cart"
+  "success": "Success",
   "Cash on delivery": "Cash on delivery",
   "Credit card": "Credit card",
   "Checkout": "Checkout",
