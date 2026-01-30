@@ -73,6 +73,7 @@ abstract class ApiClient {
     @Query("occasion") String? occasionId,
     @Query("category") String? categoryId,
     @Query("keyword") String? keyword,
+    @Query("sort") String? sort,
   });
 
   @GET(EndPoints.categories)

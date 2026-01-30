@@ -74,7 +74,6 @@
     "enterAddress": "Please enter address"
   },
   "home": {
-    "search": "Search",
     "view_all": "View All",
     "categories": "Categories",
     "best_seller": "Best seller",
@@ -181,5 +180,13 @@
   "Delivery address": "Delivery address",
   "Payment Canceled": "Payment Canceled",
   "Payment Completed Successfully": "Payment Completed Successfully",
-  "payment": "Payment"
+  "payment": "Payment",
+
+  "search": "Search",
+  "sort_by" : "Sort by",
+  "price_low_to_high" : "Price low to high",
+  "price_high_to_low" : "Price high to low",
+  "newest_first" : "Newest first",
+  "oldest_first" : "Oldest first",
+  "discount_first" : "Discount first"
 }

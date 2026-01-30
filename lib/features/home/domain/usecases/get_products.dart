@@ -20,4 +20,10 @@ class GetProductsUseCase {
       keyword: keyword,
     );
   }
+    String? sort,
+  }) => repo.getProducts(
+    occasionId: occasionId,
+    categoryId: categoryId,
+    sort: sort,
+  );
 }

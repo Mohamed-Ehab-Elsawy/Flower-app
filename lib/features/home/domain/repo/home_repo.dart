@@ -10,5 +10,6 @@ abstract interface class HomeRepo {
     String? occasionId,
     String? categoryId,
     String? keyword,
+    String? sort,
   });
 }

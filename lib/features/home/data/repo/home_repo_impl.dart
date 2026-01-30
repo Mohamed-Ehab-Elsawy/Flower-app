@@ -16,6 +16,7 @@ class HomeRepoImpl implements HomeRepo {
   final HomeDataSource _homeDataSource;
 
   const HomeRepoImpl(this._homeDataSource);
+
   @override
   Future<Result<HomeResponseEntity>> fetchHomeData() async {
     var response = await _homeDataSource.fetchHomeData();
@@ -47,6 +48,7 @@ class HomeRepoImpl implements HomeRepo {
     String? occasionId,
     String? categoryId,
     String? keyword,
+    String? sort,
   }) async {
     Result<List<ProductsDto>> productResponse = await _homeDataSource
         .getProducts(
@@ -54,6 +56,12 @@ class HomeRepoImpl implements HomeRepo {
           categoryId: categoryId,
           keyword: keyword,
         );
+        .getProducts(
+          occasionId: occasionId,
+          categoryId: categoryId,
+          sort: sort,
+        );
+
     switch (productResponse) {
       case Success<List<ProductsDto>>():
         {

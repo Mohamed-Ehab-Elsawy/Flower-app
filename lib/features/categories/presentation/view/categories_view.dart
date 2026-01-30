@@ -7,10 +7,11 @@ import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/constants/app_dimensions.dart';
 import 'package:flower_app/core/helper/show_toast.dart';
 import 'package:flower_app/core/widgets/custom_products_grid_list_builder.dart';
-import 'package:flower_app/features/categories/presentation/view/manager/categories_view_cubit.dart';
+import 'package:flower_app/features/categories/presentation/view/manager/categories_view_model.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_intents.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_states.dart';
 import 'package:flower_app/features/categories/presentation/view/widgets/categories_search_and_filter_widget.dart';
+import 'package:flower_app/features/categories/presentation/view/widgets/filter_bottom_sheet.dart';
 import 'package:flower_app/features/orders/presentation/view_model/order_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -29,15 +30,16 @@ class CategoriesView extends StatefulWidget {
 }
 
 class _CategoriesViewState extends State<CategoriesView> {
+  late CategoriesViewModel viewModel;
   final ScrollController _scrollController = ScrollController();
   bool _showFilterButton = true;
   late StreamSubscription _orderSubscription;
+
   @override
   void initState() {
     super.initState();
-    context.read<CategoriesViewCubit>().doIntent(
-      InitCategoriesViewIntent(index: widget.index),
-    );
+    viewModel = context.read<CategoriesViewModel>();
+    viewModel.doIntent(InitCategoriesViewIntent(index: widget.index));
     _scrollListener();
     _eventsListener();
     _orderStreamListener();
@@ -74,21 +76,22 @@ class _CategoriesViewState extends State<CategoriesView> {
         padding: AppDimensions.pagePadding,
         child: Stack(
           children: [
-            BlocBuilder<CategoriesViewCubit, CategoriesViewStates>(
+            BlocBuilder<CategoriesViewModel, CategoriesViewStates>(
               builder: (context, state) => DefaultTabController(
                 length: state.categories?.data?.length ?? 0,
                 initialIndex: widget.index ?? 0,
                 child: Column(
                   children: [
-                    const CategoriesSearchAndFilterWidget(),
+                    const CategoriesSearchWidget(),
                     context.h(8),
                     state.categories?.requestState == RequestState.loaded
                         ? TabBar(
                             isScrollable: true,
                             onTap: (index) {
-                              context.read<CategoriesViewCubit>().doIntent(
+                              viewModel.doIntent(
                                 GetProductsByCategoryIntent(
-                                  categoryId: state.categories?.data?[index].id,
+                                  categoryId:
+                                      state.categories?.data?[index].id ?? '',
                                 ),
                               );
                             },
@@ -143,7 +146,9 @@ class _CategoriesViewState extends State<CategoriesView> {
   }
 
   Widget _filterButton() => ElevatedButton.icon(
-    onPressed: () {},
+    onPressed: () {
+      showFilterBottomSheet();
+    },
     icon: const Icon(Icons.tune, color: Colors.white),
     label: Text(
       'Filter'.tr(),
@@ -156,7 +161,7 @@ class _CategoriesViewState extends State<CategoriesView> {
   );
 
   void _eventsListener() {
-    context.read<CategoriesViewCubit>().uiEvents.listen((event) {
+    viewModel.uiEvents.listen((event) {
       if (event is CategoriesViewShowErrorEvent && mounted) {
         Toast.showToast(context, event.errorMessage);
       }
@@ -173,5 +178,29 @@ class _CategoriesViewState extends State<CategoriesView> {
         setState(() => _showFilterButton = true);
       }
     });
+  }
+
+  void showFilterBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: context.appTheme.secondary,
+      builder: (context) => BlocProvider.value(
+        value: viewModel,
+        child: FilterBottomSheet(
+          onFilterChange: (value) =>
+              viewModel.doIntent(CategoriesFilterIntent(sortBy: value!)),
+          onClearTap: () {
+            Navigator.pop(context);
+            viewModel.doIntent(InitCategoriesViewIntent());
+          },
+          onFilterTap: () {
+            Navigator.pop(context);
+            viewModel.doIntent(GetProductByFilterIntent());
+          },
+        ),
+      ),
+      showDragHandle: true,
+    );
   }
 }

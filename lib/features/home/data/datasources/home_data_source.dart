@@ -8,6 +8,7 @@ abstract interface class HomeDataSource {
     String? occasionId,
     String? categoryId,
     String? keyword,
+    String? sort,
   });
   Future<Result<HomeResponseDto>> fetchHomeData();
   Future<Result<BestSellerResponse>> getBestSeller();
