@@ -29,11 +29,11 @@ class ProfileRepoImpl implements ProfileRepo {
         {
           UserDto userDto = response.data.user ?? UserDto();
           UserEntity userEntity = userDto.toEntity();
-          return Success(userEntity);
+          return Success<UserEntity>(userEntity);
         }
       case Failure<GetUserDataResponse>():
         {
-          return Failure(response.errorMessage);
+          return Failure<UserEntity>(response.errorMessage);
         }
     }
   }
