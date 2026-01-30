@@ -26,7 +26,7 @@ class AboutUsViewModel extends Cubit<AboutUsState> {
     }
   }
 
-  _getAboutUsData() async {
+  Future _getAboutUsData() async {
     emit(state.copyWith(aboutStates: state.aboutStates.loading));
     final response = await _aboutUsUseCase.invoke();
     switch (response) {
