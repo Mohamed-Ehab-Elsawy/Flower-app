@@ -54,7 +54,7 @@ class _CheckoutViewState extends State<CheckoutView> {
         case NavigateToAddress():
           {
             if (!mounted) return;
-            Navigator.pushNamed(context, AppRoutes.addresses);
+            Navigator.pushNamed(context, AppRoutes.saveAddress);
           }
       }
     });
