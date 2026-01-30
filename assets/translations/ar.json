@@ -155,5 +155,8 @@
   "Total": "الإجمالي",
   "Complete the payment information": "أكمل معلومات الدفع",
   "Order confirmed": "تم تأكيد الطلب",
-  "Place order": "تقديم الطلب"
+  "Place order": "تقديم الطلب",
+  "Payment Canceled": "الدفع ملغى",
+  "Payment Completed Successfully": "تم تنفيذ الدفع بنجاح",
+  "payment": "الدفع"
 }

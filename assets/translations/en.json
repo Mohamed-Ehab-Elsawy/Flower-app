@@ -132,12 +132,12 @@
   "English": "English",
   "Language": "Language",
   "Flower App": "Flower App",
-  "edit_profile" : "Edit profile",
-  "update" : "Update",
-  "error_loading_profile" : "Error Loading Profile",
-  "retry" : "Retry",
-  "gallery" : "Gallery",
-  "camera" : "Camera",
+  "edit_profile": "Edit profile",
+  "update": "Update",
+  "error_loading_profile": "Error Loading Profile",
+  "retry": "Retry",
+  "gallery": "Gallery",
+  "camera": "Camera",
   "oldPassword": "Old password",
   "changePassword": "Change password",
   "success": "Success",
@@ -156,7 +156,8 @@
   "Complete the payment information": "Complete the payment information",
   "Order confirmed": "Order confirmed",
   "Place order": "Place order",
-  "Delivery address": "Delivery address"
-
-
+  "Delivery address": "Delivery address",
+  "Payment Canceled": "Payment Canceled",
+  "Payment Completed Successfully": "Payment Completed Successfully",
+  "payment": "Payment"
 }
