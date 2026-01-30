@@ -1,5 +1,6 @@
 import 'package:flower_app/core/app/presentation/view_model/app_section_contracts.dart';
 import 'package:flower_app/core/app/presentation/view_model/app_section_view_model.dart';
+import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/helper/app_routes.dart';
 import 'package:flower_app/features/home/presentation/view_model/home_view_model.dart';
 import 'package:flower_app/features/home/presentation/widgets/best_seller_list.dart';
@@ -22,6 +23,7 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     context.read<HomeViewModel>().uiEventsStream.listen((event) {
+      if (!mounted) return;
       switch (event) {
         case ViewAllOccasionsEvent():
           if (!mounted) return;
@@ -41,6 +43,8 @@ class _HomeViewState extends State<HomeView> {
           context.read<AppSectionViewModel>().doIntent(
             ViewCategoryIntent(event.index),
           );
+        case NavigatorToSearch():
+          context.pushName(AppRoutes.search);
       }
     });
   }
