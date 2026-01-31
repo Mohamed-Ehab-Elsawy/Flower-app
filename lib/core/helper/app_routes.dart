@@ -109,6 +109,7 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const TermsView(),
         ),
       );
+
     case AppRoutes.occasion:
       return MaterialPageRoute(
         builder: (_) => BlocProvider<OrderViewModel>.value(
@@ -134,7 +135,6 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const ForgetPasswordView(),
         ),
       );
-
     case AppRoutes.editProfile:
       final EditProfileViewModel editProfileViewModel =
           getIt<EditProfileViewModel>();
@@ -144,7 +144,6 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const EditProfileView(),
         ),
       );
-
     case AppRoutes.changePassword:
       return MaterialPageRoute(
         builder: (_) => BlocProvider(

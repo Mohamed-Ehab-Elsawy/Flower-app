@@ -13,14 +13,14 @@ class TermsViewModel extends Cubit<TermsState> {
 
   TermsViewModel(this._termsRepository) : super(TermsState.init());
 
-  doIntent(TermsIntent intent) {
+  void doIntent(TermsIntent intent) {
     switch (intent) {
       case FetchTermsIntent():
         _fetchTerms();
     }
   }
 
-  _fetchTerms() async {
+  Future<void> _fetchTerms() async {
     emit(state.copyWith(BaseState.loading()));
     final result = await _termsRepository.getTermsAndConditions();
     switch (result) {

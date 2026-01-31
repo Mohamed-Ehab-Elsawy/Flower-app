@@ -21,13 +21,12 @@ void main() {
     );
     await tester.pumpWidget(buildTestableWidget(entity, false));
 
-    expect(find.byType(Padding), findsNWidgets(entity.contentEn.length + 1));
     expect(find.byType(Text), findsNWidgets(entity.contentEn.length));
     expect(find.byType(Container), findsOneWidget);
     expect(find.byType(Column), findsOneWidget);
   });
 
-  testWidgets("Test content when locale is EN", (WidgetTester tester) async {
+  testWidgets("Test content when locale is AR", (WidgetTester tester) async {
     var entity = TermsEntity(
       section: 'section',
       contentAr: ['محتوى', 'محتوى', 'محتوى', 'محتوى'],

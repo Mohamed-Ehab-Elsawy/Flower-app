@@ -140,5 +140,6 @@
   "camera": "الكاميرا",
   "oldPassword": "كلمة المرور القديمة",
   "changePassword": "تغيير كلمة المرور",
-  "success": "تم بنجاح"
+  "success": "تم بنجاح",
+  "no_terms_available": "لا يوجد شروط و احكام حاليا."
 }
