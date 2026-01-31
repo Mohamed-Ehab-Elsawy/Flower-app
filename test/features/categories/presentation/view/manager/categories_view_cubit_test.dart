@@ -99,27 +99,35 @@ void main() {
         provideDummy<Result<List<ProductsEntity>>>(response);
 
         when(
-          getProductsUseCase.call(categoryId: "1"),
+          getProductsUseCase.call(
+            categoryId: "1",
+            sort: "-updatedAt",
+            occasionId: null,
+          ),
         ).thenAnswer((_) async => response);
       },
       act: (bloc) =>
           bloc.doIntent(GetProductsByCategoryIntent(categoryId: "1")),
       expect: () => [
         const CategoriesViewStates(
-          productsStates: BaseState<List<ProductsEntity>>(
-            requestState: RequestState.loading,
-          ),
+          productsStates: BaseState(requestState: RequestState.loading),
+          selectedCategoryId: "1",
         ),
         CategoriesViewStates(
-          productsStates: BaseState<List<ProductsEntity>>(
+          productsStates: BaseState(
             requestState: RequestState.loaded,
             data: products,
           ),
+          selectedCategoryId: "1",
         ),
       ],
-      verify: (_) {
-        verify(getProductsUseCase.call(categoryId: "1")).called(1);
-      },
+      verify: (_) => verify(
+        getProductsUseCase.call(
+          categoryId: "1",
+          sort: "-updatedAt",
+          occasionId: null,
+        ),
+      ).called(1),
     );
   });
 
@@ -165,36 +173,43 @@ void main() {
         final response = Failure<List<ProductsEntity>>("Server error");
         provideDummy<Result<List<ProductsEntity>>>(response);
         when(
-          getProductsUseCase.call(categoryId: "1"),
+          getProductsUseCase.call(
+            categoryId: "1",
+            sort: anyNamed('sort'),
+            occasionId: anyNamed('occasionId'),
+          ),
         ).thenAnswer((_) async => response);
       },
       act: (bloc) async {
-        final events = <CategoriesViewUIEvents>[];
-        final sub = bloc.uiEvents.listen(events.add);
+        expectLater(
+          bloc.uiEvents,
+          emits(CategoriesViewShowErrorEvent("Server error")),
+        );
 
         bloc.doIntent(GetProductsByCategoryIntent(categoryId: "1"));
-
-        await Future<void>.delayed(Duration.zero);
-        await sub.cancel();
-
-        expect(events, [CategoriesViewShowErrorEvent("Server error")]);
       },
       expect: () => [
         const CategoriesViewStates(
+          selectedCategoryId: "1",
           productsStates: BaseState<List<ProductsEntity>>(
             requestState: RequestState.loading,
           ),
         ),
         const CategoriesViewStates(
+          selectedCategoryId: "1",
           productsStates: BaseState<List<ProductsEntity>>(
             requestState: RequestState.error,
             errorMessage: "Server error",
           ),
         ),
       ],
-      verify: (_) {
-        verify(getProductsUseCase.call(categoryId: "1")).called(1);
-      },
+      verify: (_) => verify(
+        getProductsUseCase.call(
+          categoryId: "1",
+          sort: anyNamed('sort'),
+          occasionId: anyNamed('occasionId'),
+        ),
+      ).called(1),
     );
   });
 }
