@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   late SessionDto sessionDto;
 
-  test('test  toEntity method should return OrderEntity with same value', () {
+  test('test  toEntity method should return sessionEntity with same value', () {
     sessionDto = SessionDto(
       id: "id",
       object: "object",
@@ -20,7 +20,7 @@ void main() {
     expect(result.amountTotal, equals(sessionDto.amountTotal));
   });
   test(
-    'test  toEntity method with null value should return OrderEntity with null value',
+    'test  toEntity method with null value should return sessionEntity with null value',
     () {
       sessionDto = SessionDto(
         id: null,

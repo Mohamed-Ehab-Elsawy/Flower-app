@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/di/di.dart';
@@ -26,7 +28,7 @@ class _CheckoutViewState extends State<CheckoutView> {
   int? selectedIndex;
   late CartEntity card;
   final checkoutCubit = getIt.get<CheckoutCubit>();
-
+  late StreamSubscription<CheckoutUiEvent> _uiEventSubscription;
   @override
   void initState() {
     super.initState();
@@ -58,6 +60,12 @@ class _CheckoutViewState extends State<CheckoutView> {
           }
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _uiEventSubscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -129,7 +137,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                             style: context.appTheme.medium16.copyWith(
                               color: context.appTheme.success,
                             ),
-                          ),
+                          ).tr(),
                         ),
                       ],
                     ),

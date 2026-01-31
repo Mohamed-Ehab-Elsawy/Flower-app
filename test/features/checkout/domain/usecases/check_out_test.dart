@@ -5,6 +5,7 @@ import 'package:flower_app/features/checkout/domain/entity/address_entity.dart';
 import 'package:flower_app/features/checkout/domain/entity/order_enyity.dart';
 import 'package:flower_app/features/checkout/domain/entity/session_entity.dart';
 import 'package:flower_app/features/checkout/domain/repo/check_out_repo.dart';
+import 'package:flower_app/features/checkout/domain/usecases/check_out.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -14,72 +15,125 @@ import 'check_out_test.mocks.dart';
 @GenerateMocks([CheckOutRepo])
 void main() {
   late MockCheckOutRepo mockCheckOutRepo;
+  late CheckOutUseCase useCase;
+
   late SessionEntity sessionEntity;
-  late AddressesEntity addressesEntity;
-  late List<AddressesEntity> addressesEntityList;
   late OrderEntity orderEntity;
-  late CheckOutOrderRequest checkOutOrderRequest;
+  late AddressesEntity addressesEntity;
+  late List<AddressesEntity> addressesList;
+  late CheckOutOrderRequest request;
+
   setUp(() {
     mockCheckOutRepo = MockCheckOutRepo();
+    useCase = CheckOutUseCase(mockCheckOutRepo);
+
     sessionEntity = SessionEntity(
-      id: "id",
-      object: "object",
-      afterExpiration: "afterExpiration",
-      allowPromotionCodes: "allowPromotionCodes",
-      amountTotal: 0,
+      id: "sess_123",
+      object: "checkout.session",
+      afterExpiration: "void",
+      allowPromotionCodes: "true",
+      amountTotal: 1500,
     );
+
     orderEntity = OrderEntity(
-      createdAt: "createdAt",
-      id: "id",
-      updatedAt: "updatedAt",
-      V: 0,
-      orderNumber: "orderNumber",
-      isPaid: false,
+      createdAt: "2025-01-10",
+      id: "order_456",
+      updatedAt: "2025-01-10",
+      V: 1,
+      orderNumber: "ORD-00123",
+      isPaid: true,
       isDelivered: false,
-      orderItems: [OrderItems(price: 0, quantity: 0, id: "id")],
-      paymentType: "paymentType",
-      state: "state",
-      totalPrice: 0,
-      user: "user",
+      orderItems: [OrderItems(price: 750, quantity: 2, id: "item1")],
+      paymentType: "cash",
+      state: "pending",
+      totalPrice: 1500,
+      user: "user_789",
     );
+
     addressesEntity = const AddressesEntity(
-      street: "street",
-      phone: "phone",
-      city: "city",
-      lat: "lat",
-      long: "long",
-      username: "username",
-      id: "id",
+      id: "addr_1",
+      street: "شارع الهرم",
+      phone: "0123456789",
+      city: "الجيزة",
+      lat: "30.0444",
+      long: "31.2357",
+      username: "أحمد",
     );
-    addressesEntityList = [addressesEntity, addressesEntity];
-    checkOutOrderRequest = CheckOutOrderRequest(
-      shippingAddress: ShippingAddress(lat: "lk"),
+
+    addressesList = [addressesEntity];
+
+    request = CheckOutOrderRequest(
+      shippingAddress: ShippingAddress(
+        lat: "30.0444",
+        long: "31.2357",
+        street: "شارع الهرم",
+        phone: "0123456789",
+        city: "الجيزة",
+      ),
     );
-    provideDummy<Result<SessionEntity>>(Success<SessionEntity>(sessionEntity));
-    provideDummy<Result<OrderEntity>>(Success<OrderEntity>(orderEntity));
-    provideDummy<Result<List<AddressesEntity>>>(
-      Success<List<AddressesEntity>>(addressesEntityList),
-    );
+
+    provideDummy<Result<SessionEntity>>(Success(sessionEntity));
+    provideDummy<Result<OrderEntity>>(Success(orderEntity));
+
+    provideDummy<Result<List<AddressesEntity>>>(Success(addressesList));
   });
-  test('test calling  checkOutCreditCard in use_cases ', () async {
-    when(
-      mockCheckOutRepo.checkoutCreditCard(checkOutOrderRequest),
-    ).thenAnswer((_) async => Success<SessionEntity>(sessionEntity));
-    await mockCheckOutRepo.checkoutCreditCard(checkOutOrderRequest);
-    verify(mockCheckOutRepo.checkoutCreditCard(checkOutOrderRequest)).called(1);
-  });
-  test('test calling  checkoutCash in use_cases ', () async {
-    when(
-      mockCheckOutRepo.checkoutCash(checkOutOrderRequest),
-    ).thenAnswer((_) async => Success<OrderEntity>(orderEntity));
-    await mockCheckOutRepo.checkoutCash(checkOutOrderRequest);
-    verify(mockCheckOutRepo.checkoutCash(checkOutOrderRequest)).called(1);
-  });
-  test('test calling  getUserAddresses in use_cases ', () async {
-    when(mockCheckOutRepo.getUserAddresses()).thenAnswer(
-      (_) async => Success<List<AddressesEntity>>(addressesEntityList),
+
+  group('CheckOutUseCase', () {
+    test(
+      'should call repo.checkoutCreditCard and return Success<SessionEntity>',
+      () async {
+        // arrange
+        when(
+          mockCheckOutRepo.checkoutCreditCard(any),
+        ).thenAnswer((_) async => Success<SessionEntity>(sessionEntity));
+
+        // act
+        final result = await useCase.checkoutCreditCard(request);
+
+        // assert
+        verify(mockCheckOutRepo.checkoutCreditCard(request)).called(1);
+        expect(result, isA<Success<SessionEntity>>());
+        expect((result as Success<SessionEntity>).data, equals(sessionEntity));
+      },
     );
-    await mockCheckOutRepo.getUserAddresses();
-    verify(mockCheckOutRepo.getUserAddresses()).called(1);
+
+    test(
+      'should call repo.checkoutCash and return Success<OrderEntity>',
+      () async {
+        // arrange
+        when(
+          mockCheckOutRepo.checkoutCash(any),
+        ).thenAnswer((_) async => Success<OrderEntity>(orderEntity));
+
+        // act
+        final result = await useCase.checkoutCash(request);
+
+        // assert
+        verify(mockCheckOutRepo.checkoutCash(request)).called(1);
+        expect(result, isA<Success<OrderEntity>>());
+        expect((result as Success<OrderEntity>).data, equals(orderEntity));
+      },
+    );
+
+    test(
+      'should call repo.getUserAddresses and return Success<List<AddressesEntity>>',
+      () async {
+        // arrange
+        when(mockCheckOutRepo.getUserAddresses()).thenAnswer(
+          (_) async => Success<List<AddressesEntity>>(addressesList),
+        );
+
+        // act
+        final result = await useCase.getUserAddresses();
+
+        // assert
+        verify(mockCheckOutRepo.getUserAddresses()).called(1);
+        expect(result, isA<Success<List<AddressesEntity>>>());
+        expect(
+          (result as Success<List<AddressesEntity>>).data,
+          equals(addressesList),
+        );
+      },
+    );
   });
 }
