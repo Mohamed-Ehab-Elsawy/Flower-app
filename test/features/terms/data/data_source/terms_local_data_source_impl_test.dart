@@ -16,9 +16,7 @@ void main() {
 
   setUp(() {
     assetBundle = MockAssetBundle();
-    dataSource = TermsLocalDataSourceImpl(
-      assetBundle: assetBundle,
-    );
+    dataSource = TermsLocalDataSourceImpl(assetBundle: assetBundle);
   });
 
   const tJsonString = '{"id": 1, "content": "terms"}';
