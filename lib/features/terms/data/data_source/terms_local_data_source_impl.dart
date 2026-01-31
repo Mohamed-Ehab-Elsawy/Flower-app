@@ -8,7 +8,9 @@ import 'package:injectable/injectable.dart';
 
 @Injectable(as: TermsLocalDataSource)
 class TermsLocalDataSourceImpl implements TermsLocalDataSource {
-  final AssetBundle assetBundle = rootBundle;
+  final AssetBundle assetBundle;
+
+  TermsLocalDataSourceImpl({required this.assetBundle});
 
   @override
   Future<Result<TermsResponseDTO>> getTerms() async {

@@ -4,15 +4,21 @@ import 'package:flower_app/features/terms/data/data_source/terms_local_data_sour
 import 'package:flower_app/features/terms/data/models/terms_response_dto.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import 'terms_local_data_source_impl_test.mocks.dart';
+
+@GenerateMocks([AssetBundle])
 void main() {
   late TermsLocalDataSourceImpl dataSource;
   late AssetBundle assetBundle;
 
   setUp(() {
-    assetBundle = rootBundle;
-    dataSource = TermsLocalDataSourceImpl();
+    assetBundle = MockAssetBundle();
+    dataSource = TermsLocalDataSourceImpl(
+      assetBundle: assetBundle,
+    );
   });
 
   const tJsonString = '{"id": 1, "content": "terms"}';
