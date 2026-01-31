@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/features/profile/presentation/cubit/about_us/about_us_intents.dart';
 import 'package:flower_app/features/profile/presentation/cubit/about_us/about_us_state.dart';
@@ -14,10 +15,13 @@ class AboutUsView extends StatefulWidget {
 }
 
 class _AboutUsViewState extends State<AboutUsView> {
+  late StreamSubscription _uiEventsSubscription;
   @override
   void initState() {
     super.initState();
-    context.read<AboutUsViewModel>().uiEvents.listen((event) {
+    _uiEventsSubscription = context.read<AboutUsViewModel>().uiEvents.listen((
+      event,
+    ) {
       switch (event) {
         case GetAboutUsIntent():
           if (!mounted) return;
@@ -27,6 +31,12 @@ class _AboutUsViewState extends State<AboutUsView> {
           Navigator.pop(context);
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _uiEventsSubscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -60,7 +70,6 @@ class _AboutUsViewState extends State<AboutUsView> {
           final aboutUsEntity = state.aboutStates.data;
 
           if (state.aboutStates.isLoaded && aboutUsEntity != null) {
-            context.read<AboutUsViewModel>().doIntent(GetAboutUsIntent());
             return ListView.builder(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),

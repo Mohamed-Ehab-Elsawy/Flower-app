@@ -16,6 +16,10 @@ extension AboutAppMapper on AboutApp {
   AboutSectionEntity toEntity() {
     return AboutSectionEntity(
       sectionName: section ?? '',
+
+      title: title != null
+          ? LocalizedContent(en: title?.en, ar: title?.ar)
+          : null,
       content: LocalizedContent(en: content?.en, ar: content?.ar),
       style: {
         'fontSize': style?.fontSize,

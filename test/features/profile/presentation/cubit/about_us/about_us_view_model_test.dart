@@ -81,6 +81,7 @@ void main() {
           isTrue,
         ),
       ],
+      verify: (_) => verify(mockAboutUsUseCase.invoke()).called(1),
     );
 
     test("should emit BackToProfileIntent on uiEvents stream", () async {
