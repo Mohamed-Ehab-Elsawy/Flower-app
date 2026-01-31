@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flower_app/core/helper/app_routes.dart';
 import 'package:flower_app/core/helper/show_toast.dart';
+import 'package:flower_app/core/helper/app_routes.dart';
 import 'package:flower_app/features/checkout/domain/entity/session_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -14,19 +14,40 @@ class PaymentView extends StatefulWidget {
 
 class _PaymentViewState extends State<PaymentView> {
   WebViewController? _controller;
-  late SessionEntity session;
+  SessionEntity? session;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    session = ModalRoute.of(context)!.settings.arguments as SessionEntity;
 
-    if (_controller == null) {
-      _initializeController();
+    final args = ModalRoute.of(context)?.settings.arguments;
+
+    if (args is SessionEntity) {
+      session = args;
+      if (_controller == null &&
+          session?.url != null &&
+          session!.url!.isNotEmpty) {
+        _initializeController();
+      } else if (session?.url == null || session!.url!.isEmpty) {
+        _handleInvalidSession();
+      }
+    } else {
+      _handleInvalidSession();
     }
   }
 
+  void _handleInvalidSession() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        Toast.showToast(context, "invalid_payment_session".tr(), isError: true);
+        Navigator.pop(context);
+      }
+    });
+  }
+
   void _initializeController() {
+    final uri = Uri.parse(session!.url!);
+
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
@@ -35,42 +56,45 @@ class _PaymentViewState extends State<PaymentView> {
             final url = request.url.toLowerCase();
 
             if (url.contains('/allorders')) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Toast.showToast(
-                  context,
-                  "Payment Completed Successfully".tr(),
-                  isError: false,
-                );
-
-                /// pushNamedAndRemoveUntil
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.appSection,
-                  // (route) => false,
-                );
-              });
-
+              _navigateWithToast(
+                "Payment Completed Successfully".tr(),
+                false,
+                isSuccess: true,
+              );
               return NavigationDecision.prevent;
             }
 
             if (url.contains('/cart')) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Toast.showToast(
-                  context,
-                  "Payment Canceled".tr(),
-                  isError: true,
-                );
-
-                Navigator.pop(context);
-              });
-
+              _navigateWithToast("Payment Canceled".tr(), true);
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
           },
         ),
       )
-      ..loadRequest(Uri.parse(session.url ?? ''));
+      ..loadRequest(uri);
+
+    setState(() {});
+  }
+
+  void _navigateWithToast(
+    String message,
+    bool isError, {
+    bool isSuccess = false,
+  }) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      Toast.showToast(context, message, isError: isError);
+      if (isSuccess) {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.appSection,
+          (route) => false,
+        );
+      } else {
+        Navigator.pop(context);
+      }
+    });
   }
 
   @override
@@ -88,7 +112,7 @@ class _PaymentViewState extends State<PaymentView> {
 
   @override
   void dispose() {
-    _controller?.clearCache();
+    _controller = null;
     super.dispose();
   }
 }
