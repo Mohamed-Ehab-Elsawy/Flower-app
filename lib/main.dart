@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flower_app/core/bloc_box/my_bloc_observer.dart';
 import 'package:flower_app/core/di/di.dart';
 import 'package:flower_app/core/helper/app_local_storage.dart';
@@ -7,10 +8,12 @@ import 'package:flower_app/flower_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'firebase_options.dart';
+
 bool isLoggedInUser = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await EasyLocalization.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   isLoggedInUser = await getInitialAppRoute();
