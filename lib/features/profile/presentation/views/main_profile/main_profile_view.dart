@@ -13,7 +13,7 @@ import 'package:flower_app/features/localization/view/language_bottom_sheet.dart
 import 'package:flower_app/features/profile/presentation/views/main_profile/managers/main_profile_view_intents.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/managers/main_profile_view_ui_events.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/view_model/main_profile_view_model.dart';
-import 'package:flower_app/features/profile/presentation/views/main_profile/widgets/main_profile_item.dart';
+import 'package:flower_app/features/profile/presentation/widgets/main_profile_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -46,7 +46,7 @@ class _MainProfileViewState extends State<MainProfileView> {
               Navigator.pushNamed(context, AppRoutes.orders);
 
             case NavToSavedAddressesEvent():
-              Navigator.pushNamed(context, AppRoutes.addresses);
+              Navigator.of(context).pushNamed(AppRoutes.saveAddress);
 
             case NavToNotificationEvent():
               Navigator.pushNamed(context, AppRoutes.notifications);

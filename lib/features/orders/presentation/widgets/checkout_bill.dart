@@ -1,10 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
+import 'package:flower_app/features/orders/domain/entities/order_entity.dart';
 import 'package:flower_app/features/orders/presentation/view_model/order_state.dart';
 import 'package:flower_app/features/orders/presentation/view_model/order_viewmodel.dart';
 import 'package:flower_app/features/orders/presentation/widgets/full_bill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/helper/app_routes.dart';
 
 class CheckoutBill extends StatelessWidget {
   const CheckoutBill({super.key});
@@ -21,7 +24,13 @@ class CheckoutBill extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: ElevatedButton(
                   style: _buildElevateStyle(context),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.checkout,
+                      arguments: state.cartOrders?.data?.cart as CartEntity,
+                    );
+                  },
                   child: Text("cart.checkout".tr()),
                 ),
               ),

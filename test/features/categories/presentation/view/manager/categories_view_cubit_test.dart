@@ -4,9 +4,9 @@ import 'package:flower_app/core/app/domain/entities/product_type_entity.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/categories/domain/usecases/get_categories_use_case.dart';
-import 'package:flower_app/features/categories/presentation/view/manager/categories_view_cubit.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_events.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_intents.dart';
+import 'package:flower_app/features/categories/presentation/view/manager/categories_view_model.dart';
 import 'package:flower_app/features/categories/presentation/view/manager/categories_view_states.dart';
 import 'package:flower_app/features/home/domain/usecases/get_products.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,7 +19,7 @@ import 'categories_view_cubit_test.mocks.dart';
 void main() {
   late GetProductsUseCase getProductsUseCase;
   late GetCategoriesUseCase getCategoriesUseCase;
-  late CategoriesViewCubit categoriesViewCubit;
+  late CategoriesViewModel categoriesViewCubit;
   late ProductTypeEntity categoryEntity;
   late List<ProductTypeEntity> categories;
   late ProductsEntity productEntity;
@@ -29,7 +29,7 @@ void main() {
   setUp(() {
     getProductsUseCase = MockGetProductsUseCase();
     getCategoriesUseCase = MockGetCategoriesUseCase();
-    categoriesViewCubit = CategoriesViewCubit(
+    categoriesViewCubit = CategoriesViewModel(
       getCategoriesUseCase,
       getProductsUseCase,
     );
@@ -99,27 +99,35 @@ void main() {
         provideDummy<Result<List<ProductsEntity>>>(response);
 
         when(
-          getProductsUseCase.call(categoryId: "1"),
+          getProductsUseCase.call(
+            categoryId: "1",
+            sort: "-updatedAt",
+            occasionId: null,
+          ),
         ).thenAnswer((_) async => response);
       },
       act: (bloc) =>
           bloc.doIntent(GetProductsByCategoryIntent(categoryId: "1")),
       expect: () => [
         const CategoriesViewStates(
-          productsStates: BaseState<List<ProductsEntity>>(
-            requestState: RequestState.loading,
-          ),
+          productsStates: BaseState(requestState: RequestState.loading),
+          selectedCategoryId: "1",
         ),
         CategoriesViewStates(
-          productsStates: BaseState<List<ProductsEntity>>(
+          productsStates: BaseState(
             requestState: RequestState.loaded,
             data: products,
           ),
+          selectedCategoryId: "1",
         ),
       ],
-      verify: (_) {
-        verify(getProductsUseCase.call(categoryId: "1")).called(1);
-      },
+      verify: (_) => verify(
+        getProductsUseCase.call(
+          categoryId: "1",
+          sort: "-updatedAt",
+          occasionId: null,
+        ),
+      ).called(1),
     );
   });
 
@@ -158,43 +166,50 @@ void main() {
       ],
     );
 
-    blocTest<CategoriesViewCubit, CategoriesViewStates>(
+    blocTest<CategoriesViewModel, CategoriesViewStates>(
       "emits [loading, error] and UI event when getProductsUseCase fails",
       build: () => categoriesViewCubit,
       setUp: () {
         final response = Failure<List<ProductsEntity>>("Server error");
         provideDummy<Result<List<ProductsEntity>>>(response);
         when(
-          getProductsUseCase.call(categoryId: "1"),
+          getProductsUseCase.call(
+            categoryId: "1",
+            sort: anyNamed('sort'),
+            occasionId: anyNamed('occasionId'),
+          ),
         ).thenAnswer((_) async => response);
       },
       act: (bloc) async {
-        final events = <CategoriesViewUIEvents>[];
-        final sub = bloc.uiEvents.listen(events.add);
+        expectLater(
+          bloc.uiEvents,
+          emits(CategoriesViewShowErrorEvent("Server error")),
+        );
 
         bloc.doIntent(GetProductsByCategoryIntent(categoryId: "1"));
-
-        await Future<void>.delayed(Duration.zero);
-        await sub.cancel();
-
-        expect(events, [CategoriesViewShowErrorEvent("Server error")]);
       },
       expect: () => [
         const CategoriesViewStates(
+          selectedCategoryId: "1",
           productsStates: BaseState<List<ProductsEntity>>(
             requestState: RequestState.loading,
           ),
         ),
         const CategoriesViewStates(
+          selectedCategoryId: "1",
           productsStates: BaseState<List<ProductsEntity>>(
             requestState: RequestState.error,
             errorMessage: "Server error",
           ),
         ),
       ],
-      verify: (_) {
-        verify(getProductsUseCase.call(categoryId: "1")).called(1);
-      },
+      verify: (_) => verify(
+        getProductsUseCase.call(
+          categoryId: "1",
+          sort: anyNamed('sort'),
+          occasionId: anyNamed('occasionId'),
+        ),
+      ).called(1),
     );
   });
 }

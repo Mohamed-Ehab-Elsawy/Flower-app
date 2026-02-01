@@ -41,6 +41,8 @@ class HomeViewModel extends Cubit<HomeState> {
         );
       case ViewAllBestSellerEvent():
         _uiEventsController.add(ViewAllBestSellerEvent());
+      case NavigatorToSearch():
+        _uiEventsController.add(NavigatorToSearch());
     }
   }
 
@@ -89,3 +91,5 @@ class ItemBestSellerSelectedEvent extends HomeUIEvents {
 
   ItemBestSellerSelectedEvent({this.product});
 }
+
+class NavigatorToSearch extends HomeUIEvents {}

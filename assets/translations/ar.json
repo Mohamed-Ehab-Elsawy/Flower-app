@@ -69,7 +69,9 @@
     "enterConfirmPassword": "يرجى تأكيد كلمة المرور",
     "confirmPasswordNotMatch": "كلمتا المرور غير متطابقتين",
     "enterPhoneNumber": "يرجى إدخال رقم الهاتف",
-    "validPhoneNumber": "يرجى إدخال رقم هاتف صحيح (من 10 إلى 15 رقم)"
+    "validPhoneNumber": "يرجى إدخال رقم هاتف صحيح (من 10 إلى 15 رقم)",
+    "enterRecipientName": "يرجى إدخال اسم المستلم",
+    "enterAddress": "يرجى إدخال العنوان"
   },
   "home": {
     "search": "بحث",
@@ -140,5 +142,41 @@
   "camera": "الكاميرا",
   "oldPassword": "كلمة المرور القديمة",
   "changePassword": "تغيير كلمة المرور",
-  "success": "تم بنجاح"
+
+  "address": {
+    "address": "العنوان",
+    "city": "المحافظة",
+    "area": "المنطقة",
+    "recipient_name": "اسم المستلم",
+    "phone_number": "رقم الهاتف",
+    "save_address": "حفظ العنوان",
+    "enter_address": "أدخل العنوان بالتفصيل",
+    "enter_recipient_name": "أدخل اسم المستلم",
+    "enter_phone_number": "أدخل رقم الهاتف",
+    "select_city": "اختر المحافظة",
+    "select_area": "اختر المنطقة",
+    "loading": "جاري التحميل...",
+    "fill_all_fields": "يرجى ملء جميع الحقول",
+    "select_location": "يرجى اختيار الموقع على الخريطة"
+  },
+  "success": "تم بنجاح",
+  "Cash on delivery": "الدفع عند الاستلام",
+  "Credit card": "بطاقة ائتمان",
+  "Checkout": "إتمام الطلب",
+  "Delivery time": "وقت التوصيل",
+  "Schedule": "جدولة",
+  "Instant, ": "فوري، ",
+  "No Address": "لا يوجد عنوان",
+  "Add new": "إضافة جديد",
+  "Payment method": "طريقة الدفع",
+  "Sub Total": "المجموع الفرعي",
+  "Delivery Fee": "رسوم التوصيل",
+  "Total": "الإجمالي",
+  "Complete the payment information": "أكمل معلومات الدفع",
+  "Order confirmed": "تم تأكيد الطلب",
+  "Place order": "تقديم الطلب",
+  "Payment Canceled": "الدفع ملغى",
+  "Payment Completed Successfully": "تم تنفيذ الدفع بنجاح",
+  "payment": "الدفع",
+  "Arrive by 03 Sep 2024, 11:00 AM": "يرجى الوصول بحلول الساعة 11:00 صباحاً من يوم 3 سبتمبر 2024"
 }

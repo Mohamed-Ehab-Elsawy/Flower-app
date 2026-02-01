@@ -89,8 +89,10 @@ class LightTheme extends AppTheme {
         ),
       );
 
+  //TODO: add this line floatingLabelBehavior: FloatingLabelBehavior.always,
   @override
   InputDecorationTheme get inputDecorationTheme => InputDecorationTheme(
+    floatingLabelBehavior: FloatingLabelBehavior.always,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(4),
       borderSide: BorderSide(color: color.grey),

@@ -7,6 +7,8 @@ abstract interface class HomeDataSource {
   Future<Result<List<ProductsDto>>> getProducts({
     String? occasionId,
     String? categoryId,
+    String? keyword,
+    String? sort,
   });
   Future<Result<HomeResponseDto>> fetchHomeData();
   Future<Result<BestSellerResponse>> getBestSeller();

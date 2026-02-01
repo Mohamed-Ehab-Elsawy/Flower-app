@@ -127,9 +127,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                               ),
                             ),
                           );
-                          context.read<ChangePasswordViewModel>().doEvent(
-                            NavigateToEditProfileEvent(),
-                          );
                         }
                       },
                       child: state.changePasswordState.isLoading

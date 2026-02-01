@@ -27,3 +27,43 @@ extension AppNavigatorExtension on BuildContext {
 extension OnSliver on Widget {
   SliverToBoxAdapter get toSliverBoxAdapter => SliverToBoxAdapter(child: this);
 }
+
+extension ServerDrivenUtils on String {
+  Color get toColor {
+    try {
+      var hex = trim();
+
+      if (hex.startsWith('#')) {
+        hex = hex.substring(1);
+      } else if (hex.toLowerCase().startsWith('0x')) {
+        hex = hex.substring(2);
+      }
+
+      if (hex.length == 6) {
+        hex = 'FF$hex';
+      }
+      if (hex.length != 8) {
+        throw const FormatException('Invalid hex color length');
+      }
+
+      return Color(int.parse(hex, radix: 16));
+    } catch (_) {
+      return Colors.black;
+    }
+  }
+
+  FontWeight get toFontWeight {
+    switch (toLowerCase()) {
+      case 'bold':
+        return FontWeight.bold;
+      case 'w500':
+      case 'medium':
+        return FontWeight.w500;
+      case 'w300':
+      case 'light':
+        return FontWeight.w300;
+      default:
+        return FontWeight.normal;
+    }
+  }
+}

@@ -50,7 +50,7 @@ class _EditProfileViewState extends State<EditProfileView> {
       if (!mounted) return;
       switch (event) {
         case NavigateToResetPasswordEvent():
-          context.pushName(AppRoutes.resetPassword);
+          context.pushName(AppRoutes.changePassword);
         case EditProfileViewShowToast():
           Toast.showToast(context, event.message, isError: event.isError);
         case UploadPhotoViewShowToast():

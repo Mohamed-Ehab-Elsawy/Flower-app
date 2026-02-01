@@ -4,17 +4,22 @@ import 'package:dio/dio.dart';
 import 'package:flower_app/core/api/models/response/user_dto.dart';
 import 'package:flower_app/core/error_handling/result.dart';
 import 'package:flower_app/features/auth/domain/models/user_entity.dart';
+import 'package:flower_app/features/profile/data/data_source/profile_local_data_source.dart';
 import 'package:flower_app/features/profile/data/data_source/profile_remote_data_source.dart';
+import 'package:flower_app/features/profile/data/models/about_us_dto.dart';
 import 'package:flower_app/features/profile/data/models/edit_profile_request.dart';
 import 'package:flower_app/features/profile/data/models/get_user_data_response.dart';
 import 'package:flower_app/features/profile/data/models/upload_photo_response.dart';
+import 'package:flower_app/features/profile/domain/entity/about_us_entity.dart';
+import 'package:flower_app/features/profile/domain/mapper/about_us_mapper.dart';
 import 'package:flower_app/features/profile/domain/repositories/profile_repo.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: ProfileRepo)
 class ProfileRepoImpl implements ProfileRepo {
   final ProfileRemoteDataSource _profileRemoteDataSource;
-  ProfileRepoImpl(this._profileRemoteDataSource);
+  final ProfileLocalDataSource _profileLocalDataSource;
+  ProfileRepoImpl(this._profileRemoteDataSource, this._profileLocalDataSource);
 
   @override
   Future<Result<UserEntity>> getProfileData() async {
@@ -24,11 +29,11 @@ class ProfileRepoImpl implements ProfileRepo {
         {
           UserDto userDto = response.data.user ?? UserDto();
           UserEntity userEntity = userDto.toEntity();
-          return Success(userEntity);
+          return Success<UserEntity>(userEntity);
         }
       case Failure<GetUserDataResponse>():
         {
-          return Failure(response.errorMessage);
+          return Failure<UserEntity>(response.errorMessage);
         }
     }
   }
@@ -70,6 +75,16 @@ class ProfileRepoImpl implements ProfileRepo {
         return Success(response.data);
       case Failure<UploadPhotoResponse>():
         return Failure(response.errorMessage);
+    }
+  }
+
+  @override
+  Future<Result<AboutUsEntity>> getAboutUs() async {
+    final result = await _profileLocalDataSource.getAboutUs();
+    if (result is Success<AboutUsDto>) {
+      return Success(result.data.toEntity());
+    } else {
+      return Failure((result as Failure<AboutUsDto>).errorMessage);
     }
   }
 }
