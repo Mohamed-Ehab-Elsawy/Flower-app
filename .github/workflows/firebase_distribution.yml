@@ -32,7 +32,10 @@ jobs:
         with:
           channel: 'stable'
       - name: Install Pods
-        run: cd ios && pod install && cd ..
+        run: |
+          cd ios
+          pod install
+          cd ..
       - run: flutter build ios --debug --no-codesign
       - name: Upload iOS
         uses: w9jds/firebase-action@master
