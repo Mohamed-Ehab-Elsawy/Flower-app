@@ -28,6 +28,9 @@ import 'package:flower_app/features/profile/presentation/views/edit_profile/edit
 import 'package:flower_app/features/profile/presentation/views/edit_profile/view_model/edit_profile_view_model.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/about_us_view.dart';
 import 'package:flower_app/features/profile/presentation/views/main_profile/view_model/main_profile_view_model.dart';
+import 'package:flower_app/features/profile/presentation/views/notifications/managers/notifications_view_contract.dart';
+import 'package:flower_app/features/profile/presentation/views/notifications/notifications_view.dart';
+import 'package:flower_app/features/profile/presentation/views/notifications/view_model/notifications_view_model.dart';
 import 'package:flower_app/features/terms/presentation/manager/terms_intent.dart';
 import 'package:flower_app/features/terms/presentation/terms_view.dart';
 import 'package:flower_app/features/terms/presentation/view_model/terms_view_model.dart';
@@ -62,6 +65,7 @@ class AppRoutes {
 
 Route? onGenerateRoute(RouteSettings settings) {
   var addressViewModel = getIt.get<AddressViewModel>();
+
   switch (settings.name) {
     case AppRoutes.mostSelling:
       return MaterialPageRoute(
@@ -151,6 +155,7 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const ForgetPasswordView(),
         ),
       );
+
     case AppRoutes.editProfile:
       final EditProfileViewModel editProfileViewModel =
           getIt<EditProfileViewModel>();
@@ -160,6 +165,7 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const EditProfileView(),
         ),
       );
+
     case AppRoutes.changePassword:
       return MaterialPageRoute(
         builder: (_) => BlocProvider(
@@ -176,6 +182,7 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const SaveAddressView(),
         ),
       );
+
     case AppRoutes.addNewAddress:
       return MaterialPageRoute(
         settings: settings,
@@ -184,6 +191,7 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const AddNewAddressView(),
         ),
       );
+
     case AppRoutes.googleMapService:
       return MaterialPageRoute(
         builder: (_) => BlocProvider.value(
@@ -197,6 +205,7 @@ Route? onGenerateRoute(RouteSettings settings) {
         builder: (_) => const CheckoutView(),
         settings: settings,
       );
+
     case AppRoutes.payment:
       return MaterialPageRoute(
         settings: settings,
@@ -205,6 +214,7 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const PaymentView(),
         ),
       );
+
     case AppRoutes.aboutUs:
       return MaterialPageRoute(
         builder: (_) => BlocProvider(
@@ -220,6 +230,16 @@ Route? onGenerateRoute(RouteSettings settings) {
           child: const SearchView(),
         ),
       );
+
+    case AppRoutes.notifications:
+      var viewModel = getIt.get<NotificationsViewModel>();
+      return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (context) => viewModel..doIntent(FetchNotificationsIntent()),
+          child: const NotificationsView(),
+        ),
+      );
+
     default:
       return null;
   }
