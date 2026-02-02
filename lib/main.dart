@@ -22,7 +22,7 @@ void main() async {
   };
   // Async Errors to Crashlytics - OutSide Main Threads - PlatForm Specific Errors - Apis Requests Errors
   PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack,fatal: true);
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
   await EasyLocalization.ensureInitialized();
