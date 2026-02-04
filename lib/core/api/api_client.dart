@@ -27,6 +27,7 @@ import 'package:flower_app/features/orders/data/models/order_response_dto.dart';
 import 'package:flower_app/features/profile/data/models/edit_profile_request.dart';
 import 'package:flower_app/features/profile/data/models/get_user_data_response.dart';
 import 'package:flower_app/features/profile/data/models/upload_photo_response.dart';
+import 'package:flower_app/features/saved_orders/data/models/response/saved_order_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -150,4 +151,7 @@ abstract class ApiClient {
   Future<AddressResponseDto> deleteAddress(@Path() String id);
   @GET(EndPoints.getLoggedUserAddress)
   Future<AddressResponseDto> getLoggedUserAddress();
+
+  @GET(EndPoints.orders)
+  Future<SavedOrderResponse> getSavedOrders();
 }

@@ -189,5 +189,28 @@
   "newest_first" : "Newest first",
   "oldest_first" : "Oldest first",
   "discount_first": "Discount first",
-  "Arrive by 03 Sep 2024, 11:00 AM": "Arrive by 03 Sep 2024, 11:00 AM"
+  "Arrive by 03 Sep 2024, 11:00 AM": "Arrive by 03 Sep 2024, 11:00 AM",
+  "Product": "Product",
+  "Track Order": "Track Order",
+  "Reorder": "Reorder",
+  "track_order_number": "Order number {}",
+  "delivered_on": "Delivered on {}",
+  "Order number N/A": "Order number N/A",
+  "Delivered on N/A": "Delivered on N/A",
+  "My orders": "My orders",
+  "Active": "Active",
+  "No active orders": "No active orders",
+  "No completed orders": "No completed orders",
+  "Failed to load orders": "Failed to load orders",
+  "Retry": "Retry",
+  "Order": "Order",
+  "Completed": "Completed"
+
+
+
+
+
+
+
+
 }
