@@ -13,6 +13,7 @@ import 'package:injectable/injectable.dart';
 import '../../domain/entity/orders_by_status.dart';
 
 @injectable
+// ignore: must_be_immutable
 class SavedOrderCubit extends Cubit<SavedOrderState> with EquatableMixin {
   final SavedOrderUseCase _savedOrderUseCase;
 
