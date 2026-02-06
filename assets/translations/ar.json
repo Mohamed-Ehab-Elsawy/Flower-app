@@ -178,5 +178,19 @@
   "Payment Canceled": "الدفع ملغى",
   "Payment Completed Successfully": "تم تنفيذ الدفع بنجاح",
   "payment": "الدفع",
-  "Arrive by 03 Sep 2024, 11:00 AM": "يرجى الوصول بحلول الساعة 11:00 صباحاً من يوم 3 سبتمبر 2024"
+  "Arrive by 03 Sep 2024, 11:00 AM": "يرجى الوصول بحلول الساعة 11:00 صباحاً من يوم 3 سبتمبر 2024",
+  "Reorder": "إعادة الطلب",
+  "Track Order": "تتبع الطلب",
+  "Delivered on": "تم التسليم في",
+  "Order number": "رقم الطلب",
+  "track_order_number": "تتبع رقم الطلب  {}",
+  "delivered_on": "تاريخ التسليم  {}",
+  "My orders": "طلباتي",
+  "Active": "نشط",
+  "No active orders": "لا توجد طلبات نشطة",
+  "No completed orders": "لا توجد طلبات مكتملة",
+  "Failed to load orders": "فشل تحميل الطلبات",
+  "Retry": "أعد المحاولة",
+  "Order": "طلب",
+  "Completed": "مكتمل"
 }

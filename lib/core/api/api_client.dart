@@ -28,6 +28,7 @@ import 'package:flower_app/features/profile/data/models/edit_profile_request.dar
 import 'package:flower_app/features/profile/data/models/get_notifications_response_dto.dart';
 import 'package:flower_app/features/profile/data/models/get_user_data_response.dart';
 import 'package:flower_app/features/profile/data/models/upload_photo_response.dart';
+import 'package:flower_app/features/saved_orders/data/models/response/saved_order_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -154,6 +155,9 @@ abstract class ApiClient {
 
   @GET(EndPoints.getLoggedUserAddress)
   Future<AddressResponseDto> getLoggedUserAddress();
+
+  @GET(EndPoints.orders)
+  Future<SavedOrderResponse> getSavedOrders();
 
   @GET(EndPoints.notifications)
   Future<GetNotificationsResponseDTO> getNotifications();
