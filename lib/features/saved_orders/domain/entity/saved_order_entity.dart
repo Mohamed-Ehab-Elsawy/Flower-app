@@ -36,21 +36,8 @@ class SavedOrderEntity with EquatableMixin {
   });
 
   @override
-  // TODO: implement props
   List<Object?> get props => [
     shippingAddress,
-    id,
-    user,
-    orderItems,
-    totalPrice,
-    paymentType,
-    isPaid,
-    paidAt,
-    isDelivered,
-    state,
-    createdAt,
-    updatedAt,
-    orderNumber,
-    V,
+
   ];
 }
