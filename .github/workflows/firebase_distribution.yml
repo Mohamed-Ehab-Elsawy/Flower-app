@@ -39,8 +39,7 @@ jobs:
 
       - run: flutter pub get
       - run: dart run build_runner build --delete-conflicting-outputs
-      
-      # بناء للـ Simulator لتجنب مشاكل الشهادات والتوقيع
+  
       - name: Build iOS for Simulator
         run: flutter build ios --debug --simulator
 
