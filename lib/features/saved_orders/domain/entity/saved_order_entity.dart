@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-
-import '../../data/models/response/saved_order_response.dart';
+import 'package:flower_app/features/saved_orders/data/models/response/saved_order_response.dart';
 
 class SavedOrderEntity with EquatableMixin {
   final ShippingAddress? shippingAddress;
@@ -36,5 +35,5 @@ class SavedOrderEntity with EquatableMixin {
   });
 
   @override
-  List<Object?> get props => [shippingAddress,];
+  List<Object?> get props => [shippingAddress];
 }
