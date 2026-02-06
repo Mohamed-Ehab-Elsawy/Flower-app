@@ -36,8 +36,5 @@ class SavedOrderEntity with EquatableMixin {
   });
 
   @override
-  List<Object?> get props => [
-    shippingAddress,
-
-  ];
+  List<Object?> get props => [shippingAddress,];
 }
