@@ -1,57 +1,37 @@
-name: Firebase App Distribution (On Label)
+name: Firebase Distribution
 
 on:
   pull_request:
-    branches: [ "development" ]
     types: [labeled, synchronize]
 
 jobs:
-  android:
-    if: contains(github.event.pull_request.labels.*.name, 'ReadyForTesting')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: true
-
-      - run: flutter pub get
-      - run: dart run build_runner build --delete-conflicting-outputs
-      - run: flutter build apk --debug
-
-      - name: Upload Android to Firebase
-        uses: w9jds/firebase-action@master
-        with:
-          args: appdistribution:distribute build/app/outputs/flutter-apk/app-debug.apk --app ${{ secrets.FIREBASE_APP_ID }} --groups "testers"
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
-  ios:
+  build:
     if: contains(github.event.pull_request.labels.*.name, 'ReadyForTesting')
     runs-on: macos-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      - uses: actions/checkout@v3
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          cache: true
 
-      - run: flutter pub get
-      - run: dart run build_runner build --delete-conflicting-outputs
-  
-      - name: Build iOS for Simulator
-        run: flutter build ios --debug --simulator
+      - name: Install Dependencies
+        run: flutter pub get
 
-      - name: Zip iOS Bundle
-        run: |
-          cd build/ios/iphonesimulator
-          zip -r Runner.zip Runner.app
-          cd ../../..
+      - name: Build APK (Android)
+        run: flutter build apk --debug
+        env:
+          # هنا بنحقن الـ Key من خزنة GitHub للـ Android
+          MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
 
-      - name: Upload iOS to Firebase
+      - name: Build iOS
+        run: flutter build ios --debug --no-codesign
+
+      - name: Upload to Firebase Distribution
         uses: w9jds/firebase-action@master
         with:
-          args: appdistribution:distribute build/ios/iphonesimulator/Runner.zip --app ${{ secrets.FIREBASE_IOS_APP_ID }} --groups "testers"
+          args: appdistribution:distribute build/app/outputs/flutter-apk/app-debug.apk --app ${{ secrets.FIREBASE_APP_ID_ANDROID }} --groups "testers"
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
