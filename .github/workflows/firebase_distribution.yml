@@ -20,10 +20,14 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
+      # الخطوة دي ضرورية جداً لحل مشاكل الـ Missing Files اللي ظهرت عندك
+      - name: Generate Code (Build Runner)
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
       - name: Build APK (Android)
         run: flutter build apk --debug
         env:
-          # هنا بنحقن الـ Key من خزنة GitHub للـ Android
+          # حقن مفتاح الخرائط من إعدادات GitHub Secrets
           MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
 
       - name: Build iOS
