@@ -196,7 +196,6 @@ class _MainProfileViewState extends State<MainProfileView>
 
   Future<void> _loadVersion() async {
     final info = await PackageInfo.fromPlatform();
-    debugPrint("Version: ${info.version}");
     setState(() => _appVersion = info.version);
   }
 
