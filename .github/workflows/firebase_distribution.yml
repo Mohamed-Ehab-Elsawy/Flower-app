@@ -20,7 +20,8 @@ jobs:
       - run: dart run build_runner build --delete-conflicting-outputs
       - run: flutter build apk --debug
 
-      - uses: w9jds/firebase-action@master
+      - name: Upload Android to Firebase
+        uses: w9jds/firebase-action@master
         with:
           args: appdistribution:distribute build/app/outputs/flutter-apk/app-debug.apk --app ${{ secrets.FIREBASE_APP_ID }} --groups "testers"
         env:
@@ -38,24 +39,20 @@ jobs:
 
       - run: flutter pub get
       - run: dart run build_runner build --delete-conflicting-outputs
-      - run: flutter build ios --config-only --debug
       
-      - name: Install Pods
-        run: |
-          cd ios
-          pod install
-          cd ..
+      # بناء للـ Simulator لتجنب مشاكل الشهادات والتوقيع
+      - name: Build iOS for Simulator
+        run: flutter build ios --debug --simulator
 
-      - run: flutter build ios --debug --no-codesign
-
-      - name: Zip Bundle
+      - name: Zip iOS Bundle
         run: |
-          cd build/ios/iphoneos
+          cd build/ios/iphonesimulator
           zip -r Runner.zip Runner.app
           cd ../../..
 
-      - uses: w9jds/firebase-action@master
+      - name: Upload iOS to Firebase
+        uses: w9jds/firebase-action@master
         with:
-          args: appdistribution:distribute build/ios/iphoneos/Runner.zip --app ${{ secrets.FIREBASE_IOS_APP_ID }} --groups "testers"
+          args: appdistribution:distribute build/ios/iphonesimulator/Runner.zip --app ${{ secrets.FIREBASE_IOS_APP_ID }} --groups "testers"
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
