@@ -18,7 +18,13 @@ bool isLoggedInUser = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await PushNotificationService.initFCM();
+  await EasyLocalization.ensureInitialized();
+  await configureDependencies();
+
+  await PushNotificationService.initFCM().then((deviceToken) {
+    AppLocalStorage.setData(LocalKeys.deviceToken, deviceToken);
+  });
+
   await Permission.notification.request().then((allow) {
     AppLocalStorage.setData(LocalKeys.notification, allow.isGranted);
   });
@@ -31,12 +37,9 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
-  await EasyLocalization.ensureInitialized();
-  await configureDependencies();
-
-  isLoggedInUser = await getInitialAppRoute();
 
   Bloc.observer = MyBlocObserver();
+  isLoggedInUser = await getInitialAppRoute();
   runApp(
     EasyLocalization(
       saveLocale: true,
@@ -53,6 +56,7 @@ Future<bool> getInitialAppRoute() async {
   final token = await AppLocalStorage.getSecuredString(
     key: LocalKeys.authToken,
   );
+
   if (rememberMe && token.isNotEmpty) {
     return true;
   } else {
