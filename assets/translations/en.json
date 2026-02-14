@@ -24,6 +24,17 @@
   "account_created_success": "account_created_success",
   "continue": "Continue",
   "errors": {
+    "permissionDenied": "You don't have permission to perform this action.",
+    "serviceUnavailable": "The service is temporarily unavailable. Please try again later.",
+    "timeout": "The request timed out. Please try again.",
+    "notFound": "The requested resource was not found.",
+    "alreadyExists": "The resource already exists.",
+    "unauthenticated": "You are not authenticated. Please login first.",
+    "cancelled": "The operation was cancelled.",
+    "resourceExhausted": "Resource limit exceeded. Please try again later.",
+    "aborted": "The operation was aborted. Please retry.",
+    "internal": "An internal error occurred. Please try again.",
+
     "connectionTimeout": "Connection Timeout",
     "sendTimeout": "Send Timeout",
     "receiveTimeout": "Receive Timeout",
