@@ -14,6 +14,7 @@ abstract interface class ProfileRemoteDataSource {
     required MultipartFile photo,
   });
 
-  Future<Result<List<NotificationItemDTO>>> getNotifications(
-      {required String userId});
+  Future<Result<List<NotificationItemDTO>>> getNotifications({
+    required String userId,
+  });
 }

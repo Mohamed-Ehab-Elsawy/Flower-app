@@ -25,9 +25,11 @@ class AppSectionViewModel extends Cubit<AppSectionState> {
 
   Stream<AppSectionUIEvents> get uiStream => _uiStreamController.stream;
 
-  AppSectionViewModel(this._getUserDataUseCase, this._uploadUserInfoUseCase,
-      this._secureStorage)
-    : super(const AppSectionState());
+  AppSectionViewModel(
+    this._getUserDataUseCase,
+    this._uploadUserInfoUseCase,
+    this._secureStorage,
+  ) : super(const AppSectionState());
 
   void doIntent(AppSectionIntent intent) {
     switch (intent) {
@@ -92,7 +94,9 @@ class AppSectionViewModel extends Cubit<AppSectionState> {
       case Success<UserEntity>():
         _user = result.data;
         _secureStorage.write(
-            key: LocalKeys.userId, value: result.data.id ?? '');
+          key: LocalKeys.userId,
+          value: result.data.id ?? '',
+        );
       case Failure<UserEntity>():
         _uiStreamController.add(AppSectionLogoutEvent(result.errorMessage));
     }

@@ -22,8 +22,7 @@ void main() {
   setUp(() {
     secureStorage = MockFlutterSecureStorage();
     getNotificationUseCase = MockGetNotificationUseCase();
-    when(secureStorage.read(key: 'userId'))
-        .thenAnswer((_) async => "1");
+    when(secureStorage.read(key: 'userId')).thenAnswer((_) async => "1");
 
     viewModel = NotificationsViewModel(getNotificationUseCase, secureStorage);
     notifications = [
@@ -44,8 +43,9 @@ void main() {
       build: () => viewModel,
       setUp: () {
         provideDummy<Result<List<NotificationEntity>>>(Success(notifications));
-        when(getNotificationUseCase.call(userId: "1"))
-            .thenAnswer((_) async => Success(notifications));
+        when(
+          getNotificationUseCase.call(userId: "1"),
+        ).thenAnswer((_) async => Success(notifications));
       },
       act: (cubit) => cubit.doIntent(FetchNotificationsIntent()),
       expect: () => [
@@ -63,7 +63,7 @@ void main() {
           Failure('Something went wrong'),
         );
         when(getNotificationUseCase.call(userId: "1")).thenAnswer(
-              (_) async =>
+          (_) async =>
               Failure<List<NotificationEntity>>('Something went wrong'),
         );
       },
@@ -76,4 +76,5 @@ void main() {
     );
   });
 }
+
 // class MockSecureStorage extends Mock implements FlutterSecureStorage {}
