@@ -37,7 +37,7 @@ Future<BitmapDescriptor> createOvalMarkerIcon({
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       final bytes = byteData?.buffer.asUint8List();
       if (bytes != null) {
-        descriptor = BitmapDescriptor.fromBytes(bytes);
+        descriptor = BitmapDescriptor.bytes(bytes);
       }
     }
   } catch (_) {
