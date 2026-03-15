@@ -134,12 +134,15 @@ class _MapsViewState extends State<MapsView> {
   }
 
   LatLng _computeInitialCenter(ActiveOrderEntity order) {
-    if (order.hasDriverPosition)
+    if (order.hasDriverPosition) {
       return LatLng(order.latDouble!, order.longDouble!);
-    if (order.hasStorePosition)
+    }
+    if (order.hasStorePosition) {
       return LatLng(order.storeLatDouble!, order.storeLngDouble!);
-    if (order.hasDestPosition)
+    }
+    if (order.hasDestPosition) {
       return LatLng(order.destLatDouble!, order.destLngDouble!);
+    }
     return _fallbackCenter;
   }
 
@@ -151,8 +154,11 @@ class _MapsViewState extends State<MapsView> {
           prev.orderState.data?.long != curr.orderState.data?.long,
       listener: (context, state) {
         final order = state.orderState.data;
-        if (order == null || !order.hasDriverPosition || _mapController == null)
+        if (order == null ||
+            !order.hasDriverPosition ||
+            _mapController == null) {
           return;
+        }
         final driverPos = LatLng(order.latDouble!, order.longDouble!);
         if (_lastAnimatedDriverPosition == driverPos) return;
         _lastAnimatedDriverPosition = driverPos;
