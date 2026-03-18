@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flower_app/features/track_order/domain/entity/order_status.dart';
 
@@ -32,8 +33,6 @@ class ActiveOrderEntity extends Equatable {
   final String? city;
   final String? street;
   final String? phone;
-
-  /// True when Firestore doc exists (order accepted); false while waiting for driver.
   final bool documentExists;
 
   const ActiveOrderEntity({
@@ -93,6 +92,45 @@ class ActiveOrderEntity extends Equatable {
       destLng != null && destLng!.isNotEmpty ? double.tryParse(destLng!) : null;
   bool get hasStorePosition => storeLatDouble != null && storeLngDouble != null;
   bool get hasDestPosition => destLatDouble != null && destLngDouble != null;
+
+  static ActiveOrderEntity fromFirestore(
+    Map<String, dynamic> data,
+    String orderId,
+  ) {
+    final startedAtRaw = data['startedAt'];
+    DateTime? startedAt;
+    if (startedAtRaw is Timestamp) {
+      startedAt = startedAtRaw.toDate();
+    }
+
+    return ActiveOrderEntity(
+      orderId: orderId,
+      documentExists: true,
+      driverId: data['driverId'] as String? ?? '',
+      userId: data['userId'] as String? ?? '',
+      driverToken: data['driverToken'] as String? ?? '',
+      userToken: data['userToken'] as String? ?? '',
+      storeName: data['storeName'] as String? ?? '',
+      storeAddress: data['storeAddress'] as String? ?? '',
+      storeImage: data['storeImage'] as String? ?? '',
+      storeLat: data['storeLat'] as String?,
+      storeLng: data['storeLng'] as String?,
+      driverName: data['driverName'] as String?,
+      userName: data['userName'] as String? ?? '',
+      userImage: data['userImage'] as String? ?? '',
+      userAddress: data['userAddress'] as String? ?? '',
+      destLat: data['destLat'] as String?,
+      destLng: data['destLng'] as String?,
+      totalPrice: (data['totalPrice'] as num?)?.toDouble() ?? 0,
+      status: data['status'] as String? ?? '',
+      startedAt: startedAt,
+      long: data['long'] as String?,
+      lat: data['lat'] as String?,
+      city: data['city'] as String?,
+      street: data['street'] as String?,
+      phone: data['phone'] as String?,
+    );
+  }
 
   @override
   List<Object?> get props => [

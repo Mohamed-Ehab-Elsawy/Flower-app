@@ -9,8 +9,15 @@ import 'package:flower_app/features/track_order/presentation/view_model/track_or
 
 class TrackOrderView extends StatefulWidget {
   final String orderId;
+  final String? userDestLat;
+  final String? userDestLng;
 
-  const TrackOrderView({super.key, required this.orderId});
+  const TrackOrderView({
+    super.key,
+    required this.orderId,
+    this.userDestLat,
+    this.userDestLng,
+  });
 
   @override
   State<TrackOrderView> createState() => _TrackOrderViewState();
@@ -23,14 +30,22 @@ class _TrackOrderViewState extends State<TrackOrderView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       context.read<TrackOrderViewModel>().doIntent(
-        ListenToOrderIntent(widget.orderId),
+        ListenToOrderIntent(
+          widget.orderId,
+          userDestLat: widget.userDestLat,
+          userDestLng: widget.userDestLng,
+        ),
       );
     });
   }
 
   void _retry() {
     context.read<TrackOrderViewModel>().doIntent(
-      ListenToOrderIntent(widget.orderId),
+      ListenToOrderIntent(
+        widget.orderId,
+        userDestLat: widget.userDestLat,
+        userDestLng: widget.userDestLng,
+      ),
     );
   }
 
@@ -55,7 +70,6 @@ class _TrackOrderViewState extends State<TrackOrderView> {
       buildWhen: (prev, curr) => _shouldRebuild(prev, curr),
       builder: (context, state) {
         final orderState = state.orderState;
-
         if (orderState.isLoading) {
           return Center(
             child: CircularProgressIndicator(color: context.appTheme.primary),
@@ -77,7 +91,11 @@ class _TrackOrderViewState extends State<TrackOrderView> {
         if (!order.documentExists) {
           return WaitingForPickupView(orderId: widget.orderId);
         }
-        return OrderTrackingScreen(order: order);
+        return OrderTrackingScreen(
+          order: order,
+          userDestLat: widget.userDestLat,
+          userDestLng: widget.userDestLng,
+        );
       },
     );
   }

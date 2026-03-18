@@ -13,4 +13,21 @@ class TrackOrderRepoImpl implements TrackOrderRepo {
   Stream<Result<ActiveOrderEntity>> listenToOrder({required String orderId}) {
     return dataSource.listenToOrder(orderId: orderId);
   }
+
+  @override
+  Future<Result<void>> sendOrderDeliveredNotification(
+    ActiveOrderEntity order,
+  ) async {
+    final response = await dataSource.sendOrderDeliveredNotification(
+      targetToken: order.driverToken,
+      title: 'Order Delivered',
+      body: 'Customer confirmed delivery',
+    );
+    switch (response) {
+      case Success<void>():
+        return Success<void>(null);
+      case Failure<void>():
+        return Failure<void>(response.errorMessage);
+    }
+  }
 }

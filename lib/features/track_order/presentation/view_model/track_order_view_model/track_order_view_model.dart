@@ -22,6 +22,12 @@ class TrackOrderViewModel extends Cubit<TrackOrderStates> {
   void doIntent(Intent intent) {
     switch (intent) {
       case ListenToOrderIntent():
+        emit(
+          state.copyWith(
+            userDestLat: intent.userDestLat,
+            userDestLng: intent.userDestLng,
+          ),
+        );
         _listenToOrder(intent.orderId);
       case DisposeOrderListenerIntent():
         _cancelSubscription();
@@ -30,11 +36,18 @@ class TrackOrderViewModel extends Cubit<TrackOrderStates> {
       case ShowOrderDetailsIntent():
         emit(state.copyWith(showMap: false));
       case OrderDeliveredIntent():
-        _onOrderDelivered();
+        _onOrderDelivered(intent.order);
     }
   }
 
-  void _onOrderDelivered() {
+  Future<void> _onOrderDelivered(ActiveOrderEntity order) async {
+    if (order.driverToken.isNotEmpty) {
+      try {
+        await trackOrderRepo.sendOrderDeliveredNotification(order);
+      } catch (_) {
+        // Fire-and-forget: still pop even if notification fails
+      }
+    }
     _cancelSubscription();
     _uiEventsController.add(NavigatePopScreen());
   }
@@ -42,7 +55,6 @@ class TrackOrderViewModel extends Cubit<TrackOrderStates> {
   void _listenToOrder(String orderId) {
     emit(state.copyWith(orderState: state.orderState.loading));
     _cancelSubscription();
-
     _subscription = trackOrderRepo
         .listenToOrder(orderId: orderId)
         .listen(
@@ -62,11 +74,9 @@ class TrackOrderViewModel extends Cubit<TrackOrderStates> {
                 );
             }
           },
-          onError: (e, st) {
-            emit(
-              state.copyWith(orderState: state.orderState.error(e.toString())),
-            );
-          },
+          onError: (e, _) => emit(
+            state.copyWith(orderState: state.orderState.error(e.toString())),
+          ),
           cancelOnError: false,
         );
   }
