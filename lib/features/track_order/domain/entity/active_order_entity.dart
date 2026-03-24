@@ -13,15 +13,14 @@ class ActiveOrderEntity extends Equatable {
   final String storeName;
   final String storeAddress;
   final String storeImage;
-  final String? storeLat;
-  final String? storeLng;
+  final String? storeLatLong;
+  final String? storePhoneNumber;
 
   final String? driverName;
   final String userName;
   final String userImage;
   final String userAddress;
-  final String? destLat;
-  final String? destLng;
+  final String? userPhoneNumber;
 
   final double totalPrice;
 
@@ -32,7 +31,6 @@ class ActiveOrderEntity extends Equatable {
   final String? lat;
   final String? city;
   final String? street;
-  final String? phone;
   final bool documentExists;
 
   const ActiveOrderEntity({
@@ -44,14 +42,13 @@ class ActiveOrderEntity extends Equatable {
     this.storeName = '',
     this.storeAddress = '',
     this.storeImage = '',
-    this.storeLat,
-    this.storeLng,
+    this.storeLatLong,
+    this.storePhoneNumber,
     this.driverName,
     this.userName = '',
     this.userImage = '',
     this.userAddress = '',
-    this.destLat,
-    this.destLng,
+    this.userPhoneNumber,
     this.totalPrice = 0,
     this.status = '',
     this.startedAt,
@@ -59,7 +56,6 @@ class ActiveOrderEntity extends Equatable {
     this.lat,
     this.city,
     this.street,
-    this.phone,
     required this.documentExists,
   });
 
@@ -80,18 +76,25 @@ class ActiveOrderEntity extends Equatable {
   /// Whether driver position is available for map.
   bool get hasDriverPosition => latDouble != null && longDouble != null;
 
-  double? get storeLatDouble => storeLat != null && storeLat!.isNotEmpty
-      ? double.tryParse(storeLat!)
-      : null;
-  double? get storeLngDouble => storeLng != null && storeLng!.isNotEmpty
-      ? double.tryParse(storeLng!)
-      : null;
-  double? get destLatDouble =>
-      destLat != null && destLat!.isNotEmpty ? double.tryParse(destLat!) : null;
-  double? get destLngDouble =>
-      destLng != null && destLng!.isNotEmpty ? double.tryParse(destLng!) : null;
-  bool get hasStorePosition => storeLatDouble != null && storeLngDouble != null;
-  bool get hasDestPosition => destLatDouble != null && destLngDouble != null;
+  String? get phone {
+    if (storePhoneNumber?.isNotEmpty == true) return storePhoneNumber;
+    if (userPhoneNumber?.isNotEmpty == true) return userPhoneNumber;
+    return null;
+  }
+
+  List<double?> get _userLatLng {
+    final raw = storeLatLong?.trim();
+    if (raw == null || raw.isEmpty) return const [null, null];
+    final parts = raw.split(',');
+    if (parts.length != 2) return const [null, null];
+    final lat = double.tryParse(parts[0].trim());
+    final lng = double.tryParse(parts[1].trim());
+    return [lat, lng];
+  }
+
+  double? get userLatDouble => _userLatLng[0];
+  double? get userLngDouble => _userLatLng[1];
+  bool get hasUserPosition => userLatDouble != null && userLngDouble != null;
 
   static ActiveOrderEntity fromFirestore(
     Map<String, dynamic> data,
@@ -113,23 +116,27 @@ class ActiveOrderEntity extends Equatable {
       storeName: data['storeName'] as String? ?? '',
       storeAddress: data['storeAddress'] as String? ?? '',
       storeImage: data['storeImage'] as String? ?? '',
-      storeLat: data['storeLat'] as String?,
-      storeLng: data['storeLng'] as String?,
+      storeLatLong: data['storeLatLong'] as String?,
+      storePhoneNumber: data['storePhoneNumber'] as String?,
       driverName: data['driverName'] as String?,
       userName: data['userName'] as String? ?? '',
       userImage: data['userImage'] as String? ?? '',
       userAddress: data['userAddress'] as String? ?? '',
-      destLat: data['destLat'] as String?,
-      destLng: data['destLng'] as String?,
+      userPhoneNumber: data['userPhoneNumber'] as String?,
       totalPrice: (data['totalPrice'] as num?)?.toDouble() ?? 0,
       status: data['status'] as String? ?? '',
       startedAt: startedAt,
-      long: data['long'] as String?,
-      lat: data['lat'] as String?,
+      long: _asString(data['long']),
+      lat: _asString(data['lat']),
       city: data['city'] as String?,
       street: data['street'] as String?,
-      phone: data['phone'] as String?,
     );
+  }
+
+  static String? _asString(dynamic value) {
+    if (value == null) return null;
+    if (value is String) return value;
+    return value.toString();
   }
 
   @override
@@ -142,14 +149,13 @@ class ActiveOrderEntity extends Equatable {
     storeName,
     storeAddress,
     storeImage,
-    storeLat,
-    storeLng,
+    storeLatLong,
+    storePhoneNumber,
     driverName,
     userName,
     userImage,
     userAddress,
-    destLat,
-    destLng,
+    userPhoneNumber,
     totalPrice,
     status,
     startedAt,
@@ -157,7 +163,6 @@ class ActiveOrderEntity extends Equatable {
     lat,
     city,
     street,
-    phone,
     documentExists,
   ];
 }

@@ -10,7 +10,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/helper/functions.dart';
-import 'package:flower_app/features/track_order/data/models/track_order_args.dart';
 import 'package:flower_app/features/track_order/domain/entity/active_order_entity.dart';
 import 'package:flower_app/features/track_order/presentation/view_model/track_order_view_model/track_order_events.dart';
 import 'package:flower_app/features/track_order/presentation/view_model/track_order_view_model/track_order_states.dart';
@@ -40,8 +39,7 @@ const _kInitialZoom = 14.5;
 const _kFallback = LatLng(30.02599441795995, 31.1991091073733);
 
 /// Marker pill labels — change these to localize.
-const _kLabelDelivery  = 'Delivery';
-const _kLabelStore     = 'Flowery';
+const _kLabelDelivery = 'Delivery';
 const _kLabelApartment = 'Apartment';
 
 /// Pixel ratio used when capturing marker bitmaps.
@@ -134,10 +132,7 @@ const _kMapStyle = '''
 // ════════════════════════════════════════════════════════════════════════════
 
 class MapsView extends StatefulWidget {
-  final String? userDestLat;
-  final String? userDestLng;
-
-  const MapsView({super.key, this.userDestLat, this.userDestLng});
+  const MapsView({super.key});
 
   @override
   State<MapsView> createState() => _MapsViewState();
@@ -150,13 +145,11 @@ class _MapsViewState extends State<MapsView> {
 
   // ── Marker bitmaps ───────────────────────────────────────────────────────
   BitmapDescriptor? _driverIcon;
-  BitmapDescriptor? _storeIcon;
   BitmapDescriptor? _destIcon;
 
   // Capture infrastructure
-  final _driverKey  = GlobalKey();
-  final _storeKey   = GlobalKey();
-  final _destKey    = GlobalKey();
+  final _driverKey = GlobalKey();
+  final _destKey = GlobalKey();
   OverlayEntry? _markersOverlay;
 
   // ── Timer ────────────────────────────────────────────────────────────────
@@ -169,7 +162,9 @@ class _MapsViewState extends State<MapsView> {
     super.initState();
     // Render pill-marker widgets off-screen after the first frame so that
     // all fonts/icons are guaranteed to be loaded before we capture them.
-    WidgetsBinding.instance.addPostFrameCallback((_) => _insertMarkersOverlay());
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _insertMarkersOverlay(),
+    );
   }
 
   @override
@@ -178,7 +173,9 @@ class _MapsViewState extends State<MapsView> {
     // Start the periodic refresh that re-draws markers with the latest driver position.
     _refreshTimer ??= Timer.periodic(
       const Duration(seconds: _kRefreshSeconds),
-          (_) { if (mounted) setState(() {}); },
+      (_) {
+        if (mounted) setState(() {});
+      },
     );
   }
 
@@ -196,11 +193,8 @@ class _MapsViewState extends State<MapsView> {
   void _insertMarkersOverlay() {
     if (!mounted) return;
     _markersOverlay = OverlayEntry(
-      builder: (_) => _OffscreenMarkers(
-        driverKey: _driverKey,
-        storeKey:  _storeKey,
-        destKey:   _destKey,
-      ),
+      builder: (_) =>
+          _OffscreenMarkers(driverKey: _driverKey, destKey: _destKey),
     );
     Overlay.of(context).insert(_markersOverlay!);
     // Step 2 — wait one more frame for paint to complete, then capture.
@@ -211,7 +205,6 @@ class _MapsViewState extends State<MapsView> {
   Future<void> _captureAllMarkers() async {
     final results = await Future.wait([
       _captureKey(_driverKey),
-      _captureKey(_storeKey),
       _captureKey(_destKey),
     ]);
     _markersOverlay?.remove();
@@ -219,15 +212,14 @@ class _MapsViewState extends State<MapsView> {
     if (!mounted) return;
     setState(() {
       _driverIcon = results[0];
-      _storeIcon  = results[1];
-      _destIcon   = results[2];
+      _destIcon = results[1];
     });
   }
 
   Future<BitmapDescriptor?> _captureKey(GlobalKey key) async {
     try {
       final boundary =
-      key.currentContext!.findRenderObject() as RenderRepaintBoundary;
+          key.currentContext!.findRenderObject() as RenderRepaintBoundary;
       final image = await boundary.toImage(pixelRatio: _kMarkerPixelRatio);
       final bytes = await image.toByteData(format: ui.ImageByteFormat.png);
       return BitmapDescriptor.bytes(bytes!.buffer.asUint8List());
@@ -247,15 +239,14 @@ class _MapsViewState extends State<MapsView> {
   /// with a comfortable padding that accounts for the bottom sheet.
   void _fitBounds() {
     if (_mapController == null) return;
-    final vm    = context.read<TrackOrderViewModel>();
+    final vm = context.read<TrackOrderViewModel>();
     final order = vm.state.orderState.data;
     if (order == null) return;
-    final dest  = _effectiveDest(context, order, vm.state);
+    final user = _userPosition(order);
 
     final pts = <LatLng>[
-      if (order.hasStorePosition)  LatLng(order.storeLatDouble!, order.storeLngDouble!),
-      if (order.hasDriverPosition) LatLng(order.latDouble!,      order.longDouble!),
-      if (dest != null)            dest,
+      if (order.hasDriverPosition) LatLng(order.latDouble!, order.longDouble!),
+      if (user != null) user,
     ];
     if (pts.isEmpty) return;
 
@@ -268,11 +259,13 @@ class _MapsViewState extends State<MapsView> {
       return;
     }
 
-    double minLat = pts.first.latitude,  maxLat = minLat;
+    double minLat = pts.first.latitude, maxLat = minLat;
     double minLng = pts.first.longitude, maxLng = minLng;
     for (final p in pts) {
-      minLat = min(minLat, p.latitude);  maxLat = max(maxLat, p.latitude);
-      minLng = min(minLng, p.longitude); maxLng = max(maxLng, p.longitude);
+      minLat = min(minLat, p.latitude);
+      maxLat = max(maxLat, p.latitude);
+      minLng = min(minLng, p.longitude);
+      maxLng = max(maxLng, p.longitude);
     }
     _mapController!.animateCamera(
       CameraUpdate.newLatLngBounds(
@@ -285,46 +278,19 @@ class _MapsViewState extends State<MapsView> {
     );
   }
 
-  // ── Destination resolution (priority chain) ───────────────────────────────
-
-  LatLng? _effectiveDest(
-      BuildContext ctx,
-      ActiveOrderEntity order,
-      TrackOrderStates state,
-      ) {
-    // 1. Dest embedded in the order stream
-    if (order.hasDestPosition) {
-      return LatLng(order.destLatDouble!, order.destLngDouble!);
-    }
-    // 2. Dest stored in the VM state (from a previous intent)
-    if (state.hasUserDest) {
-      return LatLng(state.userDestLatDouble!, state.userDestLngDouble!);
-    }
-    // 3. Passed directly as widget props
-    final lat = _parseCoord(widget.userDestLat);
-    final lng = _parseCoord(widget.userDestLng);
-    if (lat != null && lng != null) return LatLng(lat, lng);
-    // 4. Passed via route arguments
-    final args = ModalRoute.of(ctx)?.settings.arguments;
-    if (args is TrackOrderArgs) {
-      final rLat = _parseCoord(args.userDestLat);
-      final rLng = _parseCoord(args.userDestLng);
-      if (rLat != null && rLng != null) return LatLng(rLat, rLng);
-    }
-    // 5. Fallback: synthesise a point near the driver so the polyline renders
-    if (order.hasDriverPosition) {
-      return LatLng(order.latDouble! + 0.008, order.longDouble! + 0.005);
-    }
-    return null;
+  LatLng? _userPosition(ActiveOrderEntity order) {
+    if (!order.hasUserPosition) return null;
+    return LatLng(order.userLatDouble!, order.userLngDouble!);
   }
 
-  static double? _parseCoord(String? v) =>
-      (v == null || v.trim().isEmpty) ? null : num.tryParse(v.trim())?.toDouble();
-
-  LatLng _initialCenter(ActiveOrderEntity order, LatLng? dest) {
-    if (order.hasDriverPosition) return LatLng(order.latDouble!, order.longDouble!);
-    if (order.hasStorePosition)  return LatLng(order.storeLatDouble!, order.storeLngDouble!);
-    return dest ?? _kFallback;
+  LatLng _initialCenter(ActiveOrderEntity order, LatLng? userPosition) {
+    if (order.hasDriverPosition) {
+      return LatLng(order.latDouble!, order.longDouble!);
+    }
+    if (order.hasUserPosition) {
+      return LatLng(order.userLatDouble!, order.userLngDouble!);
+    }
+    return userPosition ?? _kFallback;
   }
 
   // ── Build ─────────────────────────────────────────────────────────────────
@@ -333,20 +299,21 @@ class _MapsViewState extends State<MapsView> {
   Widget build(BuildContext context) {
     return BlocConsumer<TrackOrderViewModel, TrackOrderStates>(
       listenWhen: (prev, curr) =>
-      prev.orderState.data?.lat  != curr.orderState.data?.lat ||
+          prev.orderState.data?.lat != curr.orderState.data?.lat ||
           prev.orderState.data?.long != curr.orderState.data?.long,
       listener: (ctx, state) {
         final order = state.orderState.data;
-        if (order == null || !order.hasDriverPosition || _mapController == null) return;
+        if (order == null ||
+            !order.hasDriverPosition ||
+            _mapController == null) {
+          return;
+        }
         final pos = LatLng(order.latDouble!, order.longDouble!);
         if (pos == _lastAnimatedDriverPos) return;
         _lastAnimatedDriverPos = pos;
         _mapController!.animateCamera(CameraUpdate.newLatLng(pos));
       },
-      buildWhen: (prev, curr) =>
-      prev.orderState  != curr.orderState  ||
-          prev.userDestLat != curr.userDestLat ||
-          prev.userDestLng != curr.userDestLng,
+      buildWhen: (prev, curr) => prev.orderState != curr.orderState,
       builder: (ctx, state) {
         final order = state.orderState.data;
         if (order == null) {
@@ -354,15 +321,14 @@ class _MapsViewState extends State<MapsView> {
             child: CircularProgressIndicator(color: ctx.appTheme.primary),
           );
         }
-        final dest = _effectiveDest(ctx, order, state);
+        final userPosition = _userPosition(order);
         return _MapBody(
-          order:         order,
-          effectiveDest: dest,
-          driverIcon:    _driverIcon,
-          storeIcon:     _storeIcon,
-          destIcon:      _destIcon,
-          initialCenter: _initialCenter(order, dest),
-          onMapCreated:  _onMapCreated,
+          order: order,
+          userPosition: userPosition,
+          driverIcon: _driverIcon,
+          destIcon: _destIcon,
+          initialCenter: _initialCenter(order, userPosition),
+          onMapCreated: _onMapCreated,
         );
       },
     );
@@ -374,25 +340,32 @@ class _MapsViewState extends State<MapsView> {
 // ════════════════════════════════════════════════════════════════════════════
 
 class _OffscreenMarkers extends StatelessWidget {
-  final GlobalKey driverKey, storeKey, destKey;
+  final GlobalKey driverKey, destKey;
 
-  const _OffscreenMarkers({
-    required this.driverKey,
-    required this.storeKey,
-    required this.destKey,
-  });
+  const _OffscreenMarkers({required this.driverKey, required this.destKey});
 
   @override
   Widget build(BuildContext context) {
     Widget place(GlobalKey k, Widget child) => Positioned(
-      left: -9999, top: -9999,
+      left: -9999,
+      top: -9999,
       child: RepaintBoundary(key: k, child: child),
     );
-    return Stack(children: [
-      place(driverKey, const _PillMarker(icon: Icons.delivery_dining, label: _kLabelDelivery)),
-      place(storeKey,  const _PillMarker(icon: Icons.local_florist,   label: _kLabelStore)),
-      place(destKey,   const _PillMarker(icon: Icons.home_rounded,    label: _kLabelApartment)),
-    ]);
+    return Stack(
+      children: [
+        place(
+          driverKey,
+          const _PillMarker(
+            icon: Icons.delivery_dining,
+            label: _kLabelDelivery,
+          ),
+        ),
+        place(
+          destKey,
+          const _PillMarker(icon: Icons.home_rounded, label: _kLabelApartment),
+        ),
+      ],
+    );
   }
 }
 
@@ -407,7 +380,7 @@ class _OffscreenMarkers extends StatelessWidget {
 
 class _PillMarker extends StatelessWidget {
   final IconData icon;
-  final String   label;
+  final String label;
 
   const _PillMarker({required this.icon, required this.label});
 
@@ -416,20 +389,20 @@ class _PillMarker extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: Column(
-        mainAxisSize:       MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // ── Pill body ──────────────────────────────────────────────────
           Container(
             padding: const EdgeInsets.fromLTRB(3, 2, 8, 2),
             decoration: BoxDecoration(
-              color:        _kPink,
+              color: _kPink,
               borderRadius: BorderRadius.circular(14),
               boxShadow: const [
                 BoxShadow(
-                  color:      Color(0x44000000),
+                  color: Color(0x44000000),
                   blurRadius: 4,
-                  offset:     Offset(0, 2),
+                  offset: Offset(0, 2),
                 ),
               ],
             ),
@@ -437,7 +410,7 @@ class _PillMarker extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  width:  18,
+                  width: 18,
                   height: 18,
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -449,10 +422,10 @@ class _PillMarker extends StatelessWidget {
                 Text(
                   label,
                   style: const TextStyle(
-                    color:      Colors.white,
-                    fontSize:   9,
+                    color: Colors.white,
+                    fontSize: 9,
                     fontWeight: FontWeight.w700,
-                    height:     1.0,
+                    height: 1.0,
                     decoration: TextDecoration.none,
                   ),
                 ),
@@ -463,10 +436,7 @@ class _PillMarker extends StatelessWidget {
           // left = 3 + 9 (half circle) - 3 (half tail) = 9
           const Padding(
             padding: EdgeInsets.only(left: 9),
-            child: CustomPaint(
-              size: Size(6, 5),
-              painter: _TrianglePainter(),
-            ),
+            child: CustomPaint(size: Size(6, 5), painter: _TrianglePainter()),
           ),
         ],
       ),
@@ -481,9 +451,9 @@ class _TrianglePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.drawPath(
       Path()
-        ..moveTo(0,               0)
-        ..lineTo(size.width / 2,  size.height)
-        ..lineTo(size.width,      0)
+        ..moveTo(0, 0)
+        ..lineTo(size.width / 2, size.height)
+        ..lineTo(size.width, 0)
         ..close(),
       Paint()..color = _kPink,
     );
@@ -498,19 +468,17 @@ class _TrianglePainter extends CustomPainter {
 // ════════════════════════════════════════════════════════════════════════════
 
 class _MapBody extends StatelessWidget {
-  final ActiveOrderEntity   order;
-  final LatLng?             effectiveDest;
-  final BitmapDescriptor?   driverIcon;
-  final BitmapDescriptor?   storeIcon;
-  final BitmapDescriptor?   destIcon;
-  final LatLng              initialCenter;
+  final ActiveOrderEntity order;
+  final LatLng? userPosition;
+  final BitmapDescriptor? driverIcon;
+  final BitmapDescriptor? destIcon;
+  final LatLng initialCenter;
   final void Function(GoogleMapController) onMapCreated;
 
   const _MapBody({
     required this.order,
-    required this.effectiveDest,
+    required this.userPosition,
     required this.driverIcon,
-    this.storeIcon,
     this.destIcon,
     required this.initialCenter,
     required this.onMapCreated,
@@ -520,78 +488,76 @@ class _MapBody extends StatelessWidget {
   static const _kAnchor = Offset(0.154, 1.0);
 
   Set<Marker> _markers() {
-    final fallback = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose);
+    final fallback = BitmapDescriptor.defaultMarkerWithHue(
+      BitmapDescriptor.hueRose,
+    );
     return {
-      if (order.hasStorePosition)
-        Marker(
-          markerId: const MarkerId('store'),
-          position: LatLng(order.storeLatDouble!, order.storeLngDouble!),
-          icon:     storeIcon  ?? fallback,
-          anchor:   _kAnchor,
-        ),
       if (order.hasDriverPosition)
         Marker(
           markerId: const MarkerId('driver'),
           position: LatLng(order.latDouble!, order.longDouble!),
-          icon:     driverIcon ?? fallback,
-          anchor:   _kAnchor,
+          icon: driverIcon ?? fallback,
+          anchor: _kAnchor,
         ),
-      if (effectiveDest != null)
+      if (userPosition != null)
         Marker(
-          markerId: const MarkerId('destination'),
-          position: effectiveDest!,
-          icon:     destIcon   ?? fallback,
-          anchor:   _kAnchor,
+          markerId: const MarkerId('user'),
+          position: userPosition!,
+          icon: destIcon ?? fallback,
+          anchor: _kAnchor,
         ),
     };
   }
 
   Set<Polyline> _polylines() {
     final pts = <LatLng>[
-      if (order.hasStorePosition)  LatLng(order.storeLatDouble!, order.storeLngDouble!),
-      if (order.hasDriverPosition) LatLng(order.latDouble!,      order.longDouble!),
-      if (effectiveDest != null)   effectiveDest!,
+      if (order.hasDriverPosition) LatLng(order.latDouble!, order.longDouble!),
+      if (userPosition != null) userPosition!,
     ];
     if (pts.length < 2) return {};
     return {
       Polyline(
         polylineId: const PolylineId('route'),
-        points:     pts,
-        color:      _kPink,
-        width:      5,
-        geodesic:   true,
-        jointType:  JointType.round,
-        startCap:   Cap.roundCap,
-        endCap:     Cap.roundCap,
+        points: pts,
+        color: _kPink,
+        width: 5,
+        geodesic: true,
+        jointType: JointType.round,
+        startCap: Cap.roundCap,
+        endCap: Cap.roundCap,
       ),
     };
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      GoogleMap(
-        zoomControlsEnabled:     false,
-        myLocationButtonEnabled: false,
-        myLocationEnabled:       false,
-        mapToolbarEnabled:       false,
-        compassEnabled:          false,
-        buildingsEnabled:        true,
-        indoorViewEnabled:       false,
-        initialCameraPosition:   CameraPosition(
-          target: initialCenter,
-          zoom:   _kInitialZoom,
+    return Stack(
+      children: [
+        GoogleMap(
+          zoomControlsEnabled: false,
+          myLocationButtonEnabled: false,
+          myLocationEnabled: false,
+          mapToolbarEnabled: false,
+          compassEnabled: false,
+          buildingsEnabled: true,
+          indoorViewEnabled: false,
+          initialCameraPosition: CameraPosition(
+            target: initialCenter,
+            zoom: _kInitialZoom,
+          ),
+          style: _kMapStyle,
+          onMapCreated: onMapCreated,
+          markers: _markers(),
+          polylines: _polylines(),
         ),
-        style:        _kMapStyle,
-        onMapCreated: onMapCreated,
-        markers:      _markers(),
-        polylines:    _polylines(),
-      ),
-      Positioned(
-        left: 0, right: 0, bottom: 0,
-        child: _BottomSheet(order: order),
-      ),
-    ]);
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: _BottomSheet(order: order),
+        ),
+      ],
+    );
   }
 }
 
@@ -605,35 +571,34 @@ class _BottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm         = context.read<TrackOrderViewModel>();
-    final arrival    = formatArrivalDate(order.startedAt);
-    final driverName = resolveDeliveryName(order) ?? 'Driver';
+    final vm = context.read<TrackOrderViewModel>();
+    final arrival = formatArrivalDate(order.startedAt);
 
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
       decoration: const BoxDecoration(
-        color:        Colors.white,
+        color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         boxShadow: [
           BoxShadow(
-            color:      Color(0x1A000000),
+            color: Color(0x1A000000),
             blurRadius: 20,
-            offset:     Offset(0, -4),
+            offset: Offset(0, -4),
           ),
         ],
       ),
       child: Column(
-        mainAxisSize:       MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // drag handle
           Center(
             child: Container(
-              width:  40,
+              width: 40,
               height: 4,
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
-                color:        const Color(0xFFE0E0E0),
+                color: const Color(0xFFE0E0E0),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -642,18 +607,16 @@ class _BottomSheet extends StatelessWidget {
           if (arrival != null) ...[
             Text(
               'estimated_arrival'.tr(),
-              style: context.appTheme.regular14
-                  .copyWith(color: context.appTheme.grey),
+              style: context.appTheme.regular14.copyWith(
+                color: context.appTheme.grey,
+              ),
             ),
             const SizedBox(height: 4),
             Text(arrival, style: context.appTheme.medium16),
             const SizedBox(height: 16),
           ],
 
-          DeliveryInfoCard(
-            deliveryName:  driverName,
-            deliveryPhone: order.phone,
-          ),
+          DeliveryInfoCard(order: order),
 
           const SizedBox(height: 16),
 
@@ -672,7 +635,7 @@ class _BottomSheet extends StatelessWidget {
               child: Text(
                 'order_details'.tr(),
                 style: const TextStyle(
-                  fontSize:   16,
+                  fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
               ),

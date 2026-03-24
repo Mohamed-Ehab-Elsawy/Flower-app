@@ -9,14 +9,10 @@ import 'package:flower_app/features/track_order/presentation/view_model/track_or
 
 class TrackOrderView extends StatefulWidget {
   final String orderId;
-  final String? userDestLat;
-  final String? userDestLng;
 
   const TrackOrderView({
     super.key,
     required this.orderId,
-    this.userDestLat,
-    this.userDestLng,
   });
 
   @override
@@ -30,22 +26,14 @@ class _TrackOrderViewState extends State<TrackOrderView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       context.read<TrackOrderViewModel>().doIntent(
-        ListenToOrderIntent(
-          widget.orderId,
-          userDestLat: widget.userDestLat,
-          userDestLng: widget.userDestLng,
-        ),
+        ListenToOrderIntent(widget.orderId),
       );
     });
   }
 
   void _retry() {
     context.read<TrackOrderViewModel>().doIntent(
-      ListenToOrderIntent(
-        widget.orderId,
-        userDestLat: widget.userDestLat,
-        userDestLng: widget.userDestLng,
-      ),
+      ListenToOrderIntent(widget.orderId),
     );
   }
 
@@ -93,8 +81,6 @@ class _TrackOrderViewState extends State<TrackOrderView> {
         }
         return OrderTrackingScreen(
           order: order,
-          userDestLat: widget.userDestLat,
-          userDestLng: widget.userDestLng,
         );
       },
     );

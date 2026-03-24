@@ -8,17 +8,14 @@ import 'package:flower_app/features/track_order/presentation/view_model/track_or
 import 'package:flower_app/features/track_order/presentation/view_model/track_order_view_model/track_order_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderTrackingScreen extends StatefulWidget {
   final ActiveOrderEntity order;
-  final String? userDestLat;
-  final String? userDestLng;
 
   const OrderTrackingScreen({
     super.key,
     required this.order,
-    this.userDestLat,
-    this.userDestLng,
   });
 
   @override
@@ -42,8 +39,14 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
       switch (event) {
         case NavigatePopScreen():
           Navigator.of(context).pop();
+        case LaunchExternalUrl():
+          _launchExternal(event.uri);
       }
     });
+  }
+
+  Future<void> _launchExternal(Uri uri) async {
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
   @override
@@ -60,12 +63,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
         return Scaffold(
           appBar: AppBar(title: Text('track_order'.tr())),
           body: state.showMap
-              ? SafeArea(
-                  child: MapsView(
-                    userDestLat: widget.userDestLat,
-                    userDestLng: widget.userDestLng,
-                  ),
-                )
+              ? const SafeArea(child: MapsView())
               : DetailView(order: order),
         );
       },

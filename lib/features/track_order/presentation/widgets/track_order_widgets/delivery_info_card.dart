@@ -1,11 +1,18 @@
 import 'package:flower_app/core/app_extension/app_extension.dart';
+import 'package:flower_app/features/track_order/domain/entity/active_order_entity.dart';
 import 'package:flutter/material.dart';
 
 class DeliveryInfoCard extends StatelessWidget {
-  final String? deliveryName;
-  final String? deliveryPhone;
+  final ActiveOrderEntity order;
+  final VoidCallback? onCallTap;
+  final VoidCallback? onMessageTap;
 
-  const DeliveryInfoCard({super.key, this.deliveryName, this.deliveryPhone});
+  const DeliveryInfoCard({
+    super.key,
+    this.onCallTap,
+    this.onMessageTap,
+    required this.order,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +36,7 @@ class DeliveryInfoCard extends StatelessWidget {
             backgroundColor: context.appTheme.secondary,
             child: ClipOval(
               child: Image.asset(
-                'assets/images/delivery_person.png',
+                order.userImage,
                 fit: BoxFit.cover,
                 errorBuilder: (_, __, ___) =>
                     Icon(Icons.person, color: context.appTheme.grey, size: 26),
@@ -43,10 +50,7 @@ class DeliveryInfoCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  deliveryName ?? 'Muhamed',
-                  style: context.appTheme.regular14,
-                ),
+                Text(order.userName, style: context.appTheme.regular14),
                 const SizedBox(height: 2),
                 Text(
                   'Is your delivery hero for today',
@@ -58,23 +62,17 @@ class DeliveryInfoCard extends StatelessWidget {
             ),
           ),
 
-          // Phone icon button
           _IconCircleBtn(
             icon: Icons.phone_outlined,
             color: context.appTheme.primary,
-            onTap: () {
-              // TODO: launch phone call
-            },
+            onTap: () => onCallTap?.call(),
           ),
           const SizedBox(width: 8),
 
-          // WhatsApp icon button
           _IconCircleBtn(
-            icon: Icons.chat_outlined, // replace with whatsapp svg if available
+            icon: Icons.chat_outlined,
             color: context.appTheme.primary,
-            onTap: () {
-              // TODO: open WhatsApp
-            },
+            onTap: () => onMessageTap?.call(),
           ),
         ],
       ),

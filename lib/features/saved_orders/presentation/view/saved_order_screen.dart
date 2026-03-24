@@ -181,8 +181,6 @@ class _SavedOrdersScreenState extends State<SavedOrdersScreen>
                 AppRoutes.trackOrder,
                 arguments: TrackOrderArgs(
                   orderId: order.id ?? '',
-                  userDestLat: order.shippingAddress?.lat,
-                  userDestLng: order.shippingAddress?.long,
                 ),
               );
               //  Track Order

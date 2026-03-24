@@ -4,10 +4,8 @@ sealed class Intent {}
 
 class ListenToOrderIntent extends Intent {
   final String orderId;
-  final String? userDestLat;
-  final String? userDestLng;
 
-  ListenToOrderIntent(this.orderId, {this.userDestLat, this.userDestLng});
+  ListenToOrderIntent(this.orderId);
 }
 
 class DisposeOrderListenerIntent extends Intent {}
@@ -21,7 +19,23 @@ class OrderDeliveredIntent extends Intent {
   OrderDeliveredIntent(this.order);
 }
 
+class CallDeliveryIntent extends Intent {
+  final String? phone;
+  CallDeliveryIntent(this.phone);
+}
+
+class MessageDeliveryIntent extends Intent {
+  final String? phone;
+  final String? message;
+  MessageDeliveryIntent(this.phone, {this.message});
+}
+
 // ─── UI Events (Stream) ───────────────────────────────
 sealed class TrackOrderUIEvents {}
 
 class NavigatePopScreen extends TrackOrderUIEvents {}
+
+class LaunchExternalUrl extends TrackOrderUIEvents {
+  final Uri uri;
+  LaunchExternalUrl(this.uri);
+}

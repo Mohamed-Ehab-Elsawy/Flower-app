@@ -256,18 +256,13 @@ Route? onGenerateRoute(RouteSettings settings) {
       );
 
     case AppRoutes.trackOrder:
-      final args = settings.arguments is TrackOrderArgs
-          ? settings.arguments! as TrackOrderArgs
+      final args = settings.arguments is TrackOrderArgs ? settings.arguments! as TrackOrderArgs
           : TrackOrderArgs(orderId: settings.arguments as String);
       var viewModel = getIt<TrackOrderViewModel>();
       return MaterialPageRoute(
         builder: (_) => BlocProvider(
           create: (context) => viewModel,
-          child: TrackOrderView(
-            orderId: args.orderId,
-            userDestLat: args.userDestLat,
-            userDestLng: args.userDestLng,
-          ),
+          child: TrackOrderView(orderId: args.orderId),
         ),
       );
     default:

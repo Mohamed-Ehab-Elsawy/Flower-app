@@ -22,12 +22,6 @@ class TrackOrderViewModel extends Cubit<TrackOrderStates> {
   void doIntent(Intent intent) {
     switch (intent) {
       case ListenToOrderIntent():
-        emit(
-          state.copyWith(
-            userDestLat: intent.userDestLat,
-            userDestLng: intent.userDestLng,
-          ),
-        );
         _listenToOrder(intent.orderId);
       case DisposeOrderListenerIntent():
         _cancelSubscription();
@@ -37,7 +31,42 @@ class TrackOrderViewModel extends Cubit<TrackOrderStates> {
         emit(state.copyWith(showMap: false));
       case OrderDeliveredIntent():
         _onOrderDelivered(intent.order);
+      case CallDeliveryIntent():
+        _onCallDelivery(intent.phone);
+      case MessageDeliveryIntent():
+        _onMessageDelivery(intent.phone, message: intent.message);
     }
+  }
+
+  void _onCallDelivery(String? phone) {
+    final normalized = _normalizePhone(phone);
+    if (normalized == null) return;
+    _uiEventsController.add(
+      LaunchExternalUrl(Uri(scheme: 'tel', path: normalized)),
+    );
+  }
+
+  void _onMessageDelivery(String? phone, {String? message}) {
+    final normalized = _normalizePhone(phone);
+    if (normalized == null) return;
+
+    // WhatsApp deep link (fallback to SMS can be added later if needed).
+    final waPhone = normalized.replaceAll('+', '');
+    final text = (message ?? '').trim();
+    final uri = Uri.parse(
+      text.isEmpty
+          ? 'https://wa.me/$waPhone'
+          : 'https://wa.me/$waPhone?text=${Uri.encodeComponent(text)}',
+    );
+    _uiEventsController.add(LaunchExternalUrl(uri));
+  }
+
+  String? _normalizePhone(String? phone) {
+    final value = phone?.trim();
+    if (value == null || value.isEmpty) return null;
+    final cleaned = value.replaceAll(RegExp(r'[^0-9+]'), '');
+    if (cleaned.isEmpty) return null;
+    return cleaned;
   }
 
   Future<void> _onOrderDelivered(ActiveOrderEntity order) async {

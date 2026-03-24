@@ -22,7 +22,6 @@ class DetailView extends StatelessWidget {
     final viewModel = context.read<TrackOrderViewModel>();
     final isDelivered = order.orderStatus == OrderStatus.delivered;
     final arrivalDisplay = formatArrivalDate(order.startedAt);
-    final deliveryName = resolveDeliveryName(order);
 
     return SafeArea(
       child: Padding(
@@ -47,8 +46,7 @@ class DetailView extends StatelessWidget {
                       const SizedBox(height: 16),
                     ],
                     DeliveryInfoCard(
-                      deliveryName: deliveryName,
-                      deliveryPhone: order.phone,
+                      order: order,
                     ),
                     const SizedBox(height: 40),
                     Center(
@@ -75,8 +73,7 @@ class DetailView extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () =>
-                          viewModel.doIntent(OrderDeliveredIntent(order)),
+                      onPressed: () => viewModel.doIntent(OrderDeliveredIntent(order)),
                       child: Text('order_delivered'.tr()),
                     ),
                   ),

@@ -16,7 +16,6 @@ class BottomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = context.read<TrackOrderViewModel>();
     final arrivalDisplay = formatArrivalDate(order.startedAt);
-    final deliveryName = resolveDeliveryName(order) ?? 'Driver';
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
@@ -47,8 +46,12 @@ class BottomCard extends StatelessWidget {
             const SizedBox(height: 16),
           ],
           DeliveryInfoCard(
-            deliveryName: deliveryName,
-            deliveryPhone: order.phone,
+            onCallTap: () =>
+                viewModel.doIntent(CallDeliveryIntent(order.userPhoneNumber)),
+            onMessageTap: () => viewModel.doIntent(
+              MessageDeliveryIntent(order.userPhoneNumber),
+            ),
+            order: order,
           ),
           const SizedBox(height: 16),
           ElevatedButton(
