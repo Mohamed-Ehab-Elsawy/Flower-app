@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flower_app/core/bloc_box/base_state.dart';
 import 'package:flower_app/core/helper/app_routes.dart';
-import 'package:flower_app/features/track_order/data/models/track_order_args.dart';
 import 'package:flower_app/features/saved_orders/domain/entity/saved_order_entity.dart';
 import 'package:flower_app/features/saved_orders/presentation/view/widgets/custom_order_card.dart';
 import 'package:flower_app/features/saved_orders/presentation/view_model/saved_order_cubit.dart';
@@ -179,9 +178,7 @@ class _SavedOrdersScreenState extends State<SavedOrdersScreen>
               Navigator.pushNamed(
                 context,
                 AppRoutes.trackOrder,
-                arguments: TrackOrderArgs(
-                  orderId: order.id ?? '',
-                ),
+                arguments: order.id ?? '',
               );
               //  Track Order
               //  Navigation to Track Order

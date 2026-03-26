@@ -44,8 +44,8 @@ class TrackOrderDataSourceImpl implements TrackOrderDataSource {
       () => _apiClient.sendNotification(
         notificationDto: SendNotificationRequest(
           targetToken: targetToken,
-          // title: title,
-          // body: body,
+          title: title,
+          body: body,
           data: {
             'type': 'silent',
           },

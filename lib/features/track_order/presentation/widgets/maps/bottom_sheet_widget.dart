@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
+import 'package:flower_app/core/app_extension/app_spacing_extension.dart';
 import 'package:flower_app/core/helper/functions.dart';
 import 'package:flower_app/features/track_order/domain/entity/active_order_entity.dart';
 import 'package:flower_app/features/track_order/presentation/view_model/track_order_view_model/track_order_events.dart';
@@ -8,25 +9,25 @@ import 'package:flower_app/features/track_order/presentation/widgets/track_order
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BottomCard extends StatelessWidget {
+class BottomSheetWidget extends StatelessWidget {
   final ActiveOrderEntity order;
-  const BottomCard({super.key, required this.order});
+  const BottomSheetWidget({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
     final viewModel = context.read<TrackOrderViewModel>();
-    final arrivalDisplay = formatArrivalDate(order.startedAt);
+    final arrival = formatArrivalDate(order.startedAt);
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
+      decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 12,
-            offset: const Offset(0, -4),
+            color: Color(0x1A000000),
+            blurRadius: 20,
+            offset: Offset(0, -4),
           ),
         ],
       ),
@@ -34,26 +35,40 @@ class BottomCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (arrivalDisplay != null) ...[
+          // drag handle
+          Center(
+            child: Container(
+              width: 40,
+              height: 4,
+              margin: const EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE0E0E0),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+
+          if (arrival != null) ...[
             Text(
               'estimated_arrival'.tr(),
               style: context.appTheme.regular14.copyWith(
                 color: context.appTheme.grey,
               ),
             ),
-            const SizedBox(height: 4),
-            Text(arrivalDisplay, style: context.appTheme.medium16),
-            const SizedBox(height: 16),
+            context.h(4),
+            Text(arrival, style: context.appTheme.medium16),
+            context.h(16),
           ],
           DeliveryInfoCard(
-            onCallTap: () =>
-                viewModel.doIntent(CallDeliveryIntent(order.userPhoneNumber)),
-            onMessageTap: () => viewModel.doIntent(
-              MessageDeliveryIntent(order.userPhoneNumber),
-            ),
             order: order,
+            onCallTap: () => viewModel.doIntent(
+              CallDeliveryIntent(order.driverPhoneNumber),
+            ),
+            onMessageTap: () => viewModel.doIntent(
+              MessageDeliveryIntent(order.driverPhoneNumber),
+            ),
           ),
-          const SizedBox(height: 16),
+          context.h(16),
           ElevatedButton(
             onPressed: () => viewModel.doIntent(ShowOrderDetailsIntent()),
             child: Text('order_details'.tr()),

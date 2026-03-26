@@ -1,22 +1,19 @@
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flower_app/core/helper/functions.dart';
 import 'package:flower_app/features/track_order/domain/entity/active_order_entity.dart';
+import 'package:flower_app/features/track_order/presentation/view/map_view.dart';
 import 'package:flower_app/features/track_order/presentation/widgets/order_tracking/details_view.dart';
-import 'package:flower_app/features/track_order/presentation/widgets/order_tracking/map_view.dart';
 import 'package:flower_app/features/track_order/presentation/view_model/track_order_view_model/track_order_events.dart';
 import 'package:flower_app/features/track_order/presentation/view_model/track_order_view_model/track_order_states.dart';
 import 'package:flower_app/features/track_order/presentation/view_model/track_order_view_model/track_order_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class OrderTrackingScreen extends StatefulWidget {
   final ActiveOrderEntity order;
 
-  const OrderTrackingScreen({
-    super.key,
-    required this.order,
-  });
+  const OrderTrackingScreen({super.key, required this.order});
 
   @override
   State<OrderTrackingScreen> createState() => _OrderTrackingScreenState();
@@ -40,13 +37,9 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
         case NavigatePopScreen():
           Navigator.of(context).pop();
         case LaunchExternalUrl():
-          _launchExternal(event.uri);
+          launchExternal(event.uri);
       }
     });
-  }
-
-  Future<void> _launchExternal(Uri uri) async {
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
   @override

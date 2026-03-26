@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flower_app/core/app_extension/app_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,10 +11,7 @@ import 'package:flower_app/features/track_order/presentation/view_model/track_or
 class TrackOrderView extends StatefulWidget {
   final String orderId;
 
-  const TrackOrderView({
-    super.key,
-    required this.orderId,
-  });
+  const TrackOrderView({super.key, required this.orderId});
 
   @override
   State<TrackOrderView> createState() => _TrackOrderViewState();
@@ -37,7 +35,6 @@ class _TrackOrderViewState extends State<TrackOrderView> {
     );
   }
 
-  /// Rebuild when request state or loaded data changes (e.g. status, documentExists, lat/long from stream).
   bool _shouldRebuild(TrackOrderStates prev, TrackOrderStates curr) {
     if (prev.orderState.requestState != curr.orderState.requestState) {
       return true;
@@ -66,7 +63,7 @@ class _TrackOrderViewState extends State<TrackOrderView> {
 
         if (orderState.isError) {
           return _ErrorScreen(
-            message: orderState.errorMessage ?? 'Something went wrong',
+            message: orderState.errorMessage ?? 'something_went_wrong'.tr(),
             onRetry: _retry,
           );
         }
@@ -79,9 +76,7 @@ class _TrackOrderViewState extends State<TrackOrderView> {
         if (!order.documentExists) {
           return WaitingForPickupView(orderId: widget.orderId);
         }
-        return OrderTrackingScreen(
-          order: order,
-        );
+        return OrderTrackingScreen(order: order);
       },
     );
   }
@@ -111,7 +106,7 @@ class _ErrorScreen extends StatelessWidget {
               const SizedBox(height: 16),
               Text(message, textAlign: TextAlign.center),
               const SizedBox(height: 24),
-              ElevatedButton(onPressed: onRetry, child: const Text('Retry')),
+              ElevatedButton(onPressed: onRetry, child: Text('retry'.tr())),
             ],
           ),
         ),

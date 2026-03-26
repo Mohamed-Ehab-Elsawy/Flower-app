@@ -16,7 +16,10 @@ class ActiveOrderEntity extends Equatable {
   final String? storeLatLong;
   final String? storePhoneNumber;
 
+  final String? driverImage;
+  final String? driverPhoneNumber;
   final String? driverName;
+
   final String userName;
   final String userImage;
   final String userAddress;
@@ -57,6 +60,8 @@ class ActiveOrderEntity extends Equatable {
     this.city,
     this.street,
     required this.documentExists,
+    this.driverImage = '',
+    this.driverPhoneNumber = '',
   });
 
   /// Parsed [OrderStatus] from [status] for stepper and routing.
@@ -130,6 +135,8 @@ class ActiveOrderEntity extends Equatable {
       lat: _asString(data['lat']),
       city: data['city'] as String?,
       street: data['street'] as String?,
+      driverImage: data['driverImage'] as String?,
+      driverPhoneNumber: data['driverPhoneNumber'] as String?,
     );
   }
 
@@ -163,6 +170,8 @@ class ActiveOrderEntity extends Equatable {
     lat,
     city,
     street,
+    driverImage,
+    driverPhoneNumber,
     documentExists,
   ];
 }

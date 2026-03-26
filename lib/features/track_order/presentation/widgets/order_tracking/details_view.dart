@@ -47,6 +47,12 @@ class DetailView extends StatelessWidget {
                     ],
                     DeliveryInfoCard(
                       order: order,
+                      onCallTap: () => viewModel.doIntent(
+                        CallDeliveryIntent(order.driverPhoneNumber),
+                      ),
+                      onMessageTap: () => viewModel.doIntent(
+                        MessageDeliveryIntent(order.driverPhoneNumber),
+                      ),
                     ),
                     const SizedBox(height: 40),
                     Center(

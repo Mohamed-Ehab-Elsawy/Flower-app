@@ -1,21 +1,20 @@
 class SendNotificationRequest {
   final String targetToken;
-
-  // final String? title;
-  // final String? body;
+  final String? title;
+  final String? body;
   final Map<String, dynamic>? data;
 
   SendNotificationRequest({
     required this.targetToken,
-    // required this.title,
-    // required this.body,
+    required this.title,
+    required this.body,
     this.data,
   });
 
   Map<String, dynamic> toJson() => {
     'message': {
       'token': targetToken,
-      // 'notification': {'title': title, 'body': body},
+      'notification': {'title': title, 'body': body},
       'data': data ?? {},
       'android': {'priority': 'high'},
       'apns': {

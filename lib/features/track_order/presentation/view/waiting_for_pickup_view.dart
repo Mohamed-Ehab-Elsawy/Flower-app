@@ -12,7 +12,7 @@ class WaitingForPickupView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Track Order")),
+      appBar: AppBar(title: Text("track_order".tr())),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
