@@ -103,7 +103,7 @@ flutter:
     - assets/address_json/
     - assets/fonts/
     - assets/json/
-    - assets/flower_fcm_service.json
+#    - assets/flower_fcm_service.json
 
 
   fonts:
