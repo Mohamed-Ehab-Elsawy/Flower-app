@@ -79,7 +79,8 @@ class DetailView extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () => viewModel.doIntent(OrderDeliveredIntent(order)),
+                      onPressed: () =>
+                          viewModel.doIntent(OrderDeliveredIntent(order)),
                       child: Text('order_delivered'.tr()),
                     ),
                   ),

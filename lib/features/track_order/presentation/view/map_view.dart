@@ -17,7 +17,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 /// Fallback map centre (Cairo downtown) when no positions are available.
 const _kFallback = LatLng(30.02599441795995, 31.1991091073733);
 
-
 class MapsView extends StatefulWidget {
   const MapsView({super.key});
 
@@ -38,7 +37,6 @@ class _MapsViewState extends State<MapsView> {
   OverlayEntry? _markersOverlay;
 
   Timer? _refreshTimer;
-
 
   @override
   void initState() {
@@ -75,6 +73,7 @@ class _MapsViewState extends State<MapsView> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _captureAllMarkers());
   }
+
   Future<void> _captureAllMarkers() async {
     final results = await Future.wait([
       _captureKey(_driverKey),
@@ -178,8 +177,8 @@ class _MapsViewState extends State<MapsView> {
   Widget build(BuildContext context) {
     return BlocConsumer<TrackOrderViewModel, TrackOrderStates>(
       listenWhen: (previous, current) =>
-        previous.orderState.data?.lat != current.orderState.data?.lat ||
-        previous.orderState.data?.long != current.orderState.data?.long,
+          previous.orderState.data?.lat != current.orderState.data?.lat ||
+          previous.orderState.data?.long != current.orderState.data?.long,
       listener: (ctx, state) {
         final order = state.orderState.data;
         if (order == null ||
@@ -192,8 +191,9 @@ class _MapsViewState extends State<MapsView> {
         _lastAnimatedDriverPos = pos;
         _mapController!.animateCamera(CameraUpdate.newLatLng(pos));
       },
-      buildWhen: (previous, current) => previous.orderState != current.orderState,
-        builder: (context, state) {
+      buildWhen: (previous, current) =>
+          previous.orderState != current.orderState,
+      builder: (context, state) {
         final order = state.orderState.data;
         if (order == null) {
           return Center(
@@ -230,14 +230,14 @@ class _OffscreenMarkers extends StatelessWidget {
       children: [
         place(
           driverKey,
-           PillMarkerCustomPainterWidget(
+          PillMarkerCustomPainterWidget(
             icon: Icons.delivery_dining,
             label: 'delivery'.tr(),
           ),
         ),
         place(
           destKey,
-           PillMarkerCustomPainterWidget(
+          PillMarkerCustomPainterWidget(
             icon: Icons.home_rounded,
             label: 'apartment'.tr(),
           ),
@@ -246,4 +246,3 @@ class _OffscreenMarkers extends StatelessWidget {
     );
   }
 }
-

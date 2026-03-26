@@ -6,10 +6,7 @@ class TrackOrderStates extends Equatable {
   final BaseState<ActiveOrderEntity> orderState;
   final bool showMap;
 
-  const TrackOrderStates({
-    required this.orderState,
-    this.showMap = false,
-  });
+  const TrackOrderStates({required this.orderState, this.showMap = false});
 
   factory TrackOrderStates.initial() =>
       TrackOrderStates(orderState: BaseState.init());

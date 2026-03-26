@@ -15,16 +15,17 @@ import 'package:mockito/mockito.dart';
 import 'order_tracking_view_test.mocks.dart';
 
 @GenerateMocks([TrackOrderViewModel])
-
 void main() {
   late MockTrackOrderViewModel mockTrackOrderViewModel;
 
   setUp(() {
     mockTrackOrderViewModel = MockTrackOrderViewModel();
-    when(mockTrackOrderViewModel.stream).thenAnswer((_) => const Stream.empty());
-    when(mockTrackOrderViewModel.uiEventsStream).thenAnswer(
-      (_) => const Stream.empty(),
-    );
+    when(
+      mockTrackOrderViewModel.stream,
+    ).thenAnswer((_) => const Stream.empty());
+    when(
+      mockTrackOrderViewModel.uiEventsStream,
+    ).thenAnswer((_) => const Stream.empty());
     when(mockTrackOrderViewModel.state).thenReturn(
       TrackOrderStates(orderState: BaseState.loaded(_activeOrder())),
     );

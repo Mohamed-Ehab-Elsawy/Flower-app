@@ -61,9 +61,8 @@ class BottomSheetWidget extends StatelessWidget {
           ],
           DeliveryInfoCard(
             order: order,
-            onCallTap: () => viewModel.doIntent(
-              CallDeliveryIntent(order.driverPhoneNumber),
-            ),
+            onCallTap: () =>
+                viewModel.doIntent(CallDeliveryIntent(order.driverPhoneNumber)),
             onMessageTap: () => viewModel.doIntent(
               MessageDeliveryIntent(order.driverPhoneNumber),
             ),

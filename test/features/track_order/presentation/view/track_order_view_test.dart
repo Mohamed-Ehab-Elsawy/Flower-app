@@ -17,16 +17,17 @@ import 'package:mockito/mockito.dart';
 import 'track_order_view_test.mocks.dart';
 
 @GenerateMocks([TrackOrderViewModel])
-
 void main() {
   late MockTrackOrderViewModel mockTrackOrderViewModel;
 
   setUp(() {
     mockTrackOrderViewModel = MockTrackOrderViewModel();
-    when(mockTrackOrderViewModel.stream).thenAnswer((_) => const Stream.empty());
-    when(mockTrackOrderViewModel.uiEventsStream).thenAnswer(
-      (_) => const Stream.empty(),
-    );
+    when(
+      mockTrackOrderViewModel.stream,
+    ).thenAnswer((_) => const Stream.empty());
+    when(
+      mockTrackOrderViewModel.uiEventsStream,
+    ).thenAnswer((_) => const Stream.empty());
     when(mockTrackOrderViewModel.doIntent(any)).thenReturn(null);
   });
 
@@ -59,7 +60,9 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
-  testWidgets('shows waiting view when document does not exist', (tester) async {
+  testWidgets('shows waiting view when document does not exist', (
+    tester,
+  ) async {
     when(mockTrackOrderViewModel.state).thenReturn(
       TrackOrderStates(
         orderState: BaseState.loaded(

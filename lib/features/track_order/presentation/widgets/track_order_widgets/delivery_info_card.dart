@@ -36,7 +36,7 @@ class DeliveryInfoCard extends StatelessWidget {
             backgroundColor: context.appTheme.secondary,
             child: ClipOval(
               child: Image.asset(
-                order.driverImage??"",
+                order.driverImage ?? "",
                 fit: BoxFit.cover,
                 errorBuilder: (_, __, ___) =>
                     Icon(Icons.person, color: context.appTheme.grey, size: 26),
@@ -50,7 +50,7 @@ class DeliveryInfoCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(order.driverName??"", style: context.appTheme.regular14),
+                Text(order.driverName ?? "", style: context.appTheme.regular14),
                 const SizedBox(height: 2),
                 Text(
                   'Is your delivery hero for today',

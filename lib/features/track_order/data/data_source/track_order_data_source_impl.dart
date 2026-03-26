@@ -46,9 +46,7 @@ class TrackOrderDataSourceImpl implements TrackOrderDataSource {
           targetToken: targetToken,
           title: title,
           body: body,
-          data: {
-            'type': 'silent',
-          },
+          data: {'type': 'silent'},
         ),
         authorization: 'Bearer $accessToken',
       ),

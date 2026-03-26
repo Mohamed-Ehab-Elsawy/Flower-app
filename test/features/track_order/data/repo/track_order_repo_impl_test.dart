@@ -9,7 +9,6 @@ import 'package:mockito/mockito.dart';
 import 'track_order_repo_impl_test.mocks.dart';
 
 @GenerateMocks([TrackOrderDataSource])
-
 void main() {
   late MockTrackOrderDataSource mockTrackOrderDataSource;
   late TrackOrderRepoImpl repo;
@@ -21,7 +20,10 @@ void main() {
 
   group("TrackOrderRepoImpl.listenToOrder", () {
     test("Should return stream from data source", () async {
-      const entity = ActiveOrderEntity(orderId: 'order_1', documentExists: true);
+      const entity = ActiveOrderEntity(
+        orderId: 'order_1',
+        documentExists: true,
+      );
       when(
         mockTrackOrderDataSource.listenToOrder(orderId: 'order_1'),
       ).thenAnswer((_) => Stream.value(Success(entity)));
@@ -29,7 +31,9 @@ void main() {
       final result = await repo.listenToOrder(orderId: 'order_1').first;
 
       expect(result, Success(entity));
-      verify(mockTrackOrderDataSource.listenToOrder(orderId: 'order_1')).called(1);
+      verify(
+        mockTrackOrderDataSource.listenToOrder(orderId: 'order_1'),
+      ).called(1);
       verifyNoMoreInteractions(mockTrackOrderDataSource);
     });
   });

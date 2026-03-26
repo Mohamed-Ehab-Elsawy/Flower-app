@@ -15,7 +15,6 @@ import 'package:mockito/mockito.dart';
 import 'track_order_view_model_test.mocks.dart';
 
 @GenerateMocks([TrackOrderRepo])
-
 void main() {
   late MockTrackOrderRepo mockTrackOrderRepo;
   late TrackOrderViewModel viewModel;
@@ -98,39 +97,47 @@ void main() {
       await sub.cancel();
     });
 
-    test('MessageDeliveryIntent emits wa.me URI with encoded message', () async {
-      final emitted = <TrackOrderUIEvents>[];
-      final sub = viewModel.uiEventsStream.listen(emitted.add);
+    test(
+      'MessageDeliveryIntent emits wa.me URI with encoded message',
+      () async {
+        final emitted = <TrackOrderUIEvents>[];
+        final sub = viewModel.uiEventsStream.listen(emitted.add);
 
-      viewModel.doIntent(
-        MessageDeliveryIntent('+20 100 200 300', message: 'hello driver'),
-      );
-      await Future<void>.delayed(const Duration(milliseconds: 10));
+        viewModel.doIntent(
+          MessageDeliveryIntent('+20 100 200 300', message: 'hello driver'),
+        );
+        await Future<void>.delayed(const Duration(milliseconds: 10));
 
-      expect(emitted.single, isA<LaunchExternalUrl>());
-      final event = emitted.single as LaunchExternalUrl;
-      expect(
-        event.uri.toString(),
-        'https://wa.me/20100200300?text=hello%20driver',
-      );
-      await sub.cancel();
-    });
+        expect(emitted.single, isA<LaunchExternalUrl>());
+        final event = emitted.single as LaunchExternalUrl;
+        expect(
+          event.uri.toString(),
+          'https://wa.me/20100200300?text=hello%20driver',
+        );
+        await sub.cancel();
+      },
+    );
 
-    test('OrderDeliveredIntent sends notification then emits pop event', () async {
-      final order = _order(driverToken: 'token_1');
-      when(
-        mockTrackOrderRepo.sendOrderDeliveredNotification(order),
-      ).thenAnswer((_) async {});
-      final emitted = <TrackOrderUIEvents>[];
-      final sub = viewModel.uiEventsStream.listen(emitted.add);
+    test(
+      'OrderDeliveredIntent sends notification then emits pop event',
+      () async {
+        final order = _order(driverToken: 'token_1');
+        when(
+          mockTrackOrderRepo.sendOrderDeliveredNotification(order),
+        ).thenAnswer((_) async {});
+        final emitted = <TrackOrderUIEvents>[];
+        final sub = viewModel.uiEventsStream.listen(emitted.add);
 
-      viewModel.doIntent(OrderDeliveredIntent(order));
-      await Future<void>.delayed(const Duration(milliseconds: 20));
+        viewModel.doIntent(OrderDeliveredIntent(order));
+        await Future<void>.delayed(const Duration(milliseconds: 20));
 
-      verify(mockTrackOrderRepo.sendOrderDeliveredNotification(order)).called(1);
-      expect(emitted.single, isA<NavigatePopScreen>());
-      await sub.cancel();
-    });
+        verify(
+          mockTrackOrderRepo.sendOrderDeliveredNotification(order),
+        ).called(1);
+        expect(emitted.single, isA<NavigatePopScreen>());
+        await sub.cancel();
+      },
+    );
   });
 }
 

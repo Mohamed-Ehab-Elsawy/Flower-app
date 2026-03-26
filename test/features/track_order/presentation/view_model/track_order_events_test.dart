@@ -31,10 +31,7 @@ void main() {
     });
 
     test('MessageDeliveryIntent should hold phone and message', () {
-      final intent = MessageDeliveryIntent(
-        '+201001112233',
-        message: 'hello',
-      );
+      final intent = MessageDeliveryIntent('+201001112233', message: 'hello');
       expect(intent.phone, '+201001112233');
       expect(intent.message, 'hello');
     });
