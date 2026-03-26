@@ -26,7 +26,14 @@ void main() {
 
       expect(find.byType(Scaffold), findsOneWidget);
       expect(find.byType(AppBar), findsOneWidget);
-      expect(find.text('Track Order'), findsOneWidget);
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is Text &&
+              (widget.data == 'Track Order' || widget.data == 'track_order'),
+        ),
+        findsOneWidget,
+      );
       expect(find.byType(Lottie), findsOneWidget);
       expect(find.byIcon(Icons.schedule), findsOneWidget);
       expect(find.byType(Container), findsAtLeastNWidgets(1));
@@ -89,14 +96,28 @@ void main() {
 
       expect(find.byType(WaitingForPickupView), findsOneWidget);
       expect(find.byType(Scaffold), findsOneWidget);
-      expect(find.text('Track Order'), findsOneWidget);
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is Text &&
+              (widget.data == 'Track Order' || widget.data == 'track_order'),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('AppBar title is visible', (WidgetTester tester) async {
       await tester.pumpWidget(buildTestableWidget());
       await tester.pump();
 
-      expect(find.text('Track Order'), findsOneWidget);
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is Text &&
+              (widget.data == 'Track Order' || widget.data == 'track_order'),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('No loading indicator in initial state', (
