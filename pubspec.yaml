@@ -67,8 +67,10 @@ dependencies:
 
   firebase_crashlytics: ^5.0.7
   cloud_firestore: ^6.1.2
+  geolocator: ^14.0.2
   googleapis_auth: ^2.0.0
   http: ^1.6.0
+  url_launcher: ^6.3.2
 
 
 dev_dependencies:
@@ -82,6 +84,7 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   envied_generator: ^1.3.1
   flutter_launcher_icons: ^0.14.4
+  fake_cloud_firestore: ^4.1.0+1
 
 flutter_icons:
   android: true
@@ -100,7 +103,7 @@ flutter:
     - assets/address_json/
     - assets/fonts/
     - assets/json/
-   # - assets/flower_fcm_service.json
+#    - assets/flower_fcm_service.json
 
 
   fonts:

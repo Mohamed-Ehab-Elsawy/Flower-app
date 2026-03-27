@@ -1,0 +1,124 @@
+import 'dart:async';
+
+import 'package:flower_app/core/bloc_box/base_state.dart';
+import 'package:flower_app/core/error_handling/result.dart';
+import 'package:flower_app/features/track_order/domain/entity/active_order_entity.dart';
+import 'package:flower_app/features/track_order/domain/repo/track_order_repo.dart';
+import 'package:flower_app/features/track_order/presentation/view_model/track_order_view_model/track_order_events.dart';
+import 'package:flower_app/features/track_order/presentation/view_model/track_order_view_model/track_order_states.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
+
+@injectable
+class TrackOrderViewModel extends Cubit<TrackOrderStates> {
+  final TrackOrderRepo trackOrderRepo;
+
+  StreamSubscription? _subscription;
+  final _uiEventsController = StreamController<TrackOrderUIEvents>.broadcast();
+  Stream<TrackOrderUIEvents> get uiEventsStream => _uiEventsController.stream;
+
+  TrackOrderViewModel(this.trackOrderRepo) : super(TrackOrderStates.initial());
+
+  void doIntent(Intent intent) {
+    switch (intent) {
+      case ListenToOrderIntent():
+        _listenToOrder(intent.orderId);
+      case DisposeOrderListenerIntent():
+        _cancelSubscription();
+      case ShowMapIntent():
+        emit(state.copyWith(showMap: true));
+      case ShowOrderDetailsIntent():
+        emit(state.copyWith(showMap: false));
+      case OrderDeliveredIntent():
+        _onOrderDelivered(intent.order);
+      case CallDeliveryIntent():
+        _onCallDelivery(intent.phone);
+      case MessageDeliveryIntent():
+        _onMessageDelivery(intent.phone, message: intent.message);
+    }
+  }
+
+  void _onCallDelivery(String? phone) {
+    final normalized = _normalizePhone(phone);
+    if (normalized == null) return;
+    _uiEventsController.add(
+      LaunchExternalUrl(Uri(scheme: 'tel', path: normalized)),
+    );
+  }
+
+  void _onMessageDelivery(String? phone, {String? message}) {
+    final normalized = _normalizePhone(phone);
+    if (normalized == null) return;
+
+    // WhatsApp deep link (fallback to SMS can be added later if needed).
+    final waPhone = normalized.replaceAll('+', '');
+    final text = (message ?? '').trim();
+    final uri = Uri.parse(
+      text.isEmpty
+          ? 'https://wa.me/$waPhone'
+          : 'https://wa.me/$waPhone?text=${Uri.encodeComponent(text)}',
+    );
+    _uiEventsController.add(LaunchExternalUrl(uri));
+  }
+
+  String? _normalizePhone(String? phone) {
+    final value = phone?.trim();
+    if (value == null || value.isEmpty) return null;
+    final cleaned = value.replaceAll(RegExp(r'[^0-9+]'), '');
+    if (cleaned.isEmpty) return null;
+    return cleaned;
+  }
+
+  Future<void> _onOrderDelivered(ActiveOrderEntity order) async {
+    if (order.driverToken.isNotEmpty) {
+      try {
+        await trackOrderRepo.sendOrderDeliveredNotification(order);
+      } catch (_) {
+        // Fire-and-forget: still pop even if notification fails
+      }
+    }
+    _cancelSubscription();
+    _uiEventsController.add(NavigatePopScreen());
+  }
+
+  void _listenToOrder(String orderId) {
+    emit(state.copyWith(orderState: state.orderState.loading));
+    _cancelSubscription();
+    _subscription = trackOrderRepo
+        .listenToOrder(orderId: orderId)
+        .listen(
+          (result) {
+            switch (result) {
+              case Success<ActiveOrderEntity>():
+                emit(
+                  state.copyWith(
+                    orderState: state.orderState.loaded(result.data),
+                  ),
+                );
+              case Failure<ActiveOrderEntity>():
+                emit(
+                  state.copyWith(
+                    orderState: state.orderState.error(result.errorMessage),
+                  ),
+                );
+            }
+          },
+          onError: (e, _) => emit(
+            state.copyWith(orderState: state.orderState.error(e.toString())),
+          ),
+          cancelOnError: false,
+        );
+  }
+
+  void _cancelSubscription() {
+    _subscription?.cancel();
+    _subscription = null;
+  }
+
+  @override
+  Future<void> close() {
+    _uiEventsController.close();
+    _cancelSubscription();
+    return super.close();
+  }
+}
